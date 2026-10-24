@@ -1,0 +1,267 @@
+{
+  "archive": "TCG - bizave card..zip",
+  "images": [
+    {
+      "id": "t-risitas",
+      "title": "Thomas Risitas",
+      "rarity": "legendary",
+      "source": "thomas_risitas.png",
+      "destination": "public/assets/cards/t-risitas/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "42bc1215d2faca28fac3c84958194993ab9f77c4e9b28c6b3b9c5acbf8315645"
+    },
+    {
+      "id": "m-risitas",
+      "title": "Matthieu Risitas",
+      "rarity": "legendary",
+      "source": "matthieu_risitas.png",
+      "destination": "public/assets/cards/m-risitas/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "00219e973edfb800f0dcb569a6b7656399bfb38843fbcecd59e83e13cda2ac4b"
+    },
+    {
+      "id": "t-accueil",
+      "title": "Thomas Agent d'accueil",
+      "rarity": "rare",
+      "source": "thomas_agent_accueil.png",
+      "destination": "public/assets/cards/t-accueil/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "6f5d6ff502ccfc7ac9747ed7c911c6d1a0e1666cebb2b2191c51bb0f7b75eb5f"
+    },
+    {
+      "id": "t-bizarre",
+      "title": "Thomas Bizarre Aventure",
+      "rarity": "legendary",
+      "source": "thomas_bizarre_aventure.png",
+      "destination": "public/assets/cards/t-bizarre/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "9cbaad28f84f56836feae49bb8e048785b2c62a37b4e0fa1adaeedb3cb12d8be"
+    },
+    {
+      "id": "t-etudiant",
+      "title": "Thomas étudiant",
+      "rarity": "rare",
+      "source": "thomas_etudiant.png",
+      "destination": "public/assets/cards/t-etudiant/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "27c854e9580fbe748bb92201db2a84650fe61d788e522908229b9c333e346e2a"
+    },
+    {
+      "id": "t-perenoel",
+      "title": "Thomas Père Noël",
+      "rarity": "uncommon",
+      "source": "thomas_pere_noel.png",
+      "destination": "public/assets/cards/t-perenoel/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "466586b232233c20ff3af95a7b0ebfe6e0e0eb300360b95cd929f87d261a06f9"
+    },
+    {
+      "id": "t-support",
+      "title": "Thomas support informatique",
+      "rarity": "rare",
+      "source": "thomas_support_informatique.png",
+      "destination": "public/assets/cards/t-support/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "eea599c7e88c11047bc2ed7ca57a53ebbf819e20853e2a199da039af9ba8cea6"
+    },
+    {
+      "id": "deuxieme-expedition",
+      "title": "Deuxième expédition",
+      "rarity": "uncommon",
+      "source": "deuxieme_expedition.png",
+      "destination": "public/assets/cards/deuxieme-expedition/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "15c50d2fc6ce11a23d75cda525d6ff721639858f5fda3add51062451b7ed8ddf"
+    },
+    {
+      "id": "t-voyageur",
+      "title": "Thomas voyageur",
+      "rarity": "uncommon",
+      "source": "thomas_voyageur.png",
+      "destination": "public/assets/cards/t-voyageur/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "318e55ac088f7fd4f82ad33ebc7b068d35ff5ce25c81169bf34f342a641634a4"
+    },
+    {
+      "id": "premiere-expedition",
+      "title": "Première expédition",
+      "rarity": "uncommon",
+      "source": "premiere_expedition.png",
+      "destination": "public/assets/cards/premiere-expedition/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "6e3769d38e1b0ef2b2b6446a6b717e21b04e4c28f7d1039046e95e1df9a22bb5"
+    },
+    {
+      "id": "m-classique",
+      "title": "Matthieu classique",
+      "rarity": "common",
+      "source": "matthieu_classique.png",
+      "destination": "public/assets/cards/m-classique/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "36ad9f4fc7e33786ce3675d6c34197c8cf3996cc3c56b2454c10c7e61431e3fa"
+    },
+    {
+      "id": "m-lowpoly",
+      "title": "Matthieu low poly",
+      "rarity": "common",
+      "source": "mattjieu_low_poly.png",
+      "destination": "public/assets/cards/m-lowpoly/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "d15e9884be1a2093cf6f461e3bf3f1c0a579550789921a23ddcd29dbe3d392cb"
+    },
+    {
+      "id": "t-classique",
+      "title": "Thomas classique",
+      "rarity": "common",
+      "source": "thomas_classique.png",
+      "destination": "public/assets/cards/t-classique/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "ce2b067f3631d7d33f082a6c3c6625f83c4c552c6e3ffc3ed92dca16be6e1e36"
+    },
+    {
+      "id": "t-lowpoly",
+      "title": "Thomas low poly",
+      "rarity": "common",
+      "source": "thomas_low_poly.png",
+      "destination": "public/assets/cards/t-lowpoly/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "af86efdabf4acf0aab83828bc15df3a300dd681e84738d9ac9bd1cc69709b733"
+    }
+  ],
+  "descriptionChanges": [
+    {
+      "id": "t-classique",
+      "before": "",
+      "after": "Chauve, petit, perfectionniste… oui, c'est bien la version classique de Thomas."
+    },
+    {
+      "id": "t-voyageur",
+      "before": "Japon",
+      "after": "Voyage au Japon en 2024-2026. Comme d'habitude, il lui arrivera des situations improbables."
+    },
+    {
+      "id": "t-etudiant",
+      "before": "Kanji",
+      "after": "Il étudie depuis 2019 et reste bloqué au niveau JLPT N5. Un jour, il saura parler et écrire couramment."
+    },
+    {
+      "id": "nana-diff",
+      "before": "",
+      "after": "Nanami, celle qui se plaint tout le temps, celle qui a changé le destin de Thomas."
+    },
+    {
+      "id": "t-accueil",
+      "before": "Attend avec la carte dans l'aéroport",
+      "after": "Thomas à l'aéroport. Un jour, Matthieu descendra de son avion, un jour nous serons réunis…"
+    },
+    {
+      "id": "deuxieme-expedition",
+      "before": "Thomas part en expédition à Londres",
+      "after": "Deuxième ravitaillement avant le feu d'artifice ! Espérons que Thomas ne se perde pas…"
+    },
+    {
+      "id": "t-support",
+      "before": "",
+      "after": "10 h 30 – 18 h 30. Il reste des incidents à gérer et des tickets à clôturer."
+    },
+    {
+      "id": "t-lowpoly",
+      "before": "",
+      "after": "Thomas rétro PlayStation 1. Ce modèle 3D est collector… mais ne vaut rien."
+    },
+    {
+      "id": "t-perenoel",
+      "before": "",
+      "after": "Père Thomas distribue les cadeaux de Noël, même en pleine tempête de neige."
+    },
+    {
+      "id": "t-bizarre",
+      "before": "Carte continuité",
+      "after": "Stand : Lucky Corrupted\nForce : 8\nVitesse : 9\nAgilité : 3\nPrécision : 7\n…"
+    },
+    {
+      "id": "t-lancier",
+      "before": "Throne and Liberty",
+      "after": ""
+    },
+    {
+      "id": "t-trouillard",
+      "before": "Phasmophobia",
+      "after": ""
+    },
+    {
+      "id": "m-voyageur",
+      "before": "Québec",
+      "after": ""
+    },
+    {
+      "id": "m-etudiant",
+      "before": "Anglais",
+      "after": ""
+    },
+    {
+      "id": "m-boucle",
+      "before": "Coincé dans l'avion",
+      "after": ""
+    },
+    {
+      "id": "premiere-expedition",
+      "before": "Matthieu part en expédition à Londres",
+      "after": ""
+    },
+    {
+      "id": "m-bizarre",
+      "before": "Carte continuité",
+      "after": ""
+    },
+    {
+      "id": "m-premier",
+      "before": "Throne and Liberty",
+      "after": ""
+    },
+    {
+      "id": "m-exorciste",
+      "before": "Phasmophobia",
+      "after": ""
+    },
+    {
+      "id": "commencement",
+      "before": "Carte Rocket League",
+      "after": ""
+    },
+    {
+      "id": "mkqb",
+      "before": "Enchaînement de 4 fast-foods",
+      "after": ""
+    },
+    {
+      "id": "eli-support",
+      "before": "League of Legends",
+      "after": ""
+    },
+    {
+      "id": "eli-camionneuse",
+      "before": "Euro Truck Simulator",
+      "after": ""
+    },
+    {
+      "id": "eli-cerisier",
+      "before": "Minecraft",
+      "after": ""
+    }
+  ]
+}

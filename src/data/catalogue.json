@@ -1,0 +1,1248 @@
+[
+  {
+    "id": "t-classique",
+    "title": "Thomas classique",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Chauve, petit, perfectionniste… oui, c'est bien la version classique de Thomas.",
+    "artwork": {
+      "standard": "/assets/cards/t-classique/illustration.png",
+      "fullArt": "/assets/cards/t-classique/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-voyageur",
+    "title": "Thomas voyageur",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "Voyage au Japon en 2024-2026. Comme d'habitude, il lui arrivera des situations improbables.",
+    "artwork": {
+      "standard": "/assets/cards/t-voyageur/illustration.png",
+      "fullArt": "/assets/cards/t-voyageur/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-etudiant",
+    "title": "Thomas étudiant",
+    "rarity": "rare",
+    "collectionId": "thomas",
+    "description": "Il étudie depuis 2019 et reste bloqué au niveau JLPT N5. Un jour, il saura parler et écrire couramment.",
+    "artwork": {
+      "standard": "/assets/cards/t-etudiant/illustration.png",
+      "fullArt": "/assets/cards/t-etudiant/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "nana-diff",
+    "title": "Nana Diff",
+    "rarity": "epic",
+    "collectionId": "thomas",
+    "description": "Nanami, celle qui se plaint tout le temps, celle qui a changé le destin de Thomas.",
+    "artwork": {
+      "standard": "/assets/cards/nana-diff/standard.svg",
+      "fullArt": "/assets/cards/nana-diff/full-art.svg"
+    }
+  },
+  {
+    "id": "t-accueil",
+    "title": "Thomas Agent d'accueil",
+    "rarity": "rare",
+    "collectionId": "thomas",
+    "description": "Thomas à l'aéroport. Un jour, Matthieu descendra de son avion, un jour nous serons réunis…",
+    "artwork": {
+      "standard": "/assets/cards/t-accueil/illustration.png",
+      "fullArt": "/assets/cards/t-accueil/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "deuxieme-expedition",
+    "title": "Deuxième expédition",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "Deuxième ravitaillement avant le feu d'artifice ! Espérons que Thomas ne se perde pas…",
+    "artwork": {
+      "standard": "/assets/cards/deuxieme-expedition/illustration.png",
+      "fullArt": "/assets/cards/deuxieme-expedition/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-support",
+    "title": "Thomas support informatique",
+    "rarity": "rare",
+    "collectionId": "thomas",
+    "description": "10 h 30 – 18 h 30. Il reste des incidents à gérer et des tickets à clôturer.",
+    "artwork": {
+      "standard": "/assets/cards/t-support/illustration.png",
+      "fullArt": "/assets/cards/t-support/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-lowpoly",
+    "title": "Thomas low poly",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Thomas rétro PlayStation 1. Ce modèle 3D est collector… mais ne vaut rien.",
+    "artwork": {
+      "standard": "/assets/cards/t-lowpoly/illustration.png",
+      "fullArt": "/assets/cards/t-lowpoly/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-perenoel",
+    "title": "Thomas Père Noël",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "Père Thomas distribue les cadeaux de Noël, même en pleine tempête de neige.",
+    "artwork": {
+      "standard": "/assets/cards/t-perenoel/illustration.png",
+      "fullArt": "/assets/cards/t-perenoel/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-bizarre",
+    "title": "Thomas Bizarre Aventure",
+    "rarity": "legendary",
+    "collectionId": "thomas",
+    "description": "Stand : Lucky Corrupted\nForce : 8\nVitesse : 9\nAgilité : 3\nPrécision : 7\n…",
+    "artwork": {
+      "standard": "/assets/cards/t-bizarre/illustration.png",
+      "fullArt": "/assets/cards/t-bizarre/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-gundam",
+    "title": "Thomas vs Gundam",
+    "rarity": "epic",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-gundam/standard.svg",
+      "fullArt": "/assets/cards/t-gundam/full-art.svg"
+    }
+  },
+  {
+    "id": "t-risitas",
+    "title": "Thomas Risitas",
+    "rarity": "legendary",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-risitas/illustration.png",
+      "fullArt": "/assets/cards/t-risitas/illustration.png"
+    }
+  },
+  {
+    "id": "t-stronk",
+    "title": "Thomas Stronk",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-stronk/standard.svg",
+      "fullArt": "/assets/cards/t-stronk/full-art.svg"
+    }
+  },
+  {
+    "id": "t-notstronk",
+    "title": "Thomas Not Stronk",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-notstronk/standard.svg",
+      "fullArt": "/assets/cards/t-notstronk/full-art.svg"
+    }
+  },
+  {
+    "id": "t-chat",
+    "title": "Chat de Thomas",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-chat/standard.svg",
+      "fullArt": "/assets/cards/t-chat/full-art.svg"
+    }
+  },
+  {
+    "id": "t-bourre",
+    "title": "Thomas à la bourre",
+    "rarity": "epic",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-bourre/standard.svg",
+      "fullArt": "/assets/cards/t-bourre/full-art.svg"
+    }
+  },
+  {
+    "id": "mcdeal",
+    "title": "Le McDeal McDo",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/mcdeal/standard.svg",
+      "fullArt": "/assets/cards/mcdeal/full-art.svg"
+    }
+  },
+  {
+    "id": "metro-japonais",
+    "title": "Métro japonais",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/metro-japonais/standard.svg",
+      "fullArt": "/assets/cards/metro-japonais/full-art.svg"
+    }
+  },
+  {
+    "id": "losc",
+    "title": "LOSC",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/losc/standard.svg",
+      "fullArt": "/assets/cards/losc/full-art.svg"
+    }
+  },
+  {
+    "id": "discord-1",
+    "title": "Soirée Discord #1",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/discord-1/standard.svg",
+      "fullArt": "/assets/cards/discord-1/full-art.svg"
+    }
+  },
+  {
+    "id": "minecraft-sncf",
+    "title": "Minecraft SNCF",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/minecraft-sncf/standard.svg",
+      "fullArt": "/assets/cards/minecraft-sncf/full-art.svg"
+    }
+  },
+  {
+    "id": "t-routier",
+    "title": "Thomas routier",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-routier/standard.svg",
+      "fullArt": "/assets/cards/t-routier/full-art.svg"
+    }
+  },
+  {
+    "id": "t-midlaner",
+    "title": "Thomas mid laner",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-midlaner/standard.svg",
+      "fullArt": "/assets/cards/t-midlaner/full-art.svg"
+    }
+  },
+  {
+    "id": "les-blancs",
+    "title": "Les Blancs",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/les-blancs/standard.svg",
+      "fullArt": "/assets/cards/les-blancs/full-art.svg"
+    }
+  },
+  {
+    "id": "altimance",
+    "title": "Altimance",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/altimance/standard.svg",
+      "fullArt": "/assets/cards/altimance/full-art.svg"
+    }
+  },
+  {
+    "id": "mamushi-chan",
+    "title": "Chez Mamushi-chan",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/mamushi-chan/standard.svg",
+      "fullArt": "/assets/cards/mamushi-chan/full-art.svg"
+    }
+  },
+  {
+    "id": "bataille-peintre",
+    "title": "La bataille de peintre",
+    "rarity": "rare",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/bataille-peintre/standard.svg",
+      "fullArt": "/assets/cards/bataille-peintre/full-art.svg"
+    }
+  },
+  {
+    "id": "gateau-anniv",
+    "title": "Le gâteau d'anniv'",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/gateau-anniv/standard.svg",
+      "fullArt": "/assets/cards/gateau-anniv/full-art.svg"
+    }
+  },
+  {
+    "id": "t-moussaillon",
+    "title": "Thomas moussaillon",
+    "rarity": "rare",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-moussaillon/standard.svg",
+      "fullArt": "/assets/cards/t-moussaillon/full-art.svg"
+    }
+  },
+  {
+    "id": "t-lancier",
+    "title": "Thomas le lancier",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-lancier/standard.svg",
+      "fullArt": "/assets/cards/t-lancier/full-art.svg"
+    }
+  },
+  {
+    "id": "t-trouillard",
+    "title": "Thomas trouillard",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-trouillard/standard.svg",
+      "fullArt": "/assets/cards/t-trouillard/full-art.svg"
+    }
+  },
+  {
+    "id": "t-bouffon",
+    "title": "Thomas costume bouffon",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-bouffon/standard.svg",
+      "fullArt": "/assets/cards/t-bouffon/full-art.svg"
+    }
+  },
+  {
+    "id": "overwatch",
+    "title": "Overwatch",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/overwatch/standard.svg",
+      "fullArt": "/assets/cards/overwatch/full-art.svg"
+    }
+  },
+  {
+    "id": "t-exp33",
+    "title": "Thomas Expedition 33",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-exp33/standard.svg",
+      "fullArt": "/assets/cards/t-exp33/full-art.svg"
+    }
+  },
+  {
+    "id": "t-mansion",
+    "title": "Thomas's Mansion",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-mansion/standard.svg",
+      "fullArt": "/assets/cards/t-mansion/full-art.svg"
+    }
+  },
+  {
+    "id": "t-muscle",
+    "title": "Thomas musclé",
+    "rarity": "rare",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-muscle/standard.svg",
+      "fullArt": "/assets/cards/t-muscle/full-art.svg"
+    }
+  },
+  {
+    "id": "t-citron",
+    "title": "thomas_citron",
+    "rarity": "epic",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-citron/standard.svg",
+      "fullArt": "/assets/cards/t-citron/full-art.svg"
+    }
+  },
+  {
+    "id": "t-minis",
+    "title": "Mini's Thomas",
+    "rarity": "epic",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-minis/standard.svg",
+      "fullArt": "/assets/cards/t-minis/full-art.svg"
+    }
+  },
+  {
+    "id": "t-inventeur",
+    "title": "Thomas inventeur",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-inventeur/standard.svg",
+      "fullArt": "/assets/cards/t-inventeur/full-art.svg"
+    }
+  },
+  {
+    "id": "t-randonneur",
+    "title": "Thomas randonneur",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/t-randonneur/standard.svg",
+      "fullArt": "/assets/cards/t-randonneur/full-art.svg"
+    }
+  },
+  {
+    "id": "m-classique",
+    "title": "Matthieu classique",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-classique/illustration.png",
+      "fullArt": "/assets/cards/m-classique/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "m-voyageur",
+    "title": "Matthieu voyageur",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-voyageur/standard.svg",
+      "fullArt": "/assets/cards/m-voyageur/full-art.svg"
+    }
+  },
+  {
+    "id": "m-etudiant",
+    "title": "Matthieu étudiant",
+    "rarity": "rare",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-etudiant/standard.svg",
+      "fullArt": "/assets/cards/m-etudiant/full-art.svg"
+    }
+  },
+  {
+    "id": "eli-diff",
+    "title": "Eli Diff",
+    "rarity": "epic",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/eli-diff/standard.svg",
+      "fullArt": "/assets/cards/eli-diff/full-art.svg"
+    }
+  },
+  {
+    "id": "m-boucle",
+    "title": "Matthieu qui boucle",
+    "rarity": "rare",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-boucle/standard.svg",
+      "fullArt": "/assets/cards/m-boucle/full-art.svg"
+    }
+  },
+  {
+    "id": "premiere-expedition",
+    "title": "Première expédition",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/premiere-expedition/illustration.png",
+      "fullArt": "/assets/cards/premiere-expedition/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "m-timhortons",
+    "title": "Matthieu Tim Hortons",
+    "rarity": "rare",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-timhortons/standard.svg",
+      "fullArt": "/assets/cards/m-timhortons/full-art.svg"
+    }
+  },
+  {
+    "id": "m-lowpoly",
+    "title": "Matthieu low poly",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-lowpoly/illustration.png",
+      "fullArt": "/assets/cards/m-lowpoly/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "m-lutin",
+    "title": "Matthieu lutin de Noël",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-lutin/standard.svg",
+      "fullArt": "/assets/cards/m-lutin/full-art.svg"
+    }
+  },
+  {
+    "id": "m-bizarre",
+    "title": "Matthieu Bizarre Aventure",
+    "rarity": "legendary",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-bizarre/standard.svg",
+      "fullArt": "/assets/cards/m-bizarre/full-art.svg"
+    }
+  },
+  {
+    "id": "m-moufette",
+    "title": "Matthieu vs Moufette",
+    "rarity": "epic",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-moufette/standard.svg",
+      "fullArt": "/assets/cards/m-moufette/full-art.svg"
+    }
+  },
+  {
+    "id": "m-risitas",
+    "title": "Matthieu Risitas",
+    "rarity": "legendary",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-risitas/illustration.png",
+      "fullArt": "/assets/cards/m-risitas/illustration.png"
+    }
+  },
+  {
+    "id": "m-stronk",
+    "title": "Matthieu Stronk",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-stronk/standard.svg",
+      "fullArt": "/assets/cards/m-stronk/full-art.svg"
+    }
+  },
+  {
+    "id": "m-notstronk",
+    "title": "Matthieu Not Stronk",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-notstronk/standard.svg",
+      "fullArt": "/assets/cards/m-notstronk/full-art.svg"
+    }
+  },
+  {
+    "id": "m-chat",
+    "title": "Chat de Matthieu",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-chat/standard.svg",
+      "fullArt": "/assets/cards/m-chat/full-art.svg"
+    }
+  },
+  {
+    "id": "m-bourre",
+    "title": "Matthieu à la bourre",
+    "rarity": "epic",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-bourre/standard.svg",
+      "fullArt": "/assets/cards/m-bourre/full-art.svg"
+    }
+  },
+  {
+    "id": "patate-mcdo",
+    "title": "La patate McDo",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/patate-mcdo/standard.svg",
+      "fullArt": "/assets/cards/patate-mcdo/full-art.svg"
+    }
+  },
+  {
+    "id": "ferry-quebecois",
+    "title": "Ferry québécois",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/ferry-quebecois/standard.svg",
+      "fullArt": "/assets/cards/ferry-quebecois/full-art.svg"
+    }
+  },
+  {
+    "id": "ol",
+    "title": "OL",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/ol/standard.svg",
+      "fullArt": "/assets/cards/ol/full-art.svg"
+    }
+  },
+  {
+    "id": "discord-2",
+    "title": "Soirée Discord #2",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/discord-2/standard.svg",
+      "fullArt": "/assets/cards/discord-2/full-art.svg"
+    }
+  },
+  {
+    "id": "minecraft-pouletto",
+    "title": "Minecraft Pouletto",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/minecraft-pouletto/standard.svg",
+      "fullArt": "/assets/cards/minecraft-pouletto/full-art.svg"
+    }
+  },
+  {
+    "id": "m-routier",
+    "title": "Matthieu routier",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-routier/standard.svg",
+      "fullArt": "/assets/cards/m-routier/full-art.svg"
+    }
+  },
+  {
+    "id": "m-jungler",
+    "title": "Matthieu jungler",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-jungler/standard.svg",
+      "fullArt": "/assets/cards/m-jungler/full-art.svg"
+    }
+  },
+  {
+    "id": "les-noirs",
+    "title": "Les Noirs",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/les-noirs/standard.svg",
+      "fullArt": "/assets/cards/les-noirs/full-art.svg"
+    }
+  },
+  {
+    "id": "cegep",
+    "title": "Cégep",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/cegep/standard.svg",
+      "fullArt": "/assets/cards/cegep/full-art.svg"
+    }
+  },
+  {
+    "id": "vieille-appart",
+    "title": "La vieille de l'appart'",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/vieille-appart/standard.svg",
+      "fullArt": "/assets/cards/vieille-appart/full-art.svg"
+    }
+  },
+  {
+    "id": "chanteuse-nocturne",
+    "title": "La chanteuse nocturne",
+    "rarity": "rare",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/chanteuse-nocturne/standard.svg",
+      "fullArt": "/assets/cards/chanteuse-nocturne/full-art.svg"
+    }
+  },
+  {
+    "id": "jus-orange",
+    "title": "Le jus d'orange",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/jus-orange/standard.svg",
+      "fullArt": "/assets/cards/jus-orange/full-art.svg"
+    }
+  },
+  {
+    "id": "m-capitaine",
+    "title": "Matthieu capitaine",
+    "rarity": "rare",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-capitaine/standard.svg",
+      "fullArt": "/assets/cards/m-capitaine/full-art.svg"
+    }
+  },
+  {
+    "id": "m-premier",
+    "title": "Matthieu Ier",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-premier/standard.svg",
+      "fullArt": "/assets/cards/m-premier/full-art.svg"
+    }
+  },
+  {
+    "id": "m-exorciste",
+    "title": "Matthieu exorciste",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-exorciste/standard.svg",
+      "fullArt": "/assets/cards/m-exorciste/full-art.svg"
+    }
+  },
+  {
+    "id": "m-bouffon",
+    "title": "Matthieu costume bouffon",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-bouffon/standard.svg",
+      "fullArt": "/assets/cards/m-bouffon/full-art.svg"
+    }
+  },
+  {
+    "id": "splatoon",
+    "title": "Splatoon",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/splatoon/standard.svg",
+      "fullArt": "/assets/cards/splatoon/full-art.svg"
+    }
+  },
+  {
+    "id": "m-exp33",
+    "title": "Matthieu Expedition 33",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-exp33/standard.svg",
+      "fullArt": "/assets/cards/m-exp33/full-art.svg"
+    }
+  },
+  {
+    "id": "m-galaxy",
+    "title": "Super Matthieu Galaxy",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-galaxy/standard.svg",
+      "fullArt": "/assets/cards/m-galaxy/full-art.svg"
+    }
+  },
+  {
+    "id": "m-muscle",
+    "title": "Matthieu musclé",
+    "rarity": "rare",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-muscle/standard.svg",
+      "fullArt": "/assets/cards/m-muscle/full-art.svg"
+    }
+  },
+  {
+    "id": "m-tempete",
+    "title": "matthieu_tempete",
+    "rarity": "epic",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-tempete/standard.svg",
+      "fullArt": "/assets/cards/m-tempete/full-art.svg"
+    }
+  },
+  {
+    "id": "m-minis",
+    "title": "Mini's Matthieu",
+    "rarity": "epic",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-minis/standard.svg",
+      "fullArt": "/assets/cards/m-minis/full-art.svg"
+    }
+  },
+  {
+    "id": "m-ingenieur",
+    "title": "Matthieu ingénieur",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-ingenieur/standard.svg",
+      "fullArt": "/assets/cards/m-ingenieur/full-art.svg"
+    }
+  },
+  {
+    "id": "m-coureur",
+    "title": "Matthieu coureur",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/m-coureur/standard.svg",
+      "fullArt": "/assets/cards/m-coureur/full-art.svg"
+    }
+  },
+  {
+    "id": "oyster",
+    "title": "Oyster Card",
+    "rarity": "epic",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/oyster/standard.svg",
+      "fullArt": "/assets/cards/oyster/full-art.svg"
+    }
+  },
+  {
+    "id": "daronned",
+    "title": "Daronned",
+    "rarity": "epic",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/daronned/standard.svg",
+      "fullArt": "/assets/cards/daronned/full-art.svg"
+    }
+  },
+  {
+    "id": "visa-japon",
+    "title": "Visa Japon",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/visa-japon/standard.svg",
+      "fullArt": "/assets/cards/visa-japon/full-art.svg"
+    }
+  },
+  {
+    "id": "visa-quebec",
+    "title": "Visa Québec",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/visa-quebec/standard.svg",
+      "fullArt": "/assets/cards/visa-quebec/full-art.svg"
+    }
+  },
+  {
+    "id": "sous-3-ans",
+    "title": "Sous 3 ans",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/sous-3-ans/standard.svg",
+      "fullArt": "/assets/cards/sous-3-ans/full-art.svg"
+    }
+  },
+  {
+    "id": "cursed-week",
+    "title": "Cursed Week",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/cursed-week/standard.svg",
+      "fullArt": "/assets/cards/cursed-week/full-art.svg"
+    }
+  },
+  {
+    "id": "lucky-week",
+    "title": "Lucky Week",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/lucky-week/standard.svg",
+      "fullArt": "/assets/cards/lucky-week/full-art.svg"
+    }
+  },
+  {
+    "id": "golden-week",
+    "title": "Golden Week",
+    "rarity": "epic",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/golden-week/standard.svg",
+      "fullArt": "/assets/cards/golden-week/full-art.svg"
+    }
+  },
+  {
+    "id": "chaise",
+    "title": "Chaise",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/chaise/standard.svg",
+      "fullArt": "/assets/cards/chaise/full-art.svg"
+    }
+  },
+  {
+    "id": "takaichi",
+    "title": "Sanae Takaichi",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/takaichi/standard.svg",
+      "fullArt": "/assets/cards/takaichi/full-art.svg"
+    }
+  },
+  {
+    "id": "pspp",
+    "title": "Paul St-Pierre Plamondon",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/pspp/standard.svg",
+      "fullArt": "/assets/cards/pspp/full-art.svg"
+    }
+  },
+  {
+    "id": "centre-du-monde",
+    "title": "Centre du monde",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/centre-du-monde/standard.svg",
+      "fullArt": "/assets/cards/centre-du-monde/full-art.svg"
+    }
+  },
+  {
+    "id": "commencement",
+    "title": "Le Commencement",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/commencement/standard.svg",
+      "fullArt": "/assets/cards/commencement/full-art.svg"
+    }
+  },
+  {
+    "id": "douilled",
+    "title": "Douilled",
+    "rarity": "epic",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/douilled/standard.svg",
+      "fullArt": "/assets/cards/douilled/full-art.svg"
+    }
+  },
+  {
+    "id": "proton-vpn",
+    "title": "Proton VPN",
+    "rarity": "epic",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/proton-vpn/standard.svg",
+      "fullArt": "/assets/cards/proton-vpn/full-art.svg"
+    }
+  },
+  {
+    "id": "kayak",
+    "title": "Le kayak",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/kayak/standard.svg",
+      "fullArt": "/assets/cards/kayak/full-art.svg"
+    }
+  },
+  {
+    "id": "compte-renault",
+    "title": "Le compte Renault",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/compte-renault/standard.svg",
+      "fullArt": "/assets/cards/compte-renault/full-art.svg"
+    }
+  },
+  {
+    "id": "green-card",
+    "title": "La Green Card",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/green-card/standard.svg",
+      "fullArt": "/assets/cards/green-card/full-art.svg"
+    }
+  },
+  {
+    "id": "fc-papillon",
+    "title": "Le FC Papillon",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/fc-papillon/standard.svg",
+      "fullArt": "/assets/cards/fc-papillon/full-art.svg"
+    }
+  },
+  {
+    "id": "mkqb",
+    "title": "MKQB",
+    "rarity": "epic",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/mkqb/standard.svg",
+      "fullArt": "/assets/cards/mkqb/full-art.svg"
+    }
+  },
+  {
+    "id": "pgw-2022",
+    "title": "PGW 2022",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/pgw-2022/standard.svg",
+      "fullArt": "/assets/cards/pgw-2022/full-art.svg"
+    }
+  },
+  {
+    "id": "eli-support",
+    "title": "Eli support",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/eli-support/standard.svg",
+      "fullArt": "/assets/cards/eli-support/full-art.svg"
+    }
+  },
+  {
+    "id": "eli-camionneuse",
+    "title": "Eli camionneuse",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/eli-camionneuse/standard.svg",
+      "fullArt": "/assets/cards/eli-camionneuse/full-art.svg"
+    }
+  },
+  {
+    "id": "eli-cerisier",
+    "title": "Eli biome cerisier",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/eli-cerisier/standard.svg",
+      "fullArt": "/assets/cards/eli-cerisier/full-art.svg"
+    }
+  },
+  {
+    "id": "trisomie-21",
+    "title": "Trisomie 21",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/trisomie-21/standard.svg",
+      "fullArt": "/assets/cards/trisomie-21/full-art.svg"
+    }
+  },
+  {
+    "id": "soiree-film-1",
+    "title": "Soirée film #1",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/soiree-film-1/standard.svg",
+      "fullArt": "/assets/cards/soiree-film-1/full-art.svg"
+    }
+  },
+  {
+    "id": "soiree-film-2",
+    "title": "Soirée film #2",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/soiree-film-2/standard.svg",
+      "fullArt": "/assets/cards/soiree-film-2/full-art.svg"
+    }
+  },
+  {
+    "id": "soiree-film-3",
+    "title": "Soirée film #3",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/soiree-film-3/standard.svg",
+      "fullArt": "/assets/cards/soiree-film-3/full-art.svg"
+    }
+  },
+  {
+    "id": "stagiaires",
+    "title": "Les stagiaires",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/stagiaires/standard.svg",
+      "fullArt": "/assets/cards/stagiaires/full-art.svg"
+    }
+  },
+  {
+    "id": "lacher-poule",
+    "title": "Lâcher de poule",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/lacher-poule/standard.svg",
+      "fullArt": "/assets/cards/lacher-poule/full-art.svg"
+    }
+  }
+]
