@@ -1,0 +1,466 @@
+{
+  "archive": "TCG - bizave card. (1).zip",
+  "reference": "references/carnet-cartes-2026-10-25.jsx",
+  "policy": "Ajouter uniquement les illustrations manquantes. Une image commune aux formats Classique et Full Art. Préserver les identifiants, raretés, images et cadrages déjà importés.",
+  "images": [
+    {
+      "id": "t-bourre",
+      "title": "Thomas à la bourre",
+      "rarity": "epic",
+      "source": "thomas_la_bourre.png",
+      "destination": "public/assets/cards/t-bourre/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "c6f574f3471e11f86f09629b8c1c6716c5d7afa7c10ff6a90eb972f13a8859f2"
+    },
+    {
+      "id": "t-gundam",
+      "title": "Thomas vs Gundam",
+      "rarity": "epic",
+      "source": "thomas_vs_gundam.png",
+      "destination": "public/assets/cards/t-gundam/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "c7c368e95203939863019630130a13d281a5de1f4803bab362e4796f6691e552"
+    },
+    {
+      "id": "metro-japonais",
+      "title": "Métro japonais",
+      "rarity": "uncommon",
+      "source": "metro_japonais.png",
+      "destination": "public/assets/cards/metro-japonais/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "cd509184f5e1940def2a0be3e88d5154c42293eac3b36d62628325a8ca7a6620"
+    },
+    {
+      "id": "t-notstronk",
+      "title": "Thomas Not Stronk",
+      "rarity": "uncommon",
+      "source": "thomas_not_stronk.png",
+      "destination": "public/assets/cards/t-notstronk/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "9619830b0af85c0f3d65d83f862d5e18ff3c4ad5eb373655d79b9ca36a61c56b"
+    },
+    {
+      "id": "m-notstronk",
+      "title": "Matthieu Not Stronk",
+      "rarity": "uncommon",
+      "source": "matthieu_not_stronk.png",
+      "destination": "public/assets/cards/m-notstronk/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "47ba01782c7563a03415c2e760ffc6c07917fc0e7d46127d9fb974fe72189648"
+    },
+    {
+      "id": "t-stronk",
+      "title": "Thomas Stronk",
+      "rarity": "uncommon",
+      "source": "thomas_stronk.png",
+      "destination": "public/assets/cards/t-stronk/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "d97475174e625de1b8fc44c3544c46087685c2444c8706751e54a40a68456075"
+    },
+    {
+      "id": "m-stronk",
+      "title": "Matthieu Stronk",
+      "rarity": "uncommon",
+      "source": "matthieu_stronk.png",
+      "destination": "public/assets/cards/m-stronk/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "e327248f2ad77c397610d0f21eddc59185dd09bbe1c9253f99a36a4e6106eab3"
+    },
+    {
+      "id": "t-chat",
+      "title": "Chat de Thomas",
+      "rarity": "common",
+      "source": "chat_de_thomas.png",
+      "destination": "public/assets/cards/t-chat/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "bec6bf04cd1aa363a90c97cf5527d7284b611d77a9833719597307582b2f2357"
+    },
+    {
+      "id": "mcdeal",
+      "title": "Le McDeal McDo",
+      "rarity": "common",
+      "source": "mcdeal_mcdo.png",
+      "destination": "public/assets/cards/mcdeal/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "d8a316c642739885ec331e33730e294df604fec0d8ea204f996b7e26c5008525"
+    },
+    {
+      "id": "losc",
+      "title": "Thomas supporter",
+      "rarity": "common",
+      "source": "LOSC.png",
+      "destination": "public/assets/cards/losc/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "68fc19e40c4f12f9dfe0f72315dd617be05a05c6434756d3f6935b5e54dca7ea"
+    },
+    {
+      "id": "discord-1",
+      "title": "Soirée Discord #1",
+      "rarity": "common",
+      "source": "soiree_discord_#1.png",
+      "destination": "public/assets/cards/discord-1/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "0fcf1f0fb0d358dda0ce88d47e4b174f9caf02a222fe6a3037d19175ba31a133"
+    },
+    {
+      "id": "patate-mcdo",
+      "title": "La patate McDo",
+      "rarity": "common",
+      "source": "patate_mcdo.png",
+      "destination": "public/assets/cards/patate-mcdo/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "f5daa00ce0bd89d95a31876b6b636b114179bce0df3d1c0f40e8a6293f53a6cf"
+    },
+    {
+      "id": "bataille-peintre",
+      "title": "La bataille de peintre",
+      "rarity": "rare",
+      "source": "bataille_de_peintre.png",
+      "destination": "public/assets/cards/bataille-peintre/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "dacd4eefbdd8cc9f5391bc4be6e46f9cf8d6d0508dda548997fdd4f7cad56779"
+    },
+    {
+      "id": "t-moussaillon",
+      "title": "Thomas moussaillon",
+      "rarity": "rare",
+      "source": "thomas_mousaillon.png",
+      "destination": "public/assets/cards/t-moussaillon/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "c0d0e806b77fb621b2b7b907acf7ac0f51a26f3253e13f03e67dadafbd8f655a"
+    },
+    {
+      "id": "altimance",
+      "title": "Altimance",
+      "rarity": "uncommon",
+      "source": "altimance.png",
+      "destination": "public/assets/cards/altimance/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "bccdd0e394e4956cdcf8f46c20e7e4ad6a9af3cf0b6f3a250e7c69b195149aad"
+    },
+    {
+      "id": "mamushi-chan",
+      "title": "Chez Mamushi-chan",
+      "rarity": "uncommon",
+      "source": "chez_mamushi.png",
+      "destination": "public/assets/cards/mamushi-chan/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "fecd91c3905762cfc5e3f2a5d2cf7a88f8d2e51e026cf0c929ce5e35155657b2"
+    },
+    {
+      "id": "gateau-anniv",
+      "title": "Le gâteau d'anniv'",
+      "rarity": "uncommon",
+      "source": "gateau_anniv.png",
+      "destination": "public/assets/cards/gateau-anniv/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "0945936d057c60438fecddadfb4a5b36edde634ba756a2663af638a3e05c1240"
+    },
+    {
+      "id": "les-blancs",
+      "title": "Les Blancs",
+      "rarity": "common",
+      "source": "les_blancs.png",
+      "destination": "public/assets/cards/les-blancs/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "94d2c38fc178ca9901fb249b99992e1622f779a3860baf0efdb7ec43fe2e6f85"
+    },
+    {
+      "id": "t-routier",
+      "title": "Thomas camionneur",
+      "rarity": "common",
+      "source": "thomas_camionneur.png",
+      "destination": "public/assets/cards/t-routier/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "6f501c2f6bf6a996d119d9c93be2ef3ba7554f708fee91ba53eb40e532ed8a73"
+    },
+    {
+      "id": "t-lancier",
+      "title": "Thomas le lancier",
+      "rarity": "common",
+      "source": "thomas_lancier.png",
+      "destination": "public/assets/cards/t-lancier/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "e87e17409e2543bcef78429d6c5281edfb6c0f980c44cdea39cd829a0dcbafab"
+    },
+    {
+      "id": "t-midlaner",
+      "title": "Thomas mid laner",
+      "rarity": "common",
+      "source": "thomas_mid_laner.png",
+      "destination": "public/assets/cards/t-midlaner/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "870cf2b410eeff8d864a53e5c93802cb8308ea82e9b2fc99d2c332cd9b3014e1"
+    },
+    {
+      "id": "t-trouillard",
+      "title": "Thomas trouillard",
+      "rarity": "common",
+      "source": "thomas_trouillard.png",
+      "destination": "public/assets/cards/t-trouillard/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "54e55133437b48ea52322c9f52caa9653e12df1ca26755b65350ab446715898d"
+    },
+    {
+      "id": "nana-diff",
+      "title": "Nana Diff",
+      "rarity": "epic",
+      "source": "nana_diff.png",
+      "destination": "public/assets/cards/nana-diff/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "1aee2633adb6f1725e8776094ef0447533d0c6db5c1d34d103950603ba015455"
+    }
+  ],
+  "skipped": [
+    {
+      "id": "t-risitas",
+      "source": "thomas_risitas.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "42bc1215d2faca28fac3c84958194993ab9f77c4e9b28c6b3b9c5acbf8315645",
+      "archiveSha256": "42bc1215d2faca28fac3c84958194993ab9f77c4e9b28c6b3b9c5acbf8315645"
+    },
+    {
+      "id": "m-risitas",
+      "source": "matthieu_risitas.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "00219e973edfb800f0dcb569a6b7656399bfb38843fbcecd59e83e13cda2ac4b",
+      "archiveSha256": "00219e973edfb800f0dcb569a6b7656399bfb38843fbcecd59e83e13cda2ac4b"
+    },
+    {
+      "id": "t-accueil",
+      "source": "thomas_agent_accueil.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "6f5d6ff502ccfc7ac9747ed7c911c6d1a0e1666cebb2b2191c51bb0f7b75eb5f",
+      "archiveSha256": "6f5d6ff502ccfc7ac9747ed7c911c6d1a0e1666cebb2b2191c51bb0f7b75eb5f"
+    },
+    {
+      "id": "t-bizarre",
+      "source": "thomas_bizarre_aventure.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "9cbaad28f84f56836feae49bb8e048785b2c62a37b4e0fa1adaeedb3cb12d8be",
+      "archiveSha256": "9cbaad28f84f56836feae49bb8e048785b2c62a37b4e0fa1adaeedb3cb12d8be"
+    },
+    {
+      "id": "t-etudiant",
+      "source": "thomas_etudiant.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "27c854e9580fbe748bb92201db2a84650fe61d788e522908229b9c333e346e2a",
+      "archiveSha256": "27c854e9580fbe748bb92201db2a84650fe61d788e522908229b9c333e346e2a"
+    },
+    {
+      "id": "m-lowpoly",
+      "source": "matthieu_low_poly.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "d15e9884be1a2093cf6f461e3bf3f1c0a579550789921a23ddcd29dbe3d392cb",
+      "archiveSha256": "d15e9884be1a2093cf6f461e3bf3f1c0a579550789921a23ddcd29dbe3d392cb"
+    },
+    {
+      "id": "t-support",
+      "source": "thomas_support_informatique.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "eea599c7e88c11047bc2ed7ca57a53ebbf819e20853e2a199da039af9ba8cea6",
+      "archiveSha256": "eea599c7e88c11047bc2ed7ca57a53ebbf819e20853e2a199da039af9ba8cea6"
+    },
+    {
+      "id": "deuxieme-expedition",
+      "source": "deuxieme_expedition.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "15c50d2fc6ce11a23d75cda525d6ff721639858f5fda3add51062451b7ed8ddf",
+      "archiveSha256": "15c50d2fc6ce11a23d75cda525d6ff721639858f5fda3add51062451b7ed8ddf"
+    },
+    {
+      "id": "premiere-expedition",
+      "source": "premiere_expedition.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "6e3769d38e1b0ef2b2b6446a6b717e21b04e4c28f7d1039046e95e1df9a22bb5",
+      "archiveSha256": "6e3769d38e1b0ef2b2b6446a6b717e21b04e4c28f7d1039046e95e1df9a22bb5"
+    },
+    {
+      "id": "t-perenoel",
+      "source": "thomas_pere_noel.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "466586b232233c20ff3af95a7b0ebfe6e0e0eb300360b95cd929f87d261a06f9",
+      "archiveSha256": "466586b232233c20ff3af95a7b0ebfe6e0e0eb300360b95cd929f87d261a06f9"
+    },
+    {
+      "id": "t-voyageur",
+      "source": "thomas_voyageur.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "318e55ac088f7fd4f82ad33ebc7b068d35ff5ce25c81169bf34f342a641634a4",
+      "archiveSha256": "318e55ac088f7fd4f82ad33ebc7b068d35ff5ce25c81169bf34f342a641634a4"
+    },
+    {
+      "id": "t-classique",
+      "source": "thomas_classique.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "ce2b067f3631d7d33f082a6c3c6625f83c4c552c6e3ffc3ed92dca16be6e1e36",
+      "archiveSha256": "ce2b067f3631d7d33f082a6c3c6625f83c4c552c6e3ffc3ed92dca16be6e1e36"
+    },
+    {
+      "id": "t-lowpoly",
+      "source": "thomas_low_poly.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "af86efdabf4acf0aab83828bc15df3a300dd681e84738d9ac9bd1cc69709b733",
+      "archiveSha256": "af86efdabf4acf0aab83828bc15df3a300dd681e84738d9ac9bd1cc69709b733"
+    },
+    {
+      "id": "m-classique",
+      "source": "matthieu_classique.png",
+      "reason": "Illustration déjà importée : fichier et cadrage conservés",
+      "existingSha256": "36ad9f4fc7e33786ce3675d6c34197c8cf3996cc3c56b2454c10c7e61431e3fa",
+      "archiveSha256": "36ad9f4fc7e33786ce3675d6c34197c8cf3996cc3c56b2454c10c7e61431e3fa"
+    }
+  ],
+  "renames": [
+    {
+      "id": "losc",
+      "before": "LOSC",
+      "after": "Thomas supporter"
+    },
+    {
+      "id": "t-routier",
+      "before": "Thomas routier",
+      "after": "Thomas camionneur"
+    },
+    {
+      "id": "ol",
+      "before": "OL",
+      "after": "Matthieu supporter"
+    },
+    {
+      "id": "m-routier",
+      "before": "Matthieu routier",
+      "after": "Matthieu camionneur"
+    }
+  ],
+  "descriptionChanges": [
+    {
+      "id": "t-gundam",
+      "before": "",
+      "after": "Chacun sa bataille. Pour Thomas, ce fut un combat difficile, mais il a réussi à emboîter les deux pièces du Gundam !"
+    },
+    {
+      "id": "t-risitas",
+      "before": "",
+      "after": "ISSOU"
+    },
+    {
+      "id": "t-stronk",
+      "before": "",
+      "after": "C'est STRONK !"
+    },
+    {
+      "id": "t-notstronk",
+      "before": "",
+      "after": "C'est pas STRONK !"
+    },
+    {
+      "id": "t-chat",
+      "before": "",
+      "after": "Le Nyan Cat de Thomas."
+    },
+    {
+      "id": "t-bourre",
+      "before": "",
+      "after": "Mieux vaut bien dormir et arriver en retard que se réveiller tôt et… arriver en avance…"
+    },
+    {
+      "id": "mcdeal",
+      "before": "",
+      "after": "Un petit menu, un ticket resto et ça repart !"
+    },
+    {
+      "id": "metro-japonais",
+      "before": "",
+      "after": "Métro, boulot, dodo."
+    },
+    {
+      "id": "losc",
+      "before": "",
+      "after": "Supporter un jour, supporter toujours."
+    },
+    {
+      "id": "discord-1",
+      "before": "",
+      "after": "La saga Harry Potter, la saga The Hobbit… il faudra aussi regarder tous les Star Wars !"
+    },
+    {
+      "id": "t-routier",
+      "before": "",
+      "after": "La bande d'arrêt d'urgence, c'est ma voie réservée."
+    },
+    {
+      "id": "t-midlaner",
+      "before": "",
+      "after": "A : Orbe d'illusion\nZ : Feux follets\nE : Charme\nR : Ruée spirituelle"
+    },
+    {
+      "id": "les-blancs",
+      "before": "",
+      "after": "d4 : le pion de la dame avance de deux cases.\nFf4 : le fou sort pour contrôler le centre.\ne3 : renforcer le centre et libérer l'autre fou.\nCf3 : développer le cavalier.\nc3 : consolider la structure de pions."
+    },
+    {
+      "id": "altimance",
+      "before": "",
+      "after": "Support informatique, bonjour ?"
+    },
+    {
+      "id": "mamushi-chan",
+      "before": "",
+      "after": "Petit, étroit, mais tellement chaleureux. J'ai hâte de goûter le repas de Mamushi-chan."
+    },
+    {
+      "id": "bataille-peintre",
+      "before": "",
+      "after": "Finalement, le Fuderock, c'est pas si mal !"
+    },
+    {
+      "id": "gateau-anniv",
+      "before": "",
+      "after": "Joyeux anniversaire Thomas !"
+    },
+    {
+      "id": "t-moussaillon",
+      "before": "",
+      "after": "On est en train de prendre l'eau ! On prend l'eau !"
+    },
+    {
+      "id": "t-lancier",
+      "before": "",
+      "after": "Le prochain event est à 16 h 09, on le fait ?"
+    },
+    {
+      "id": "t-trouillard",
+      "before": "",
+      "after": "Nan mais allez-y, vous ! Moi, je surveille votre rythme cardiaque !"
+    },
+    {
+      "id": "patate-mcdo",
+      "before": "",
+      "after": "Une patate McDo et ça démarre !"
+    }
+  ]
+}

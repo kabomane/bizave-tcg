@@ -1,0 +1,885 @@
+{
+  "archive": "TCG - bizave card..zip",
+  "archiveSha256": "fe4b365f66fa9c543ffba772a20d808d734f071935cd4b7abf4f289f0d1764f1",
+  "reference": "references/carnet-cartes-2026-10-26.jsx",
+  "referenceSha256": "8cecd103ec95538339b39bbe75826c4d61b923925c1f16a3c3c96c7b2f17f400",
+  "policy": "Le carnet définit le catalogue actif et le pool Phantom Blood. Aucun visuel existant écrasé. Même illustration pour Classique et Full Art. Identifiants du carnet conservés, sans migration de sauvegarde.",
+  "images": [
+    {
+      "id": "trisomie-21",
+      "title": "Trisomie 21",
+      "rarity": "rare",
+      "source": "trisomie_21.png",
+      "destination": "public/assets/cards/trisomie-21/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "7659fa74a92821672ab6e8e556fee4128cd553b3285b2ab8d5903e6dfa70f7bc"
+    },
+    {
+      "id": "green-card",
+      "title": "La Green Card",
+      "rarity": "rare",
+      "source": "green_card.png",
+      "destination": "public/assets/cards/green-card/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "209d6eed27897f45a721b1db435214da7fbabd5a9ff34dc2311281d104a4a984"
+    },
+    {
+      "id": "m-chat",
+      "title": "Chat de Matthieu",
+      "rarity": "common",
+      "source": "chat_de_matthieu.png",
+      "destination": "public/assets/cards/m-chat/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "b5938a0637297ecaf5c3af6ac5c767b75c5f940eb3c05f560fc015db2ecabc16"
+    },
+    {
+      "id": "t-minis",
+      "title": "Mini's Thomas",
+      "rarity": "epic",
+      "source": "mini_thomas.png",
+      "destination": "public/assets/cards/t-minis/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "4587761d879238600dd259e0afac4086b0db1b9117fa011c33257189f302fb2d"
+    },
+    {
+      "id": "m-minis",
+      "title": "Mini's Matthieu",
+      "rarity": "epic",
+      "source": "mini_matthieu.png",
+      "destination": "public/assets/cards/m-minis/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "c1d144d1f798761e01ee7625ee00545e6077caa57f81f47fadba612b1e56f150"
+    },
+    {
+      "id": "t-citron",
+      "title": "thomas_citron",
+      "rarity": "epic",
+      "source": "thomas_citron.png",
+      "destination": "public/assets/cards/t-citron/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "6c231849be8bd5c42261614a73117305b5077bcd162afe27e2878a5796b7d8ce"
+    },
+    {
+      "id": "m-tempete",
+      "title": "matthieu_tempete",
+      "rarity": "epic",
+      "source": "matthieu_tempete.png",
+      "destination": "public/assets/cards/m-tempete/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "b3061cdcba2944eb8fce2c4ccb8e3e3a2ff61cbbb3ed0b8a1b13c423a410e1cc"
+    },
+    {
+      "id": "t-muscle",
+      "title": "Thomas musclé",
+      "rarity": "rare",
+      "source": "thomas_muscle.png",
+      "destination": "public/assets/cards/t-muscle/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "23ec393b1770d25f4f928a08a59c549dce1fad189f05b5f13bc6c58d1b8b2ec4"
+    },
+    {
+      "id": "m-muscle",
+      "title": "Matthieu musclé",
+      "rarity": "rare",
+      "source": "matthieu_muscle.png",
+      "destination": "public/assets/cards/m-muscle/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "db200298ae2509bb7008d0c1c774d07217f04822e7fe3f67c5a2f511c662b022"
+    },
+    {
+      "id": "t-bouffon",
+      "title": "Thomas costume bouffon",
+      "rarity": "common",
+      "source": "thomas_bouffon.png",
+      "destination": "public/assets/cards/t-bouffon/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "1b9b8b21059d22b9b08587c91b47732743e39d7329693ff17c3478aac108b27e"
+    },
+    {
+      "id": "m-bouffon",
+      "title": "Matthieu costume bouffon",
+      "rarity": "common",
+      "source": "matthieu_bouffon.png",
+      "destination": "public/assets/cards/m-bouffon/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "337688cb032b56638b3292d49ef1d7ddee2e66054d8e0619b06e797c6f0a0ec5"
+    },
+    {
+      "id": "minecraft-sncf",
+      "title": "Minecraft SNCF",
+      "rarity": "common",
+      "source": "minecraft_sncf.png",
+      "destination": "public/assets/cards/minecraft-sncf/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "0371a725692cbbb3591aa10693e4cd890da5fdb33af79917ecb2931566104da6"
+    },
+    {
+      "id": "overwatch",
+      "title": "Thomas Overwatch",
+      "rarity": "common",
+      "source": "overwatch.png",
+      "destination": "public/assets/cards/overwatch/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "ff8b153176cb616cef0badaaaf2ebbfb60d7885071b6c8563f24c7bbbe9ce3d3"
+    },
+    {
+      "id": "splatoon",
+      "title": "Matthieu Splatoon",
+      "rarity": "common",
+      "source": "splatoon.png",
+      "destination": "public/assets/cards/splatoon/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "cea2585c58fc99cb63b36abe533c635a792af1aa8d03cc077b07f1f751c693ba"
+    },
+    {
+      "id": "t-parisien",
+      "title": "Thomas parisien",
+      "rarity": "common",
+      "source": "thomas_parisien.png",
+      "destination": "public/assets/cards/t-parisien/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "fc26a73119ecce8a566a6840bb4559a0d290d14f54bb799dc2dc0c344e116a67"
+    },
+    {
+      "id": "t-inventeur",
+      "title": "Thomas inventeur",
+      "rarity": "common",
+      "source": "thomas_inventeur.png",
+      "destination": "public/assets/cards/t-inventeur/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "08bd798a4b9e6bc38bb741494d62f805167fbcd61f5ab532b104961a3a5e694c"
+    },
+    {
+      "id": "t-randonneur",
+      "title": "Thomas randonneur",
+      "rarity": "common",
+      "source": "thomas_randonneur.png",
+      "destination": "public/assets/cards/t-randonneur/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "9f7fcfd1115c851d23ec322c8c8ec9a8faaa5bac7c0552c8e05d090f04efcdea"
+    },
+    {
+      "id": "m-moufette",
+      "title": "Matthieu vs Moufette",
+      "rarity": "epic",
+      "source": "matthieu_vs_mouffette.png",
+      "destination": "public/assets/cards/m-moufette/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "b4ef4a2e6bb625c175e29f446ed689ed24d3f419823633b8c46cd50ca91ddb51"
+    },
+    {
+      "id": "m-bourre",
+      "title": "Matthieu à la bourre",
+      "rarity": "epic",
+      "source": "matthieu_a_la_bourre.png",
+      "destination": "public/assets/cards/m-bourre/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "7c9939a18893a2768d54477e0a4493a8ba24ab65ce3cba96ca257db45a5e1b3b"
+    },
+    {
+      "id": "m-bizarre",
+      "title": "Matthieu Bizarre Aventure",
+      "rarity": "legendary",
+      "source": "matthieu_bizarre_aventure.png",
+      "destination": "public/assets/cards/m-bizarre/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "0d4431781bbcd03b1a54f9a8531de679fe7d73c36145ba2ed99394be6dd0d1c3"
+    },
+    {
+      "id": "eli-diff",
+      "title": "Eli Diff",
+      "rarity": "epic",
+      "source": "eli_diff.png",
+      "destination": "public/assets/cards/eli-diff/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "effbf7e3f71e8159fa221e87be71f494d5d6fe662f02ecc6883040b24515b6e7"
+    },
+    {
+      "id": "m-boucle",
+      "title": "Matthieu qui boucle",
+      "rarity": "rare",
+      "source": "matthieu_qui_boucle.png",
+      "destination": "public/assets/cards/m-boucle/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "88b21b36c165e25c2832d9a8c163bf0e4c1425dcf1d3720324237960826bcb73"
+    },
+    {
+      "id": "chanteuse-nocturne",
+      "title": "La chanteuse nocturne",
+      "rarity": "rare",
+      "source": "chanteuse_nocturne.png",
+      "destination": "public/assets/cards/chanteuse-nocturne/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "eb50a10db58e19d4b140522ba5c7f7eeca11d87188901bb3744abaef7b28c656"
+    },
+    {
+      "id": "m-capitaine",
+      "title": "Matthieu capitaine",
+      "rarity": "rare",
+      "source": "matthieu_capitaine.png",
+      "destination": "public/assets/cards/m-capitaine/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "3fb1174329b69a7e1a28c87d589a894e9818f919639c009382f26b9d8865f999"
+    },
+    {
+      "id": "cegep",
+      "title": "Cégep Lévis",
+      "rarity": "uncommon",
+      "source": "cegep_levis.png",
+      "destination": "public/assets/cards/cegep/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "654f162de99ced71b029ea881b6b9f5dde936c0eb5e0ffbbad328b50194bcf51"
+    },
+    {
+      "id": "m-timhortons",
+      "title": "Matthieu Tim Hortons",
+      "rarity": "rare",
+      "source": "matthieu_tim_horton.png",
+      "destination": "public/assets/cards/m-timhortons/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "e38f9a7adf3766d01636c8718e75c75d1c34049898fe388402cae641e130f3ae"
+    },
+    {
+      "id": "m-etudiant",
+      "title": "Matthieu étudiant",
+      "rarity": "rare",
+      "source": "matthieu_etudiant.png",
+      "destination": "public/assets/cards/m-etudiant/illustration.png",
+      "width": 1086,
+      "height": 1448,
+      "sha256": "f541846f952e23befdf224a4b2ca52320592f4ed0e0d910ccd35bb254eb1b052"
+    }
+  ],
+  "skipped": [
+    {
+      "id": "t-risitas",
+      "source": "thomas_risitas.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "42bc1215d2faca28fac3c84958194993ab9f77c4e9b28c6b3b9c5acbf8315645",
+      "archiveSha256": "42bc1215d2faca28fac3c84958194993ab9f77c4e9b28c6b3b9c5acbf8315645"
+    },
+    {
+      "id": "m-risitas",
+      "source": "matthieu_risitas.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "00219e973edfb800f0dcb569a6b7656399bfb38843fbcecd59e83e13cda2ac4b",
+      "archiveSha256": "00219e973edfb800f0dcb569a6b7656399bfb38843fbcecd59e83e13cda2ac4b"
+    },
+    {
+      "id": "t-accueil",
+      "source": "thomas_agent_accueil.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "6f5d6ff502ccfc7ac9747ed7c911c6d1a0e1666cebb2b2191c51bb0f7b75eb5f",
+      "archiveSha256": "6f5d6ff502ccfc7ac9747ed7c911c6d1a0e1666cebb2b2191c51bb0f7b75eb5f"
+    },
+    {
+      "id": "t-bizarre",
+      "source": "thomas_bizarre_aventure.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "9cbaad28f84f56836feae49bb8e048785b2c62a37b4e0fa1adaeedb3cb12d8be",
+      "archiveSha256": "9cbaad28f84f56836feae49bb8e048785b2c62a37b4e0fa1adaeedb3cb12d8be"
+    },
+    {
+      "id": "t-etudiant",
+      "source": "thomas_etudiant.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "27c854e9580fbe748bb92201db2a84650fe61d788e522908229b9c333e346e2a",
+      "archiveSha256": "27c854e9580fbe748bb92201db2a84650fe61d788e522908229b9c333e346e2a"
+    },
+    {
+      "id": "t-bourre",
+      "source": "thomas_la_bourre.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "c6f574f3471e11f86f09629b8c1c6716c5d7afa7c10ff6a90eb972f13a8859f2",
+      "archiveSha256": "c6f574f3471e11f86f09629b8c1c6716c5d7afa7c10ff6a90eb972f13a8859f2"
+    },
+    {
+      "id": "t-gundam",
+      "source": "thomas_vs_gundam.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "c7c368e95203939863019630130a13d281a5de1f4803bab362e4796f6691e552",
+      "archiveSha256": "c7c368e95203939863019630130a13d281a5de1f4803bab362e4796f6691e552"
+    },
+    {
+      "id": "metro-japonais",
+      "source": "metro_japonais.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "cd509184f5e1940def2a0be3e88d5154c42293eac3b36d62628325a8ca7a6620",
+      "archiveSha256": "cd509184f5e1940def2a0be3e88d5154c42293eac3b36d62628325a8ca7a6620"
+    },
+    {
+      "id": "t-notstronk",
+      "source": "thomas_not_stronk.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "9619830b0af85c0f3d65d83f862d5e18ff3c4ad5eb373655d79b9ca36a61c56b",
+      "archiveSha256": "9619830b0af85c0f3d65d83f862d5e18ff3c4ad5eb373655d79b9ca36a61c56b"
+    },
+    {
+      "id": "m-notstronk",
+      "source": "matthieu_not_stronk.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "47ba01782c7563a03415c2e760ffc6c07917fc0e7d46127d9fb974fe72189648",
+      "archiveSha256": "47ba01782c7563a03415c2e760ffc6c07917fc0e7d46127d9fb974fe72189648"
+    },
+    {
+      "id": "t-stronk",
+      "source": "thomas_stronk.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "d97475174e625de1b8fc44c3544c46087685c2444c8706751e54a40a68456075",
+      "archiveSha256": "d97475174e625de1b8fc44c3544c46087685c2444c8706751e54a40a68456075"
+    },
+    {
+      "id": "m-stronk",
+      "source": "matthieu_stronk.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "e327248f2ad77c397610d0f21eddc59185dd09bbe1c9253f99a36a4e6106eab3",
+      "archiveSha256": "e327248f2ad77c397610d0f21eddc59185dd09bbe1c9253f99a36a4e6106eab3"
+    },
+    {
+      "id": "t-chat",
+      "source": "chat_de_thomas.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "bec6bf04cd1aa363a90c97cf5527d7284b611d77a9833719597307582b2f2357",
+      "archiveSha256": "bec6bf04cd1aa363a90c97cf5527d7284b611d77a9833719597307582b2f2357"
+    },
+    {
+      "id": "mcdeal",
+      "source": "mcdeal_mcdo.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "d8a316c642739885ec331e33730e294df604fec0d8ea204f996b7e26c5008525",
+      "archiveSha256": "d8a316c642739885ec331e33730e294df604fec0d8ea204f996b7e26c5008525"
+    },
+    {
+      "id": "losc",
+      "source": "LOSC.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "68fc19e40c4f12f9dfe0f72315dd617be05a05c6434756d3f6935b5e54dca7ea",
+      "archiveSha256": "68fc19e40c4f12f9dfe0f72315dd617be05a05c6434756d3f6935b5e54dca7ea"
+    },
+    {
+      "id": "discord-1",
+      "source": "soiree_discord_#1.png",
+      "reason": "Carte supprimée du nouveau carnet",
+      "existingSha256": "0fcf1f0fb0d358dda0ce88d47e4b174f9caf02a222fe6a3037d19175ba31a133",
+      "archiveSha256": "0fcf1f0fb0d358dda0ce88d47e4b174f9caf02a222fe6a3037d19175ba31a133"
+    },
+    {
+      "id": "patate-mcdo",
+      "source": "patate_mcdo.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "f5daa00ce0bd89d95a31876b6b636b114179bce0df3d1c0f40e8a6293f53a6cf",
+      "archiveSha256": "f5daa00ce0bd89d95a31876b6b636b114179bce0df3d1c0f40e8a6293f53a6cf"
+    },
+    {
+      "id": "bataille-peintre",
+      "source": "bataille_de_peintre.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "dacd4eefbdd8cc9f5391bc4be6e46f9cf8d6d0508dda548997fdd4f7cad56779",
+      "archiveSha256": "dacd4eefbdd8cc9f5391bc4be6e46f9cf8d6d0508dda548997fdd4f7cad56779"
+    },
+    {
+      "id": "t-moussaillon",
+      "source": "thomas_mousaillon.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "c0d0e806b77fb621b2b7b907acf7ac0f51a26f3253e13f03e67dadafbd8f655a",
+      "archiveSha256": "c0d0e806b77fb621b2b7b907acf7ac0f51a26f3253e13f03e67dadafbd8f655a"
+    },
+    {
+      "id": "altimance",
+      "source": "altimance.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "bccdd0e394e4956cdcf8f46c20e7e4ad6a9af3cf0b6f3a250e7c69b195149aad",
+      "archiveSha256": "bccdd0e394e4956cdcf8f46c20e7e4ad6a9af3cf0b6f3a250e7c69b195149aad"
+    },
+    {
+      "id": "mamushi-chan",
+      "source": "chez_mamushi.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "fecd91c3905762cfc5e3f2a5d2cf7a88f8d2e51e026cf0c929ce5e35155657b2",
+      "archiveSha256": "fecd91c3905762cfc5e3f2a5d2cf7a88f8d2e51e026cf0c929ce5e35155657b2"
+    },
+    {
+      "id": "gateau-anniv",
+      "source": "gateau_anniv.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "0945936d057c60438fecddadfb4a5b36edde634ba756a2663af638a3e05c1240",
+      "archiveSha256": "0945936d057c60438fecddadfb4a5b36edde634ba756a2663af638a3e05c1240"
+    },
+    {
+      "id": "les-blancs",
+      "source": "les_blancs.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "94d2c38fc178ca9901fb249b99992e1622f779a3860baf0efdb7ec43fe2e6f85",
+      "archiveSha256": "94d2c38fc178ca9901fb249b99992e1622f779a3860baf0efdb7ec43fe2e6f85"
+    },
+    {
+      "id": "t-routier",
+      "source": "thomas_camionneur.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "6f501c2f6bf6a996d119d9c93be2ef3ba7554f708fee91ba53eb40e532ed8a73",
+      "archiveSha256": "6f501c2f6bf6a996d119d9c93be2ef3ba7554f708fee91ba53eb40e532ed8a73"
+    },
+    {
+      "id": "t-lancier",
+      "source": "thomas_lancier.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "e87e17409e2543bcef78429d6c5281edfb6c0f980c44cdea39cd829a0dcbafab",
+      "archiveSha256": "e87e17409e2543bcef78429d6c5281edfb6c0f980c44cdea39cd829a0dcbafab"
+    },
+    {
+      "id": "t-midlaner",
+      "source": "thomas_mid_laner.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "870cf2b410eeff8d864a53e5c93802cb8308ea82e9b2fc99d2c332cd9b3014e1",
+      "archiveSha256": "870cf2b410eeff8d864a53e5c93802cb8308ea82e9b2fc99d2c332cd9b3014e1"
+    },
+    {
+      "id": "t-trouillard",
+      "source": "thomas_trouillard.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "54e55133437b48ea52322c9f52caa9653e12df1ca26755b65350ab446715898d",
+      "archiveSha256": "54e55133437b48ea52322c9f52caa9653e12df1ca26755b65350ab446715898d"
+    },
+    {
+      "id": "t-support",
+      "source": "thomas_support_informatique.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "eea599c7e88c11047bc2ed7ca57a53ebbf819e20853e2a199da039af9ba8cea6",
+      "archiveSha256": "eea599c7e88c11047bc2ed7ca57a53ebbf819e20853e2a199da039af9ba8cea6"
+    },
+    {
+      "id": "deuxieme-expedition",
+      "source": "deuxieme_expedition.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "15c50d2fc6ce11a23d75cda525d6ff721639858f5fda3add51062451b7ed8ddf",
+      "archiveSha256": "15c50d2fc6ce11a23d75cda525d6ff721639858f5fda3add51062451b7ed8ddf"
+    },
+    {
+      "id": "premiere-expedition",
+      "source": "premiere_expedition.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "6e3769d38e1b0ef2b2b6446a6b717e21b04e4c28f7d1039046e95e1df9a22bb5",
+      "archiveSha256": "6e3769d38e1b0ef2b2b6446a6b717e21b04e4c28f7d1039046e95e1df9a22bb5"
+    },
+    {
+      "id": "t-perenoel",
+      "source": "thomas_pere_noel.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "466586b232233c20ff3af95a7b0ebfe6e0e0eb300360b95cd929f87d261a06f9",
+      "archiveSha256": "466586b232233c20ff3af95a7b0ebfe6e0e0eb300360b95cd929f87d261a06f9"
+    },
+    {
+      "id": "t-voyageur",
+      "source": "thomas_voyageur.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "318e55ac088f7fd4f82ad33ebc7b068d35ff5ce25c81169bf34f342a641634a4",
+      "archiveSha256": "318e55ac088f7fd4f82ad33ebc7b068d35ff5ce25c81169bf34f342a641634a4"
+    },
+    {
+      "id": "t-classique",
+      "source": "thomas_classique.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "ce2b067f3631d7d33f082a6c3c6625f83c4c552c6e3ffc3ed92dca16be6e1e36",
+      "archiveSha256": "ce2b067f3631d7d33f082a6c3c6625f83c4c552c6e3ffc3ed92dca16be6e1e36"
+    },
+    {
+      "id": "t-lowpoly",
+      "source": "thomas_low_poly.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "af86efdabf4acf0aab83828bc15df3a300dd681e84738d9ac9bd1cc69709b733",
+      "archiveSha256": "af86efdabf4acf0aab83828bc15df3a300dd681e84738d9ac9bd1cc69709b733"
+    },
+    {
+      "id": "m-classique",
+      "source": "matthieu_classique.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "36ad9f4fc7e33786ce3675d6c34197c8cf3996cc3c56b2454c10c7e61431e3fa",
+      "archiveSha256": "36ad9f4fc7e33786ce3675d6c34197c8cf3996cc3c56b2454c10c7e61431e3fa"
+    },
+    {
+      "id": "m-lowpoly",
+      "source": "matthieu_low_poly.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "d15e9884be1a2093cf6f461e3bf3f1c0a579550789921a23ddcd29dbe3d392cb",
+      "archiveSha256": "d15e9884be1a2093cf6f461e3bf3f1c0a579550789921a23ddcd29dbe3d392cb"
+    },
+    {
+      "id": "nana-diff",
+      "source": "nana_diff.png",
+      "reason": "Illustration existante conservée",
+      "existingSha256": "1aee2633adb6f1725e8776094ef0447533d0c6db5c1d34d103950603ba015455",
+      "archiveSha256": "1aee2633adb6f1725e8776094ef0447533d0c6db5c1d34d103950603ba015455"
+    }
+  ],
+  "removedCards": [
+    {
+      "id": "discord-1",
+      "title": "Soirée Discord #1"
+    },
+    {
+      "id": "t-exp33",
+      "title": "Thomas Expedition 33"
+    },
+    {
+      "id": "t-mansion",
+      "title": "Thomas's Mansion"
+    },
+    {
+      "id": "discord-2",
+      "title": "Soirée Discord #2"
+    },
+    {
+      "id": "m-exp33",
+      "title": "Matthieu Expedition 33"
+    },
+    {
+      "id": "m-galaxy",
+      "title": "Super Matthieu Galaxy"
+    }
+  ],
+  "addedCards": [
+    {
+      "id": "t-parisien",
+      "title": "Thomas parisien",
+      "rarity": "common",
+      "collectionId": "thomas"
+    },
+    {
+      "id": "m-parisien",
+      "title": "Matthieu parisien",
+      "rarity": "common",
+      "collectionId": "matthieu"
+    },
+    {
+      "id": "eli-chasseuse",
+      "title": "Eli chasseuse de fantômes",
+      "rarity": "common",
+      "collectionId": "speciaux"
+    },
+    {
+      "id": "eli-canotiere",
+      "title": "Eli canotière",
+      "rarity": "common",
+      "collectionId": "speciaux"
+    },
+    {
+      "id": "eli-parisienne",
+      "title": "Eli parisienne",
+      "rarity": "common",
+      "collectionId": "speciaux"
+    },
+    {
+      "id": "glaciere-picard",
+      "title": "La glacière Picard",
+      "rarity": "uncommon",
+      "collectionId": "speciaux"
+    }
+  ],
+  "renames": [
+    {
+      "id": "overwatch",
+      "before": "Overwatch",
+      "after": "Thomas Overwatch"
+    },
+    {
+      "id": "cegep",
+      "before": "Cégep",
+      "after": "Cégep Lévis"
+    },
+    {
+      "id": "splatoon",
+      "before": "Splatoon",
+      "after": "Matthieu Splatoon"
+    }
+  ],
+  "descriptionChanges": [
+    {
+      "id": "t-bizarre",
+      "before": "Stand : Lucky Corrupted\nForce : 8\nVitesse : 9\nAgilité : 3\nPrécision : 7\n…",
+      "after": "Stand : Lucky Corrupted\nCorrompt la chance d'autrui ou la sienne, figée jusqu'au dimanche. Perçoit le temps inconsciemment.\nPuiss. E · Vit. B · Port. B · Pers. A · Préc. B · Pot. B"
+    },
+    {
+      "id": "minecraft-sncf",
+      "before": "",
+      "after": "La MineSNCF n'a aucun retard ! Sauf pour la construction des voies ferrées, peut-être…"
+    },
+    {
+      "id": "t-bouffon",
+      "before": "",
+      "after": "Parfois, il faut accepter d'être pris pour un bouffon…"
+    },
+    {
+      "id": "overwatch",
+      "before": "",
+      "after": "Passe dans l'Iris."
+    },
+    {
+      "id": "t-muscle",
+      "before": "",
+      "after": "Énorme et sec !"
+    },
+    {
+      "id": "t-citron",
+      "before": "",
+      "after": "L'origin story de sa présence sur Internet."
+    },
+    {
+      "id": "t-minis",
+      "before": "",
+      "after": "Le consulat des Mini's Thomas."
+    },
+    {
+      "id": "t-inventeur",
+      "before": "",
+      "after": "Prendre les idées, les faire fonctionner et les concrétiser : telle est ma vocation."
+    },
+    {
+      "id": "t-randonneur",
+      "before": "",
+      "after": "Je gravirai cette montagne coûte que coûte ! Puis la suivante ! Et après… une petite sieste."
+    },
+    {
+      "id": "t-parisien",
+      "before": "",
+      "after": "Thomas Furansu-jin Desu"
+    },
+    {
+      "id": "m-classique",
+      "before": "",
+      "after": "Grand, chevelu, négligent… oui, c'est bien la version classique de Matthieu."
+    },
+    {
+      "id": "m-voyageur",
+      "before": "",
+      "after": "Arrivée au Québec en 2025. Comme d'habitude, il va tout faire à la dernière minute."
+    },
+    {
+      "id": "m-etudiant",
+      "before": "",
+      "after": "Il est parti étudier au Québec, mais s'efforce de faire échouer son projet."
+    },
+    {
+      "id": "eli-diff",
+      "before": "",
+      "after": "Eli, celle qui étudie et travaille sans relâche, celle qui a changé le destin de Matthieu."
+    },
+    {
+      "id": "m-boucle",
+      "before": "",
+      "after": "368ᵉ hold. Matthieu espère atterrir avant la fin de l'année."
+    },
+    {
+      "id": "premiere-expedition",
+      "before": "",
+      "after": "Premier ravitaillement avant le feu d'artifice ! Espérons que Matthieu ne se perde pas…"
+    },
+    {
+      "id": "m-timhortons",
+      "before": "",
+      "after": "Donuts du matin, et l'autre qui fait le petit chef et qui n'aide pas…"
+    },
+    {
+      "id": "m-lowpoly",
+      "before": "",
+      "after": "Matthieu rétro PlayStation 1. Ce modèle 3D est collector… mais ne vaut rien."
+    },
+    {
+      "id": "m-lutin",
+      "before": "",
+      "after": "Pendant que le Père Thomas fait sa tournée, le lutin Matthieu emballe les cadeaux… à la dernière minute, évidemment."
+    },
+    {
+      "id": "m-bizarre",
+      "before": "",
+      "after": "Stand : State Shifter\nModifie sans limite tout état physique, mental ou conceptuel, jusqu'au destin. Effets imprévisibles, difficilement réversibles.\nPuiss. A · Vit. B · Port. C · Pers. A · Préc. E · Pot. A"
+    },
+    {
+      "id": "m-moufette",
+      "before": "",
+      "after": "J'étais sa proie ! C'est moi qui me faisais chasser !"
+    },
+    {
+      "id": "m-risitas",
+      "before": "",
+      "after": "ISSOU"
+    },
+    {
+      "id": "m-stronk",
+      "before": "",
+      "after": "C'est STRONK !"
+    },
+    {
+      "id": "m-notstronk",
+      "before": "",
+      "after": "C'est pas STRONK !"
+    },
+    {
+      "id": "m-chat",
+      "before": "",
+      "after": "Le Nyan Cat de Matthieu."
+    },
+    {
+      "id": "m-bourre",
+      "before": "",
+      "after": "Mieux vaut bien dormir et arriver en retard que se réveiller tôt et… arriver en avance…"
+    },
+    {
+      "id": "ferry-quebecois",
+      "before": "",
+      "after": "Certains vont à l'école en tramway, Matthieu y va en ferry."
+    },
+    {
+      "id": "ol",
+      "before": "",
+      "after": "Supporter un jour, supporter toujours."
+    },
+    {
+      "id": "minecraft-pouletto",
+      "before": "",
+      "after": "Le KFC Pouletto peut produire jusqu'à 1 stack toutes les 10 minutes ! Sauf quand il ne fonctionne plus…"
+    },
+    {
+      "id": "m-routier",
+      "before": "",
+      "after": "Punaise, il y a un idiot qui roulait sur la bande d'arrêt d'urgence et qui m'a foncé dessus !"
+    },
+    {
+      "id": "m-jungler",
+      "before": "",
+      "after": "Passif : Reine araignée\nA : Neurotoxine / Morsure venimeuse\nZ : Araignée explosive / Frénésie symbiotique\nE : Cocon / Suspension\nR : Forme arachnéenne"
+    },
+    {
+      "id": "les-noirs",
+      "before": "",
+      "after": "Euh… j'ai pas appris d'ouverture, je vais jouer au hasard."
+    },
+    {
+      "id": "cegep",
+      "before": "",
+      "after": "J'arrive pas à me connecter sur mon espace étudiant…"
+    },
+    {
+      "id": "vieille-appart",
+      "before": "",
+      "after": "Tout ça pour 200 $…"
+    },
+    {
+      "id": "chanteuse-nocturne",
+      "before": "",
+      "after": "Le mec a fait une pause fraîcheur de 2 minutes, et ils recommencent…"
+    },
+    {
+      "id": "jus-orange",
+      "before": "",
+      "after": "L'élément qui contribue le plus au bonheur de Matthieu."
+    },
+    {
+      "id": "m-capitaine",
+      "before": "",
+      "after": "T'en fais pas, on est bientôt arrivés au port !"
+    },
+    {
+      "id": "m-premier",
+      "before": "",
+      "after": "Mais comment on fait pour monter sur son dos ?!"
+    },
+    {
+      "id": "m-exorciste",
+      "before": "",
+      "after": "Moi, je pense que c'est un poltergeist. Nan mais oui, je crois bien."
+    },
+    {
+      "id": "m-bouffon",
+      "before": "",
+      "after": "Parfois, il faut accepter d'être pris pour un bouffon…"
+    },
+    {
+      "id": "splatoon",
+      "before": "",
+      "after": "20 kills, aucune mort. Je suis un monstre."
+    },
+    {
+      "id": "m-muscle",
+      "before": "",
+      "after": "Énorme et sec !"
+    },
+    {
+      "id": "m-tempete",
+      "before": "",
+      "after": "L'origin story de sa présence sur Internet."
+    },
+    {
+      "id": "m-minis",
+      "before": "",
+      "after": "Le consulat des Mini's Matthieu."
+    },
+    {
+      "id": "m-ingenieur",
+      "before": "",
+      "after": "Penser et avoir des idées, mais ne jamais les concrétiser : telle est ma vocation."
+    },
+    {
+      "id": "m-parisien",
+      "before": "",
+      "after": "Matthieu Furansu-jin Desu"
+    },
+    {
+      "id": "green-card",
+      "before": "",
+      "after": "Finalement, la seule bonne façon d'immigrer facilement."
+    },
+    {
+      "id": "eli-parisienne",
+      "before": "",
+      "after": "Eli Furansu-jin Desu"
+    },
+    {
+      "id": "trisomie-21",
+      "before": "",
+      "after": "Trisomie 21, t'es mongole mais on t'aime bien !"
+    },
+    {
+      "id": "soiree-film-1",
+      "before": "",
+      "after": "La saga Harry Potter, la saga The Hobbit… il faudra aussi regarder tous les Star Wars !"
+    }
+  ],
+  "counts": {
+    "cards": 110,
+    "illustratedCards": 63,
+    "addedImages": 27,
+    "rarities": {
+      "common": 40,
+      "uncommon": 23,
+      "rare": 21,
+      "epic": 16,
+      "legendary": 10
+    }
+  }
+}

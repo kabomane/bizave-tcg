@@ -112,15 +112,9 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
-## LOSC
+## Thomas supporter
 
 - Identifiant : `losc`
-- Instructions : _à compléter_
-- Références : _aucune indiquée_
-
-## Soirée Discord #1
-
-- Identifiant : `discord-1`
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
@@ -130,7 +124,7 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
-## Thomas routier
+## Thomas camionneur
 
 - Identifiant : `t-routier`
 - Instructions : _à compléter_
@@ -196,21 +190,9 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
-## Overwatch
+## Thomas Overwatch
 
 - Identifiant : `overwatch`
-- Instructions : _à compléter_
-- Références : _aucune indiquée_
-
-## Thomas Expedition 33
-
-- Identifiant : `t-exp33`
-- Instructions : _à compléter_
-- Références : _aucune indiquée_
-
-## Thomas's Mansion
-
-- Identifiant : `t-mansion`
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
@@ -241,6 +223,12 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 ## Thomas randonneur
 
 - Identifiant : `t-randonneur`
+- Instructions : _à compléter_
+- Références : _aucune indiquée_
+
+## Thomas parisien
+
+- Identifiant : `t-parisien`
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
@@ -352,15 +340,9 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
-## OL
+## Matthieu supporter
 
 - Identifiant : `ol`
-- Instructions : _à compléter_
-- Références : _aucune indiquée_
-
-## Soirée Discord #2
-
-- Identifiant : `discord-2`
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
@@ -370,7 +352,7 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
-## Matthieu routier
+## Matthieu camionneur
 
 - Identifiant : `m-routier`
 - Instructions : _à compléter_
@@ -388,7 +370,7 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
-## Cégep
+## Cégep Lévis
 
 - Identifiant : `cegep`
 - Instructions : _à compléter_
@@ -436,21 +418,9 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
-## Splatoon
+## Matthieu Splatoon
 
 - Identifiant : `splatoon`
-- Instructions : _à compléter_
-- Références : _aucune indiquée_
-
-## Matthieu Expedition 33
-
-- Identifiant : `m-exp33`
-- Instructions : _à compléter_
-- Références : _aucune indiquée_
-
-## Super Matthieu Galaxy
-
-- Identifiant : `m-galaxy`
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
@@ -481,6 +451,12 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 ## Matthieu coureur
 
 - Identifiant : `m-coureur`
+- Instructions : _à compléter_
+- Références : _aucune indiquée_
+
+## Matthieu parisien
+
+- Identifiant : `m-parisien`
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 
@@ -625,6 +601,30 @@ Conservez les identifiants. Indiquez les consignes et les fichiers de référenc
 ## Eli biome cerisier
 
 - Identifiant : `eli-cerisier`
+- Instructions : _à compléter_
+- Références : _aucune indiquée_
+
+## Eli chasseuse de fantômes
+
+- Identifiant : `eli-chasseuse`
+- Instructions : _à compléter_
+- Références : _aucune indiquée_
+
+## Eli canotière
+
+- Identifiant : `eli-canotiere`
+- Instructions : _à compléter_
+- Références : _aucune indiquée_
+
+## Eli parisienne
+
+- Identifiant : `eli-parisienne`
+- Instructions : _à compléter_
+- Références : _aucune indiquée_
+
+## La glacière Picard
+
+- Identifiant : `glaciere-picard`
 - Instructions : _à compléter_
 - Références : _aucune indiquée_
 

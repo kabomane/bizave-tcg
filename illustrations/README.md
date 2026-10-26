@@ -22,3 +22,28 @@ Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json point
 Les associations, raretés, dimensions et empreintes SHA-256 sont dans imports/2026-10-24/manifest.json. Les raretés et identifiants des 110 cartes restent inchangés. Les deux Mini utilisent toujours leurs placeholders.
 
 Les 10 descriptions FICHES.description du carnet sont intégrées. Les champs Mémo et Création ne sont pas affichés comme descriptions. Le carnet fourni est conservé dans references/carnet-cartes-2026-10-24.jsx à la racine du projet.
+
+## Import du 25 octobre 2026
+
+23 nouvelles illustrations PNG de `TCG - bizave card. (1).zip` sont ajoutées, sans remplacement des 14 images déjà présentes. Les fichiers originaux (1086 × 1448 px) sont conservés à l’identique. Le jeu compte désormais 37 cartes illustrées. Chaque nouvelle image sert aux versions Classique et Full Art, avec le cadrage Classique aligné en haut comme pour les imports précédents.
+
+Les quatre noms sont actualisés d’après le carnet, sans changer les identifiants : LOSC → Thomas supporter (`losc`), OL → Matthieu supporter (`ol`), Thomas routier → Thomas camionneur (`t-routier`), Matthieu routier → Matthieu camionneur (`m-routier`). Les deux cartes de Matthieu conservent leurs placeholders : aucune nouvelle illustration correspondante dans cette archive.
+
+Les 21 descriptions supplémentaires du carnet sont intégrées ; seuls les champs `FICHES.description` servent au texte des cartes. Le carnet est conservé dans `references/carnet-cartes-2026-10-25.jsx`. Le manifeste `imports/2026-10-25/manifest.json` détaille les ajouts, images ignorées, empreintes SHA-256, renommages et descriptions.
+
+Validation : les 14 images existantes et leurs cadrages sont inchangés ; les 23 nouveaux PNG correspondent exactement à l’archive ; les 110 identifiants, raretés et groupes restent identiques ; les 220 chemins du catalogue existent. Vérification TypeScript sans erreur pour les trois projets. Rendu des versions Classique et Full Art de Thomas supporter inspecté dans le navigateur ; recherche de Thomas camionneur et ses six variantes vérifiée. Capture : `artifacts/import-illustrations-2026-10-25.png`.
+
+## Import du 26 octobre 2026
+
+Le catalogue actif et le pool Phantom Blood suivent les 110 cartes du nouveau carnet : **40 communes, 23 peu communes, 21 rares, 16 épiques et 10 légendaires**. L’ordre de l’édition reprend celui du carnet. Il s’agit d’une révision avant publication, sans migration des anciennes sauvegardes de test. Les identifiants fournis dans le carnet sont conservés.
+
+- Six cartes retirées : Soirée Discord #1, Thomas Expedition 33, Thomas’s Mansion, Soirée Discord #2, Matthieu Expedition 33 et Super Matthieu Galaxy.
+- Six cartes ajoutées : Thomas parisien, Matthieu parisien, Eli chasseuse de fantômes, Eli canotière, Eli parisienne et La glacière Picard.
+- Trois noms actualisés : Overwatch → Thomas Overwatch, Splatoon → Matthieu Splatoon, Cégep → Cégep Lévis.
+- 50 descriptions nouvelles ou modifiées, reprises uniquement des champs FICHES.description.
+
+**27 nouveaux PNG** sont ajoutés depuis `TCG - bizave card..zip`, tous en 1086 × 1448 px, sans modification des octets. Les 36 illustrations précédemment importées des cartes toujours actives restent intactes. À la demande du propriétaire, l’illustration et les deux placeholders de Soirée Discord #1 ont ensuite été supprimés définitivement de `public/assets/cards/discord-1/` et du build local : cette carte ne reviendra pas. Les manifestes et carnets historiques conservent la trace de son ancien import. Le jeu compte **63 cartes actives illustrées**, avec une image partagée entre Classique et Full Art. Les cinq autres nouvelles cartes conservent des placeholders : leur illustration n’est pas fournie dans l’archive.
+
+Le carnet est conservé dans `references/carnet-cartes-2026-10-26.jsx`. Le manifeste `imports/2026-10-26/manifest.json` consigne les associations, dimensions et empreintes SHA-256, les fichiers ignorés, les retraits, ajouts, renommages et descriptions. Les anciennes images et leurs cadrages restent inchangés.
+
+Validation : 183 fichiers existants référencés par l’ancien catalogue contrôlés par SHA-256 sans modification ; 27 nouveaux PNG identiques à l’archive ; 220 chemins actifs valides ; pool et ordre couvrant exactement les 110 cartes actuelles. `npm run check` réussi : lint, 92 tests, TypeScript et build Vite. Aperçus de Thomas parisien et des descriptions longues Bizarre Aventure inspectés dans le navigateur, en Classique et Full Art. Capture : `artifacts/import-illustrations-2026-10-26.png`.

@@ -2,11 +2,12 @@ import { useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Gem, Layers3, Search, Send, SlidersHorizontal, X } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGame } from '../components/useGame'
-import { cardById } from '../data/cards'
+import { cardById, cards } from '../data/cards'
+import { boosters } from '../data/boosters'
 import { FINISH_LABELS, RARITY_COLORS, RARITY_LABELS } from '../game/config'
 import { matchesCardSearch } from '../game/cardSearch'
 import { getRecycleFragments, variantKey } from '../game/engine'
-import type { Finish, Rarity } from '../game/types'
+import type { Card, Finish, Rarity } from '../game/types'
 import { recycleDrops } from '../storage/services'
 import { CollectibleCard } from '../components/CollectibleCard'
 import { EmptyState, ErrorNotice, Modal } from '../components/ui'
@@ -15,13 +16,21 @@ import { errorText } from '../components/format'
 
 import { updateSettings, useSettings } from '../settings/useSettings'
 import { createCatalogPreview, DEV_CATALOG_ENABLED } from '../dev/catalogPreview'
-import { collectionView, ownedVariants } from '../collection/view'
+import { cardFragmentValue, collectionView, ownedVariants } from '../collection/view'
+import { collectionBoosters, selectedBoosterCardIds } from '../collection/boosters'
 import type { CollectionEntry, CollectionVariant } from '../collection/view'
 import type { CollectionDisplay } from '../collection/preferences'
 import { CollectionDisplayOptions } from '../components/CollectionDisplayOptions'
 
 const obtainedDateFormat = new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })
 const catalogPreview: CollectionVariant[] = DEV_CATALOG_ENABLED ? createCatalogPreview().map(group => ({ card: group.card, copies: [] })) : []
+const boosterOptions = collectionBoosters(boosters, cards)
+
+function FragmentValue({ card }: { card: Card }) {
+  const value = cardFragmentValue(card)
+  return <span className="card-fragment-value" aria-label={`${value} ${value === 1 ? 'fragment' : 'fragments'} par exemplaire`} title="Valeur de recyclage d’un exemplaire"><Gem size={12} aria-hidden="true" />{value}</span>
+}
+
 export function CollectionPage() {
   const navigate = useNavigate()
   const { devCatalog, collectionDisplay } = useSettings()
@@ -29,16 +38,19 @@ export function CollectionPage() {
   const { drops } = useGame()
   const [rarities, setRarities] = useState<Rarity[]>([]), [finishes, setFinishes] = useState<Finish[]>([]), [fullArt, setFullArt] = useState(false)
   const [search, setSearch] = useState('')
+  const [selectedBoosters, setSelectedBoosters] = useState<string[]>([])
   const [detailKey, setDetailKey] = useState<string | null>(null)
   const [recycleConfirm, setRecycleConfirm] = useState(false), [error, setError] = useState(''), [busy, setBusy] = useState(false)
   const [displayAnchor, setDisplayAnchor] = useState<DOMRect | null>(null), [displayError, setDisplayError] = useState('')
   const [stackKey, setStackKey] = useState<string | null>(null)
   const savedVariants = useMemo(() => ownedVariants(drops), [drops])
   const variants = preview ? catalogPreview : savedVariants
+  const boosterCardIds = useMemo(() => selectedBoosterCardIds(boosterOptions, selectedBoosters), [selectedBoosters])
+  const showValue = collectionDisplay.sort === 'value'
   const filtered = useMemo(() => variants.filter(group => {
     const card = cardById.get(group.card.cardId)!
-    return matchesCardSearch(card, search) && (!rarities.length || rarities.includes(card.rarity)) && (!finishes.length || finishes.includes(group.card.finish)) && (!fullArt || group.card.artVariant === 'fullArt')
-  }), [variants, search, rarities, finishes, fullArt])
+    return (!boosterCardIds || boosterCardIds.has(card.id)) && matchesCardSearch(card, search) && (!rarities.length || rarities.includes(card.rarity)) && (!finishes.length || finishes.includes(group.card.finish)) && (!fullArt || group.card.artVariant === 'fullArt')
+  }), [variants, search, rarities, finishes, fullArt, boosterCardIds])
   const visible = useMemo(() => collectionView(filtered, collectionDisplay), [filtered, collectionDisplay])
   const detail = visible.flatMap(item => item.entries).find(entry => entry.key === detailKey)
   const definition = detail ? cardById.get(detail.card.cardId)! : undefined
@@ -51,7 +63,7 @@ export function CollectionPage() {
     try { updateSettings({ collectionDisplay: value }); setDisplayError('') } catch (e) { setDisplayError(errorText(e)) }
   }
   function renderEntry(entry: CollectionEntry) {
-    return <div key={entry.key} className="collection-item"><CollectibleCard deferred card={entry.card} definition={cardById.get(entry.card.cardId)!} onActivate={() => openEntry(entry)} /><div className="card-caption card-caption-single">{entry.ids.length > 1 && <b>×{entry.ids.length}</b>}</div></div>
+    return <div key={entry.key} className="collection-item"><CollectibleCard deferred card={entry.card} definition={cardById.get(entry.card.cardId)!} onActivate={() => openEntry(entry)} /><div className={`card-caption card-caption-single${showValue ? ' card-caption-valued' : ''}`}>{showValue && <FragmentValue card={entry.card} />}{entry.ids.length > 1 && <b>×{entry.ids.length}</b>}</div></div>
   }
   async function recycle() {
     if (preview || !detail?.ids.length || busy) return
@@ -62,14 +74,16 @@ export function CollectionPage() {
     <div className="page-heading collection-heading"><div className="title-with-count"><h1 className="page-title">Collection</h1><span>{preview ? 'Mode dev' : drops.filter(d => d.status === 'owned').length}</span></div><button type="button" className="text-button collection-display-trigger" aria-haspopup="dialog" aria-expanded={!!displayAnchor} onClick={event => { setDisplayError(''); setDisplayAnchor(event.currentTarget.getBoundingClientRect()) }}><SlidersHorizontal size={16} /> Affichage</button></div>
     {displayAnchor && <CollectionDisplayOptions value={collectionDisplay} onChange={changeDisplay} onClose={() => setDisplayAnchor(null)} anchor={displayAnchor} error={<ErrorNotice error={displayError} />} />}
     <div className="collection-tools"><label className="collection-search"><Search size={17} /><input type="search" aria-label="Rechercher une carte" placeholder="Rechercher une carte…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" className="icon-button" aria-label="Effacer la recherche" onClick={() => setSearch('')}><X size={15} /></button>}</label>
-      <div className="collection-filters"><FilterMenu label="Rareté" active={!!rarities.length} count={rarities.length}>{(Object.entries(RARITY_LABELS) as [Rarity, string][]).map(([id, label]) => <button className="filter-option" role="menuitemcheckbox" aria-checked={rarities.includes(id)} key={id} onClick={() => setRarities(current => current.includes(id) ? current.filter(r => r !== id) : [...current, id])}><span className="rarity-dot" style={{ background: RARITY_COLORS[id] }} />{label}<span className="option-check">{rarities.includes(id) && <Check size={12} />}</span></button>)}{rarities.length > 0 && <button role="menuitem" className="filter-reset" onClick={() => setRarities([])}>Réinitialiser</button>}</FilterMenu>
+      <div className="collection-filters">
+        {boosterOptions.length > 1 && <FilterMenu label="Boosters" active={!!selectedBoosters.length} count={selectedBoosters.length}>{boosterOptions.map(booster => <button className="filter-option" role="menuitemcheckbox" aria-checked={selectedBoosters.includes(booster.id)} key={booster.id} onClick={() => setSelectedBoosters(current => current.includes(booster.id) ? current.filter(id => id !== booster.id) : [...current, booster.id])}>{booster.title}<span className="option-check">{selectedBoosters.includes(booster.id) && <Check size={12} />}</span></button>)}{selectedBoosters.length > 0 && <button role="menuitem" className="filter-reset" onClick={() => setSelectedBoosters([])}>Réinitialiser</button>}</FilterMenu>}
+        <FilterMenu label="Rareté" active={!!rarities.length} count={rarities.length}>{(Object.entries(RARITY_LABELS) as [Rarity, string][]).map(([id, label]) => <button className="filter-option" role="menuitemcheckbox" aria-checked={rarities.includes(id)} key={id} onClick={() => setRarities(current => current.includes(id) ? current.filter(r => r !== id) : [...current, id])}><span className="rarity-dot" style={{ background: RARITY_COLORS[id] }} />{label}<span className="option-check">{rarities.includes(id) && <Check size={12} />}</span></button>)}{rarities.length > 0 && <button role="menuitem" className="filter-reset" onClick={() => setRarities([])}>Réinitialiser</button>}</FilterMenu>
         <FilterMenu label="Finitions" active={!!finishes.length || fullArt} count={finishes.length + Number(fullArt)}>{(Object.entries(FINISH_LABELS) as [Finish, string][]).map(([id, label]) => <button className="filter-option" role="menuitemcheckbox" aria-checked={finishes.includes(id)} key={id} onClick={() => setFinishes(current => current.includes(id) ? current.filter(f => f !== id) : [...current, id])}>{label}<span className="option-check">{finishes.includes(id) && <Check size={12} />}</span></button>)}<div className="filter-divider" /><button className="filter-option" role="menuitemcheckbox" aria-checked={fullArt} onClick={() => setFullArt(value => !value)}>Full Art<span className="option-check">{fullArt && <Check size={12} />}</span></button>{(finishes.length > 0 || fullArt) && <button role="menuitem" className="filter-reset" onClick={() => { setFinishes([]); setFullArt(false) }}>Réinitialiser</button>}</FilterMenu>
       </div>
     </div>
     {variants.length ? <><div className="collection-grid">{visible.map(item => {
       if (item.entries.length === 1) return renderEntry(item.entries[0])
       const label = collectionDisplay.duplicates === 'show' ? `${item.entries.length} cartes` : `${item.variantCount} variantes`
-      return <div key={item.key} className="collection-item"><div className="collection-pile"><CollectibleCard deferred card={item.card} definition={cardById.get(item.card.cardId)!} activationLabel={`Ouvrir la pile, ${label}`} onActivate={() => { setStackKey(item.key); setDetailKey(null); setError('') }} /></div><div className="card-caption"><span>{label}</span><Layers3 size={12} aria-hidden="true" /></div></div>
+      return <div key={item.key} className="collection-item"><div className="collection-pile"><CollectibleCard deferred card={item.card} definition={cardById.get(item.card.cardId)!} activationLabel={`Ouvrir la pile, ${label}`} onActivate={() => { setStackKey(item.key); setDetailKey(null); setError('') }} /></div><div className="card-caption"><span>{label}</span>{showValue ? <FragmentValue card={item.card} /> : <Layers3 size={12} aria-hidden="true" />}</div></div>
     })}</div>{!visible.length && <EmptyState icon={<Layers3 size={24} />} title="Aucune carte">Essayez une autre sélection.</EmptyState>}</> : <EmptyState icon={<Layers3 size={25} />} title="La première vous attend." action={<Link className="primary-button" to="/">Phantom Blood <ArrowRight size={15} /></Link>}>Ouvrez votre premier booster.</EmptyState>}
     {(detail && definition || stack) && <Modal headerCenter={obtainedDate && <time dateTime={obtainedDate.toISOString()}>obtenu le {obtainedDateFormat.format(obtainedDate)}</time>} viewKey={detail?.key || stack?.key} title={detail && definition ? definition.title : cardById.get(stack!.card.cardId)!.title + (collectionDisplay.groupBy === 'format' ? stack!.card.artVariant === 'fullArt' ? ' · Full Art' : ' · Classique' : '')} showTitle={!detail} onClose={() => { if (!busy) close() }} wide={!!detail} className={detail ? '' : 'collection-stack-modal'} headerStart={detail && stack ? <button type="button" className="text-button pile-back" aria-label="Retour à la pile" disabled={busy} onClick={() => close(false)}><ArrowLeft size={16} /> La pile</button> : undefined}>
       {detail && definition ? <><div className="card-detail-layout"><div className="detail-card"><CollectibleCard card={detail.card} definition={definition} /></div><div className="detail-info">{preview && <p className="muted">Aperçu · Mode dev</p>}

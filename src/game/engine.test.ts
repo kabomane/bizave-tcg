@@ -16,12 +16,13 @@ describe('catalogue et configuration', () => {
     expect(publishedBoosters[0]).toMatchObject({ title: 'Phantom Blood', subtitle: '110 cartes', access: { type: 'free', shop: { price: 70 } }, enabled: true })
     expect(resolveBoosterPool(publishedBoosters[0], cards)).toHaveLength(110)
   })
-  it('conserve les 110 modèles de Phantom Blood et valide les illustrations du catalogue complet', () => {
+  it('publie les 110 modèles du carnet actuel et valide les illustrations du catalogue complet', () => {
     expect(phantomBloodIds).toHaveLength(110)
     expect(new Set(phantomBloodIds).size).toBe(110)
+    expect(phantomBloodIds).toEqual(cards.map(card => card.id))
     const phantomBlood = resolveBoosterPool(publishedBoosters[0], cards).map(entry => entry.card)
     const counts = Object.fromEntries(Object.keys(DEFAULT_RARITY_RATES).map(r => [r, phantomBlood.filter(c => c.rarity === r).length]))
-    expect(counts).toEqual({ common: 39, uncommon: 24, rare: 21, epic: 16, legendary: 10 })
+    expect(counts).toEqual({ common: 40, uncommon: 23, rare: 21, epic: 16, legendary: 10 })
     for (const card of cards) {
       expect(existsSync(resolve('public', card.artwork.standard.slice(1)))).toBe(true)
       expect(existsSync(resolve('public', card.artwork.fullArt.slice(1)))).toBe(true)
@@ -134,7 +135,7 @@ describe('économie', () => {
     for (const r of rarities) for (const f of finishes) for (const a of variants) mean += DEFAULT_RARITY_RATES[r] * DEFAULT_FINISH_RATES[f] * DEFAULT_ART_VARIANT_RATES[a] / 1_000_000 * getRecycleFragments(r, f, a)
     expect(mean).toBeCloseTo(4.149816, 8)
     expect(mean * 5).toBeCloseTo(20.74908, 8)
-    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(11817)
+    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(11780)
     for (const booster of boosters) if (booster.access.type === 'shop') expect(mean * booster.cardsPerPack).toBeLessThan(booster.access.price)
   })
   it('distingue bien les six clés de découverte par modèle', () => { expect(new Set(variants.flatMap(artVariant => finishes.map(finish => variantKey({ cardId: 'x', finish, artVariant })))).size).toBe(6) })

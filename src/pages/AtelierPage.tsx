@@ -1,6 +1,5 @@
 import { useMemo, useState } from 'react'
-import { ArrowRight, Gem, Layers3, Recycle } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Gem, Layers3, Recycle } from 'lucide-react'
 import { useGame } from '../components/useGame'
 import { cardById } from '../data/cards'
 import { getRecycleFragments, variantKey } from '../game/engine'
@@ -29,7 +28,7 @@ export function AtelierPage() {
       const first = group[0], card = cardById.get(first.cardId)!, value = getRecycleFragments(card.rarity, first.finish, first.artVariant)
       const checked = group.every(d => safeSelection.includes(d.dropId))
       return <label key={variantKey(first)} className={`duplicate-row ${checked ? 'is-selected' : ''}`}><input type="checkbox" checked={checked} onChange={e => setSelected(current => e.target.checked ? [...new Set([...current, ...group.map(d => d.dropId)])] : current.filter(id => !group.some(d => d.dropId === id)))} /><img src={card.artwork[first.artVariant]} alt="" /><div><strong>{card.title}</strong><span>{group.length} carte{group.length > 1 ? 's' : ''}</span></div><b><Gem size={13} /> {value * group.length}</b></label>
-    })}</div><div className="recycle-summary"><span>{safeSelection.length} sélectionné{safeSelection.length > 1 ? 's' : ''}</span><button className="primary-button" disabled={!safeSelection.length || busy} onClick={() => setConfirm(true)}><Recycle size={15} /> Recycler <span className="button-value">+{gain} <Gem size={12} /></span></button></div></section> : <EmptyState icon={<Layers3 size={25} />} title="Aucun doublon." action={<Link to="/collection" className="secondary-button">Collection <ArrowRight size={15} /></Link>}>Ils apparaîtront ici.</EmptyState>}
+    })}</div><div className="recycle-summary"><span>{safeSelection.length} sélectionné{safeSelection.length > 1 ? 's' : ''}</span><button className="primary-button" disabled={!safeSelection.length || busy} onClick={() => setConfirm(true)}><Recycle size={15} /> Recycler <span className="button-value">+{gain} <Gem size={12} /></span></button></div></section> : <EmptyState icon={<Layers3 size={25} />} title="Aucun doublon.">Ils apparaîtront ici.</EmptyState>}
     <ErrorNotice error={error} />
     {confirm && <Modal title="Recycler les doublons" onClose={() => { if (!busy) setConfirm(false) }}><div className="confirm-content"><div className="confirm-icon"><Recycle size={28} /></div><h3>{safeSelection.length} cartes → {gain} fragments</h3><p>Les cartes sélectionnées seront détruites. Vos dernières copies sont conservées.</p><ErrorNotice error={error} /><button className="primary-button" disabled={busy || !safeSelection.length} onClick={recycle}>Recycler</button><button className="text-button" disabled={busy} onClick={() => setConfirm(false)}>Annuler</button></div></Modal>}
   </>

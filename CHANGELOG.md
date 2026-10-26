@@ -1,5 +1,13 @@
 # Historique des versions
 
+## Révision du 26 octobre 2026
+
+- Catalogue Phantom Blood actualisé : six retraits, six nouvelles cartes, noms et descriptions du carnet à jour.
+- 49 illustrations ajoutées depuis la V1, sans remplacement des illustrations conservées ; 63 cartes actives illustrées. Fichiers de Soirée Discord #1 supprimés.
+- Filtre par booster prêt pour les futures éditions et tri Nom, Ordre, Date, Valeur, avec valeur de recyclage et couverture des piles adaptée.
+- Interface allégée : libellé « Par carte & format », retrait du lien Collection dans l’atelier vide, libellés du récapitulatif masqués en conservant leur espace.
+- Roadmap PWA/hors ligne et déplacement de sauvegarde sans backend documentée ; ces fonctionnalités restent à concevoir et ne sont pas implémentées.
+
 ## 1.0.0 — V1 de Bizave TCG
 
 Première version du projet. Le premier booster **Phantom Blood** est prêt, avec ses **110 cartes** et les formats Classique et Full Art.

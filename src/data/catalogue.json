@@ -48,8 +48,11 @@
     "collectionId": "thomas",
     "description": "Nanami, celle qui se plaint tout le temps, celle qui a changé le destin de Thomas.",
     "artwork": {
-      "standard": "/assets/cards/nana-diff/standard.svg",
-      "fullArt": "/assets/cards/nana-diff/full-art.svg"
+      "standard": "/assets/cards/nana-diff/illustration.png",
+      "fullArt": "/assets/cards/nana-diff/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -127,7 +130,7 @@
     "title": "Thomas Bizarre Aventure",
     "rarity": "legendary",
     "collectionId": "thomas",
-    "description": "Stand : Lucky Corrupted\nForce : 8\nVitesse : 9\nAgilité : 3\nPrécision : 7\n…",
+    "description": "Stand : Lucky Corrupted\nCorrompt la chance d'autrui ou la sienne, figée jusqu'au dimanche. Perçoit le temps inconsciemment.\nPuiss. E · Vit. B · Port. B · Pers. A · Préc. B · Pot. B",
     "artwork": {
       "standard": "/assets/cards/t-bizarre/illustration.png",
       "fullArt": "/assets/cards/t-bizarre/illustration.png"
@@ -141,10 +144,13 @@
     "title": "Thomas vs Gundam",
     "rarity": "epic",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Chacun sa bataille. Pour Thomas, ce fut un combat difficile, mais il a réussi à emboîter les deux pièces du Gundam !",
     "artwork": {
-      "standard": "/assets/cards/t-gundam/standard.svg",
-      "fullArt": "/assets/cards/t-gundam/full-art.svg"
+      "standard": "/assets/cards/t-gundam/illustration.png",
+      "fullArt": "/assets/cards/t-gundam/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -152,7 +158,7 @@
     "title": "Thomas Risitas",
     "rarity": "legendary",
     "collectionId": "thomas",
-    "description": "",
+    "description": "ISSOU",
     "artwork": {
       "standard": "/assets/cards/t-risitas/illustration.png",
       "fullArt": "/assets/cards/t-risitas/illustration.png"
@@ -163,10 +169,13 @@
     "title": "Thomas Stronk",
     "rarity": "uncommon",
     "collectionId": "thomas",
-    "description": "",
+    "description": "C'est STRONK !",
     "artwork": {
-      "standard": "/assets/cards/t-stronk/standard.svg",
-      "fullArt": "/assets/cards/t-stronk/full-art.svg"
+      "standard": "/assets/cards/t-stronk/illustration.png",
+      "fullArt": "/assets/cards/t-stronk/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -174,10 +183,13 @@
     "title": "Thomas Not Stronk",
     "rarity": "uncommon",
     "collectionId": "thomas",
-    "description": "",
+    "description": "C'est pas STRONK !",
     "artwork": {
-      "standard": "/assets/cards/t-notstronk/standard.svg",
-      "fullArt": "/assets/cards/t-notstronk/full-art.svg"
+      "standard": "/assets/cards/t-notstronk/illustration.png",
+      "fullArt": "/assets/cards/t-notstronk/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -185,10 +197,13 @@
     "title": "Chat de Thomas",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Le Nyan Cat de Thomas.",
     "artwork": {
-      "standard": "/assets/cards/t-chat/standard.svg",
-      "fullArt": "/assets/cards/t-chat/full-art.svg"
+      "standard": "/assets/cards/t-chat/illustration.png",
+      "fullArt": "/assets/cards/t-chat/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -196,10 +211,13 @@
     "title": "Thomas à la bourre",
     "rarity": "epic",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Mieux vaut bien dormir et arriver en retard que se réveiller tôt et… arriver en avance…",
     "artwork": {
-      "standard": "/assets/cards/t-bourre/standard.svg",
-      "fullArt": "/assets/cards/t-bourre/full-art.svg"
+      "standard": "/assets/cards/t-bourre/illustration.png",
+      "fullArt": "/assets/cards/t-bourre/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -207,10 +225,13 @@
     "title": "Le McDeal McDo",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Un petit menu, un ticket resto et ça repart !",
     "artwork": {
-      "standard": "/assets/cards/mcdeal/standard.svg",
-      "fullArt": "/assets/cards/mcdeal/full-art.svg"
+      "standard": "/assets/cards/mcdeal/illustration.png",
+      "fullArt": "/assets/cards/mcdeal/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -218,32 +239,27 @@
     "title": "Métro japonais",
     "rarity": "uncommon",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Métro, boulot, dodo.",
     "artwork": {
-      "standard": "/assets/cards/metro-japonais/standard.svg",
-      "fullArt": "/assets/cards/metro-japonais/full-art.svg"
+      "standard": "/assets/cards/metro-japonais/illustration.png",
+      "fullArt": "/assets/cards/metro-japonais/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
     "id": "losc",
-    "title": "LOSC",
+    "title": "Thomas supporter",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Supporter un jour, supporter toujours.",
     "artwork": {
-      "standard": "/assets/cards/losc/standard.svg",
-      "fullArt": "/assets/cards/losc/full-art.svg"
-    }
-  },
-  {
-    "id": "discord-1",
-    "title": "Soirée Discord #1",
-    "rarity": "common",
-    "collectionId": "thomas",
-    "description": "",
-    "artwork": {
-      "standard": "/assets/cards/discord-1/standard.svg",
-      "fullArt": "/assets/cards/discord-1/full-art.svg"
+      "standard": "/assets/cards/losc/illustration.png",
+      "fullArt": "/assets/cards/losc/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -251,21 +267,27 @@
     "title": "Minecraft SNCF",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "La MineSNCF n'a aucun retard ! Sauf pour la construction des voies ferrées, peut-être…",
     "artwork": {
-      "standard": "/assets/cards/minecraft-sncf/standard.svg",
-      "fullArt": "/assets/cards/minecraft-sncf/full-art.svg"
+      "standard": "/assets/cards/minecraft-sncf/illustration.png",
+      "fullArt": "/assets/cards/minecraft-sncf/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
     "id": "t-routier",
-    "title": "Thomas routier",
+    "title": "Thomas camionneur",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "La bande d'arrêt d'urgence, c'est ma voie réservée.",
     "artwork": {
-      "standard": "/assets/cards/t-routier/standard.svg",
-      "fullArt": "/assets/cards/t-routier/full-art.svg"
+      "standard": "/assets/cards/t-routier/illustration.png",
+      "fullArt": "/assets/cards/t-routier/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -273,10 +295,13 @@
     "title": "Thomas mid laner",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "A : Orbe d'illusion\nZ : Feux follets\nE : Charme\nR : Ruée spirituelle",
     "artwork": {
-      "standard": "/assets/cards/t-midlaner/standard.svg",
-      "fullArt": "/assets/cards/t-midlaner/full-art.svg"
+      "standard": "/assets/cards/t-midlaner/illustration.png",
+      "fullArt": "/assets/cards/t-midlaner/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -284,10 +309,13 @@
     "title": "Les Blancs",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "d4 : le pion de la dame avance de deux cases.\nFf4 : le fou sort pour contrôler le centre.\ne3 : renforcer le centre et libérer l'autre fou.\nCf3 : développer le cavalier.\nc3 : consolider la structure de pions.",
     "artwork": {
-      "standard": "/assets/cards/les-blancs/standard.svg",
-      "fullArt": "/assets/cards/les-blancs/full-art.svg"
+      "standard": "/assets/cards/les-blancs/illustration.png",
+      "fullArt": "/assets/cards/les-blancs/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -295,10 +323,13 @@
     "title": "Altimance",
     "rarity": "uncommon",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Support informatique, bonjour ?",
     "artwork": {
-      "standard": "/assets/cards/altimance/standard.svg",
-      "fullArt": "/assets/cards/altimance/full-art.svg"
+      "standard": "/assets/cards/altimance/illustration.png",
+      "fullArt": "/assets/cards/altimance/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -306,10 +337,13 @@
     "title": "Chez Mamushi-chan",
     "rarity": "uncommon",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Petit, étroit, mais tellement chaleureux. J'ai hâte de goûter le repas de Mamushi-chan.",
     "artwork": {
-      "standard": "/assets/cards/mamushi-chan/standard.svg",
-      "fullArt": "/assets/cards/mamushi-chan/full-art.svg"
+      "standard": "/assets/cards/mamushi-chan/illustration.png",
+      "fullArt": "/assets/cards/mamushi-chan/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -317,10 +351,13 @@
     "title": "La bataille de peintre",
     "rarity": "rare",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Finalement, le Fuderock, c'est pas si mal !",
     "artwork": {
-      "standard": "/assets/cards/bataille-peintre/standard.svg",
-      "fullArt": "/assets/cards/bataille-peintre/full-art.svg"
+      "standard": "/assets/cards/bataille-peintre/illustration.png",
+      "fullArt": "/assets/cards/bataille-peintre/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -328,10 +365,13 @@
     "title": "Le gâteau d'anniv'",
     "rarity": "uncommon",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Joyeux anniversaire Thomas !",
     "artwork": {
-      "standard": "/assets/cards/gateau-anniv/standard.svg",
-      "fullArt": "/assets/cards/gateau-anniv/full-art.svg"
+      "standard": "/assets/cards/gateau-anniv/illustration.png",
+      "fullArt": "/assets/cards/gateau-anniv/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -339,10 +379,13 @@
     "title": "Thomas moussaillon",
     "rarity": "rare",
     "collectionId": "thomas",
-    "description": "",
+    "description": "On est en train de prendre l'eau ! On prend l'eau !",
     "artwork": {
-      "standard": "/assets/cards/t-moussaillon/standard.svg",
-      "fullArt": "/assets/cards/t-moussaillon/full-art.svg"
+      "standard": "/assets/cards/t-moussaillon/illustration.png",
+      "fullArt": "/assets/cards/t-moussaillon/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -350,10 +393,13 @@
     "title": "Thomas le lancier",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Le prochain event est à 16 h 09, on le fait ?",
     "artwork": {
-      "standard": "/assets/cards/t-lancier/standard.svg",
-      "fullArt": "/assets/cards/t-lancier/full-art.svg"
+      "standard": "/assets/cards/t-lancier/illustration.png",
+      "fullArt": "/assets/cards/t-lancier/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -361,10 +407,13 @@
     "title": "Thomas trouillard",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Nan mais allez-y, vous ! Moi, je surveille votre rythme cardiaque !",
     "artwork": {
-      "standard": "/assets/cards/t-trouillard/standard.svg",
-      "fullArt": "/assets/cards/t-trouillard/full-art.svg"
+      "standard": "/assets/cards/t-trouillard/illustration.png",
+      "fullArt": "/assets/cards/t-trouillard/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -372,43 +421,27 @@
     "title": "Thomas costume bouffon",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Parfois, il faut accepter d'être pris pour un bouffon…",
     "artwork": {
-      "standard": "/assets/cards/t-bouffon/standard.svg",
-      "fullArt": "/assets/cards/t-bouffon/full-art.svg"
+      "standard": "/assets/cards/t-bouffon/illustration.png",
+      "fullArt": "/assets/cards/t-bouffon/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
     "id": "overwatch",
-    "title": "Overwatch",
+    "title": "Thomas Overwatch",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Passe dans l'Iris.",
     "artwork": {
-      "standard": "/assets/cards/overwatch/standard.svg",
-      "fullArt": "/assets/cards/overwatch/full-art.svg"
-    }
-  },
-  {
-    "id": "t-exp33",
-    "title": "Thomas Expedition 33",
-    "rarity": "common",
-    "collectionId": "thomas",
-    "description": "",
-    "artwork": {
-      "standard": "/assets/cards/t-exp33/standard.svg",
-      "fullArt": "/assets/cards/t-exp33/full-art.svg"
-    }
-  },
-  {
-    "id": "t-mansion",
-    "title": "Thomas's Mansion",
-    "rarity": "uncommon",
-    "collectionId": "thomas",
-    "description": "",
-    "artwork": {
-      "standard": "/assets/cards/t-mansion/standard.svg",
-      "fullArt": "/assets/cards/t-mansion/full-art.svg"
+      "standard": "/assets/cards/overwatch/illustration.png",
+      "fullArt": "/assets/cards/overwatch/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -416,10 +449,13 @@
     "title": "Thomas musclé",
     "rarity": "rare",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Énorme et sec !",
     "artwork": {
-      "standard": "/assets/cards/t-muscle/standard.svg",
-      "fullArt": "/assets/cards/t-muscle/full-art.svg"
+      "standard": "/assets/cards/t-muscle/illustration.png",
+      "fullArt": "/assets/cards/t-muscle/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -427,10 +463,13 @@
     "title": "thomas_citron",
     "rarity": "epic",
     "collectionId": "thomas",
-    "description": "",
+    "description": "L'origin story de sa présence sur Internet.",
     "artwork": {
-      "standard": "/assets/cards/t-citron/standard.svg",
-      "fullArt": "/assets/cards/t-citron/full-art.svg"
+      "standard": "/assets/cards/t-citron/illustration.png",
+      "fullArt": "/assets/cards/t-citron/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -438,10 +477,13 @@
     "title": "Mini's Thomas",
     "rarity": "epic",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Le consulat des Mini's Thomas.",
     "artwork": {
-      "standard": "/assets/cards/t-minis/standard.svg",
-      "fullArt": "/assets/cards/t-minis/full-art.svg"
+      "standard": "/assets/cards/t-minis/illustration.png",
+      "fullArt": "/assets/cards/t-minis/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -449,10 +491,13 @@
     "title": "Thomas inventeur",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Prendre les idées, les faire fonctionner et les concrétiser : telle est ma vocation.",
     "artwork": {
-      "standard": "/assets/cards/t-inventeur/standard.svg",
-      "fullArt": "/assets/cards/t-inventeur/full-art.svg"
+      "standard": "/assets/cards/t-inventeur/illustration.png",
+      "fullArt": "/assets/cards/t-inventeur/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -460,10 +505,27 @@
     "title": "Thomas randonneur",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "",
+    "description": "Je gravirai cette montagne coûte que coûte ! Puis la suivante ! Et après… une petite sieste.",
     "artwork": {
-      "standard": "/assets/cards/t-randonneur/standard.svg",
-      "fullArt": "/assets/cards/t-randonneur/full-art.svg"
+      "standard": "/assets/cards/t-randonneur/illustration.png",
+      "fullArt": "/assets/cards/t-randonneur/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
+    }
+  },
+  {
+    "id": "t-parisien",
+    "title": "Thomas parisien",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Thomas Furansu-jin Desu",
+    "artwork": {
+      "standard": "/assets/cards/t-parisien/illustration.png",
+      "fullArt": "/assets/cards/t-parisien/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -471,7 +533,7 @@
     "title": "Matthieu classique",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Grand, chevelu, négligent… oui, c'est bien la version classique de Matthieu.",
     "artwork": {
       "standard": "/assets/cards/m-classique/illustration.png",
       "fullArt": "/assets/cards/m-classique/illustration.png"
@@ -485,7 +547,7 @@
     "title": "Matthieu voyageur",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Arrivée au Québec en 2025. Comme d'habitude, il va tout faire à la dernière minute.",
     "artwork": {
       "standard": "/assets/cards/m-voyageur/standard.svg",
       "fullArt": "/assets/cards/m-voyageur/full-art.svg"
@@ -496,10 +558,13 @@
     "title": "Matthieu étudiant",
     "rarity": "rare",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Il est parti étudier au Québec, mais s'efforce de faire échouer son projet.",
     "artwork": {
-      "standard": "/assets/cards/m-etudiant/standard.svg",
-      "fullArt": "/assets/cards/m-etudiant/full-art.svg"
+      "standard": "/assets/cards/m-etudiant/illustration.png",
+      "fullArt": "/assets/cards/m-etudiant/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -507,10 +572,13 @@
     "title": "Eli Diff",
     "rarity": "epic",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Eli, celle qui étudie et travaille sans relâche, celle qui a changé le destin de Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/eli-diff/standard.svg",
-      "fullArt": "/assets/cards/eli-diff/full-art.svg"
+      "standard": "/assets/cards/eli-diff/illustration.png",
+      "fullArt": "/assets/cards/eli-diff/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -518,10 +586,13 @@
     "title": "Matthieu qui boucle",
     "rarity": "rare",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "368ᵉ hold. Matthieu espère atterrir avant la fin de l'année.",
     "artwork": {
-      "standard": "/assets/cards/m-boucle/standard.svg",
-      "fullArt": "/assets/cards/m-boucle/full-art.svg"
+      "standard": "/assets/cards/m-boucle/illustration.png",
+      "fullArt": "/assets/cards/m-boucle/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -529,7 +600,7 @@
     "title": "Première expédition",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Premier ravitaillement avant le feu d'artifice ! Espérons que Matthieu ne se perde pas…",
     "artwork": {
       "standard": "/assets/cards/premiere-expedition/illustration.png",
       "fullArt": "/assets/cards/premiere-expedition/illustration.png"
@@ -543,10 +614,13 @@
     "title": "Matthieu Tim Hortons",
     "rarity": "rare",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Donuts du matin, et l'autre qui fait le petit chef et qui n'aide pas…",
     "artwork": {
-      "standard": "/assets/cards/m-timhortons/standard.svg",
-      "fullArt": "/assets/cards/m-timhortons/full-art.svg"
+      "standard": "/assets/cards/m-timhortons/illustration.png",
+      "fullArt": "/assets/cards/m-timhortons/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -554,7 +628,7 @@
     "title": "Matthieu low poly",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Matthieu rétro PlayStation 1. Ce modèle 3D est collector… mais ne vaut rien.",
     "artwork": {
       "standard": "/assets/cards/m-lowpoly/illustration.png",
       "fullArt": "/assets/cards/m-lowpoly/illustration.png"
@@ -568,7 +642,7 @@
     "title": "Matthieu lutin de Noël",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Pendant que le Père Thomas fait sa tournée, le lutin Matthieu emballe les cadeaux… à la dernière minute, évidemment.",
     "artwork": {
       "standard": "/assets/cards/m-lutin/standard.svg",
       "fullArt": "/assets/cards/m-lutin/full-art.svg"
@@ -579,10 +653,13 @@
     "title": "Matthieu Bizarre Aventure",
     "rarity": "legendary",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Stand : State Shifter\nModifie sans limite tout état physique, mental ou conceptuel, jusqu'au destin. Effets imprévisibles, difficilement réversibles.\nPuiss. A · Vit. B · Port. C · Pers. A · Préc. E · Pot. A",
     "artwork": {
-      "standard": "/assets/cards/m-bizarre/standard.svg",
-      "fullArt": "/assets/cards/m-bizarre/full-art.svg"
+      "standard": "/assets/cards/m-bizarre/illustration.png",
+      "fullArt": "/assets/cards/m-bizarre/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -590,10 +667,13 @@
     "title": "Matthieu vs Moufette",
     "rarity": "epic",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "J'étais sa proie ! C'est moi qui me faisais chasser !",
     "artwork": {
-      "standard": "/assets/cards/m-moufette/standard.svg",
-      "fullArt": "/assets/cards/m-moufette/full-art.svg"
+      "standard": "/assets/cards/m-moufette/illustration.png",
+      "fullArt": "/assets/cards/m-moufette/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -601,7 +681,7 @@
     "title": "Matthieu Risitas",
     "rarity": "legendary",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "ISSOU",
     "artwork": {
       "standard": "/assets/cards/m-risitas/illustration.png",
       "fullArt": "/assets/cards/m-risitas/illustration.png"
@@ -612,10 +692,13 @@
     "title": "Matthieu Stronk",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "C'est STRONK !",
     "artwork": {
-      "standard": "/assets/cards/m-stronk/standard.svg",
-      "fullArt": "/assets/cards/m-stronk/full-art.svg"
+      "standard": "/assets/cards/m-stronk/illustration.png",
+      "fullArt": "/assets/cards/m-stronk/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -623,10 +706,13 @@
     "title": "Matthieu Not Stronk",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "C'est pas STRONK !",
     "artwork": {
-      "standard": "/assets/cards/m-notstronk/standard.svg",
-      "fullArt": "/assets/cards/m-notstronk/full-art.svg"
+      "standard": "/assets/cards/m-notstronk/illustration.png",
+      "fullArt": "/assets/cards/m-notstronk/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -634,10 +720,13 @@
     "title": "Chat de Matthieu",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Le Nyan Cat de Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/m-chat/standard.svg",
-      "fullArt": "/assets/cards/m-chat/full-art.svg"
+      "standard": "/assets/cards/m-chat/illustration.png",
+      "fullArt": "/assets/cards/m-chat/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -645,10 +734,13 @@
     "title": "Matthieu à la bourre",
     "rarity": "epic",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Mieux vaut bien dormir et arriver en retard que se réveiller tôt et… arriver en avance…",
     "artwork": {
-      "standard": "/assets/cards/m-bourre/standard.svg",
-      "fullArt": "/assets/cards/m-bourre/full-art.svg"
+      "standard": "/assets/cards/m-bourre/illustration.png",
+      "fullArt": "/assets/cards/m-bourre/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -656,10 +748,13 @@
     "title": "La patate McDo",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Une patate McDo et ça démarre !",
     "artwork": {
-      "standard": "/assets/cards/patate-mcdo/standard.svg",
-      "fullArt": "/assets/cards/patate-mcdo/full-art.svg"
+      "standard": "/assets/cards/patate-mcdo/illustration.png",
+      "fullArt": "/assets/cards/patate-mcdo/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -667,7 +762,7 @@
     "title": "Ferry québécois",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Certains vont à l'école en tramway, Matthieu y va en ferry.",
     "artwork": {
       "standard": "/assets/cards/ferry-quebecois/standard.svg",
       "fullArt": "/assets/cards/ferry-quebecois/full-art.svg"
@@ -675,24 +770,13 @@
   },
   {
     "id": "ol",
-    "title": "OL",
+    "title": "Matthieu supporter",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Supporter un jour, supporter toujours.",
     "artwork": {
       "standard": "/assets/cards/ol/standard.svg",
       "fullArt": "/assets/cards/ol/full-art.svg"
-    }
-  },
-  {
-    "id": "discord-2",
-    "title": "Soirée Discord #2",
-    "rarity": "common",
-    "collectionId": "matthieu",
-    "description": "",
-    "artwork": {
-      "standard": "/assets/cards/discord-2/standard.svg",
-      "fullArt": "/assets/cards/discord-2/full-art.svg"
     }
   },
   {
@@ -700,7 +784,7 @@
     "title": "Minecraft Pouletto",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Le KFC Pouletto peut produire jusqu'à 1 stack toutes les 10 minutes ! Sauf quand il ne fonctionne plus…",
     "artwork": {
       "standard": "/assets/cards/minecraft-pouletto/standard.svg",
       "fullArt": "/assets/cards/minecraft-pouletto/full-art.svg"
@@ -708,10 +792,10 @@
   },
   {
     "id": "m-routier",
-    "title": "Matthieu routier",
+    "title": "Matthieu camionneur",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Punaise, il y a un idiot qui roulait sur la bande d'arrêt d'urgence et qui m'a foncé dessus !",
     "artwork": {
       "standard": "/assets/cards/m-routier/standard.svg",
       "fullArt": "/assets/cards/m-routier/full-art.svg"
@@ -722,7 +806,7 @@
     "title": "Matthieu jungler",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Passif : Reine araignée\nA : Neurotoxine / Morsure venimeuse\nZ : Araignée explosive / Frénésie symbiotique\nE : Cocon / Suspension\nR : Forme arachnéenne",
     "artwork": {
       "standard": "/assets/cards/m-jungler/standard.svg",
       "fullArt": "/assets/cards/m-jungler/full-art.svg"
@@ -733,7 +817,7 @@
     "title": "Les Noirs",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Euh… j'ai pas appris d'ouverture, je vais jouer au hasard.",
     "artwork": {
       "standard": "/assets/cards/les-noirs/standard.svg",
       "fullArt": "/assets/cards/les-noirs/full-art.svg"
@@ -741,13 +825,16 @@
   },
   {
     "id": "cegep",
-    "title": "Cégep",
+    "title": "Cégep Lévis",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "J'arrive pas à me connecter sur mon espace étudiant…",
     "artwork": {
-      "standard": "/assets/cards/cegep/standard.svg",
-      "fullArt": "/assets/cards/cegep/full-art.svg"
+      "standard": "/assets/cards/cegep/illustration.png",
+      "fullArt": "/assets/cards/cegep/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -755,7 +842,7 @@
     "title": "La vieille de l'appart'",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Tout ça pour 200 $…",
     "artwork": {
       "standard": "/assets/cards/vieille-appart/standard.svg",
       "fullArt": "/assets/cards/vieille-appart/full-art.svg"
@@ -766,10 +853,13 @@
     "title": "La chanteuse nocturne",
     "rarity": "rare",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Le mec a fait une pause fraîcheur de 2 minutes, et ils recommencent…",
     "artwork": {
-      "standard": "/assets/cards/chanteuse-nocturne/standard.svg",
-      "fullArt": "/assets/cards/chanteuse-nocturne/full-art.svg"
+      "standard": "/assets/cards/chanteuse-nocturne/illustration.png",
+      "fullArt": "/assets/cards/chanteuse-nocturne/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -777,7 +867,7 @@
     "title": "Le jus d'orange",
     "rarity": "uncommon",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "L'élément qui contribue le plus au bonheur de Matthieu.",
     "artwork": {
       "standard": "/assets/cards/jus-orange/standard.svg",
       "fullArt": "/assets/cards/jus-orange/full-art.svg"
@@ -788,10 +878,13 @@
     "title": "Matthieu capitaine",
     "rarity": "rare",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "T'en fais pas, on est bientôt arrivés au port !",
     "artwork": {
-      "standard": "/assets/cards/m-capitaine/standard.svg",
-      "fullArt": "/assets/cards/m-capitaine/full-art.svg"
+      "standard": "/assets/cards/m-capitaine/illustration.png",
+      "fullArt": "/assets/cards/m-capitaine/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -799,7 +892,7 @@
     "title": "Matthieu Ier",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Mais comment on fait pour monter sur son dos ?!",
     "artwork": {
       "standard": "/assets/cards/m-premier/standard.svg",
       "fullArt": "/assets/cards/m-premier/full-art.svg"
@@ -810,7 +903,7 @@
     "title": "Matthieu exorciste",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Moi, je pense que c'est un poltergeist. Nan mais oui, je crois bien.",
     "artwork": {
       "standard": "/assets/cards/m-exorciste/standard.svg",
       "fullArt": "/assets/cards/m-exorciste/full-art.svg"
@@ -821,43 +914,27 @@
     "title": "Matthieu costume bouffon",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Parfois, il faut accepter d'être pris pour un bouffon…",
     "artwork": {
-      "standard": "/assets/cards/m-bouffon/standard.svg",
-      "fullArt": "/assets/cards/m-bouffon/full-art.svg"
+      "standard": "/assets/cards/m-bouffon/illustration.png",
+      "fullArt": "/assets/cards/m-bouffon/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
     "id": "splatoon",
-    "title": "Splatoon",
+    "title": "Matthieu Splatoon",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "20 kills, aucune mort. Je suis un monstre.",
     "artwork": {
-      "standard": "/assets/cards/splatoon/standard.svg",
-      "fullArt": "/assets/cards/splatoon/full-art.svg"
-    }
-  },
-  {
-    "id": "m-exp33",
-    "title": "Matthieu Expedition 33",
-    "rarity": "common",
-    "collectionId": "matthieu",
-    "description": "",
-    "artwork": {
-      "standard": "/assets/cards/m-exp33/standard.svg",
-      "fullArt": "/assets/cards/m-exp33/full-art.svg"
-    }
-  },
-  {
-    "id": "m-galaxy",
-    "title": "Super Matthieu Galaxy",
-    "rarity": "uncommon",
-    "collectionId": "matthieu",
-    "description": "",
-    "artwork": {
-      "standard": "/assets/cards/m-galaxy/standard.svg",
-      "fullArt": "/assets/cards/m-galaxy/full-art.svg"
+      "standard": "/assets/cards/splatoon/illustration.png",
+      "fullArt": "/assets/cards/splatoon/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -865,10 +942,13 @@
     "title": "Matthieu musclé",
     "rarity": "rare",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Énorme et sec !",
     "artwork": {
-      "standard": "/assets/cards/m-muscle/standard.svg",
-      "fullArt": "/assets/cards/m-muscle/full-art.svg"
+      "standard": "/assets/cards/m-muscle/illustration.png",
+      "fullArt": "/assets/cards/m-muscle/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -876,10 +956,13 @@
     "title": "matthieu_tempete",
     "rarity": "epic",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "L'origin story de sa présence sur Internet.",
     "artwork": {
-      "standard": "/assets/cards/m-tempete/standard.svg",
-      "fullArt": "/assets/cards/m-tempete/full-art.svg"
+      "standard": "/assets/cards/m-tempete/illustration.png",
+      "fullArt": "/assets/cards/m-tempete/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -887,10 +970,13 @@
     "title": "Mini's Matthieu",
     "rarity": "epic",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Le consulat des Mini's Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/m-minis/standard.svg",
-      "fullArt": "/assets/cards/m-minis/full-art.svg"
+      "standard": "/assets/cards/m-minis/illustration.png",
+      "fullArt": "/assets/cards/m-minis/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -898,7 +984,7 @@
     "title": "Matthieu ingénieur",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Penser et avoir des idées, mais ne jamais les concrétiser : telle est ma vocation.",
     "artwork": {
       "standard": "/assets/cards/m-ingenieur/standard.svg",
       "fullArt": "/assets/cards/m-ingenieur/full-art.svg"
@@ -913,6 +999,17 @@
     "artwork": {
       "standard": "/assets/cards/m-coureur/standard.svg",
       "fullArt": "/assets/cards/m-coureur/full-art.svg"
+    }
+  },
+  {
+    "id": "m-parisien",
+    "title": "Matthieu parisien",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "Matthieu Furansu-jin Desu",
+    "artwork": {
+      "standard": "/assets/cards/m-parisien/standard.svg",
+      "fullArt": "/assets/cards/m-parisien/full-art.svg"
     }
   },
   {
@@ -1107,10 +1204,13 @@
     "title": "La Green Card",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Finalement, la seule bonne façon d'immigrer facilement.",
     "artwork": {
-      "standard": "/assets/cards/green-card/standard.svg",
-      "fullArt": "/assets/cards/green-card/full-art.svg"
+      "standard": "/assets/cards/green-card/illustration.png",
+      "fullArt": "/assets/cards/green-card/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -1180,14 +1280,61 @@
     }
   },
   {
+    "id": "eli-chasseuse",
+    "title": "Eli chasseuse de fantômes",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/eli-chasseuse/standard.svg",
+      "fullArt": "/assets/cards/eli-chasseuse/full-art.svg"
+    }
+  },
+  {
+    "id": "eli-canotiere",
+    "title": "Eli canotière",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/eli-canotiere/standard.svg",
+      "fullArt": "/assets/cards/eli-canotiere/full-art.svg"
+    }
+  },
+  {
+    "id": "eli-parisienne",
+    "title": "Eli parisienne",
+    "rarity": "common",
+    "collectionId": "speciaux",
+    "description": "Eli Furansu-jin Desu",
+    "artwork": {
+      "standard": "/assets/cards/eli-parisienne/standard.svg",
+      "fullArt": "/assets/cards/eli-parisienne/full-art.svg"
+    }
+  },
+  {
+    "id": "glaciere-picard",
+    "title": "La glacière Picard",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "",
+    "artwork": {
+      "standard": "/assets/cards/glaciere-picard/standard.svg",
+      "fullArt": "/assets/cards/glaciere-picard/full-art.svg"
+    }
+  },
+  {
     "id": "trisomie-21",
     "title": "Trisomie 21",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Trisomie 21, t'es mongole mais on t'aime bien !",
     "artwork": {
-      "standard": "/assets/cards/trisomie-21/standard.svg",
-      "fullArt": "/assets/cards/trisomie-21/full-art.svg"
+      "standard": "/assets/cards/trisomie-21/illustration.png",
+      "fullArt": "/assets/cards/trisomie-21/illustration.png"
+    },
+    "artworkPosition": {
+      "standard": "center top"
     }
   },
   {
@@ -1195,7 +1342,7 @@
     "title": "Soirée film #1",
     "rarity": "uncommon",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "La saga Harry Potter, la saga The Hobbit… il faudra aussi regarder tous les Star Wars !",
     "artwork": {
       "standard": "/assets/cards/soiree-film-1/standard.svg",
       "fullArt": "/assets/cards/soiree-film-1/full-art.svg"

@@ -6,6 +6,7 @@ Un seul paquet est publié : Phantom Blood. Les autres paquets utilisés dans le
 
 - `src/data/boosters.ts` contient les définitions des paquets.
 - `src/data/pools/phantom-blood.json` est la liste fixe des 110 cartes de Phantom Blood. Elle ne dépend ni des groupes éditoriaux ni du catalogue global. Ajouter une carte à Thomas, Matthieu ou Spéciaux ne change plus ce paquet.
+- Révision avant publication du 26 octobre 2026 : le pool et l’ordre de l’édition suivent le nouveau carnet (six retraits, six ajouts ; 40 communes, 23 peu communes, 21 rares, 16 épiques et 10 légendaires). Aucune migration des anciennes sauvegardes de test n’est prévue pour cette révision.
 - Les nouveaux paquets peuvent référencer les mêmes identifiants et des identifiants exclusifs dans leur propre liste. Une carte partagée garde une seule définition et la même identité dans la collection, les échanges et les doublons.
 - Préférer des listes explicites par paquet. Les sources dynamiques `collection` restent possibles dans le moteur, mais incluent les futures cartes de ce groupe.
 - Les taux de rareté, finition et Full Art restent communs, dans `src/game/config.ts`. Aucun taux propre à un paquet. Chaque pool doit fournir au moins une carte de chaque rareté.

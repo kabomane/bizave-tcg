@@ -6,7 +6,7 @@ Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, 
 
 ## Édition actuelle : Phantom Blood
 
-Un seul booster est publié : **Phantom Blood**, sous-titre **110 cartes**. Son pool gratuit est figé dans `src/data/pools/phantom-blood.json`, soit les 110 modèles d’origine. Les anciens exemplaires, découvertes, contacts et ouvertures déjà enregistrés sont conservés.
+Un seul booster est publié : **Phantom Blood**, sous-titre **110 cartes**. Son pool gratuit est défini explicitement dans `src/data/pools/phantom-blood.json`. Avant publication, les 110 modèles ont été actualisés d’après le carnet du 26 octobre 2026 : six retraits et six ajouts, sans migration des anciennes sauvegardes de test.
 
 L’interface utilise une DA ivoire, encre et bordeaux indépendante du cahier de référence. Le sachet se clique directement ; chaque carte révélée se clique pour passer à la suivante. Après la cinquième, un clic affiche le récapitulatif. Les gabarits Fusion/Gundam et la limite de 20° restent inchangés.
 
@@ -54,7 +54,7 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 ## Ce qui est livré
 
 - Un seul booster Phantom Blood, ouvrable avec les crédits gratuits ou achetable à 70 fragments, contenant les 110 modèles. Aucun autre booster n’est affiché dans l’atelier.
-- Les **110 définitions exactes du carnet fourni** : 39 communes, 24 peu communes, 21 rares, 16 épiques, 10 légendaires.
+- Les **110 définitions exactes du carnet du 26 octobre 2026** : 40 communes, 23 peu communes, 21 rares, 16 épiques, 10 légendaires. Le catalogue actif compte 63 cartes illustrées ; une même image sert aux formats Classique et Full Art.
 - 14 illustrations PNG finales, partagées entre Classique et Full Art ; placeholders SVG pour les autres modèles. Les finitions CSS produisent toujours les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
@@ -200,7 +200,11 @@ La boîte d’envoi garde les entrées 24 h ; un fichier déjà téléchargé re
 
 Le bouton Affichage, à droite du titre Collection, ouvre un panneau sur PC et une feuille depuis le bas sur téléphone. Les deux filtres existants restent en place et sont appliqués avant le regroupement.
 
-Le tri propose Nom (collation française), Ordre des cartes et Date d’obtention, dans les deux sens. L’ordre fixe de l’édition est conservé dans `src/data/card-order.json` : conserver les positions existantes et les identifiants archivés ; ajouter les nouvelles cartes en fin de liste. Une pile se classe sur son exemplaire détenu acquis le plus récemment ; un retour par transfert utilise sa date de retour.
+Le tri propose **Nom, Ordre, Date et Valeur**, dans les deux sens. Valeur utilise le montant exact de recyclage d’un exemplaire selon la rareté, la finition et le format ; un petit montant en fragments apparaît sous les cartes uniquement pendant ce tri. Une pile utilise sa variante visible la plus précieuse et la montre en couverture, sans additionner ses doublons ; son contenu suit le sens du tri choisi. Le choix d’affichage est mémorisé localement.
+
+L’ordre fixe de l’édition est conservé dans `src/data/card-order.json` et suit le carnet du 26 octobre 2026. Après publication, conserver les positions existantes et les identifiants archivés ; ajouter les nouvelles cartes en fin de liste. Le tri Date utilise la dernière acquisition détenue d’une pile ; un retour par transfert utilise sa date de retour.
+
+Le filtre **Boosters** apparaît à côté de Rareté et Finitions dès que plusieurs boosters sont activés. La sélection multiple réunit leurs pools de cartes sans dupliquer les modèles partagés ; elle concerne leur disponibilité dans ces éditions, pas l’historique d’obtention des exemplaires. Elle se combine avec la recherche, la rareté, la finition et Full Art. Avec le seul Phantom Blood actuel, les deux filtres existants restent affichés.
 
 Regroupement : Aucun, Par carte (six variantes possibles), ou Par carte et format (Classique / Full Art séparés). Les piles sont regroupées par identifiant de modèle, même si deux titres se ressemblent. Leur couverture est déterministe et provient toujours des variantes filtrées détenues.
 

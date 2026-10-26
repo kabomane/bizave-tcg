@@ -1,6 +1,6 @@
 import { cardById } from '../data/cards'
 import editionOrder from '../data/card-order.json'
-import { variantKey } from '../game/engine'
+import { getRecycleFragments, variantKey } from '../game/engine'
 import type { Card, CardDropRow } from '../game/types'
 import type { CollectionDisplay } from './preferences'
 
@@ -11,6 +11,10 @@ const order = new Map(editionOrder.map((id, index) => [id, index + 1]))
 const collator = new Intl.Collator('fr', { sensitivity: 'base', numeric: true })
 const finishOrder = { normal: 0, glossy: 1, alternative: 2 }
 export function cardNumber(cardId: string) { return order.get(cardId) ?? Number.MAX_SAFE_INTEGER }
+export function cardFragmentValue(card: Card) {
+  const definition = cardById.get(card.cardId)
+  return definition ? getRecycleFragments(definition.rarity, card.finish, card.artVariant) : 0
+}
 function canonical(a: Card, b: Card) {
   return cardNumber(a.cardId) - cardNumber(b.cardId) || collator.compare(a.cardId, b.cardId) ||
     Number(a.artVariant === 'fullArt') - Number(b.artVariant === 'fullArt') || finishOrder[a.finish] - finishOrder[b.finish]
@@ -34,7 +38,8 @@ export function collectionView(variants: readonly CollectionVariant[], display: 
   const direction = display.direction === 'asc' ? 1 : -1
   const compare = (a: { card: Card; acquiredAt: number; key: string }, b: { card: Card; acquiredAt: number; key: string }) => {
     const primary = display.sort === 'name' ? collator.compare(cardById.get(a.card.cardId)?.title || a.card.cardId, cardById.get(b.card.cardId)?.title || b.card.cardId)
-      : display.sort === 'number' ? cardNumber(a.card.cardId) - cardNumber(b.card.cardId) : a.acquiredAt - b.acquiredAt
+      : display.sort === 'number' ? cardNumber(a.card.cardId) - cardNumber(b.card.cardId)
+      : display.sort === 'value' ? cardFragmentValue(a.card) - cardFragmentValue(b.card) : a.acquiredAt - b.acquiredAt
     return primary * direction || canonical(a.card, b.card) || a.key.localeCompare(b.key)
   }
   const items = new Map<string, CollectionItem>()
@@ -52,6 +57,11 @@ export function collectionView(variants: readonly CollectionVariant[], display: 
   for (const item of items.values()) {
     item.variantCount = new Set(item.entries.map(entry => variantKey(entry.card))).size
     item.entries.sort(compare)
+    // A pile represents its most valuable visible variant, never the sum of its copies.
+    if (display.sort === 'value') item.card = item.entries.reduce((best, entry) => {
+      const difference = cardFragmentValue(entry.card) - cardFragmentValue(best.card)
+      return difference > 0 || difference === 0 && canonical(entry.card, best.card) < 0 ? entry : best
+    }).card
   }
   return [...items.values()].sort(compare)
 }

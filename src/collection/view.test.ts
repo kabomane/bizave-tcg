@@ -4,7 +4,7 @@ import order from '../data/card-order.json'
 import { variantKey } from '../game/engine'
 import type { CardDropRow } from '../game/types'
 import { DEFAULT_COLLECTION_DISPLAY, parseCollectionDisplay } from './preferences'
-import { cardNumber, collectionView, ownedVariants } from './view'
+import { cardFragmentValue, cardNumber, collectionView, ownedVariants } from './view'
 
 function drop(id: string, time = 1, patch: Partial<CardDropRow> = {}): CardDropRow {
   return { dropId: id, cardId: 't-classique', finish: 'normal', artVariant: 'standard', acquiredAt: time, updatedAt: time, status: 'owned', ...patch }
@@ -34,6 +34,24 @@ describe('affichage de la collection', () => {
     expect(view[1].entries[0].ids).toEqual(['old-copy', 'new-copy'])
     expect(collectionView(variants, { ...DEFAULT_COLLECTION_DISPLAY, direction: 'asc' }).map(item => item.acquiredAt)).toEqual([30, 50, 70])
     expect(collectionView(variants, { ...DEFAULT_COLLECTION_DISPLAY, groupBy: 'card' })[1].acquiredAt).toBe(50)
+  })
+  it('classe la valeur réelle des finitions et formats dans les deux sens', () => {
+    const variants = ownedVariants([...sixVariants, drop('rare', 1, { cardId: 't-etudiant' })])
+    const values = (direction: 'asc' | 'desc') => collectionView(variants, { ...DEFAULT_COLLECTION_DISPLAY, sort: 'value', direction }).map(item => cardFragmentValue(item.card))
+    expect(values('asc')).toEqual([1, 1, 2, 3, 4, 6, 7])
+    expect(values('desc')).toEqual([7, 6, 4, 3, 2, 1, 1])
+  })
+  it('classe les piles sur leur meilleure variante visible sans additionner les doublons', () => {
+    const variants = ownedVariants([...sixVariants, ...Array.from({ length: 10 }, (_, i) => drop(`copy-${i}`)), drop('rare', 1, { cardId: 't-etudiant' })])
+    for (const duplicates of ['hide', 'show'] as const) for (const direction of ['asc', 'desc'] as const) {
+      const view = collectionView(variants, { ...DEFAULT_COLLECTION_DISPLAY, sort: 'value', groupBy: 'card', duplicates, direction })
+      expect(view.map(item => cardFragmentValue(item.card))).toEqual(direction === 'asc' ? [6, 7] : [7, 6])
+      const common = view.find(item => item.card.cardId === 't-classique')!
+      expect(common.card).toMatchObject({ finish: 'alternative', artVariant: 'fullArt' })
+      expect(common.entries.map(entry => cardFragmentValue(entry.card))).toEqual([...common.entries.map(entry => cardFragmentValue(entry.card))].sort((a, b) => direction === 'asc' ? a - b : b - a))
+    }
+    const filtered = collectionView(variants.filter(variant => variant.card.artVariant === 'standard'), { ...DEFAULT_COLLECTION_DISPLAY, sort: 'value', groupBy: 'card' })
+    expect(filtered.find(item => item.card.cardId === 't-classique')!.card).toMatchObject({ finish: 'alternative', artVariant: 'standard' })
   })
   it('regroupe les six variantes, ou sépare les deux formats, sans perdre les doublons', () => {
     const variants = ownedVariants([...sixVariants, drop('extra-copy', 50)])
@@ -74,11 +92,12 @@ describe('affichage de la collection', () => {
     expect(parseCollectionDisplay({ sort: 'unknown', direction: 1, groupBy: 'title', duplicates: true })).toEqual(DEFAULT_COLLECTION_DISPLAY)
     const saved = { sort: 'number', direction: 'asc', groupBy: 'format', duplicates: 'show' }
     expect(parseCollectionDisplay(JSON.parse(JSON.stringify(saved)))).toEqual(saved)
+    expect(parseCollectionDisplay({ ...saved, sort: 'value' })).toEqual({ ...saved, sort: 'value' })
   })
   it('conserve chaque exemplaire exactement une fois pour toutes les combinaisons d’affichage', () => {
     const source = [...sixVariants, drop('duplicate'), drop('other-model', 40, { cardId: 'm-classique' })]
     const variants = ownedVariants(source)
-    for (const groupBy of ['none', 'card', 'format'] as const) for (const duplicates of ['hide', 'show'] as const) for (const sort of ['name', 'number', 'obtained'] as const) for (const direction of ['asc', 'desc'] as const) {
+    for (const groupBy of ['none', 'card', 'format'] as const) for (const duplicates of ['hide', 'show'] as const) for (const sort of ['name', 'number', 'obtained', 'value'] as const) for (const direction of ['asc', 'desc'] as const) {
       const view = collectionView(variants, { groupBy, duplicates, sort, direction })
       const ids = view.flatMap(item => item.entries.flatMap(entry => entry.ids))
       expect(ids.sort()).toEqual(source.map(drop => drop.dropId).sort())
