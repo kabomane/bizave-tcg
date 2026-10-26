@@ -154,14 +154,17 @@ Les codes sont copiés dans une messagerie choisie par le joueur. Le jeu n’env
 
 ## Hébergement Firebase
 
+Site publié : **https://bizave-tcg.web.app**. Le site Hosting `bizave-tcg` est explicitement défini dans `firebase.json`.
+
+Avant le build de production, créer un fichier local `.env.production` contenant `VITE_DEV_CATALOG=false` pour désactiver l’aperçu développeur. Ce fichier n’est pas versionné ; le serveur de développement conserve son mode d’aperçu.
+
 ```sh
 npm run build
 npx firebase-tools login
-npx firebase-tools use --add
-npx firebase-tools deploy --only hosting
+npx firebase-tools deploy --only hosting --project bizave-tcg
 ```
 
-Choisir votre projet Firebase existant ou en créer un. `firebase.json` sert `dist/`, réécrit les routes vers `index.html`, met les bundles hashés en cache immutable et le HTML en revalidation. Aucun service Auth, Firestore, Functions ou Storage à activer. L’agent n’a pas publié le projet sur un compte Firebase.
+`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement du 26 octobre 2026 cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
 
 ## Organisation
 

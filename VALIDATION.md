@@ -1,5 +1,14 @@
 # Validation — 26 octobre 2026
 
+## Déploiement Firebase Hosting — 26 octobre 2026
+
+- Version applicative `1f608b2` publiée sur **https://bizave-tcg.web.app** avec `firebase deploy --only hosting --project bizave-tcg`. Site `bizave-tcg` lié explicitement dans `firebase.json`.
+- Build statique de production, aperçu développeur désactivé avec `VITE_DEV_CATALOG=false` ; **297 fichiers**, dont 63 PNG. Aucun backend applicatif déployé.
+- Quatre parcours Chromium existants passent sur le build de production : ouverture/reprise/collection, filtres, responsive et clavier. Le parcours historique des échanges est obsolète : il attend l’ancien bouton « Mon contact » et doit être actualisé.
+- Le parcours actuel des échanges est vérifié séparément dans un test local non versionné : copie/collage des codes amis, ajout réciproque, transfert chiffré, passage de cinq à quatre cartes chez l’expéditeur et réception d’une carte chez le destinataire, puis refus du même transfert. Le récapitulatif conserve l’espace de ses libellés masqués. Ce test vérifie aussi l’absence du mode dev dans la production.
+- Après publication : HTML, JavaScript et CSS identiques au build par SHA-256 ; accueil et cinq routes internes répondant 200 ; 63 illustrations PNG accessibles avec le bon type MIME et une illustration comparée à son original par SHA-256.
+- Accueil public inspecté dans le navigateur. Capture locale : `artifacts/firebase-hosting-2026-10-26.png`. Aucune sauvegarde utilisateur téléversée : seuls les fichiers de `dist/` sont publiés.
+
 ## Tri par valeur et filtre booster — 26 octobre 2026
 
 - `npm run check` réussi : lint, **97 tests unitaires**, TypeScript et build Vite. Lint, TypeScript et build revérifiés après les derniers ajustements.
