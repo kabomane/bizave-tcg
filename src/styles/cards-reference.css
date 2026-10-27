@@ -1,4 +1,4 @@
-/* Source: references/demo-cartes-finitions.html. Card CSS retained verbatim. Only Fusion and Gundam are instantiated. */
+/* Source: references/demo-cartes-finitions.html. Active card declarations preserved; unused layouts removed and duplicate rules consolidated. Only Fusion and Gundam are instantiated. */
 :root {
     --bg-1: #f4f6fa; --bg-2: #e3e8f1; --ink: #1c2738; --muted: #6c7a8e;
     --panel: rgba(255,255,255,.78); --panel-line: rgba(90,110,140,.18);
@@ -32,14 +32,12 @@
       calc(var(--sx) * .3px) calc(var(--sy) * .3px + 6px) 14px -4px rgba(0,0,0,.5); }
 
   .art { position: relative; flex: 0 0 64%; overflow: hidden; background: #2b3354; }
-  .sample-art, .custom-art {
+  .custom-art {
     position: absolute; width: 110%; height: 110%; left: -5%; top: -5%;
     object-fit: cover; object-position: center 38%;
     transform: translate3d(var(--px), var(--py), 0);
-    pointer-events: none;
+    pointer-events: none; display: none;
   }
-  .custom-art { display: none; }
-  .card.has-custom .sample-art { display: none; }
   .card.has-custom .custom-art { display: block; }
 
   .card-info { flex: 1; position: relative; z-index: 2; padding: 16px 20px 15px; display: flex; flex-direction: column; align-items: center; }
@@ -183,26 +181,22 @@
 
   /* ───────── Dispositions ───────── */
   .name-bar, .type-line { display: none; position: relative; z-index: 4; margin: 0; text-align: left; }
-  .layout-magic .card, .layout-fusion .card { padding: 15px; gap: 6px; }
-  .layout-fusion .card { padding: 15px 15px 16px; }
-  .layout-magic .card-info > .card-title, .layout-fusion .card-info > .card-title,
-  .layout-magic .card-info > .foil-text, .layout-fusion .card-info > .foil-text,
-  .layout-magic .finish-name,
-  .layout-magic .alternative .card-info::before, .layout-fusion .alternative .card-info::before,
-  .layout-magic .gold-inner, .layout-fusion .gold-inner { display: none; }
-  .layout-magic .name-bar, .layout-fusion .name-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .layout-magic .description, .layout-fusion .description { max-width: none; margin: 0; }
+  .layout-fusion .card { gap: 6px; padding: 15px 15px 16px; }
+  .layout-fusion .card-info > .card-title, .layout-fusion .card-info > .foil-text, .layout-fusion .alternative .card-info::before, .layout-fusion .gold-inner { display: none; }
+  .layout-fusion .name-bar { display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 6px 11px; border-radius: 8px; color: #1b2535;
+    background: linear-gradient(180deg, color-mix(in srgb, var(--r-info), #fff 45%), var(--r-f3));
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.6), 0 0 0 1.5px color-mix(in srgb, var(--r-f2), #000 25%), 0 2px 3px rgba(0,0,0,.25); }
+  .layout-fusion .description { max-width: none; margin: 0; font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 13px; line-height: 1.5; color: #2b3445;
+    flex: 1; padding: 11px 13px; border-radius: 6px;
+    background: var(--paper), linear-gradient(180deg, color-mix(in srgb, var(--r-info), #fff 55%), var(--r-info));
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,.14), inset 0 1px 6px rgba(0,0,0,.08); }
   .nb-title { min-width: 0; font-weight: 800; font-size: 15px; letter-spacing: -.01em; color: #18212f; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .nb-title.foil-text { margin: 0; text-align: left; font-size: 15px; line-height: normal; letter-spacing: .06em; }
 
   /* Bandeaux façon Magic (Magic + Fusion) */
-  .layout-magic .name-bar, .layout-magic .type-line, .layout-fusion .name-bar {
-    padding: 6px 11px; border-radius: 8px; color: #1b2535;
-    background: linear-gradient(180deg, color-mix(in srgb, var(--r-info), #fff 45%), var(--r-f3));
-    box-shadow: inset 0 0 0 1px rgba(255,255,255,.6), 0 0 0 1.5px color-mix(in srgb, var(--r-f2), #000 25%), 0 2px 3px rgba(0,0,0,.25);
-  }
-  .layout-magic .glossy .name-bar, .layout-magic .glossy .type-line, .layout-fusion .glossy .name-bar { background: color-mix(in srgb, var(--r-f3), transparent 35%); }
-  .layout-magic .alternative .name-bar, .layout-magic .alternative .type-line, .layout-fusion .alternative .name-bar {
+  .layout-fusion .glossy .name-bar { background: color-mix(in srgb, var(--r-f3), transparent 35%); }
+  .layout-fusion .alternative .name-bar {
     color: #e8d9b5; background: linear-gradient(180deg, #252428, #141316);
     box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 0 0 1.5px var(--r-f2), 0 2px 4px rgba(0,0,0,.6);
   }
@@ -211,33 +205,16 @@
     background: radial-gradient(circle at 35% 30%, #fff, var(--r-f2) 48%, color-mix(in srgb, var(--r-f2), #000 45%));
     box-shadow: 0 0 0 1px rgba(0,0,0,.35);
   }
-  .layout-magic .art, .layout-fusion .art { border: 2px solid rgba(20,20,25,.55); border-radius: 3px; }
-  .layout-magic .alternative .art, .layout-fusion .alternative .art { border-color: var(--r-f2); }
-  .layout-magic .art { flex: 0 0 52%; }
-  .layout-fusion .art { flex: 0 0 58%; }
-  .layout-magic .type-line { display: flex; font-size: 11.5px; font-weight: 700; }
+  .layout-fusion .art { border: 2px solid rgba(20,20,25,.55); border-radius: 3px; flex: 0 0 58%; }
+  .layout-fusion .alternative .art { border-color: var(--r-f2); }
 
   /* Encart de texte façon Magic */
-  .layout-magic .card-info {
-    padding: 12px 14px; border-radius: 6px; align-items: stretch;
-    background: var(--paper), linear-gradient(180deg, color-mix(in srgb, var(--r-info), #fff 55%), var(--r-info));
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.14), inset 0 1px 6px rgba(0,0,0,.08);
-  }
-  .layout-magic .glossy .card-info { background: color-mix(in srgb, #fff, transparent 35%); }
-  .layout-magic .alternative .card-info { padding-top: 12px; background: rgba(255,255,255,.035); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r-f2), transparent 45%); }
-  .layout-magic .description, .layout-fusion .description { font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: 13px; line-height: 1.5; color: #2b3445; }
-  .layout-magic .alternative .description, .layout-fusion .alternative .description { color: #c9b998; }
-  .layout-magic .standard, .layout-fusion .standard { background: var(--paper), linear-gradient(170deg, var(--r-f3), var(--r-info) 55%, var(--r-f3)); }
+  .layout-fusion .alternative .description { color: #c9b998; background: rgba(255,255,255,.035); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r-f2), transparent 45%); }
+  .layout-fusion .standard { background: var(--paper), linear-gradient(170deg, var(--r-f3), var(--r-info) 55%, var(--r-f3)); }
 
   /* Fusion : bandeau de nom en haut, grande illustration, encart de texte, mention rareté · finition en pied */
   .layout-fusion .card-info { padding: 0; align-items: stretch; background: transparent; }
-  .layout-fusion .description {
-    flex: 1; padding: 11px 13px; border-radius: 6px;
-    background: var(--paper), linear-gradient(180deg, color-mix(in srgb, var(--r-info), #fff 55%), var(--r-info));
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,.14), inset 0 1px 6px rgba(0,0,0,.08);
-  }
   .layout-fusion .glossy .description { background: color-mix(in srgb, #fff, transparent 35%); }
-  .layout-fusion .alternative .description { background: rgba(255,255,255,.035); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--r-f2), transparent 45%); }
   .layout-fusion .finish-name { margin-top: 0; padding-top: 5px; font-size: 8.5px; letter-spacing: .22em; text-align: center; }
 
   /* Style Gundam : illustration pleine carte, pastille hexagonale + plaque de nom anguleuse en haut,
@@ -245,15 +222,14 @@
   .rarity-icon, .nb-finish { display: none; }
   .layout-gundam .card { padding: 0; }
   .layout-gundam .art { position: absolute; inset: 0; flex: none; z-index: 0; }
-  .layout-gundam .art .sample-art, .layout-gundam .art .custom-art { object-position: center 30%; }
-  .layout-gundam .name-bar { display: flex; align-items: stretch; gap: 0; margin: 12px 12px 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,.45)); }
+  .layout-gundam .art .custom-art { object-position: center 30%; }
+  .layout-gundam .name-bar { display: flex; align-items: stretch; gap: 0; margin: 12px 12px 0; filter: drop-shadow(0 2px 4px rgba(0,0,0,.45)); position: relative; }
   .layout-gundam .nb-meta {
     position: absolute; left: 4px; top: calc(100% + 10px); width: 32px; height: 36px; font-size: 0; display: grid; place-items: center;
     clip-path: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
     background: linear-gradient(160deg, color-mix(in srgb, var(--r-f2), #fff 25%), color-mix(in srgb, var(--r-f2), #000 35%));
     border-radius: 0; box-shadow: none; z-index: 1;
   }
-  .layout-gundam .name-bar { position: relative; }
   .layout-gundam .nb-meta .rarity-text { display: none; }
   .layout-gundam .rarity-icon { display: block; width: 17px; height: 17px; color: #fff; filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.45)); }
   .layout-gundam .rarity-icon svg, .layout-gundam .nb-finish svg { display: block; width: 100%; height: 100%; }
@@ -281,7 +257,11 @@
     backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
   }
   .layout-gundam .type-line, .layout-gundam .gold-inner { display: none; }
-  .layout-gundam .card-info { margin-top: auto !important; }
+  .layout-gundam .card-info { margin-top: auto !important;
+    flex: none; margin: 0 12px 12px; padding: 11px 13px 12px; align-items: stretch; z-index: 4;
+    background: rgba(248,249,252,.86); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+    border-radius: 0 0 10px 10px; overflow: hidden;
+    box-shadow: inset 0 3px 0 var(--r-f2); }
   .layout-gundam .tl-sep { display: none; }
   .layout-gundam .tl-rarity, .layout-gundam .tl-fin {
     padding: 3px 11px; font-size: 10.5px; font-weight: 700; color: #fff;
@@ -289,16 +269,9 @@
   }
   .layout-gundam .tl-rarity::before, .layout-gundam .tl-fin::before { content: '('; }
   .layout-gundam .tl-rarity::after, .layout-gundam .tl-fin::after { content: ')'; }
-  .layout-gundam .card-info {
-    flex: none; margin: 0 12px 12px; padding: 11px 13px 12px; align-items: stretch; z-index: 4;
-    background: rgba(248,249,252,.86); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
-    border-radius: 0 0 10px 10px; overflow: hidden;
-    box-shadow: inset 0 3px 0 var(--r-f2);
-  }
   .layout-gundam .glossy .card-info { background: rgba(255,255,255,.72); }
   .layout-gundam .alternative .card-info { background: rgba(12,12,14,.84); }
-  .layout-gundam .card-info > .card-title, .layout-gundam .card-info > .foil-text,
-  .layout-gundam .finish-name, .layout-gundam .alternative .card-info::before { display: none; }
+  .layout-gundam .card-info > .card-title, .layout-gundam .card-info > .foil-text, .layout-gundam .finish-name, .layout-gundam .alternative .card-info::before { display: none; }
   .layout-gundam .description { max-width: none; margin: 0; padding-top: 3px; font-size: 12.5px; color: #1d2533; }
   .layout-gundam .alternative .description { color: #d6c7a6; }
 

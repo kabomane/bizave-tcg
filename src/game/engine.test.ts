@@ -65,10 +65,22 @@ describe('catalogue et configuration', () => {
     expect(resolveBoosterPool(boosters[1], cards).every(p => p.card.collectionId === 'speciaux')).toBe(true)
     expect(new Set(resolveBoosterPool({ ...boosters[2], title: 'Autre nom' }, cards).map(p => p.card.collectionId)).size).toBe(3)
   })
-  it('conserve le CSS des cartes de la référence sans réinterprétation', () => {
+  it('conserve les déclarations finales des compositions actives de la référence', () => {
     const demo = readFileSync('references/demo-cartes-finitions.html', 'utf8').match(/<style>([\s\S]*?)<\/style>/)![1]
     const reference = demo.slice(demo.indexOf('/* ───────── Carte'), demo.indexOf('  .label'))
-    expect(readFileSync('src/styles/cards-reference.css', 'utf8')).toContain(reference)
+    const rules = (css: string) => {
+      const result = new Map<string, Map<string, string>>()
+      for (const match of css.replace(/\/\*[\s\S]*?\*\//g, '').matchAll(/([^{}]+)\{([^{}]*)\}/g)) for (const selector of match[1].trim().split(/,\s*/)) {
+        if (/\.(layout-magic|sample-art)\b/.test(selector)) continue
+        const declarations = result.get(selector) || new Map<string, string>()
+        for (const declaration of match[2].matchAll(/([-\w]+)\s*:\s*([^;]+)(?:;|$)/g)) declarations.set(declaration[1], declaration[2].trim())
+        result.set(selector, declarations)
+      }
+      return result
+    }
+    const actual = rules(readFileSync('src/styles/cards-reference.css', 'utf8'))
+    for (const [selector, declarations] of rules(reference)) expect(actual.get(selector), selector).toEqual(declarations)
+    expect(readFileSync('src/styles/application.css', 'utf8')).toMatch(/-webkit-mask-image:\s*none/)
     const component = readFileSync('src/components/CollectibleCard.tsx', 'utf8')
     expect(component).toContain("card.artVariant === 'fullArt' ? 'gundam' : 'fusion'")
   })

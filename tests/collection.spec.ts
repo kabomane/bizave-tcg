@@ -57,18 +57,18 @@ test('filtre multi-booster avec cartes partagées et menus mobiles', async ({ pa
   await expect(page.locator('.collection-filters .filter-trigger')).toHaveCount(3)
   await page.getByRole('button', { name: 'Boosters', exact: true }).click()
   await page.getByRole('menuitemcheckbox', { name: 'Édition test', exact: true }).click()
-  await page.keyboard.press('Escape')
+  await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
   await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(30)
   await page.getByRole('searchbox').fill('Thomas classique')
   await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(6)
   await page.getByRole('searchbox').fill('')
   await page.getByRole('button', { name: /^Boosters/ }).click()
   await page.getByRole('menuitemcheckbox', { name: 'Phantom Blood', exact: true }).click()
-  await page.keyboard.press('Escape')
+  await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
   await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(660)
   await page.getByRole('button', { name: /^Finitions/ }).click()
   await page.getByRole('menuitemcheckbox', { name: 'Full Art', exact: true }).click()
-  await page.keyboard.press('Escape')
+  await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
   await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(330)
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 })
@@ -81,7 +81,7 @@ test('filtre multi-booster avec cartes partagées et menus mobiles', async ({ pa
         await expect(page.getByRole('menu', { name, exact: true })).toHaveCSS('opacity', '1')
         await page.screenshot({ path: 'artifacts/collection-filtre-boosters-mobile.png' })
       }
-      await page.keyboard.press('Escape')
+      await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
     }
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   }
