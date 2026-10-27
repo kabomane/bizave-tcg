@@ -1,4 +1,19 @@
-# Validation — 27 octobre 2026
+# Validation — bizave-tcg.v1.2.5
+
+## Publication du 27 octobre 2026
+
+- `npm run check` réussi : lint, **128 tests unitaires et d’intégration**, TypeScript et build de production.
+- `npx playwright test --reporter=line` : **28 parcours réussis**, deux exécutions du test de compatibilité ignorées car il pilote lui-même les trois moteurs depuis son unique exécution Chromium. Les parcours couvrent les échanges signés, les migrations, la suppression, les confirmations en minuscules/majuscules, la collection, les ouvertures, le clavier et le responsive sur Chromium, Firefox et WebKit.
+- Migration réelle de l’identité **Firefox → Chromium → WebKit**, puis envoi et retour d’une carte sans refaire le contact.
+- Build de production vérifié dans Chromium : métadonnée `bizave-tcg.v1.2.5`, absence du mode dev, collection vide sans bouton Phantom Blood, export/import en minuscules et conservation de l’ID joueur.
+- **121 fichiers** statiques, dont **110 WebP versionnés**, pour **22 875 600 octets**. Aucun PNG original, certificat, clé privée ou fichier de sauvegarde n’est inclus dans les ressources publiées. Les identités sont créées localement à l’exécution du jeu.
+- Alignement des boutons contrôlé de 320 à 1280 px : Exporter/Importer sur une même ligne ; Retour/Annuler et action principale alignés sur la largeur du champ, de même hauteur et dans un rapport 1/3–2/3.
+- README, guide de sauvegarde, guide des boosters, roadmap et note de publication revus. Les rapports d’audit antérieurs sont explicitement historiques.
+
+Le protocole courant utilise une seule paire de signature transférable, les formats FR2/TR2 et la base `bizave-tcg-v2` (schéma 5). Les anciennes identités et les anciens formats ne sont pas repris. Cible de publication : Firebase Hosting `bizave-tcg`, avec `VITE_DEV_CATALOG=false`.
+
+
+Les sections suivantes sont historiques : leurs chiffres, captures, clés non exportables et descriptions d’échanges chiffrés concernent les versions antérieures. Elles ne décrivent pas le protocole publié dans `bizave-tcg.v1.2.5`.
 
 ## Audit optimisation et nettoyage — 27 octobre 2026
 

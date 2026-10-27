@@ -26,5 +26,10 @@ export function updateSettings(patch: Partial<Preferences>) {
   preferences = next
   emit()
 }
+export function resetSettings() {
+  localStorage.removeItem(SETTINGS_KEY)
+  preferences = parsePreferences(null)
+  emit()
+}
 const subscribe = (listener: () => void) => { listeners.add(listener); return () => { listeners.delete(listener) } }
 export function useSettings() { return useSyncExternalStore(subscribe, () => preferences) }

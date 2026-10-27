@@ -1,6 +1,6 @@
 import { memo, useCallback, useMemo, useState } from 'react'
-import { ArrowLeft, ArrowRight, Check, Gem, Layers3, Search, Send, SlidersHorizontal, X } from 'lucide-react'
-import { Link, useNavigate } from 'react-router-dom'
+import { ArrowLeft, Check, Gem, Layers3, Search, Send, SlidersHorizontal, X } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { useGame } from '../components/useGame'
 import { cardById, cards } from '../data/cards'
 import { boosters } from '../data/boosters'
@@ -101,7 +101,7 @@ export function CollectionPage() {
       if (item.entries.length === 1) return renderEntry(item.entries[0])
       const label = collectionDisplay.duplicates === 'show' ? `${item.entries.length} cartes` : `${item.variantCount} variantes`
       return <CollectionPileItem key={item.key} item={item} label={label} showValue={showValue} onOpen={openPile} />
-    })}</div>{!visible.length && <EmptyState icon={<Layers3 size={24} />} title="Aucune carte">Essayez une autre sélection.</EmptyState>}</> : <EmptyState icon={<Layers3 size={25} />} title="La première vous attend." action={<Link className="primary-button" to="/">Phantom Blood <ArrowRight size={15} /></Link>}>Ouvrez votre premier booster.</EmptyState>}
+    })}</div>{!visible.length && <EmptyState icon={<Layers3 size={24} />} title="Aucune carte">Essayez une autre sélection.</EmptyState>}</> : <EmptyState icon={<Layers3 size={25} />} title="La première vous attend.">Ouvrez votre premier booster.</EmptyState>}
     {(detail && definition || stack) && <Modal headerCenter={obtainedDate && <time dateTime={obtainedDate.toISOString()}>obtenu le {obtainedDateFormat.format(obtainedDate)}</time>} viewKey={detail?.key || stack?.key} title={detail && definition ? definition.title : cardById.get(stack!.card.cardId)!.title + (collectionDisplay.groupBy === 'format' ? stack!.card.artVariant === 'fullArt' ? ' · Full Art' : ' · Classique' : '')} showTitle={!detail} onClose={() => { if (!busy) close() }} wide={!!detail} className={detail ? '' : 'collection-stack-modal'} headerStart={detail && stack ? <button type="button" className="text-button pile-back" aria-label="Retour à la pile" disabled={busy} onClick={() => close(false)}><ArrowLeft size={16} /> La pile</button> : undefined}>
       {detail && definition ? <><div className="card-detail-layout"><div className="detail-card"><CollectibleCard card={detail.card} definition={definition} /></div><div className="detail-info">{preview && <p className="muted">Aperçu · Mode dev</p>}
       {!preview && detail.ids.length > 0 && !recycleConfirm && <div className="detail-actions"><button className="secondary-button" onClick={() => { const id = detail.ids[detail.ids.length - 1]; close(); navigate('/envoyer/' + id) }}><Send size={15} /> Envoyer</button><button className="text-button" onClick={() => setRecycleConfirm(true)}><Gem size={15} /> Recycler · +{getRecycleFragments(definition.rarity, detail.card.finish, detail.card.artVariant)}</button></div>}

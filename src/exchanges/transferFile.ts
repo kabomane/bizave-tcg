@@ -3,11 +3,11 @@ import type { OutgoingTransferRow } from '../game/types'
 export const MAX_TRANSFER_FILE_BYTES = 16_384
 const FORMAT = 'bizave-tcg-transfer'
 function validateCode(code: unknown): asserts code is string {
-  if (typeof code !== 'string' || code.length > 12_000 || !/^TR1\.[A-Za-z0-9_-]+$/.test(code)) throw new Error('Ce fichier ne contient pas de code de transfert valide.')
+  if (typeof code !== 'string' || code.length > 12_000 || !/^TR2\.[A-Za-z0-9_-]+$/.test(code)) throw new Error('Ce fichier ne contient pas de code de transfert valide.')
 }
 export function serializeTransferFile(code: string): string {
   validateCode(code)
-  return JSON.stringify({ format: FORMAT, version: 1, code })
+  return JSON.stringify({ format: FORMAT, version: 2, code })
 }
 export function parseTransferFile(contents: string): string {
   if (new TextEncoder().encode(contents).byteLength > MAX_TRANSFER_FILE_BYTES) throw new Error('Ce fichier de transfert est trop volumineux.')
@@ -15,7 +15,7 @@ export function parseTransferFile(contents: string): string {
   try { data = JSON.parse(contents) } catch { throw new Error('Ce fichier .btcg est illisible.') }
   if (!data || typeof data !== 'object' || Array.isArray(data)) throw new Error('Fichier de transfert non reconnu.')
   const value = data as Record<string, unknown>
-  if (value.format !== FORMAT || value.version !== 1 || Object.keys(value).sort().join(',') !== 'code,format,version') throw new Error('Format de fichier de transfert non pris en charge.')
+  if (value.format !== FORMAT || value.version !== 2 || Object.keys(value).sort().join(',') !== 'code,format,version') throw new Error('Format de fichier de transfert non pris en charge.')
   validateCode(value.code)
   // Authentication, recipient and replay checks remain in receiveTransfer.
   return value.code

@@ -1,6 +1,6 @@
 # Roadmap — Bizave TCG
 
-Document de conception du 25 octobre 2026. Les fonctionnalités ci-dessous sont prévues ; elles ne sont pas encore implémentées.
+État pour **bizave-tcg.v1.2.5**, le 27 octobre 2026. L’installation PWA et le hors ligne restent prévus. Le transfert de sauvegarde est implémenté ; son fonctionnement actuel est résumé en section 2 et décrit dans [le guide de sauvegarde](docs/sauvegarde.md).
 
 ## 1. Installation PWA et jeu hors ligne
 
@@ -33,7 +33,7 @@ L’installation et la disponibilité hors ligne sont deux états distincts. Aff
 - Inclure les placeholders pour les cartes sans illustration définitive.
 - Conserver les effets holographiques, les cadres et les animations exécutés localement.
 - Conserver l’accès aux visuels nécessaires aux anciennes cartes possédées si le catalogue évolue.
-- Étudier des versions WebP optimisées pour la diffusion, avec comparaison visuelle avant validation et conservation des PNG originaux.
+- Réutiliser les WebP 900 × 1200 déjà diffusés et versionnés par contenu ; les 110 PNG originaux restent conservés localement, hors Git et publication.
 
 État mesuré le 25 octobre 2026 : **37 illustrations PNG, 140 409 985 octets, soit environ 140 Mo**, hors code et autres ressources. Cette mesure ne préjuge pas du poids après optimisation ni des futures illustrations.
 
@@ -45,7 +45,7 @@ L’installation et la disponibilité hors ligne sont deux états distincts. Aff
 4. Proposer **Mise à jour prête — Relancer** lorsqu’un redémarrage est nécessaire.
 5. Activer une version cohérente de l’application et de son catalogue ; nettoyer les anciennes ressources uniquement lorsqu’elles ne sont plus nécessaires.
 
-Préserver la version précédente en cas de téléchargement interrompu ou invalide. Prévoir une reprise sans retélécharger les fichiers déjà vérifiés. Ne jamais imposer un rechargement pendant une ouverture de booster ou un transfert. Les mises à jour doivent conserver la collection, les fragments, les stocks, les amis, l’identité et l’historique des échanges.
+Préserver la version précédente en cas de téléchargement interrompu ou invalide. Prévoir une reprise sans retélécharger les fichiers déjà vérifiés. Ne jamais imposer un rechargement pendant une ouverture de booster ou un transfert. Après la sortie officielle, les mises à jour devront conserver la collection, les fragments, les stocks, les amis, l’identité et l’historique des échanges.
 
 Prévoir une vérification automatique à l’ouverture et au retour de la connexion, ainsi que le bouton manuel **Mettre à jour le jeu**. Ne pas promettre une actualisation permanente lorsque l’application est fermée : les possibilités de travail en arrière-plan dépendent du navigateur et du système.
 
@@ -94,66 +94,19 @@ Afficher clairement l’état de connexion et les raisons d’indisponibilité. 
 - [Politique de stockage WebKit](https://webkit.org/blog/14403/updates-to-storage-policy/)
 - [Limites de l’indicateur de connexion du navigateur](https://developer.mozilla.org/en-US/docs/Web/API/Navigator/onLine)
 
-## 2. Déplacement de sauvegarde sans backend — piste retenue
+## 2. Transfert de sauvegarde — livré dans bizave-tcg.v1.2.5
 
-### Objectif et contraintes
+Le parcours implémenté remplace la piste initiale à demande chiffrée, code ou QR code. Dans les options, le destinataire relève son ID d’appareil ; la source saisit cet ID et génère un fichier **.btcg signé**, sans code de sauvegarde à copier.
 
-Permettre de déplacer sa sauvegarde vers un autre appareil au moyen d’un fichier **.btcg dédié à la sauvegarde**, distinct par son type interne des fichiers .btcg de transfert de carte. Le fonctionnement doit être **sans backend**. Cette section consigne une piste de conception issue du brainstorm ; aucun code n’est implémenté et le protocole détaillé reste à valider.
+- Une seule paire de signature ECDSA P-256/SHA-256 transférable ; les échanges de cartes FR2/TR2 et les sauvegardes sont signés et lisibles.
+- L’ID joueur, la clé privée, les amis et toute la progression suivent la sauvegarde. L’ID d’installation reste propre à l’appareil. Les amis peuvent continuer à envoyer des cartes, y compris celles préparées avant la migration.
+- Le fichier est vérifié et enregistré dans la même transaction que l’effacement de la partie source. Celle-ci reste verrouillée sur la page de téléchargement, après fermeture et dans les autres onglets.
+- L’import remplace la partie cible, conserve les registres nécessaires et inscrit le transfert de façon atomique. Une erreur annule toutes les écritures. Le fichier est refusé sur une autre installation et en cas de réimport.
+- Les confirmations sont insensibles aux majuscules et minuscules ; les fenêtres sont adaptées au téléphone.
+- **Supprimer le compte** réinitialise progression, amis, registres, options, identité et ID d’installation ; un fichier de migration en attente est également supprimé après confirmation.
 
-Le déplacement doit désactiver la sauvegarde source et activer sa version transférée sur la destination. Il ne doit jamais additionner deux collections.
+Le fichier de sauvegarde contient l’identité privée et doit rester personnel. La protection vise les usages normaux du jeu local ; elle ne garantit pas l’unicité contre un client modifié ou un clonage complet du stockage. Aucun mécanisme de restauration ni de synchronisation n’est proposé.
 
-### Idée initiale et problème identifié
+Le nouveau protocole utilise la base de test distincte `bizave-tcg-v2`, sans reprise des anciennes identités, des anciens FR1/TR1 ni des sauvegardes version 1. Les illustrations appartiennent aux ressources du jeu et ne sont pas embarquées dans la sauvegarde.
 
-Le joueur prépare un fichier sur le premier appareil, puis récupère un code dans ses paramètres d’export pour autoriser l’import sur le second. La sauvegarde source reste présente avant la confirmation du départ.
-
-Un code générique associé au fichier ne suffit pas : le joueur peut conserver le fichier et le code, puis les réutiliser sur plusieurs appareils. La disparition du code de l’interface ne supprime pas les copies déjà réalisées. Sans liaison entre les appareils, le premier ne peut pas savoir que le code a été saisi sur le second.
-
-### Parcours proposé : autorisation liée à une destination
-
-1. **Recevoir ma sauvegarde — destination.** La nouvelle installation crée une demande unique liée à une clé privée locale. La demande est transmise au premier appareil par fichier ou QR code ; la clé privée reste sur la destination.
-2. **Déplacer ma sauvegarde — source.** Le premier appareil lit la demande et prépare un fichier final chiffré pour cette destination. L’autorisation est liée à la demande, à la destination et au contenu exact de la sauvegarde.
-3. **Figer la progression source.** Dès la préparation du fichier final, bloquer les ouvertures, achats, recyclages, échanges et autres mutations de cette sauvegarde. Une activité parallèle pourrait rendre le fichier obsolète et permettre la restauration de cartes déjà envoyées ou dépensées. Le verrouillage doit couvrir tous les onglets ou fenêtres utilisant la même sauvegarde.
-4. **Confirmer le départ — source.** Désactiver durablement la collection source avant de délivrer l’autorisation finale. Un code ou QR code peut servir de confirmation dans l’interface ; la protection repose sur la liaison cryptographique à la destination, et non sur la disparition du code.
-5. **Activer la sauvegarde — destination.** Vérifier le fichier et son autorisation, puis effectuer un import cohérent et indivisible. Mémoriser l’identifiant du déplacement pour empêcher son application répétée dans la même installation. Ne jamais fusionner ou cumuler les collections.
-
-La liaison concerne une **installation et sa clé**, pas une identité matérielle garantie du téléphone ou de l’ordinateur. Le simple partage du fichier et du code ne doit pas permettre une activation sur une autre installation dépourvue de cette clé.
-
-### Interruptions et récupération
-
-- Un téléchargement annulé, une fermeture ou une panne pendant le déplacement ne doit pas provoquer une perte silencieuse de collection.
-- Prévoir la possibilité de redonner **exactement le même transfert à la même destination**, en conservant côté source les éléments de reprise nécessaires sous un état verrouillé et non jouable.
-- Ne pas réactiver librement la source après délivrance d’une autorisation : une copie de cette autorisation pourrait encore activer la destination.
-- Définir les possibilités d’annulation selon l’étape atteinte. Après délivrance, l’invalidation d’une autorisation sur un autre appareil isolé ne peut pas être supposée.
-- Définir le traitement d’une destination déjà utilisée, la confirmation d’un remplacement et le sort de sa sauvegarde précédente.
-- Définir le cas où la destination perd sa clé ou efface ses données avant la fin du transfert. Ne pas promettre de récupération universelle.
-
-### Portée de la protection
-
-Objectif : empêcher les duplications au moyen des fonctions normales du jeu, notamment la redistribution d’un fichier et d’un code à plusieurs installations et les imports répétés qui additionneraient des cartes.
-
-**Limite acceptée pour cette piste sans serveur : aucune garantie absolue d’unicité face au clonage, à la modification ou à la restauration complète du stockage local.** Un état de navigateur sauvegardé avant le déplacement peut notamment rétablir une source antérieure à son verrouillage. Un registre local des imports ou déplacements ne constitue pas un registre partagé entre appareils.
-
-Le chiffrement protège le contenu et les signatures son authenticité ; ils ne rendent pas à eux seuls un fichier consommable une seule fois sur tous les appareils. Les clés non exportables limitent les opérations d’export via Web Crypto, sans garantir une protection contre une copie de l’environnement local.
-
-### Identité et contenu à concevoir
-
-- Préserver les identifiants des exemplaires, la progression, les fragments, les stocks et ouvertures en cours, ainsi que l’historique nécessaire pour éviter les réutilisations de transferts.
-- Définir la migration des amis et de l’identité d’échange. Les clés privées actuelles sont non exportables : un simple export JSON ne permet pas de conserver cette identité sur un autre appareil. Prévoir une stratégie de migration avant toute implémentation.
-- Ne pas embarquer les illustrations dans la sauvegarde ; elles appartiennent aux ressources du jeu et au téléchargement PWA.
-- Versionner et valider le format ; distinguer explicitement une sauvegarde d’un transfert de carte malgré l’extension commune .btcg.
-- Concevoir et vérifier le protocole complet avant de revendiquer ses garanties de sécurité.
-
-### Validation à prévoir
-
-- Parcours normal entre deux installations, puis refus du fichier sur une troisième installation.
-- Refus de réimport sur la source avec le seul fichier et le code conservés.
-- Import répété et tentatives simultanées dans plusieurs onglets, sans cumul ni double activation locale.
-- Blocage de toutes les mutations source pendant la préparation finale et après confirmation du départ.
-- Interruption à chaque étape, reprise du même transfert et cohérence de l’état final.
-- Fichier altéré, tronqué, mauvaise destination, mauvaise autorisation et version incompatible.
-- Conservation ou migration explicite de l’identité, des amis, des ouvertures en cours et des historiques d’échange.
-- Documentation visible des limites concernant la restauration d’un ancien profil et la perte des clés de destination.
-
-### Source technique
-
-- [W3C — limites de sécurité du stockage des clés Web Crypto](https://www.w3.org/TR/webcrypto/#security-developers)
+Les tests de migration couvrent les échanges avant et après déplacement, les migrations successives, les erreurs de stockage, les accès concurrents, le maintien des registres et la continuité entre Firefox, Chromium et WebKit. Voir [docs/sauvegarde.md](docs/sauvegarde.md).

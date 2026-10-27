@@ -1,5 +1,17 @@
 # Historique des versions
 
+## bizave-tcg.v1.2.5 — 27 octobre 2026
+
+- Échanges signés FR2/TR2 avec une seule paire de clés transférable ; retrait du chiffrement des cartes.
+- Migration de sauvegarde complète par `.btcg`, avec maintien de l’identité et des amis, verrouillage de la source, téléchargement persistant et contrôles atomiques des imports.
+- Suppression du compte avec nouveaux ID joueur/appareil, nouvelle clé et remise à zéro complète.
+- Options plus discrètes, fenêtres adaptées au mobile, actions alignées en 1/3–2/3 et confirmations insensibles à la casse.
+- Retrait du bouton Phantom Blood dans la collection vide et retouche de la description de Les Blancs.
+- Documentation et roadmap actualisées ; le transfert est livré, la PWA et le hors ligne restent prévus.
+- Rupture avant sortie officielle : nouvelle base locale `bizave-tcg-v2`, sans reprise des anciennes parties de test, des contacts FR1/TR1 ni des anciens fichiers de sauvegarde.
+
+Note de publication complète : [bizave-tcg.v1.2.5](docs/releases/bizave-tcg.v1.2.5.md). Les sections ci-dessous décrivent les états historiques du projet.
+
 ## Optimisation du 27 octobre 2026
 
 - 63 illustrations converties en WebP 900 × 1200 qualité 85, URLs versionnées par contenu ; originaux conservés localement, hors Git et publication.

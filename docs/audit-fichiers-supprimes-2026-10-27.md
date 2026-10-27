@@ -1,5 +1,7 @@
 # Fichiers supprimés pendant l’audit
 
+Rapport historique de l’audit initial, antérieur à **bizave-tcg.v1.2.5**. Les chiffres et descriptions techniques ci-dessous concernent cet état du projet ; pour la version courante, consulter le [README](../README.md), le [guide de sauvegarde](sauvegarde.md) et la [validation](../VALIDATION.md).
+
 203 fichiers retirés par rapport à `b13f611`. Les 63 PNG actifs ont été déplacés sans modification dans le dossier local ignoré `illustrations/originals/` ; ils ne sont donc plus versionnés. Les cinq dossiers de cartes hors catalogue et leurs fichiers sont retirés définitivement.
 
 ```text

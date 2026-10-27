@@ -1,4 +1,5 @@
 import Dexie, { type Table } from 'dexie'
+import type { AccountStateRow, InstallationRow, UsedSaveTransferRow } from './accountTypes'
 import type { BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, LocalIdentityRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
 
 export class BizaveDatabase extends Dexie {
@@ -14,7 +15,10 @@ export class BizaveDatabase extends Dexie {
   definitions!: Table<CardDefinition, string>
   boosterStock!: Table<BoosterStockRow, string>
   boosterPurchases!: Table<BoosterPurchaseRow, string>
-  constructor(name = 'bizave-tcg') {
+  accountState!: Table<AccountStateRow, string>
+  usedSaveTransfers!: Table<UsedSaveTransferRow, string>
+  installation!: Table<InstallationRow, string>
+  constructor(name = 'bizave-tcg-v2') {
     super(name)
     this.version(1).stores({
       drops: '&dropId, cardId, [cardId+finish+artVariant], finish, artVariant, status',
@@ -40,6 +44,12 @@ export class BizaveDatabase extends Dexie {
     })
     this.version(3).stores({ boosterStock: '&boosterId', boosterPurchases: '&id, boosterId, createdAt' }).upgrade(async tx => {
       await tx.table('player').toCollection().modify(row => { row.schemaVersion = 3 })
+    })
+    this.version(4).stores({ accountState: '&id', usedSaveTransfers: '&transferId' }).upgrade(async tx => {
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 4 })
+    })
+    this.version(5).stores({ installation: '&id' }).upgrade(async tx => {
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 5 })
     })
   }
 }

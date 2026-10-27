@@ -85,7 +85,7 @@ test('au clavier et en reduced-motion, carte et filtres restent accessibles', as
   await page.keyboard.press('Escape')
   await expect(page.getByRole('button', { name: /^Rareté/ })).toBeFocused()
 })
-test('échanges : contacts, transfert chiffré et antirejeu avec le parcours actuel', async ({ page, browser, baseURL }) => {
+test('échanges : contacts, transfert signé et antirejeu avec le parcours actuel', async ({ page, browser, baseURL }) => {
   test.setTimeout(90_000) // Two isolated players, cryptography and repeated full-page navigations on WebKit.
   const secondContext = await browser.newContext({ baseURL })
   const second = await secondContext.newPage()
@@ -130,7 +130,7 @@ test('échanges : contacts, transfert chiffré et antirejeu avec le parcours act
     await page.getByRole('button', { name: 'Envoyer à B', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Code de transfert copié !', exact: true })).toBeVisible()
     const transfer = await page.evaluate(() => navigator.clipboard.readText())
-    expect(transfer).toMatch(/^TR1\./)
+    expect(transfer).toMatch(/^TR2\./)
     await second.bringToFront()
     await second.getByRole('tab', { name: 'Recevoir', exact: true }).click()
     await second.evaluate(value => navigator.clipboard.writeText(value), transfer)

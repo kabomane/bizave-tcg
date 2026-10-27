@@ -201,7 +201,7 @@ describe('migrations et archives', () => {
     old.version(2).stores({ drops: '&dropId, cardId, [cardId+finish+artVariant], finish, artVariant, status', discoveries: '&key, cardId, [cardId+finish+artVariant], artVariant', player: '&id', openings: '&id, openedAt, boosterId', recycling: '&id, createdAt', identity: '&id', friends: '&playerUuid', outbox: '&transferId, dropId, createdAt', usedTransfers: '&transferId', definitions: '&id' })
     const owned: CardDropRow = { dropId: uuid(), cardId: 't-classique', finish: 'glossy', artVariant: 'fullArt', status: 'owned', acquiredAt: 12, updatedAt: 12 }
     const player = { id: 'local', fragments: 73, freePackStock: 2, nextFreePackAt: 600_000, maxObservedClockAt: 100, schemaVersion: 2 }
-    const outgoing = { transferId: uuid(), dropId: uuid(), recipientId: '1234-56-78', code: 'TR1.keep', createdAt: 11, status: 'generated' }
+    const outgoing = { transferId: uuid(), dropId: uuid(), recipientId: '1234-56-78', code: 'TR2.keep', createdAt: 11, status: 'generated' }
     const legacyOpening = { id: uuid(), boosterId: 'nocturne', openedAt: 12, payment: 'fragments', fragmentsSpent: 60, results: [{ dropId: owned.dropId, cardId: owned.cardId, finish: owned.finish, artVariant: owned.artVariant }], revealComplete: false, revealedCount: 1 }
     await old.table('player').put(player); await old.table('drops').put(owned); await old.table('outbox').put(outgoing)
     await old.table('openings').put(legacyOpening)
@@ -209,7 +209,7 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 3 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 5 })
       expect(await upgraded.drops.get(owned.dropId)).toEqual(owned)
       expect(await upgraded.outbox.get(outgoing.transferId)).toEqual(outgoing)
       expect(await upgraded.openings.get(legacyOpening.id)).toEqual(legacyOpening)
@@ -226,7 +226,7 @@ describe('migrations et archives', () => {
     await old.table('discoveries').add({ key: 't-classique::normal', cardId: 't-classique', finish: 'normal', firstDiscoveredAt: 10 })
     await old.table('player').add({ id: 'local', fragments: 17, freePackStock: 3, nextFreePackAt: 600000, maxObservedClockAt: 10, schemaVersion: 1 })
     await old.table('usedTransfers').add({ transferId, receivedAt: 12 })
-    await old.table('outbox').add({ transferId, dropId, recipientId: '1234-56-78', code: 'TR1.saved', createdAt: 10, status: 'generated' })
+    await old.table('outbox').add({ transferId, dropId, recipientId: '1234-56-78', code: 'TR2.saved', createdAt: 10, status: 'generated' })
     await old.table('openings').add({ id: uuid(), boosterId: 'eclats', results: [{ dropId, cardId: 't-classique', finish: 'normal' }], revealComplete: false })
     old.close()
     const upgraded = new BizaveDatabase(name)
@@ -236,7 +236,7 @@ describe('migrations et archives', () => {
       expect(await upgraded.discoveries.get('t-classique::normal::standard')).toBeDefined()
       expect((await upgraded.player.get('local'))?.fragments).toBe(17)
       expect(await upgraded.usedTransfers.get(transferId)).toEqual({ transferId, receivedAt: 12 })
-      expect((await upgraded.outbox.get(transferId))?.code).toBe('TR1.saved')
+      expect((await upgraded.outbox.get(transferId))?.code).toBe('TR2.saved')
       expect((await upgraded.openings.toArray())[0].results[0].artVariant).toBe('standard')
     } finally { await upgraded.delete() }
   })

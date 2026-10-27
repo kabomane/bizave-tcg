@@ -4,7 +4,7 @@ import { initializeDatabase, recycleDrops } from '../storage/services'
 import { uuid } from '../game/engine'
 import { addContact, ensureIdentity, ownContact, receiveTransfer, sendTransfer, renameFriend, removeFriend } from './services'
 import { pruneOutbox, OUTBOX_RETENTION_MS } from './outbox'
-import { base64url, canonicalPayload, createContactCode, decryptTransfer, encryptTransfer, generateIdentity, parseContactCode, PLAYER_UUID_PATTERN, unbase64url } from './crypto'
+import { base64url, canonicalPayload, createContactCode, verifyTransfer, signTransfer, generateIdentity, parseContactCode, PLAYER_UUID_PATTERN, unbase64url, portableIdentity, importPortableIdentity } from './crypto'
 import type { FriendContactRow } from '../game/types'
 import { parseTransferFile, serializeTransferFile } from './transferFile'
 
@@ -24,12 +24,13 @@ async function addDrop(database = a) {
   return drop
 }
 describe('identité et contacts', () => {
-  it('génère deux paires de clés privées non exportables, indépendantes des 8 chiffres', async () => {
+  it('génère une seule paire de signature transférable, indépendante des 8 chiffres', async () => {
     const first = await ensureIdentity(a), second = await ensureIdentity(b)
     expect(first.playerUuid).toMatch(PLAYER_UUID_PATTERN)
-    expect(first.signingPrivateKey.extractable).toBe(false)
-    expect(first.encryptionPrivateKey.extractable).toBe(false)
-    expect(first.signingPublicJwk.x).not.toBe(first.encryptionPublicJwk.x)
+    expect(first.signingPrivateKey.extractable).toBe(true)
+    expect(first).not.toHaveProperty('encryptionPrivateKey')
+    expect(first).not.toHaveProperty('encryptionPublicJwk')
+    expect((await crypto.subtle.exportKey('jwk', first.signingPrivateKey)).d).toBeTruthy()
     expect(first.signingPublicJwk.x).not.toBe(second.signingPublicJwk.x)
     expect(createContactCode(first)).not.toContain('private')
     a.close(); await a.open()
@@ -47,8 +48,18 @@ describe('identité et contacts', () => {
     expect(await b.friends.count()).toBe(1)
     expect((await b.friends.get(friend.playerUuid))?.label).toBe('Alice')
     const decoded = JSON.parse(new TextDecoder().decode(unbase64url(code.slice(4))))
-    expect(decoded.signingPublicJwk.d).toBeUndefined(); expect(decoded.encryptionPublicJwk.d).toBeUndefined()
+    expect(decoded.signingPublicJwk.d).toBeUndefined()
+    expect(Object.keys(decoded).sort()).toEqual(['playerUuid', 'signingPublicJwk', 'version'])
     await expect(addContact(code, '', a)).rejects.toThrow(/vous-même/)
+  })
+  it('importe les clés portables avec la métadonnée ES256 de Firefox et refuse un autre algorithme', async () => {
+    const identity = await generateIdentity(), portable = await portableIdentity(identity)
+    portable.signingPrivateJwk.alg = 'ES256'; portable.signingPublicJwk.alg = 'ES256'
+    const imported = await importPortableIdentity(portable)
+    expect(createContactCode(imported)).toBe(createContactCode(identity))
+    expect(imported.signingPrivateKey.extractable).toBe(true)
+    portable.signingPrivateJwk.alg = 'ES384'
+    await expect(importPortableIdentity(portable)).rejects.toThrow(/privée/)
   })
   it('accepte les zéros initiaux et bloque les conflits UUID / clés', async () => {
     const identity = { ...await generateIdentity(), playerUuid: '0000-00-01' }
@@ -60,9 +71,9 @@ describe('identité et contacts', () => {
     expect((await b.friends.get(identity.playerUuid))?.signingPublicJwk.x).toBe(identity.signingPublicJwk.x)
   })
   it('refuse formats invalides, courbes inconnues et matériel privé', async () => {
-    for (const code of ['TR1.abc', 'FR1.', 'FR1.***', 'FR1.' + 'x'.repeat(13000)]) await expect(parseContactCode(code)).rejects.toThrow()
+    for (const code of ['FR1.abc', 'TR1.abc', 'TR2.abc', 'FR2.', 'FR2.***', 'FR2.' + 'x'.repeat(13000)]) await expect(parseContactCode(code)).rejects.toThrow()
     const data = JSON.parse(new TextDecoder().decode(unbase64url((await ownContact(a)).slice(4))))
-    for (const modified of [{ ...data, playerUuid: '12345678' }, { ...data, signingPublicJwk: { ...data.signingPublicJwk, d: 'secret' } }, { ...data, encryptionPublicJwk: { ...data.encryptionPublicJwk, crv: 'P-384' } }]) await expect(parseContactCode(`FR1.${base64url(new TextEncoder().encode(JSON.stringify(modified)))}`)).rejects.toThrow()
+    for (const modified of [{ ...data, playerUuid: '12345678' }, { ...data, version: 1 }, { ...data, signingPublicJwk: { ...data.signingPublicJwk, d: 'secret' } }, { ...data, signingPublicJwk: { ...data.signingPublicJwk, crv: 'P-384' } }]) await expect(parseContactCode(`FR2.${base64url(new TextEncoder().encode(JSON.stringify(modified)))}`)).rejects.toThrow()
   })
   it('ne régénère pas silencieusement une identité perdue après des échanges', async () => {
     await b.usedTransfers.add({ transferId: uuid(), receivedAt: Date.now() })
@@ -70,25 +81,26 @@ describe('identité et contacts', () => {
     expect(await b.identity.count()).toBe(0)
   })
 })
-describe('protocole TR1', () => {
-  it('chiffre UUID et données ; aucune clé permanente dans l’enveloppe', async () => {
+describe('protocole TR2', () => {
+  it('signe les données lisibles ; aucune clé dans l’enveloppe du transfert', async () => {
     await connect(a, b)
     const drop = await addDrop(), identity = await ensureIdentity(a), friend = (await a.friends.toArray())[0]
-    const first = await encryptTransfer(identity, friend, drop), second = await encryptTransfer(identity, friend, drop)
+    const first = await signTransfer(identity, friend, drop), second = await signTransfer(identity, friend, drop)
     const envelope = JSON.parse(new TextDecoder().decode(unbase64url(first.code.slice(4))))
-    expect(Object.keys(envelope).sort()).toEqual(['ciphertext', 'iv', 'salt', 'version'])
-    expect(JSON.stringify(envelope)).not.toContain(identity.playerUuid)
-    expect(JSON.stringify(envelope)).not.toContain(friend.playerUuid)
+    expect(Object.keys(envelope).sort()).toEqual(['payload', 'signature'])
+    expect(envelope.payload.senderId).toBe(identity.playerUuid)
+    expect(envelope.payload.recipientId).toBe(friend.playerUuid)
+    expect(envelope.payload.cardId).toBe(drop.cardId)
     expect(JSON.stringify(envelope)).not.toContain(identity.signingPublicJwk.x)
     const secondEnvelope = JSON.parse(new TextDecoder().decode(unbase64url(second.code.slice(4))))
-    expect(envelope.iv).not.toBe(secondEnvelope.iv); expect(envelope.salt).not.toBe(secondEnvelope.salt)
-    const decoded = await decryptTransfer(first.code, await ensureIdentity(b), await b.friends.toArray())
+    expect(envelope.payload.transferId).not.toBe(secondEnvelope.payload.transferId)
+    const decoded = await verifyTransfer(first.code, await ensureIdentity(b), await b.friends.toArray())
     expect(decoded).toEqual(first.payload); expect(decoded.artVariant).toBe('fullArt')
   })
   it('la signature couvre artVariant et toutes les propriétés de la carte', async () => {
     await connect(a, b)
     const identity = await ensureIdentity(a), friend = (await a.friends.toArray())[0]
-    const { payload } = await encryptTransfer(identity, friend, await addDrop())
+    const { payload } = await signTransfer(identity, friend, await addDrop())
     const signature = await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalPayload(payload))
     const publicKey = await crypto.subtle.importKey('jwk', identity.signingPublicJwk, { name: 'ECDSA', namedCurve: 'P-256' }, false, ['verify'])
     expect(await crypto.subtle.verify({ name: 'ECDSA', hash: 'SHA-256' }, publicKey, signature, canonicalPayload(payload))).toBe(true)
@@ -101,17 +113,43 @@ describe('protocole TR1', () => {
     await addContact(await ownContact(a), '', c)
     await expect(receiveTransfer(transfer.code, c)).rejects.toThrow(/autre joueur/)
     const data = JSON.parse(new TextDecoder().decode(unbase64url(transfer.code.slice(4))))
-    for (const key of ['ciphertext', 'iv', 'salt']) {
-      const changed = { ...data, [key]: (data[key].startsWith('A') ? 'B' : 'A') + data[key].slice(1) }
-      await expect(receiveTransfer(`TR1.${base64url(new TextEncoder().encode(JSON.stringify(changed)))}`, b)).rejects.toThrow()
+    for (const changed of [{ ...data, payload: { ...data.payload, finish: 'normal' } }, { ...data, payload: { ...data.payload, recipientId: (await ensureIdentity(c)).playerUuid } }, { ...data, signature: (data.signature.startsWith('A') ? 'B' : 'A') + data.signature.slice(1) }]) {
+      await expect(receiveTransfer(`TR2.${base64url(new TextEncoder().encode(JSON.stringify(changed)))}`, b)).rejects.toThrow()
     }
     expect(await b.drops.count()).toBe(0); expect(await b.usedTransfers.count()).toBe(0)
   })
   it('refuse une signature faite avec une clé ne correspondant pas au contact', async () => {
     await connect(a, b)
     const identity = await ensureIdentity(a), different = await generateIdentity()
-    const { code } = await encryptTransfer({ ...identity, signingPrivateKey: different.signingPrivateKey }, (await a.friends.toArray())[0], await addDrop())
+    const { code } = await signTransfer({ ...identity, signingPrivateKey: different.signingPrivateKey }, (await a.friends.toArray())[0], await addDrop())
     await expect(receiveTransfer(code, b)).rejects.toThrow(/signature/)
+  })
+  it('refuse C se présentant comme A, même si C connaît son ID et joint sa propre clé', async () => {
+    await connect(a, b)
+    const aIdentity = await ensureIdentity(a), cIdentity = await ensureIdentity(c), friend = (await a.friends.toArray())[0]
+    const impostor = { ...cIdentity, playerUuid: aIdentity.playerUuid }
+    await expect(addContact(createContactCode(impostor), 'A', b)).rejects.toThrow(/Conflit/)
+    const forged = await signTransfer(impostor, friend, await addDrop())
+    await expect(receiveTransfer(forged.code, b)).rejects.toThrow(/signature/)
+    const envelope = JSON.parse(new TextDecoder().decode(unbase64url(forged.code.slice(4))))
+    envelope.publicKey = cIdentity.signingPublicJwk
+    await expect(receiveTransfer(`TR2.${base64url(new TextEncoder().encode(JSON.stringify(envelope)))}`, b)).rejects.toThrow()
+    expect(await b.drops.count()).toBe(0)
+    expect(await b.usedTransfers.count()).toBe(0)
+    expect((await b.friends.get(aIdentity.playerUuid))?.signingPublicJwk).toEqual(aIdentity.signingPublicJwk)
+  })
+
+  it('rejette le protocole chiffré abandonné et toute altération des champs signés', async () => {
+    await connect(a, b)
+    const transfer = await sendTransfer((await addDrop()).dropId, (await ensureIdentity(b)).playerUuid, a)
+    await expect(receiveTransfer(transfer.code.replace('TR2.', 'TR1.'), b)).rejects.toThrow()
+    const envelope = JSON.parse(new TextDecoder().decode(unbase64url(transfer.code.slice(4))))
+    for (const patch of [{ transferId: uuid() }, { dropId: uuid() }, { issuedAt: envelope.payload.issuedAt + 1 }, { artVariant: 'standard' }, { version: 1 }, { senderId: (await ensureIdentity(c)).playerUuid }]) {
+      const changed = { ...envelope, payload: { ...envelope.payload, ...patch } }
+      await expect(receiveTransfer(`TR2.${base64url(new TextEncoder().encode(JSON.stringify(changed)))}`, b)).rejects.toThrow()
+    }
+    expect(await b.drops.count()).toBe(0)
+    expect(await b.usedTransfers.count()).toBe(0)
   })
   it('une perte de Web Crypto fournit une erreur explicite', async () => {
     vi.stubGlobal('crypto', { subtle: undefined })
@@ -128,8 +166,8 @@ describe('transferts IndexedDB et antirejeu', () => {
     const file = serializeTransferFile(transfer.code)
     await expect(receiveTransfer(parseTransferFile(file), c)).rejects.toThrow(/autre joueur/)
     const envelope = JSON.parse(new TextDecoder().decode(unbase64url(transfer.code.slice(4))))
-    envelope.ciphertext = (envelope.ciphertext.startsWith('A') ? 'B' : 'A') + envelope.ciphertext.slice(1)
-    const tampered = serializeTransferFile(`TR1.${base64url(new TextEncoder().encode(JSON.stringify(envelope)))}`)
+    envelope.payload.cardId = 't-classique'
+    const tampered = serializeTransferFile(`TR2.${base64url(new TextEncoder().encode(JSON.stringify(envelope)))}`)
     await expect(receiveTransfer(parseTransferFile(tampered), b)).rejects.toThrow()
     expect(await b.drops.count()).toBe(0)
     await expect(receiveTransfer(parseTransferFile(file), b)).resolves.toMatchObject({ dropId: drop.dropId, finish: drop.finish, artVariant: drop.artVariant })
@@ -183,12 +221,12 @@ describe('transferts IndexedDB et antirejeu', () => {
     const drop = await addDrop(), identity = await ensureIdentity(a), friend = (await a.friends.toArray())[0]
     const first = await sendTransfer(drop.dropId, (await ensureIdentity(b)).playerUuid, a); await receiveTransfer(first.code, b)
     await recycleDrops([drop.dropId], true, b)
-    const forged = await encryptTransfer(identity, friend, drop)
+    const forged = await signTransfer(identity, friend, drop)
     await expect(receiveTransfer(forged.code, b)).rejects.toThrow(/recyclé/)
     await expect(receiveTransfer(first.code, b)).rejects.toThrow(/déjà été utilisé/)
     // An outgoing local row is reactivated only if all immutable fields agree.
     await b.drops.update(drop.dropId, { status: 'outgoing' })
-    const changed = await encryptTransfer(identity, friend, { ...drop, artVariant: 'standard' })
+    const changed = await signTransfer(identity, friend, { ...drop, artVariant: 'standard' })
     await expect(receiveTransfer(changed.code, b)).rejects.toThrow(/altérées/)
     expect(await b.usedTransfers.count()).toBe(1)
   })
@@ -203,8 +241,8 @@ describe('transferts IndexedDB et antirejeu', () => {
   })
   it('refuse tout transfert vers soi-même', async () => {
     const identity = await ensureIdentity(a)
-    const self: FriendContactRow = { playerUuid: identity.playerUuid, signingPublicJwk: identity.signingPublicJwk, encryptionPublicJwk: identity.encryptionPublicJwk, fingerprint: '', addedAt: 0 }
-    await expect(encryptTransfer(identity, self, await addDrop())).rejects.toThrow(/vous-même/)
+    const self: FriendContactRow = { playerUuid: identity.playerUuid, signingPublicJwk: identity.signingPublicJwk, fingerprint: '', addedAt: 0 }
+    await expect(signTransfer(identity, self, await addDrop())).rejects.toThrow(/vous-même/)
   })
 })
 

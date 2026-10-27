@@ -309,7 +309,7 @@
     "title": "Les Blancs",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "d4 : le pion de la dame avance de deux cases.\nFf4 : le fou sort pour contrôler le centre.\ne3 : le pion renforce le centre et libère l'autre fou.\nCf3 : le cavalier se développe.\nc3 : le pion consolide la structure.",
+    "description": "d4 : le pion de la dame avance de deux cases.\nFf4 : le fou sort pour contrôler le centre.\ne3 : le pion renforce le centre.\nCf3 : le cavalier se développe.\nc3 : le pion consolide la structure.",
     "artwork": {
       "standard": "/assets/cards/les-blancs/illustration.87cda444e2.webp",
       "fullArt": "/assets/cards/les-blancs/illustration.87cda444e2.webp"

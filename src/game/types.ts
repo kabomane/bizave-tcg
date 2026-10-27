@@ -31,12 +31,12 @@ export type BoosterPurchaseRow = { id: string; boosterId: string; boosterTitle: 
 export type RecyclingRecord = { id: string; createdAt: number; dropIds: string[]; fragmentsGained: number }
 export type LocalIdentityRow = {
   id: 'local'; playerUuid: string; signingPrivateKey: CryptoKey; signingPublicJwk: JsonWebKey
-  encryptionPrivateKey: CryptoKey; encryptionPublicJwk: JsonWebKey; createdAt: number
+  createdAt: number
 }
 export type FriendContactRow = {
-  playerUuid: string; signingPublicJwk: JsonWebKey; encryptionPublicJwk: JsonWebKey
+  playerUuid: string; signingPublicJwk: JsonWebKey
   fingerprint: string; label?: string; addedAt: number
 }
-export type TransferPayload = Card & { version: 1; transferId: string; senderId: string; recipientId: string; issuedAt: number }
+export type TransferPayload = Card & { version: 2; transferId: string; senderId: string; recipientId: string; issuedAt: number }
 export type OutgoingTransferRow = { transferId: string; dropId: string; recipientId: string; recipientLabel?: string; code: string; createdAt: number; status: 'generated' }
 export type UsedTransferRow = { transferId: string; receivedAt: number }

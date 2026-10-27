@@ -1,14 +1,19 @@
 import { db, type BizaveDatabase } from '../storage/database'
 import { discover } from '../storage/services'
-import { createContactCode, decryptTransfer, encryptTransfer, generateIdentity, parseContactCode } from './crypto'
+import { createContactCode, verifyTransfer, signTransfer, generateIdentity, parseContactCode } from './crypto'
+import { assertAccountActive } from '../storage/accountGuard'
 
 export async function ensureIdentity(database = db) {
+  await assertAccountActive(database)
   const existing = await database.identity.get('local')
   if (existing) return existing
   // A missing identity after prior transfers indicates lost keys, never silently regenerate.
   if (await database.outbox.count() || await database.usedTransfers.count() || await database.friends.count() || await database.drops.where('status').equals('outgoing').count()) throw new Error('Les clés locales ont été perdues. Les anciens échanges ne peuvent pas être restaurés.')
-  const generated = await generateIdentity()
-  return database.transaction('rw', [database.identity, database.friends], async () => {
+  let generated = await generateIdentity()
+  const installationId = (await database.installation.get('local'))?.installationId
+  while (generated.playerUuid === installationId) generated = await generateIdentity()
+  return database.transaction('rw', [database.identity, database.friends, database.accountState], async () => {
+    await assertAccountActive(database)
     const current = await database.identity.get('local')
     if (current) return current
     if (await database.friends.get(generated.playerUuid)) throw new Error('Collision d’identifiant joueur. Réessayez.')
@@ -20,7 +25,9 @@ export async function ownContact(database = db) { return createContactCode(await
 export async function addContact(code: string, label = '', database = db) {
   const identity = await ensureIdentity(database), friend = await parseContactCode(code)
   if (friend.playerUuid === identity.playerUuid) throw new Error('Vous ne pouvez pas vous ajouter vous-même.')
-  return database.transaction('rw', database.friends, async () => {
+  return database.transaction('rw', [database.friends, database.identity, database.accountState], async () => {
+    await assertAccountActive(database)
+    if ((await database.identity.get('local'))?.playerUuid !== identity.playerUuid) throw new Error('L’identité locale a changé.')
     const existing = await database.friends.get(friend.playerUuid)
     if (existing && existing.fingerprint !== friend.fingerprint) throw new Error('Conflit : cet identifiant est associé à d’autres clés.')
     if (!existing) await database.friends.add({ ...friend, label: label.trim().slice(0, 80) })
@@ -31,9 +38,10 @@ export async function sendTransfer(dropId: string, friendId: string, database = 
   const identity = await ensureIdentity(database), friend = await database.friends.get(friendId), drop = await database.drops.get(dropId)
   if (!friend) throw new Error('Le contact du destinataire est introuvable.')
   if (!drop || drop.status !== 'owned') throw new Error('Cette carte n’est plus disponible.')
-  const { payload, code } = await encryptTransfer(identity, friend, drop)
+  const { payload, code } = await signTransfer(identity, friend, drop)
   const row = { transferId: payload.transferId, dropId, recipientId: friendId, code, recipientLabel: friend.label, createdAt: Date.now(), status: 'generated' as const }
-  await database.transaction('rw', [database.drops, database.outbox, database.identity, database.friends], async () => {
+  await database.transaction('rw', [database.drops, database.outbox, database.identity, database.friends, database.accountState], async () => {
+    await assertAccountActive(database)
     const current = await database.drops.get(dropId)
     const currentFriend = await database.friends.get(friendId)
     const currentIdentity = await database.identity.get('local')
@@ -46,8 +54,9 @@ export async function sendTransfer(dropId: string, friendId: string, database = 
 }
 export async function receiveTransfer(code: string, database: BizaveDatabase = db) {
   const identity = await ensureIdentity(database)
-  const payload = await decryptTransfer(code, identity, await database.friends.toArray())
-  return database.transaction('rw', [database.drops, database.discoveries, database.usedTransfers, database.identity], async () => {
+  const payload = await verifyTransfer(code, identity, await database.friends.toArray())
+  return database.transaction('rw', [database.drops, database.discoveries, database.usedTransfers, database.identity, database.accountState], async () => {
+    await assertAccountActive(database)
     if ((await database.identity.get('local'))?.playerUuid !== identity.playerUuid) throw new Error('L’identité locale a changé.')
     if (await database.usedTransfers.get(payload.transferId)) throw new Error('Ce code a déjà été utilisé.')
     const existing = await database.drops.get(payload.dropId)
@@ -66,8 +75,14 @@ export async function receiveTransfer(code: string, database: BizaveDatabase = d
 export async function renameFriend(playerUuid: string, label: string, database = db) {
   const name = label.trim()
   if (!name || name.length > 80) throw new Error('Le nom doit contenir entre 1 et 80 caractères.')
-  if (!await database.friends.update(playerUuid, { label: name })) throw new Error('Cet ami est introuvable.')
+  await database.transaction('rw', [database.friends, database.accountState], async () => {
+    await assertAccountActive(database)
+    if (!await database.friends.update(playerUuid, { label: name })) throw new Error('Cet ami est introuvable.')
+  })
 }
 export async function removeFriend(playerUuid: string, database = db) {
-  await database.friends.delete(playerUuid)
+  await database.transaction('rw', [database.friends, database.accountState], async () => {
+    await assertAccountActive(database)
+    await database.friends.delete(playerUuid)
+  })
 }

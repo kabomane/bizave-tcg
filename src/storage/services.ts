@@ -5,22 +5,32 @@ import { shopOffer } from '../game/boosterAvailability'
 import { consumeFreePack, drawPack, getRecycleFragments, settleFreePackRecharge, uuid, variantKey, validateConfiguration } from '../game/engine'
 import type { BoosterPurchaseRow, Card, CardDefinition, CardDropRow, OpenRecord, PlayerStateRow } from '../game/types'
 import { db, type BizaveDatabase } from './database'
+import { assertAccountActive } from './accountGuard'
+import { ensureInstallation } from './installation'
 
 export async function initializeDatabase(database = db, now = Date.now()) {
   validateConfiguration(cards, boosters)
-  await database.transaction('rw', [database.player, database.definitions], async () => {
+  const active = await database.transaction('rw', [database.player, database.definitions, database.accountState], async () => {
+    if ((await database.accountState.get('local'))?.status === 'exported') return false
     const previous = new Map((await database.definitions.toArray()).map(c => [c.id, c]))
     for (const card of [...cards, ...archivedCards]) if (previous.has(card.id) && previous.get(card.id)!.rarity !== card.rarity) throw new Error(`Configuration : la rareté de ${card.id} est immuable après publication.`)
-    if (!await database.player.get('local')) await database.player.add({ id: 'local', fragments: 0, freePackStock: FREE_PACK_INITIAL_STOCK, nextFreePackAt: FREE_PACK_INITIAL_STOCK < FREE_PACK_CAPACITY ? now + FREE_PACK_RECHARGE_MS : null, maxObservedClockAt: now, schemaVersion: 3 })
+    if (!await database.player.get('local')) await database.player.add({ id: 'local', fragments: 0, freePackStock: FREE_PACK_INITIAL_STOCK, nextFreePackAt: FREE_PACK_INITIAL_STOCK < FREE_PACK_CAPACITY ? now + FREE_PACK_RECHARGE_MS : null, maxObservedClockAt: now, schemaVersion: 5 })
     await database.definitions.bulkPut([...cards, ...archivedCards])
+    return true
   })
+  if (!active) return
   // Archived snapshots are never deleted; removed models still have a definition.
   for (const definition of await database.definitions.toArray()) if (!cardById.has(definition.id)) cardById.set(definition.id, definition)
-  await refreshRecharge(database, now)
+  try { await ensureInstallation(database); await refreshRecharge(database, now) }
+  catch (error) {
+    // Another tab may export between initialization and recharge. Let AccountGate show its file.
+    if ((await database.accountState.get('local'))?.status !== 'exported') throw error
+  }
 }
 function observedTime(player: PlayerStateRow, now: number) { return Math.max(now, player.maxObservedClockAt ?? now) }
 export async function refreshRecharge(database = db, now = Date.now()) {
-  return database.transaction('rw', database.player, async () => {
+  return database.transaction('rw', [database.player, database.accountState], async () => {
+    await assertAccountActive(database)
     const raw = await database.player.get('local')
     if (!raw) throw new Error('La sauvegarde locale est indisponible.')
     const time = observedTime(raw, now)
@@ -39,7 +49,8 @@ export async function buyBooster(boosterId: string, database = db, now = Date.no
   if (!booster || !offer || offer.listed === false) throw new Error('Ce booster n’est pas disponible en boutique.')
   const price = offer.price
   if (!Number.isSafeInteger(price) || price <= 0) throw new Error('Le prix de ce booster est invalide.')
-  return database.transaction('rw', [database.player, database.boosterStock, database.boosterPurchases], async () => {
+  return database.transaction('rw', [database.player, database.boosterStock, database.boosterPurchases, database.accountState], async () => {
+    await assertAccountActive(database)
     const player = await database.player.get('local')
     if (!player) throw new Error('La sauvegarde locale est indisponible.')
     if (player.fragments < price) throw new Error('Vous n’avez pas assez de fragments.')
@@ -56,7 +67,8 @@ export async function buyBooster(boosterId: string, database = db, now = Date.no
 export async function openBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = boosters) {
   const booster = boosterDefinitions.find(b => b.id === boosterId && b.enabled)
   if (!booster) throw new Error('Ce booster est indisponible.')
-  return database.transaction('rw', [database.player, database.drops, database.discoveries, database.openings, database.boosterStock], async () => {
+  return database.transaction('rw', [database.player, database.drops, database.discoveries, database.openings, database.boosterStock, database.accountState], async () => {
+    await assertAccountActive(database)
     // A committed but unrevealed opening takes precedence: refresh never rerolls.
     const pending = (await database.openings.toArray()).find(o => !o.revealComplete)
     if (pending) return pending
@@ -84,7 +96,8 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
   })
 }
 export async function advanceReveal(id: string, database = db) {
-  return database.transaction('rw', database.openings, async () => {
+  return database.transaction('rw', [database.openings, database.accountState], async () => {
+    await assertAccountActive(database)
     const opening = await database.openings.get(id)
     if (!opening) throw new Error('Cette ouverture est introuvable.')
     const revealedCount = Math.min(opening.results.length, opening.revealedCount + 1)
@@ -92,7 +105,8 @@ export async function advanceReveal(id: string, database = db) {
   })
 }
 export async function finishOpening(id: string, database = db) {
-  return database.transaction('rw', database.openings, async () => {
+  return database.transaction('rw', [database.openings, database.accountState], async () => {
+    await assertAccountActive(database)
     const record = await database.openings.get(id)
     if (!record) throw new Error('Cette ouverture est introuvable.')
     await database.openings.update(id, { revealComplete: true, revealedCount: record.results.length })
@@ -108,7 +122,8 @@ export function duplicateDrops(drops: CardDropRow[]) {
 }
 export async function recycleDrops(ids: string[], allowLastCopy = false, database = db, now = Date.now()) {
   if (!ids.length || new Set(ids).size !== ids.length) throw new Error('Sélection de recyclage invalide.')
-  return database.transaction('rw', [database.player, database.drops, database.recycling, database.definitions], async () => {
+  return database.transaction('rw', [database.player, database.drops, database.recycling, database.definitions, database.accountState], async () => {
+    await assertAccountActive(database)
     const inventory = await database.drops.where('status').equals('owned').toArray()
     const selected = ids.map(id => inventory.find(d => d.dropId === id))
     if (selected.some(d => !d)) throw new Error('Une carte sélectionnée n’est plus disponible.')

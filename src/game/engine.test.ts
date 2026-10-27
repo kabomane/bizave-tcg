@@ -29,7 +29,7 @@ describe('catalogue et configuration', () => {
     }
     expect(() => validateConfiguration(cards, boosters)).not.toThrow()
   })
-  it('les profils V1 totalisent 100 et refusent les valeurs invalides', () => {
+  it('les profils de tirage totalisent 100 et refusent les valeurs invalides', () => {
     for (const profile of [DEFAULT_RARITY_RATES, DEFAULT_FINISH_RATES, DEFAULT_ART_VARIANT_RATES]) { expect(Object.values(profile).reduce<number>((a, b) => a + b, 0)).toBe(100); validateRates(profile) }
     for (const profile of [{ x: 99 }, { x: NaN }, { x: 101, y: -1 }] as Record<string, number>[]) expect(() => validateRates(profile)).toThrow()
   })

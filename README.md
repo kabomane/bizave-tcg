@@ -1,8 +1,8 @@
-# Bizave TCG — V1
+# bizave-tcg.v1.2.5
 
-Première version de **Bizave TCG**. Le premier booster, **Phantom Blood**, est prêt : 110 cartes, ouverture, collection, recyclage, boutique et échanges. Les 110 cartes sont illustrées.
+Version **bizave-tcg.v1.2.5** de **Bizave TCG**. Le premier booster, **Phantom Blood**, est prêt : 110 cartes, ouverture, collection, recyclage, boutique et échanges. Les 110 cartes sont illustrées.
 
-Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte ou paiement.
+Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
 ## Édition actuelle : Phantom Blood
 
@@ -23,7 +23,7 @@ npm run dev
 
 Le serveur écoute sur **toutes les interfaces**, port **5173**. Vite affiche les adresses du Wi-Fi et du réseau étendu, dont Tailscale si présent. Depuis un autre appareil connecté au même réseau : `http://IP_DU_PC:5173`. Si Windows affiche une demande de pare-feu pour Node, autoriser le réseau privé utilisé. Aucune règle de pare-feu n’est ajoutée par le projet.
 
-Pour tester les **échanges chiffrés** depuis un autre appareil :
+Pour tester les **échanges signés** depuis un autre appareil :
 
 ```sh
 npm run dev:https
@@ -62,7 +62,7 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 - Stock gratuit global **5**, recharge **1/10 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
 - Ouvertures persistées avant leur animation, reprise après fermeture/refresh, inventaire par exemplaire, découvertes par variante.
 - Collection détenue uniquement, deux filtres custom, atelier, protection de la dernière copie, confirmation de recyclage et historique économique. Les découvertes historiques restent conservées en base.
-- Identité locale, carnet d’amis, codes FR1, transferts TR1 chiffrés/signés, boîte d’envoi et registre antirejeu.
+- Identité locale, carnet d’amis, codes FR2, transferts TR2 signés et lisibles, boîte d’envoi et registre antirejeu.
 - Navigation clavier, dialogues natifs avec focus piégé, responsive et reduced-motion.
 
 Les fichiers fournis sont archivés dans `references/`. La nouvelle demande de refonte prime sur la DA initiale du cahier des charges. Les dispositions Fusion/Gundam et le maximum de 20° restent imposés. Les futurs paquets exclusifs à la boutique et les pools mixtes sont pris en charge et testés avec des fixtures ; seule l’édition Phantom Blood est publiée.
@@ -106,7 +106,7 @@ Le carnet actuel est `references/carnet-cartes-2026-10-27.jsx`. Le carnet du 26 
 ## Créer une collection
 
 1. Choisir un identifiant de groupe éditorial `collectionId` unique. Aucun registre de groupes séparé n’est nécessaire.
-2. Ajouter ses cartes dans le catalogue avec ce `collectionId` et leurs **deux** illustrations.
+2. Ajouter ses cartes dans le catalogue avec ce `collectionId` et les chemins Classique et Full Art, qui peuvent partager une même illustration.
 3. Référencer explicitement les identifiants voulus dans le pool de chaque booster concerné. Chaque paquet doit contenir un modèle de chaque rareté ; les taux restent communs.
 
 Une collection éditoriale n’est pas un booster : plusieurs boosters peuvent partager les mêmes cartes. Aucune page React à dupliquer.
@@ -127,7 +127,7 @@ Les constantes sont centralisées dans `src/game/config.ts` :
 
 ```ts
 FREE_PACK_INITIAL_STOCK = 5 // stock d’une nouvelle installation
-FREE_PACK_CAPACITY = 5      // plafond V1
+FREE_PACK_CAPACITY = 5      // plafond gratuit
 FREE_PACK_RECHARGE_MS = 600_000 // dix minutes
 ```
 
@@ -139,28 +139,30 @@ Recyclage : base **1/3/7/12/19**, multiplicateurs de finition **10/23/32 dixièm
 
 ## Sauvegarde et évolution
 
-Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycling`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases` et les définitions d’archive. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
+Dexie `bizave-tcg-v2` conserve `drops`, `discoveries`, `player`, `openings`, `recycling`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 5. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
 
 Une variante est `(cardId, finish, artVariant)`. Un exemplaire possède un `dropId` UUID v4 permanent. Les découvertes restent enregistrées après recyclage ou envoi. Les statuts `outgoing` et `recycled` empêchent les réutilisations incohérentes.
 
-Les transactions sérialisent ouvertures, recyclages, envois et réceptions, y compris entre onglets. Les migrations Dexie sont dans `src/storage/database.ts`. Ne pas changer un schéma publié en place : ajouter une version. Une migration de compatibilité répare les anciennes clés de découvertes et `artVariant`, sans supprimer les historiques ni l’antirejeu.
+Les transactions sérialisent ouvertures, recyclages, envois et réceptions, y compris entre onglets. Les migrations Dexie sont dans `src/storage/database.ts`. Ne pas changer un schéma publié en place : ajouter une version. Les migrations historiques des découvertes et d’`artVariant` restent testées ; elles ne constituent pas une reprise des anciennes identités ou de l’ancienne base de test dans cette édition.
 
 Pendant le développement fermé, un modèle retiré est supprimé du catalogue, de l’ordre, des pools et des assets ; `archivedCards` reste vide. Après publication auprès de vrais joueurs, conserver sa définition dans `archivedCards` (`src/data/cards.ts`) et ses images. Les snapshots locaux sont également gardés en base. Ils permettent de consulter et recycler les anciennes cartes. Une tentative de changer la rareté d’un ID déjà publié est refusée.
 
-Le stockage est lié au **navigateur et à l’origine**. Il n’y a ni synchronisation, ni export/import de sauvegarde, ni clé de restauration. Effacer les données du site supprime cartes et clés. Le bouton de protection demande le stockage persistant au navigateur, sans promettre son acceptation ni une sauvegarde distante.
+Le stockage est lié au **navigateur et à l’origine**. Dans les options, les actions discrètes de transfert et de suppression se trouvent en bas de page ; l’ID joueur figure à droite du titre. **Transfert de sauvegarde** déplace la partie vers un ID destinataire avec un fichier `.btcg` signé : la source est effacée et verrouillée sur la page de téléchargement. L’import remplace la partie cible avec l’ID joueur, la clé de signature et les amis de la source, conserve l’ID d’installation destinataire et fusionne les registres anti-réutilisation. Les amis n’ont rien à modifier ; les cartes envoyées avant ou après la migration restent recevables. Le fichier reste téléchargeable sur la source après rechargement. Les boutons Exporter et Importer partagent une même ligne ; les confirmations `TRANSFERER`, `IMPORTER` et `SUPPRIMER` sont insensibles à la casse. Les boutons de confirmation occupent toute la largeur du champ, dans un rapport 1/3–2/3. Ce parcours est une migration, sans fonction de restauration ou de synchronisation. Détails : [docs/sauvegarde.md](docs/sauvegarde.md).
+
+**Supprimer le compte** réinitialise la partie, les registres et les options, avec un nouvel ID joueur, un nouvel ID d’installation et une nouvelle paire de signature. Cette action supprime aussi un éventuel fichier de migration en attente sur cet appareil. Effacer les données du site supprime également cartes et clés. Aucune copie distante automatique de la sauvegarde n’est effectuée.
 
 ## Protocole d’échange
 
 - Identifiant lisible : huit chiffres, format `1234-56-78`. Il n’est pas secret et ne dérive aucune clé.
-- Deux paires indépendantes : **ECDSA P-256/SHA-256** et **ECDH P-256**. Les clés privées non exportables sont stockées comme `CryptoKey` dans IndexedDB.
-- `FR1.` est une fiche publique : version, identifiant joueur et deux clés publiques. Import immédiat et unilatéral. Un UUID déjà lié à d’autres clés est bloqué.
+- Une paire **ECDSA P-256/SHA-256**, indépendante de l’ID joueur. La clé privée transférable est stockée comme `CryptoKey` dans IndexedDB et incluse uniquement dans le fichier de migration de sauvegarde.
+- `FR2.` est une fiche publique : version 2, identifiant joueur et clé publique de signature. Import immédiat et unilatéral. Le jeu mémorise la clé de chaque ami : un ID déjà lié à une autre clé est refusé.
 - Avant le premier transfert, les deux joueurs importent le contact de l’autre. L’interface ne prétend pas savoir si l’autre joueur a effectué cet import.
-- `TR1.` contient uniquement version, sel HKDF aléatoire, IV de 96 bits et ciphertext/tag. Le message est signé, puis chiffré par **ECDH → HKDF-SHA-256 → AES-GCM-256**. La signature inclut les trois propriétés de variante et tous les identifiants.
-- Le destinataire essaie ses contacts, déchiffre, vérifie signature et destinataire, puis ajoute le drop et le `transferId` dans une transaction unique.
+- `TR2.` contient la charge utile lisible et sa signature. Les neuf champs, dont expéditeur, destinataire, date, identifiants du transfert et de l’exemplaire, carte, finition et format, sont signés avec le domaine `BizaveTCG/CardTransfer/v2`. Aucun chiffrement ni clé jointe au transfert.
+- Le destinataire sélectionne le contact déjà enregistré pour l’expéditeur, vérifie sa signature avec cette clé mémorisée et contrôle le destinataire. Il ajoute ensuite le drop et le `transferId` dans une transaction unique.
 - Un envoi devient `outgoing` avec sa boîte d’envoi **avant** d’afficher le code. Il est définitif ; aucune annulation locale et aucun faux accusé de réception.
 - `usedTransfers` conserve uniquement `transferId` et date. Une carte peut revenir avec le même `dropId` et les mêmes propriétés, mais un **nouveau** `transferId`. Un ancien code reste refusé après renvoi ou recyclage.
 
-Les codes sont copiés dans une messagerie choisie par le joueur. Le jeu n’envoie aucun message. Le chiffrement prouve qu’un contact a signé le contenu ; un jeu statique ne certifie pas mondialement l’honnêteté d’un tirage ou l’absence de modification du client. Une identité perdue après des échanges ne se régénère pas silencieusement.
+Les codes sont copiés dans une messagerie choisie par le joueur. Le jeu n’envoie aucun message. La signature vérifiée avec la clé mémorisée prouve qu’un contact a signé le contenu ; un jeu statique ne certifie pas mondialement l’honnêteté d’un tirage ou l’absence de modification du client. Une identité perdue après des échanges ne se régénère pas silencieusement.
 
 ## Hébergement Firebase
 
@@ -174,7 +176,7 @@ npx firebase-tools login
 npx firebase-tools deploy --only hosting --project bizave-tcg
 ```
 
-`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement du 26 octobre 2026 cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
+`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement de `bizave-tcg.v1.2.5` cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
 
 ## Organisation
 
@@ -205,7 +207,7 @@ Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les c
 
 Le mode dev affiche les 110 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
-Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR1 exact, sans clé privée. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import accepte uniquement le format version 1, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
+Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 exact, sans clé privée. Le fichier de transfert d’une carte est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
 
 La boîte d’envoi garde les entrées 24 h ; un fichier déjà téléchargé reste recevable ensuite, comme un code déjà copié.
 

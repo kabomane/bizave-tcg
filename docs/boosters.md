@@ -34,7 +34,7 @@ Les titres de révélation et les quantités du récapitulatif viennent de l’o
 
 ## Sauvegarde
 
-Dexie V3 ajoute `boosterStock` (quantité par identifiant de paquet) et `boosterPurchases` (historique du prix effectivement payé). La migration conserve cartes, identités, transferts, fragments, ouvertures et échéance gratuite.
+Le schéma courant est Dexie 5 dans `bizave-tcg-v2`. `boosterStock` (quantité par paquet) et `boosterPurchases` (historique des prix payés) ont été introduits avec le schéma 3 ; les migrations historiques de ces tables restent testées. Le changement de base et de protocole avant publication est décrit dans [le guide de sauvegarde](sauvegarde.md).
 
 Les transactions rendent atomiques l’achat (fragments, stock et historique) et l’ouverture (consommation, cartes, découvertes et résultats). Deux onglets ne peuvent pas dépenser le dernier solde ou ouvrir deux fois le dernier exemplaire. Une ouverture en cours est reprise sans nouvelle consommation. L’ancien marqueur d’historique `payment: 'fragments'` reste lisible ; les nouveaux achats sont enregistrés séparément des ouvertures `payment: 'shop'`.
 
@@ -46,4 +46,4 @@ Les transactions rendent atomiques l’achat (fragments, stock et historique) et
 4. Choisir son mode d’accès, son ordre et son habillage. Aucun écran React ni schéma de sauvegarde à dupliquer.
 5. Vérifier les exclusivités et lancer `npm run check`. Adapter le test qui vérifie volontairement que Phantom Blood est actuellement le seul paquet publié au moment de publier réellement la seconde édition.
 
-Les tests couvrent les pools mixtes, le gel de Phantom Blood, le stock gratuit commun, les achats séparés, la concurrence, les retours arrière après erreur et la migration V2 vers V3.
+Les tests couvrent les pools mixtes, le gel de Phantom Blood, le stock gratuit commun, les achats séparés, la concurrence, les retours arrière après erreur et les migrations de schéma des stocks.

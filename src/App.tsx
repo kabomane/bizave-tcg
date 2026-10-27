@@ -11,12 +11,17 @@ import { BoostersPage } from './pages/BoostersPage'
 import { CollectionPage } from './pages/CollectionPage'
 import { AtelierPage } from './pages/AtelierPage'
 import { pruneOutbox } from './exchanges/outbox'
+import { AccountGate } from './components/AccountGate'
 const SendCardPage = lazy(() => import('./pages/SendCardPage').then(m => ({ default: m.SendCardPage })))
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })))
 const ExchangesPage = lazy(() => import('./pages/ExchangesPage').then(m => ({ default: m.ExchangesPage })))
 const ShopPage = lazy(() => import('./pages/ShopPage').then(m => ({ default: m.ShopPage })))
 
 export default function App() {
+  return <AccountGate><ActiveApp /></AccountGate>
+}
+
+function ActiveApp() {
   useEffect(() => {
     const root = document.documentElement
     const pointer = () => { root.dataset.inputMode = 'pointer' }
