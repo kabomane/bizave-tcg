@@ -6,8 +6,8 @@
     "collectionId": "thomas",
     "description": "Chauve, petit, perfectionniste… oui, c'est bien la version classique de Thomas.",
     "artwork": {
-      "standard": "/assets/cards/t-classique/illustration.png",
-      "fullArt": "/assets/cards/t-classique/illustration.png"
+      "standard": "/assets/cards/t-classique/illustration.d9167c4e44.webp",
+      "fullArt": "/assets/cards/t-classique/illustration.d9167c4e44.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -20,8 +20,8 @@
     "collectionId": "thomas",
     "description": "Voyage au Japon en 2024-2026. Comme d'habitude, il lui arrivera des situations improbables.",
     "artwork": {
-      "standard": "/assets/cards/t-voyageur/illustration.png",
-      "fullArt": "/assets/cards/t-voyageur/illustration.png"
+      "standard": "/assets/cards/t-voyageur/illustration.1534571b76.webp",
+      "fullArt": "/assets/cards/t-voyageur/illustration.1534571b76.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -34,8 +34,8 @@
     "collectionId": "thomas",
     "description": "Il étudie depuis 2019 et reste bloqué au niveau JLPT N5. Un jour, il saura parler et écrire couramment.",
     "artwork": {
-      "standard": "/assets/cards/t-etudiant/illustration.png",
-      "fullArt": "/assets/cards/t-etudiant/illustration.png"
+      "standard": "/assets/cards/t-etudiant/illustration.825bb9b0e4.webp",
+      "fullArt": "/assets/cards/t-etudiant/illustration.825bb9b0e4.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -48,8 +48,8 @@
     "collectionId": "thomas",
     "description": "Nanami, celle qui se plaint tout le temps, celle qui a changé le destin de Thomas.",
     "artwork": {
-      "standard": "/assets/cards/nana-diff/illustration.png",
-      "fullArt": "/assets/cards/nana-diff/illustration.png"
+      "standard": "/assets/cards/nana-diff/illustration.71d009263b.webp",
+      "fullArt": "/assets/cards/nana-diff/illustration.71d009263b.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -62,8 +62,8 @@
     "collectionId": "thomas",
     "description": "Thomas à l'aéroport. Un jour, Matthieu descendra de son avion, un jour nous serons réunis…",
     "artwork": {
-      "standard": "/assets/cards/t-accueil/illustration.png",
-      "fullArt": "/assets/cards/t-accueil/illustration.png"
+      "standard": "/assets/cards/t-accueil/illustration.0e687c886c.webp",
+      "fullArt": "/assets/cards/t-accueil/illustration.0e687c886c.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -76,8 +76,8 @@
     "collectionId": "thomas",
     "description": "Deuxième ravitaillement avant le feu d'artifice ! Espérons que Thomas ne se perde pas…",
     "artwork": {
-      "standard": "/assets/cards/deuxieme-expedition/illustration.png",
-      "fullArt": "/assets/cards/deuxieme-expedition/illustration.png"
+      "standard": "/assets/cards/deuxieme-expedition/illustration.65248ca7cb.webp",
+      "fullArt": "/assets/cards/deuxieme-expedition/illustration.65248ca7cb.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -90,8 +90,8 @@
     "collectionId": "thomas",
     "description": "10 h 30 – 18 h 30. Il reste des incidents à gérer et des tickets à clôturer.",
     "artwork": {
-      "standard": "/assets/cards/t-support/illustration.png",
-      "fullArt": "/assets/cards/t-support/illustration.png"
+      "standard": "/assets/cards/t-support/illustration.e8d359fbff.webp",
+      "fullArt": "/assets/cards/t-support/illustration.e8d359fbff.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -104,8 +104,8 @@
     "collectionId": "thomas",
     "description": "Thomas rétro PlayStation 1. Ce modèle 3D est collector… mais ne vaut rien.",
     "artwork": {
-      "standard": "/assets/cards/t-lowpoly/illustration.png",
-      "fullArt": "/assets/cards/t-lowpoly/illustration.png"
+      "standard": "/assets/cards/t-lowpoly/illustration.c2a38fe272.webp",
+      "fullArt": "/assets/cards/t-lowpoly/illustration.c2a38fe272.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -118,8 +118,8 @@
     "collectionId": "thomas",
     "description": "Père Thomas distribue les cadeaux de Noël, même en pleine tempête de neige.",
     "artwork": {
-      "standard": "/assets/cards/t-perenoel/illustration.png",
-      "fullArt": "/assets/cards/t-perenoel/illustration.png"
+      "standard": "/assets/cards/t-perenoel/illustration.9f96c7cd31.webp",
+      "fullArt": "/assets/cards/t-perenoel/illustration.9f96c7cd31.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -132,8 +132,8 @@
     "collectionId": "thomas",
     "description": "Stand : Lucky Corrupted\nCorrompt la chance d'autrui ou la sienne, figée jusqu'au dimanche. Perçoit le temps inconsciemment.\nPuiss. E · Vit. B · Port. B · Pers. A · Préc. B · Pot. B",
     "artwork": {
-      "standard": "/assets/cards/t-bizarre/illustration.png",
-      "fullArt": "/assets/cards/t-bizarre/illustration.png"
+      "standard": "/assets/cards/t-bizarre/illustration.555cef3b0d.webp",
+      "fullArt": "/assets/cards/t-bizarre/illustration.555cef3b0d.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -146,8 +146,8 @@
     "collectionId": "thomas",
     "description": "Chacun sa bataille. Pour Thomas, ce fut un combat difficile, mais il a réussi à emboîter les deux pièces du Gundam !",
     "artwork": {
-      "standard": "/assets/cards/t-gundam/illustration.png",
-      "fullArt": "/assets/cards/t-gundam/illustration.png"
+      "standard": "/assets/cards/t-gundam/illustration.69494de726.webp",
+      "fullArt": "/assets/cards/t-gundam/illustration.69494de726.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -160,8 +160,8 @@
     "collectionId": "thomas",
     "description": "ISSOU",
     "artwork": {
-      "standard": "/assets/cards/t-risitas/illustration.png",
-      "fullArt": "/assets/cards/t-risitas/illustration.png"
+      "standard": "/assets/cards/t-risitas/illustration.6d11b8ccd1.webp",
+      "fullArt": "/assets/cards/t-risitas/illustration.6d11b8ccd1.webp"
     }
   },
   {
@@ -171,8 +171,8 @@
     "collectionId": "thomas",
     "description": "C'est STRONK !",
     "artwork": {
-      "standard": "/assets/cards/t-stronk/illustration.png",
-      "fullArt": "/assets/cards/t-stronk/illustration.png"
+      "standard": "/assets/cards/t-stronk/illustration.564d464ef0.webp",
+      "fullArt": "/assets/cards/t-stronk/illustration.564d464ef0.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -185,8 +185,8 @@
     "collectionId": "thomas",
     "description": "C'est pas STRONK !",
     "artwork": {
-      "standard": "/assets/cards/t-notstronk/illustration.png",
-      "fullArt": "/assets/cards/t-notstronk/illustration.png"
+      "standard": "/assets/cards/t-notstronk/illustration.4b95f39c15.webp",
+      "fullArt": "/assets/cards/t-notstronk/illustration.4b95f39c15.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -199,8 +199,8 @@
     "collectionId": "thomas",
     "description": "Le Nyan Cat de Thomas.",
     "artwork": {
-      "standard": "/assets/cards/t-chat/illustration.png",
-      "fullArt": "/assets/cards/t-chat/illustration.png"
+      "standard": "/assets/cards/t-chat/illustration.92f3adb133.webp",
+      "fullArt": "/assets/cards/t-chat/illustration.92f3adb133.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -213,8 +213,8 @@
     "collectionId": "thomas",
     "description": "Mieux vaut bien dormir et arriver en retard que se réveiller tôt et… arriver en avance…",
     "artwork": {
-      "standard": "/assets/cards/t-bourre/illustration.png",
-      "fullArt": "/assets/cards/t-bourre/illustration.png"
+      "standard": "/assets/cards/t-bourre/illustration.87bcc5e318.webp",
+      "fullArt": "/assets/cards/t-bourre/illustration.87bcc5e318.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -227,8 +227,8 @@
     "collectionId": "thomas",
     "description": "Un petit menu, un ticket resto et ça repart !",
     "artwork": {
-      "standard": "/assets/cards/mcdeal/illustration.png",
-      "fullArt": "/assets/cards/mcdeal/illustration.png"
+      "standard": "/assets/cards/mcdeal/illustration.a95411d9f2.webp",
+      "fullArt": "/assets/cards/mcdeal/illustration.a95411d9f2.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -241,8 +241,8 @@
     "collectionId": "thomas",
     "description": "Métro, boulot, dodo.",
     "artwork": {
-      "standard": "/assets/cards/metro-japonais/illustration.png",
-      "fullArt": "/assets/cards/metro-japonais/illustration.png"
+      "standard": "/assets/cards/metro-japonais/illustration.36c7f9a2fe.webp",
+      "fullArt": "/assets/cards/metro-japonais/illustration.36c7f9a2fe.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -255,8 +255,8 @@
     "collectionId": "thomas",
     "description": "Supporter un jour, supporter toujours.",
     "artwork": {
-      "standard": "/assets/cards/losc/illustration.png",
-      "fullArt": "/assets/cards/losc/illustration.png"
+      "standard": "/assets/cards/losc/illustration.5fe4441677.webp",
+      "fullArt": "/assets/cards/losc/illustration.5fe4441677.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -269,8 +269,8 @@
     "collectionId": "thomas",
     "description": "La MineSNCF n'a aucun retard ! Sauf pour la construction des voies ferrées, peut-être…",
     "artwork": {
-      "standard": "/assets/cards/minecraft-sncf/illustration.png",
-      "fullArt": "/assets/cards/minecraft-sncf/illustration.png"
+      "standard": "/assets/cards/minecraft-sncf/illustration.7247cb6c28.webp",
+      "fullArt": "/assets/cards/minecraft-sncf/illustration.7247cb6c28.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -283,8 +283,8 @@
     "collectionId": "thomas",
     "description": "La bande d'arrêt d'urgence, c'est ma voie réservée.",
     "artwork": {
-      "standard": "/assets/cards/t-routier/illustration.png",
-      "fullArt": "/assets/cards/t-routier/illustration.png"
+      "standard": "/assets/cards/t-routier/illustration.6b0073a5f9.webp",
+      "fullArt": "/assets/cards/t-routier/illustration.6b0073a5f9.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -297,8 +297,8 @@
     "collectionId": "thomas",
     "description": "A : Orbe d'illusion\nZ : Feux follets\nE : Charme\nR : Ruée spirituelle",
     "artwork": {
-      "standard": "/assets/cards/t-midlaner/illustration.png",
-      "fullArt": "/assets/cards/t-midlaner/illustration.png"
+      "standard": "/assets/cards/t-midlaner/illustration.dc50556c2c.webp",
+      "fullArt": "/assets/cards/t-midlaner/illustration.dc50556c2c.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -311,8 +311,8 @@
     "collectionId": "thomas",
     "description": "d4 : le pion de la dame avance de deux cases.\nFf4 : le fou sort pour contrôler le centre.\ne3 : renforcer le centre et libérer l'autre fou.\nCf3 : développer le cavalier.\nc3 : consolider la structure de pions.",
     "artwork": {
-      "standard": "/assets/cards/les-blancs/illustration.png",
-      "fullArt": "/assets/cards/les-blancs/illustration.png"
+      "standard": "/assets/cards/les-blancs/illustration.87cda444e2.webp",
+      "fullArt": "/assets/cards/les-blancs/illustration.87cda444e2.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -325,8 +325,8 @@
     "collectionId": "thomas",
     "description": "Support informatique, bonjour ?",
     "artwork": {
-      "standard": "/assets/cards/altimance/illustration.png",
-      "fullArt": "/assets/cards/altimance/illustration.png"
+      "standard": "/assets/cards/altimance/illustration.5dc9101280.webp",
+      "fullArt": "/assets/cards/altimance/illustration.5dc9101280.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -339,8 +339,8 @@
     "collectionId": "thomas",
     "description": "Petit, étroit, mais tellement chaleureux. J'ai hâte de goûter le repas de Mamushi-chan.",
     "artwork": {
-      "standard": "/assets/cards/mamushi-chan/illustration.png",
-      "fullArt": "/assets/cards/mamushi-chan/illustration.png"
+      "standard": "/assets/cards/mamushi-chan/illustration.91b3c68c69.webp",
+      "fullArt": "/assets/cards/mamushi-chan/illustration.91b3c68c69.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -353,8 +353,8 @@
     "collectionId": "thomas",
     "description": "Finalement, le Fuderock, c'est pas si mal !",
     "artwork": {
-      "standard": "/assets/cards/bataille-peintre/illustration.png",
-      "fullArt": "/assets/cards/bataille-peintre/illustration.png"
+      "standard": "/assets/cards/bataille-peintre/illustration.20518439ba.webp",
+      "fullArt": "/assets/cards/bataille-peintre/illustration.20518439ba.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -367,8 +367,8 @@
     "collectionId": "thomas",
     "description": "Joyeux anniversaire Thomas !",
     "artwork": {
-      "standard": "/assets/cards/gateau-anniv/illustration.png",
-      "fullArt": "/assets/cards/gateau-anniv/illustration.png"
+      "standard": "/assets/cards/gateau-anniv/illustration.f6d147f103.webp",
+      "fullArt": "/assets/cards/gateau-anniv/illustration.f6d147f103.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -381,8 +381,8 @@
     "collectionId": "thomas",
     "description": "On est en train de prendre l'eau ! On prend l'eau !",
     "artwork": {
-      "standard": "/assets/cards/t-moussaillon/illustration.png",
-      "fullArt": "/assets/cards/t-moussaillon/illustration.png"
+      "standard": "/assets/cards/t-moussaillon/illustration.84dec7dd51.webp",
+      "fullArt": "/assets/cards/t-moussaillon/illustration.84dec7dd51.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -395,8 +395,8 @@
     "collectionId": "thomas",
     "description": "Le prochain event est à 16 h 09, on le fait ?",
     "artwork": {
-      "standard": "/assets/cards/t-lancier/illustration.png",
-      "fullArt": "/assets/cards/t-lancier/illustration.png"
+      "standard": "/assets/cards/t-lancier/illustration.a2784b4949.webp",
+      "fullArt": "/assets/cards/t-lancier/illustration.a2784b4949.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -409,8 +409,8 @@
     "collectionId": "thomas",
     "description": "Nan mais allez-y, vous ! Moi, je surveille votre rythme cardiaque !",
     "artwork": {
-      "standard": "/assets/cards/t-trouillard/illustration.png",
-      "fullArt": "/assets/cards/t-trouillard/illustration.png"
+      "standard": "/assets/cards/t-trouillard/illustration.861fc87073.webp",
+      "fullArt": "/assets/cards/t-trouillard/illustration.861fc87073.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -423,8 +423,8 @@
     "collectionId": "thomas",
     "description": "Parfois, il faut accepter d'être pris pour un bouffon…",
     "artwork": {
-      "standard": "/assets/cards/t-bouffon/illustration.png",
-      "fullArt": "/assets/cards/t-bouffon/illustration.png"
+      "standard": "/assets/cards/t-bouffon/illustration.c88f6fd56d.webp",
+      "fullArt": "/assets/cards/t-bouffon/illustration.c88f6fd56d.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -437,8 +437,8 @@
     "collectionId": "thomas",
     "description": "Passe dans l'Iris.",
     "artwork": {
-      "standard": "/assets/cards/overwatch/illustration.png",
-      "fullArt": "/assets/cards/overwatch/illustration.png"
+      "standard": "/assets/cards/overwatch/illustration.01a89ea189.webp",
+      "fullArt": "/assets/cards/overwatch/illustration.01a89ea189.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -451,8 +451,8 @@
     "collectionId": "thomas",
     "description": "Énorme et sec !",
     "artwork": {
-      "standard": "/assets/cards/t-muscle/illustration.png",
-      "fullArt": "/assets/cards/t-muscle/illustration.png"
+      "standard": "/assets/cards/t-muscle/illustration.ef985a9ff5.webp",
+      "fullArt": "/assets/cards/t-muscle/illustration.ef985a9ff5.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -465,8 +465,8 @@
     "collectionId": "thomas",
     "description": "L'origin story de sa présence sur Internet.",
     "artwork": {
-      "standard": "/assets/cards/t-citron/illustration.png",
-      "fullArt": "/assets/cards/t-citron/illustration.png"
+      "standard": "/assets/cards/t-citron/illustration.878a26fc2f.webp",
+      "fullArt": "/assets/cards/t-citron/illustration.878a26fc2f.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -479,8 +479,8 @@
     "collectionId": "thomas",
     "description": "Le consulat des Mini's Thomas.",
     "artwork": {
-      "standard": "/assets/cards/t-minis/illustration.png",
-      "fullArt": "/assets/cards/t-minis/illustration.png"
+      "standard": "/assets/cards/t-minis/illustration.f402b20a14.webp",
+      "fullArt": "/assets/cards/t-minis/illustration.f402b20a14.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -493,8 +493,8 @@
     "collectionId": "thomas",
     "description": "Prendre les idées, les faire fonctionner et les concrétiser : telle est ma vocation.",
     "artwork": {
-      "standard": "/assets/cards/t-inventeur/illustration.png",
-      "fullArt": "/assets/cards/t-inventeur/illustration.png"
+      "standard": "/assets/cards/t-inventeur/illustration.14bbd879d9.webp",
+      "fullArt": "/assets/cards/t-inventeur/illustration.14bbd879d9.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -507,8 +507,8 @@
     "collectionId": "thomas",
     "description": "Je gravirai cette montagne coûte que coûte ! Puis la suivante ! Et après… une petite sieste.",
     "artwork": {
-      "standard": "/assets/cards/t-randonneur/illustration.png",
-      "fullArt": "/assets/cards/t-randonneur/illustration.png"
+      "standard": "/assets/cards/t-randonneur/illustration.9d5567ec12.webp",
+      "fullArt": "/assets/cards/t-randonneur/illustration.9d5567ec12.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -521,8 +521,8 @@
     "collectionId": "thomas",
     "description": "Thomas Furansu-jin Desu",
     "artwork": {
-      "standard": "/assets/cards/t-parisien/illustration.png",
-      "fullArt": "/assets/cards/t-parisien/illustration.png"
+      "standard": "/assets/cards/t-parisien/illustration.77a325202b.webp",
+      "fullArt": "/assets/cards/t-parisien/illustration.77a325202b.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -535,8 +535,8 @@
     "collectionId": "matthieu",
     "description": "Grand, chevelu, négligent… oui, c'est bien la version classique de Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/m-classique/illustration.png",
-      "fullArt": "/assets/cards/m-classique/illustration.png"
+      "standard": "/assets/cards/m-classique/illustration.34467014ad.webp",
+      "fullArt": "/assets/cards/m-classique/illustration.34467014ad.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -560,8 +560,8 @@
     "collectionId": "matthieu",
     "description": "Il est parti étudier au Québec, mais s'efforce de faire échouer son projet.",
     "artwork": {
-      "standard": "/assets/cards/m-etudiant/illustration.png",
-      "fullArt": "/assets/cards/m-etudiant/illustration.png"
+      "standard": "/assets/cards/m-etudiant/illustration.0586562b4a.webp",
+      "fullArt": "/assets/cards/m-etudiant/illustration.0586562b4a.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -574,8 +574,8 @@
     "collectionId": "matthieu",
     "description": "Eli, celle qui étudie et travaille sans relâche, celle qui a changé le destin de Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/eli-diff/illustration.png",
-      "fullArt": "/assets/cards/eli-diff/illustration.png"
+      "standard": "/assets/cards/eli-diff/illustration.a66fcb8dad.webp",
+      "fullArt": "/assets/cards/eli-diff/illustration.a66fcb8dad.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -588,8 +588,8 @@
     "collectionId": "matthieu",
     "description": "368ᵉ hold. Matthieu espère atterrir avant la fin de l'année.",
     "artwork": {
-      "standard": "/assets/cards/m-boucle/illustration.png",
-      "fullArt": "/assets/cards/m-boucle/illustration.png"
+      "standard": "/assets/cards/m-boucle/illustration.ea54d0cb1f.webp",
+      "fullArt": "/assets/cards/m-boucle/illustration.ea54d0cb1f.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -602,8 +602,8 @@
     "collectionId": "matthieu",
     "description": "Premier ravitaillement avant le feu d'artifice ! Espérons que Matthieu ne se perde pas…",
     "artwork": {
-      "standard": "/assets/cards/premiere-expedition/illustration.png",
-      "fullArt": "/assets/cards/premiere-expedition/illustration.png"
+      "standard": "/assets/cards/premiere-expedition/illustration.400e4547b5.webp",
+      "fullArt": "/assets/cards/premiere-expedition/illustration.400e4547b5.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -616,8 +616,8 @@
     "collectionId": "matthieu",
     "description": "Donuts du matin, et l'autre qui fait le petit chef et qui n'aide pas…",
     "artwork": {
-      "standard": "/assets/cards/m-timhortons/illustration.png",
-      "fullArt": "/assets/cards/m-timhortons/illustration.png"
+      "standard": "/assets/cards/m-timhortons/illustration.b30c773442.webp",
+      "fullArt": "/assets/cards/m-timhortons/illustration.b30c773442.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -630,8 +630,8 @@
     "collectionId": "matthieu",
     "description": "Matthieu rétro PlayStation 1. Ce modèle 3D est collector… mais ne vaut rien.",
     "artwork": {
-      "standard": "/assets/cards/m-lowpoly/illustration.png",
-      "fullArt": "/assets/cards/m-lowpoly/illustration.png"
+      "standard": "/assets/cards/m-lowpoly/illustration.7bf4432f1b.webp",
+      "fullArt": "/assets/cards/m-lowpoly/illustration.7bf4432f1b.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -655,8 +655,8 @@
     "collectionId": "matthieu",
     "description": "Stand : State Shifter\nModifie sans limite tout état physique, mental ou conceptuel, jusqu'au destin. Effets imprévisibles, difficilement réversibles.\nPuiss. A · Vit. B · Port. C · Pers. A · Préc. E · Pot. A",
     "artwork": {
-      "standard": "/assets/cards/m-bizarre/illustration.png",
-      "fullArt": "/assets/cards/m-bizarre/illustration.png"
+      "standard": "/assets/cards/m-bizarre/illustration.613a112b70.webp",
+      "fullArt": "/assets/cards/m-bizarre/illustration.613a112b70.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -669,8 +669,8 @@
     "collectionId": "matthieu",
     "description": "J'étais sa proie ! C'est moi qui me faisais chasser !",
     "artwork": {
-      "standard": "/assets/cards/m-moufette/illustration.png",
-      "fullArt": "/assets/cards/m-moufette/illustration.png"
+      "standard": "/assets/cards/m-moufette/illustration.36fe675f96.webp",
+      "fullArt": "/assets/cards/m-moufette/illustration.36fe675f96.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -683,8 +683,8 @@
     "collectionId": "matthieu",
     "description": "ISSOU",
     "artwork": {
-      "standard": "/assets/cards/m-risitas/illustration.png",
-      "fullArt": "/assets/cards/m-risitas/illustration.png"
+      "standard": "/assets/cards/m-risitas/illustration.6a0b037bcd.webp",
+      "fullArt": "/assets/cards/m-risitas/illustration.6a0b037bcd.webp"
     }
   },
   {
@@ -694,8 +694,8 @@
     "collectionId": "matthieu",
     "description": "C'est STRONK !",
     "artwork": {
-      "standard": "/assets/cards/m-stronk/illustration.png",
-      "fullArt": "/assets/cards/m-stronk/illustration.png"
+      "standard": "/assets/cards/m-stronk/illustration.d3ac7c5916.webp",
+      "fullArt": "/assets/cards/m-stronk/illustration.d3ac7c5916.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -708,8 +708,8 @@
     "collectionId": "matthieu",
     "description": "C'est pas STRONK !",
     "artwork": {
-      "standard": "/assets/cards/m-notstronk/illustration.png",
-      "fullArt": "/assets/cards/m-notstronk/illustration.png"
+      "standard": "/assets/cards/m-notstronk/illustration.448ce08c13.webp",
+      "fullArt": "/assets/cards/m-notstronk/illustration.448ce08c13.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -722,8 +722,8 @@
     "collectionId": "matthieu",
     "description": "Le Nyan Cat de Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/m-chat/illustration.png",
-      "fullArt": "/assets/cards/m-chat/illustration.png"
+      "standard": "/assets/cards/m-chat/illustration.5df71c7131.webp",
+      "fullArt": "/assets/cards/m-chat/illustration.5df71c7131.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -736,8 +736,8 @@
     "collectionId": "matthieu",
     "description": "Mieux vaut bien dormir et arriver en retard que se réveiller tôt et… arriver en avance…",
     "artwork": {
-      "standard": "/assets/cards/m-bourre/illustration.png",
-      "fullArt": "/assets/cards/m-bourre/illustration.png"
+      "standard": "/assets/cards/m-bourre/illustration.b83d41eed2.webp",
+      "fullArt": "/assets/cards/m-bourre/illustration.b83d41eed2.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -750,8 +750,8 @@
     "collectionId": "matthieu",
     "description": "Une patate McDo et ça démarre !",
     "artwork": {
-      "standard": "/assets/cards/patate-mcdo/illustration.png",
-      "fullArt": "/assets/cards/patate-mcdo/illustration.png"
+      "standard": "/assets/cards/patate-mcdo/illustration.4c2fc39605.webp",
+      "fullArt": "/assets/cards/patate-mcdo/illustration.4c2fc39605.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -830,8 +830,8 @@
     "collectionId": "matthieu",
     "description": "J'arrive pas à me connecter sur mon espace étudiant…",
     "artwork": {
-      "standard": "/assets/cards/cegep/illustration.png",
-      "fullArt": "/assets/cards/cegep/illustration.png"
+      "standard": "/assets/cards/cegep/illustration.dd88eda27a.webp",
+      "fullArt": "/assets/cards/cegep/illustration.dd88eda27a.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -855,8 +855,8 @@
     "collectionId": "matthieu",
     "description": "Le mec a fait une pause fraîcheur de 2 minutes, et ils recommencent…",
     "artwork": {
-      "standard": "/assets/cards/chanteuse-nocturne/illustration.png",
-      "fullArt": "/assets/cards/chanteuse-nocturne/illustration.png"
+      "standard": "/assets/cards/chanteuse-nocturne/illustration.b25b2fc8e7.webp",
+      "fullArt": "/assets/cards/chanteuse-nocturne/illustration.b25b2fc8e7.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -880,8 +880,8 @@
     "collectionId": "matthieu",
     "description": "T'en fais pas, on est bientôt arrivés au port !",
     "artwork": {
-      "standard": "/assets/cards/m-capitaine/illustration.png",
-      "fullArt": "/assets/cards/m-capitaine/illustration.png"
+      "standard": "/assets/cards/m-capitaine/illustration.b96b12135e.webp",
+      "fullArt": "/assets/cards/m-capitaine/illustration.b96b12135e.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -916,8 +916,8 @@
     "collectionId": "matthieu",
     "description": "Parfois, il faut accepter d'être pris pour un bouffon…",
     "artwork": {
-      "standard": "/assets/cards/m-bouffon/illustration.png",
-      "fullArt": "/assets/cards/m-bouffon/illustration.png"
+      "standard": "/assets/cards/m-bouffon/illustration.352fe71b4c.webp",
+      "fullArt": "/assets/cards/m-bouffon/illustration.352fe71b4c.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -930,8 +930,8 @@
     "collectionId": "matthieu",
     "description": "20 kills, aucune mort. Je suis un monstre.",
     "artwork": {
-      "standard": "/assets/cards/splatoon/illustration.png",
-      "fullArt": "/assets/cards/splatoon/illustration.png"
+      "standard": "/assets/cards/splatoon/illustration.d737c2e277.webp",
+      "fullArt": "/assets/cards/splatoon/illustration.d737c2e277.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -944,8 +944,8 @@
     "collectionId": "matthieu",
     "description": "Énorme et sec !",
     "artwork": {
-      "standard": "/assets/cards/m-muscle/illustration.png",
-      "fullArt": "/assets/cards/m-muscle/illustration.png"
+      "standard": "/assets/cards/m-muscle/illustration.26ebfe2449.webp",
+      "fullArt": "/assets/cards/m-muscle/illustration.26ebfe2449.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -958,8 +958,8 @@
     "collectionId": "matthieu",
     "description": "L'origin story de sa présence sur Internet.",
     "artwork": {
-      "standard": "/assets/cards/m-tempete/illustration.png",
-      "fullArt": "/assets/cards/m-tempete/illustration.png"
+      "standard": "/assets/cards/m-tempete/illustration.2bbe84ac6a.webp",
+      "fullArt": "/assets/cards/m-tempete/illustration.2bbe84ac6a.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -972,8 +972,8 @@
     "collectionId": "matthieu",
     "description": "Le consulat des Mini's Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/m-minis/illustration.png",
-      "fullArt": "/assets/cards/m-minis/illustration.png"
+      "standard": "/assets/cards/m-minis/illustration.a829553077.webp",
+      "fullArt": "/assets/cards/m-minis/illustration.a829553077.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -1206,8 +1206,8 @@
     "collectionId": "speciaux",
     "description": "Finalement, la seule bonne façon d'immigrer facilement.",
     "artwork": {
-      "standard": "/assets/cards/green-card/illustration.png",
-      "fullArt": "/assets/cards/green-card/illustration.png"
+      "standard": "/assets/cards/green-card/illustration.5b5a02a5ee.webp",
+      "fullArt": "/assets/cards/green-card/illustration.5b5a02a5ee.webp"
     },
     "artworkPosition": {
       "standard": "center top"
@@ -1330,8 +1330,8 @@
     "collectionId": "speciaux",
     "description": "Trisomie 21, t'es mongole mais on t'aime bien !",
     "artwork": {
-      "standard": "/assets/cards/trisomie-21/illustration.png",
-      "fullArt": "/assets/cards/trisomie-21/illustration.png"
+      "standard": "/assets/cards/trisomie-21/illustration.6ed8b8d08b.webp",
+      "fullArt": "/assets/cards/trisomie-21/illustration.6ed8b8d08b.webp"
     },
     "artworkPosition": {
       "standard": "center top"
