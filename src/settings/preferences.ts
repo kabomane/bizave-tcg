@@ -2,7 +2,7 @@ import { parseCollectionDisplay } from '../collection/preferences'
 import type { CollectionDisplay } from '../collection/preferences'
 
 export type ThemePreference = 'system' | 'light' | 'dark'
-export type TransferMode = 'code' | 'file'
+type TransferMode = 'code' | 'file'
 export type Preferences = { theme: ThemePreference; transferMode: TransferMode; devCatalog: boolean; collectionDisplay: CollectionDisplay; selectedBoosterId: string }
 export const SETTINGS_KEY = 'bizave.preferences.v1'
 export const DEFAULT_PREFERENCES: Preferences = { theme: 'system', transferMode: 'code', devCatalog: false, collectionDisplay: parseCollectionDisplay(null), selectedBoosterId: '' }

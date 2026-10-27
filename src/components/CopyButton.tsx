@@ -1,14 +1,15 @@
-import { useEffect, useState } from 'react'
-import { Check, Copy } from 'lucide-react'
+import { useState } from 'react'
+import { Copy } from 'lucide-react'
 import { copyText, errorText } from './format'
+import { ConfirmationButton } from './ConfirmationButton'
+import { useTransientFlag } from './useTransientFlag'
 
 export function CopyButton({ text, label = 'Copier le code', onError, compact = false }: { text: string; label?: string; onError: (message: string) => void; compact?: boolean }) {
-  const [copied, setCopied] = useState(false), [busy, setBusy] = useState(false)
-  useEffect(() => { if (!copied) return; const timer = window.setTimeout(() => setCopied(false), 3000); return () => window.clearTimeout(timer) }, [copied])
+  const [copied, setCopied] = useTransientFlag(), [busy, setBusy] = useState(false)
   async function copy() {
     if (busy) return
     setBusy(true); setCopied(false)
     try { await copyText(text); setCopied(true) } catch (e) { onError(errorText(e)) } finally { setBusy(false) }
   }
-  return <button type="button" className={`secondary-button copy-feedback ${compact ? 'copy-compact' : ''} ${copied ? 'is-confirmed' : ''}`} aria-label={copied ? 'Code copié !' : label} onClick={copy} disabled={busy}><span key={String(copied)} className={copied ? 'clipboard-confirm' : ''} aria-hidden="true">{copied ? <Check size={16} /> : <Copy size={16} />}</span><span role="status" aria-live="polite">{copied ? 'Code copié !' : label}</span></button>
+  return <ConfirmationButton icon={Copy} label={label} confirmation="Code copié !" confirmed={copied} className={`secondary-button copy-feedback ${compact ? 'copy-compact' : ''} ${copied ? 'is-confirmed' : ''}`} action={copy} disabled={busy} live="polite" />
 }

@@ -6,7 +6,7 @@ import type { CollectionDisplay } from './preferences'
 
 export type CollectionVariant = { card: Card; copies: { dropId: string; acquiredAt: number }[] }
 export type CollectionEntry = { key: string; card: Card; ids: string[]; acquiredAt: number }
-export type CollectionItem = { key: string; card: Card; entries: CollectionEntry[]; variantCount: number; acquiredAt: number }
+type CollectionItem = { key: string; card: Card; entries: CollectionEntry[]; variantCount: number; acquiredAt: number }
 const order = new Map(editionOrder.map((id, index) => [id, index + 1]))
 const collator = new Intl.Collator('fr', { sensitivity: 'base', numeric: true })
 const finishOrder = { normal: 0, glossy: 1, alternative: 2 }

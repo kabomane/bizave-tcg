@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { copyPromisedText } from './format'
+import { copyPromisedText, formatDuration } from './format'
 
 afterEach(() => vi.unstubAllGlobals())
 describe('copie créée pendant le geste utilisateur', () => {
@@ -26,5 +26,12 @@ describe('copie créée pendant le geste utilisateur', () => {
     vi.stubGlobal('navigator', { clipboard: { writeText } })
     await copyPromisedText(Promise.resolve('TR1.fallback'))
     expect(writeText).toHaveBeenCalledWith('TR1.fallback')
+  })
+})
+
+describe('durées de recharge et d’envoi', () => {
+  it.each([[-1, '00:00', '00:00:00'], [1, '00:01', '00:00:01'], [59999, '01:00', '00:01:00'], [3661000, '61:01', '01:01:01'], [86400000, '1440:00', '24:00:00']])('%i ms conserve les deux formats', (ms, short, long) => {
+    expect(formatDuration(ms, { hours: false })).toBe(short)
+    expect(formatDuration(ms, { hours: true })).toBe(long)
   })
 })

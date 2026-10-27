@@ -1,7 +1,7 @@
 import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES, DEFAULT_RARITY_RATES, RECYCLE_BASE_FRAGMENTS, FINISH_MULTIPLIER_TENTHS, ART_MULTIPLIER_TENTHS, FREE_PACK_CAPACITY, FREE_PACK_RECHARGE_MS } from './config'
 import type { ArtVariant, BoosterDefinition, Card, CardDefinition, Finish, Rarity } from './types'
 import { shopOffer } from './boosterAvailability'
-export type Rng = () => number
+type Rng = () => number
 export const secureRandom: Rng = () => crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32
 export function uuid(): string {
   const b = crypto.getRandomValues(new Uint8Array(16))
@@ -21,7 +21,7 @@ export function weightedPick<T extends string>(rates: Record<T, number>, rng: Rn
   for (const [key, weight] of entries) { cumulative += weight; if (random < cumulative / total) return key }
   throw new Error('Configuration : aucun résultat éligible.')
 }
-export type PoolEntry = { card: CardDefinition; weight: number }
+type PoolEntry = { card: CardDefinition; weight: number }
 export function resolveBoosterPool(booster: BoosterDefinition, catalogue: CardDefinition[]): PoolEntry[] {
   const result = new Map<string, PoolEntry>()
   for (const source of booster.sources) {
@@ -64,7 +64,7 @@ export const variantKey = (card: { cardId: string; finish: Finish; artVariant: A
 export function getRecycleFragments(rarity: Rarity, finish: Finish, artVariant: ArtVariant) {
   return Math.floor(RECYCLE_BASE_FRAGMENTS[rarity] * FINISH_MULTIPLIER_TENTHS[finish] * ART_MULTIPLIER_TENTHS[artVariant] / 100)
 }
-export type FreePackState = { freePackStock: number; nextFreePackAt: number | null }
+type FreePackState = { freePackStock: number; nextFreePackAt: number | null }
 export function settleFreePackRecharge<T extends FreePackState>(state: T, now: number): T {
   if (!Number.isInteger(state.freePackStock) || state.freePackStock < 0 || state.freePackStock > FREE_PACK_CAPACITY || (state.freePackStock < FREE_PACK_CAPACITY && (state.nextFreePackAt === null || !Number.isFinite(state.nextFreePackAt)))) throw new Error('Stock gratuit incohérent.')
   if (state.freePackStock === FREE_PACK_CAPACITY) return { ...state, nextFreePackAt: null }

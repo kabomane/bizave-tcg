@@ -5,6 +5,7 @@ import { Link, useParams } from 'react-router-dom'
 import { db } from '../storage/database'
 import { useGame } from '../components/useGame'
 import { cardById } from '../data/cards'
+import { normalize } from '../game/cardSearch'
 import { EmptyState, ErrorNotice } from '../components/ui'
 import { copyPromisedText, errorText } from '../components/format'
 import { sendTransfer } from '../exchanges/services'
@@ -21,7 +22,6 @@ export function SendCardPage() {
   const [delivery, setDelivery] = useState<'code' | 'file'>('code')
   const inFlight = useRef(false)
   const drop = drops.find(item => item.dropId === dropId), definition = drop && cardById.get(drop.cardId)
-  const normalize = (value: string) => value.normalize('NFD').replace(/\p{Diacritic}/gu, '').toLocaleLowerCase('fr')
   const visible = friends.filter(friend => normalize(friend.label || friend.playerUuid).includes(normalize(search.trim()))).sort((a, b) => (a.label || a.playerUuid).localeCompare(b.label || b.playerUuid, 'fr'))
   async function send(friendId: string) {
     if (!drop || drop.status !== 'owned' || inFlight.current) return

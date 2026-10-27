@@ -30,7 +30,7 @@ function publicKey(value: unknown): JsonWebKey {
   if (!record(value) || value.kty !== 'EC' || value.crv !== 'P-256' || typeof value.x !== 'string' || typeof value.y !== 'string' || unbase64url(value.x).length !== 32 || unbase64url(value.y).length !== 32 || value.d !== undefined || Object.keys(value).some(k => !['kty', 'crv', 'x', 'y', 'ext', 'key_ops'].includes(k))) throw new Error('Clé publique de contact invalide.')
   return { kty: 'EC', crv: 'P-256', x: value.x, y: value.y, ext: true }
 }
-export const canonicalKey = (key: JsonWebKey) => ({ kty: key.kty, crv: key.crv, x: key.x, y: key.y })
+const canonicalKey = (key: JsonWebKey) => ({ kty: key.kty, crv: key.crv, x: key.x, y: key.y })
 export async function generateIdentity(): Promise<LocalIdentityRow> {
   const s = subtle()
   const signing = await s.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, false, ['sign', 'verify'])

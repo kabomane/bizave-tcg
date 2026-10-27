@@ -5,7 +5,6 @@ export const DEFAULT_ART_VARIANT_RATES = { standard: 92, fullArt: 8 } as const
 export const FREE_PACK_CAPACITY = 5
 export const FREE_PACK_INITIAL_STOCK = 5
 export const FREE_PACK_RECHARGE_MS = 600_000
-export const DEFAULT_SPECIAL_BOOSTER_PRICE = 60
 export const MAX_CARD_TILT_DEGREES = 20
 export const RECYCLE_BASE_FRAGMENTS = { common: 1, uncommon: 3, rare: 7, epic: 12, legendary: 19 } as const
 export const FINISH_MULTIPLIER_TENTHS = { normal: 10, glossy: 23, alternative: 32 } as const

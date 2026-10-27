@@ -14,12 +14,12 @@ import { BoosterCarousel } from '../components/BoosterCarousel'
 import { DropRates } from '../components/DropRates'
 import { CollectibleCard } from '../components/CollectibleCard'
 import { EmptyState, ErrorNotice, Modal } from '../components/ui'
-import { errorText, formatTime } from '../components/format'
+import { errorText, formatDuration } from '../components/format'
 import { updateSettings, useSettings } from '../settings/useSettings'
 import { preloadImages } from '../components/preloadImages'
 import { useNow } from '../components/useNow'
 
-function RechargeClock({ at }: { at: number }) { const now = useNow(); return <span className="recharge-clock"><Clock3 size={12} />{formatTime(at - now)}</span> }
+function RechargeClock({ at }: { at: number }) { const now = useNow(); return <span className="recharge-clock"><Clock3 size={12} />{formatDuration(at - now, { hours: false })}</span> }
 
 export function BoostersPage() {
   const { player, pendingOpening, boosterStock } = useGame()

@@ -1,7 +1,7 @@
 import { resolveBoosterPool } from '../game/engine'
 import type { BoosterDefinition, CardDefinition } from '../game/types'
 
-export type CollectionBooster = { id: string; title: string; cardIds: Set<string> }
+type CollectionBooster = { id: string; title: string; cardIds: Set<string> }
 
 export function collectionBoosters(boosters: BoosterDefinition[], cards: CardDefinition[]): CollectionBooster[] {
   return boosters.filter(booster => booster.enabled).sort((a, b) => a.order - b.order).map(booster => ({

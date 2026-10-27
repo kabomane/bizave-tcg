@@ -7,6 +7,8 @@ import { addContact, ensureIdentity, receiveTransfer, renameFriend, removeFriend
 import { createContactCode, parseContactCode } from '../exchanges/crypto'
 import { EmptyState, ErrorNotice, Modal } from '../components/ui'
 import { OutboxList } from '../components/OutboxList'
+import { ConfirmationButton } from '../components/ConfirmationButton'
+import { useTransientFlag } from '../components/useTransientFlag'
 import { readTransferFile } from '../exchanges/transferFile'
 import { copyText, errorText } from '../components/format'
 
@@ -19,16 +21,11 @@ export function ExchangesPage() {
   const [contact, setContact] = useState(''), [label, setLabel] = useState(''), [transfer, setTransfer] = useState('')
   const [identityError, setIdentityError] = useState(''), [contactError, setContactError] = useState(''), [transferError, setTransferError] = useState('')
   const [busy, setBusy] = useState(false), [tab, setTab] = useState(params.get('onglet') === 'envois' ? 'outbox' : 'contacts'), [adding, setAdding] = useState(false)
-  const [copied, setCopied] = useState(false), [copying, setCopying] = useState(false), [pasting, setPasting] = useState(false)
+  const [copied, setCopied] = useTransientFlag(), [copying, setCopying] = useState(false), [pasting, setPasting] = useState(false)
   const identity = useLiveQuery(() => db.identity.get('local'))
   const friends = useLiveQuery(() => db.friends.toArray(), [], [])
   const editingFriend = friends.find(friend => friend.playerUuid === editing)
   useEffect(() => { ensureIdentity().catch(e => setIdentityError(errorText(e))) }, [])
-  useEffect(() => {
-    if (!copied) return
-    const timer = window.setTimeout(() => setCopied(false), 3000)
-    return () => window.clearTimeout(timer)
-  }, [copied])
   function openAdd() { setContact(''); setLabel(''); setContactError(''); setCopied(false); setAdding(true) }
   async function copyOwnCode() {
     if (!identity || copying) return
@@ -104,7 +101,7 @@ export function ExchangesPage() {
 
     </section>
     {adding && <Modal title="Ajouter un ami" onClose={() => { if (!busy && !pasting) setAdding(false) }}>
-      {identity && <div className="friend-code-row"><div className="friend-code-avatar" aria-hidden="true"><UserRound size={23} /></div><button type="button" className={`secondary-button friend-copy-button ${copied ? 'is-confirmed' : ''}`} aria-label={copied ? 'Code copié !' : 'Copier mon code ami'} disabled={copying} onClick={copyOwnCode}><span key={String(copied)} className={copied ? 'clipboard-confirm' : ''} aria-hidden="true">{copied ? <Check size={17} /> : <Copy size={17} />}</span><span role="status" aria-live="polite">{copied ? 'Code copié !' : 'Copier mon code ami'}</span></button></div>}
+      {identity && <div className="friend-code-row"><div className="friend-code-avatar" aria-hidden="true"><UserRound size={23} /></div><ConfirmationButton icon={Copy} label="Copier mon code ami" confirmation="Code copié !" confirmed={copied} className={`secondary-button friend-copy-button ${copied ? 'is-confirmed' : ''}`} iconSize={17} disabled={copying} action={copyOwnCode} live="polite" /></div>}
       <form className="contact-form" onSubmit={event => { event.preventDefault(); void add() }}>
         <label className="field-label"><input required aria-label="Nom de l’ami" value={label} maxLength={80} autoComplete="off" onChange={event => setLabel(event.target.value)} placeholder="Nom de l’ami" /></label>
         <button type="button" className={`secondary-button friend-paste-button ${contact ? 'is-confirmed' : ''}`} aria-label={pasting ? 'Collage…' : contact ? 'Code ami collé !' : 'Coller son code ami'} disabled={pasting || busy} onClick={pasteContact}><span key={contact ? 'pasted' : 'empty'} className={contact ? 'clipboard-confirm' : ''} aria-hidden="true">{contact ? <Check size={17} /> : <ClipboardPaste size={17} />}</span><span role="status" aria-live="polite">{pasting ? 'Collage…' : contact ? 'Code ami collé !' : 'Coller son code ami'}</span></button>

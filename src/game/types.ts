@@ -5,10 +5,10 @@ export type CardDefinition = {
   id: string; title: string; description: string; rarity: Rarity; collectionId: string
   artwork: { standard: string; fullArt: string }; artworkPosition?: Partial<Record<ArtVariant, string>>; weight?: number
 }
-export type CardPoolSource =
+type CardPoolSource =
   | { type: 'collection'; collectionId: string; excludeCardIds?: string[]; multiplier?: number }
   | { type: 'cards'; cardIds: string[]; multiplier?: number }
-export type BoosterShopOffer = { price: number; listed?: boolean }
+type BoosterShopOffer = { price: number; listed?: boolean }
 export type BoosterDefinition = {
   id: string; title: string; subtitle: string; description: string
   artwork: { symbol: 'spark' | 'moon' | 'bloom'; colors: { primary: string; secondary: string; shine: string; glow: string } }
