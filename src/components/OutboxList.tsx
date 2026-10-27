@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Clock3, Send } from 'lucide-react'
 import { db } from '../storage/database'
-import { OUTBOX_RETENTION_MS } from '../exchanges/services'
+import { OUTBOX_RETENTION_MS } from '../exchanges/outbox'
 import { cardById } from '../data/cards'
 import type { FriendContactRow } from '../game/types'
 import { useGame } from './useGame'

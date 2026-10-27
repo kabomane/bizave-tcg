@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Gem, Layers3, PackageOpen, Recycle, Users, X } from 'lucide-react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
@@ -10,11 +10,11 @@ import { errorText } from './components/format'
 import { BoostersPage } from './pages/BoostersPage'
 import { CollectionPage } from './pages/CollectionPage'
 import { AtelierPage } from './pages/AtelierPage'
-import { pruneOutbox } from './exchanges/services'
-import { SendCardPage } from './pages/SendCardPage'
-import { SettingsPage } from './pages/SettingsPage'
-import { ExchangesPage } from './pages/ExchangesPage'
-import { ShopPage } from './pages/ShopPage'
+import { pruneOutbox } from './exchanges/outbox'
+const SendCardPage = lazy(() => import('./pages/SendCardPage').then(m => ({ default: m.SendCardPage })))
+const SettingsPage = lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })))
+const ExchangesPage = lazy(() => import('./pages/ExchangesPage').then(m => ({ default: m.ExchangesPage })))
+const ShopPage = lazy(() => import('./pages/ShopPage').then(m => ({ default: m.ShopPage })))
 
 export default function App() {
   useEffect(() => {
@@ -59,7 +59,7 @@ export default function App() {
       <nav className="desktop-nav" aria-label="Navigation principale">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={currentSection(item.to) ? 'page' : undefined}>{item.label}</Link>)}</nav>
       <div className="header-actions"><div className="fragment-wallet" aria-label={`${state.player.fragments} fragments`} title="Fragments"><Gem size={16} /><strong>{state.player.fragments}</strong></div></div>
     </header>
-    <main className="main-content"><Routes><Route path="/" element={<BoostersPage />} /><Route path="/boutique" element={<ShopPage />} /><Route path="/parametres" element={<SettingsPage />} /><Route path="/collection" element={<CollectionPage />} /><Route path="/atelier" element={<AtelierPage />} /><Route path="/envoyer/:dropId" element={<SendCardPage />} /><Route path="/echanges" element={<ExchangesPage />} /><Route path="*" element={<div className="empty-state"><h1>Page introuvable.</h1><Link to="/" className="primary-button">Retour</Link></div>} /></Routes></main>
+    <main className="main-content"><Suspense fallback={null}><Routes><Route path="/" element={<BoostersPage />} /><Route path="/boutique" element={<ShopPage />} /><Route path="/parametres" element={<SettingsPage />} /><Route path="/collection" element={<CollectionPage />} /><Route path="/atelier" element={<AtelierPage />} /><Route path="/envoyer/:dropId" element={<SendCardPage />} /><Route path="/echanges" element={<ExchangesPage />} /><Route path="*" element={<div className="empty-state"><h1>Page introuvable.</h1><Link to="/" className="primary-button">Retour</Link></div>} /></Routes></Suspense></main>
     <nav className="mobile-nav" aria-label="Navigation mobile">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={currentSection(item.to) ? 'page' : undefined}>{item.icon}<span>{item.label}</span></Link>)}</nav>
   </div>
     {toast && <div className="toast" role="status"><span>{toast}</span><button className="icon-button" aria-label="Masquer le message" onClick={() => setToast('')}><X size={15} /></button></div>}

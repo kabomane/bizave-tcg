@@ -63,11 +63,6 @@ export async function receiveTransfer(code: string, database: BizaveDatabase = d
   })
 }
 
-export const OUTBOX_RETENTION_MS = 24 * 60 * 60 * 1000
-/** Removes local copies only. Signed transfers and ownership records remain intact. */
-export async function pruneOutbox(database = db, now = Date.now()) {
-  return database.outbox.where('createdAt').belowOrEqual(now - OUTBOX_RETENTION_MS).delete()
-}
 export async function renameFriend(playerUuid: string, label: string, database = db) {
   const name = label.trim()
   if (!name || name.length > 80) throw new Error('Le nom doit contenir entre 1 et 80 caractères.')
