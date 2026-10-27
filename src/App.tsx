@@ -42,7 +42,8 @@ export default function App() {
   const nextFreePackAt = state?.player.nextFreePackAt
   useEffect(() => {
     if (nextFreePackAt === null || nextFreePackAt === undefined) return
-    const timer = setTimeout(() => { refreshRecharge().catch(e => setToast(errorText(e))) }, Math.max(0, Math.min(2_147_483_647, nextFreePackAt - Date.now())))
+    // Allow for a small clock correction before settling the recharge deadline.
+    const timer = setTimeout(() => { refreshRecharge().catch(e => setToast(errorText(e))) }, Math.max(0, Math.min(2_147_483_647, nextFreePackAt - Date.now() + 250)))
     return () => clearTimeout(timer)
   }, [nextFreePackAt])
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(''), 5000); return () => clearTimeout(timer) }, [toast])

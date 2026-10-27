@@ -11,7 +11,10 @@ const args = process.argv.slice(2)
 if (args.length && (args.length !== 2 || args[0] !== '--only' || !args[1])) throw new Error('Usage : npm run illustrations [-- --only <id>]')
 const only = args[1], catalogue = JSON.parse(await fs.readFile(cataloguePath, 'utf8'))
 const byId = new Map(catalogue.map(card => [card.id, card]))
-const entries = (await fs.readdir(originals, { withFileTypes: true })).filter(entry => entry.isFile() && /\.(png|jpe?g|webp)$/i.test(entry.name)).sort((a, b) => a.name.localeCompare(b.name))
+const entries = (await fs.readdir(originals, { withFileTypes: true }).catch(error => {
+  if (error.code === 'ENOENT') throw new Error('Dossier illustrations/originals/ absent. Créez-le et déposez-y les originaux avant de lancer npm run illustrations.')
+  throw error
+})).filter(entry => entry.isFile() && /\.(png|jpe?g|webp)$/i.test(entry.name)).sort((a, b) => a.name.localeCompare(b.name))
 const unknown = entries.filter(entry => !byId.has(path.parse(entry.name).name))
 if (unknown.length) throw new Error('Originaux sans carte dans le catalogue : ' + unknown.map(entry => entry.name).join(', '))
 const ids = entries.map(entry => path.parse(entry.name).name)

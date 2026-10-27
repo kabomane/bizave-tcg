@@ -1,6 +1,6 @@
 # Bizave TCG — V1
 
-Première version de **Bizave TCG**. Le premier booster, **Phantom Blood**, est prêt : 110 cartes, ouverture, collection, recyclage, boutique et échanges. Les illustrations sont encore en cours de réalisation : de nombreuses cartes utilisent provisoirement des placeholders.
+Première version de **Bizave TCG**. Le premier booster, **Phantom Blood**, est prêt : 110 cartes, ouverture, collection, recyclage, boutique et échanges. Les 110 cartes sont illustrées.
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte ou paiement.
 
@@ -55,8 +55,8 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 ## Ce qui est livré
 
 - Un seul booster Phantom Blood, ouvrable avec les crédits gratuits ou achetable à 70 fragments, contenant les 110 modèles. Aucun autre booster n’est affiché dans l’atelier.
-- Les **110 définitions exactes du carnet du 26 octobre 2026** : 40 communes, 23 peu communes, 21 rares, 16 épiques, 10 légendaires. Le catalogue actif compte 63 cartes illustrées ; une même image sert aux formats Classique et Full Art.
-- 63 illustrations WebP versionnées, partagées entre Classique et Full Art ; placeholders SVG pour les 47 autres modèles. Les finitions CSS produisent toujours les six variantes par modèle.
+- Les **110 définitions du carnet du 27 octobre 2026** : 40 communes, 23 peu communes, 21 rares, 16 épiques, 10 légendaires. Les 110 cartes ont une illustration et une description ; une même image sert aux formats Classique et Full Art.
+- 110 illustrations WebP versionnées, partagées entre Classique et Full Art. Les finitions CSS produisent toujours les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
 - Stock gratuit global **5**, recharge **1/10 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
@@ -86,7 +86,7 @@ Le catalogue est dans `src/data/catalogue.json`. Une entrée :
 ```
 
 1. Choisir un `id` stable et unique. Après publication, **ne pas renommer cet ID ni changer sa rareté**.
-2. Ajouter une illustration dans `public/assets/cards/ma-carte/illustration.<hash>.webp`. Les deux chemins `artwork.standard` et `artwork.fullArt` pointent vers ce même fichier. Les clés techniques restent stables ; le jeu affiche Classique et Full Art.
+2. Déposer l’original dans `illustrations/originals/ma-carte.png`, puis lancer `npm run illustrations`. Le script génère `public/assets/cards/ma-carte/illustration.<hash>.webp` et met à jour les deux chemins `artwork.standard` et `artwork.fullArt` vers ce même fichier. Les clés techniques restent stables ; le jeu affiche Classique et Full Art.
 3. Le gabarit reste 326 × 540 : la même image est cadrée dans la fenêtre Fusion en Classique et sur toute la carte Gundam en Full Art. Les images utilisent `object-fit: cover`. Un point de cadrage peut être défini avec `artworkPosition.standard` ou `artworkPosition.fullArt` si nécessaire.
 4. `rarity` vaut `common`, `uncommon`, `rare`, `epic` ou `legendary`. `weight`, facultatif et strictement positif, change le poids du modèle **dans sa rareté**, jamais le taux de la rareté.
 5. Exécuter `npm test` et `npm run build`. Les tests vérifient les références et l’existence des illustrations des deux variantes, qui peuvent partager un fichier. Adapter les totaux éditoriaux du test de catalogue si une nouvelle carte est volontairement ajoutée ; le moteur ne dépend d’aucun de ces totaux.
@@ -101,7 +101,7 @@ Les originaux restent dans `illustrations/originals/`, hors de `public/`, ignor�
 
 Le script refuse les originaux inconnus avant toute écriture, avertit en cas de ratio différent ou d’agrandissement, conserve les cadrages `artworkPosition` et retire les anciens fichiers générés de la carte. Les cartes sans original gardent leurs SVG. Une seconde exécution sans changement ne réécrit aucun fichier.
 
-Les trois références conservées sont `references/carnet-cartes-2026-10-26.jsx`, `references/cahier-des-charges.md` et `references/demo-cartes-finitions.html`. Les autres carnets restent dans l’historique Git.
+Le carnet actuel est `references/carnet-cartes-2026-10-27.jsx`. Le carnet du 26 octobre, `references/cahier-des-charges.md` et `references/demo-cartes-finitions.html` restent conservés comme références historiques. L’import du 27 octobre est détaillé dans `illustrations/imports/2026-10-27/manifest.json`.
 
 ## Créer une collection
 
@@ -187,8 +187,8 @@ src/components/     cartes, paquets, dialogues et état partagé
 src/pages/          Boosters, Collection, Atelier, Amis & échanges
 src/styles/        thème UI et CSS de carte de référence
 tests/             parcours navigateur Playwright
-references/        carnet du 26 octobre, cahier des charges et démo des finitions
-public/assets/     63 WebP versionnés et 94 placeholders SVG
+references/        carnet actuel du 27 octobre, références historiques et démo des finitions
+public/assets/     110 WebP versionnés
 ```
 
 Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs/installation/using-vite), [Dexie useLiveQuery](https://dexie.org/docs/dexie-react-hooks/useLiveQuery()), [Vite réseau](https://vite.dev/config/server-options).

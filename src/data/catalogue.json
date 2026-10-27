@@ -60,7 +60,7 @@
     "title": "Thomas Agent d'accueil",
     "rarity": "rare",
     "collectionId": "thomas",
-    "description": "Thomas à l'aéroport. Un jour, Matthieu descendra de son avion, un jour nous serons réunis…",
+    "description": "Un jour, Matthieu descendra de son avion. Un jour, nous serons réunis…",
     "artwork": {
       "standard": "/assets/cards/t-accueil/illustration.0e687c886c.webp",
       "fullArt": "/assets/cards/t-accueil/illustration.0e687c886c.webp"
@@ -309,7 +309,7 @@
     "title": "Les Blancs",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "d4 : le pion de la dame avance de deux cases.\nFf4 : le fou sort pour contrôler le centre.\ne3 : renforcer le centre et libérer l'autre fou.\nCf3 : développer le cavalier.\nc3 : consolider la structure de pions.",
+    "description": "d4 : le pion de la dame avance de deux cases.\nFf4 : le fou sort pour contrôler le centre.\ne3 : le pion renforce le centre et libère l'autre fou.\nCf3 : le cavalier se développe.\nc3 : le pion consolide la structure.",
     "artwork": {
       "standard": "/assets/cards/les-blancs/illustration.87cda444e2.webp",
       "fullArt": "/assets/cards/les-blancs/illustration.87cda444e2.webp"
@@ -549,8 +549,8 @@
     "collectionId": "matthieu",
     "description": "Arrivée au Québec en 2025. Comme d'habitude, il va tout faire à la dernière minute.",
     "artwork": {
-      "standard": "/assets/cards/m-voyageur/standard.svg",
-      "fullArt": "/assets/cards/m-voyageur/full-art.svg"
+      "standard": "/assets/cards/m-voyageur/illustration.5fd912d3b2.webp",
+      "fullArt": "/assets/cards/m-voyageur/illustration.5fd912d3b2.webp"
     }
   },
   {
@@ -644,8 +644,8 @@
     "collectionId": "matthieu",
     "description": "Pendant que le Père Thomas fait sa tournée, le lutin Matthieu emballe les cadeaux… à la dernière minute, évidemment.",
     "artwork": {
-      "standard": "/assets/cards/m-lutin/standard.svg",
-      "fullArt": "/assets/cards/m-lutin/full-art.svg"
+      "standard": "/assets/cards/m-lutin/illustration.c879b42af4.webp",
+      "fullArt": "/assets/cards/m-lutin/illustration.c879b42af4.webp"
     }
   },
   {
@@ -764,8 +764,8 @@
     "collectionId": "matthieu",
     "description": "Certains vont à l'école en tramway, Matthieu y va en ferry.",
     "artwork": {
-      "standard": "/assets/cards/ferry-quebecois/standard.svg",
-      "fullArt": "/assets/cards/ferry-quebecois/full-art.svg"
+      "standard": "/assets/cards/ferry-quebecois/illustration.e3b95a95e1.webp",
+      "fullArt": "/assets/cards/ferry-quebecois/illustration.e3b95a95e1.webp"
     }
   },
   {
@@ -775,8 +775,8 @@
     "collectionId": "matthieu",
     "description": "Supporter un jour, supporter toujours.",
     "artwork": {
-      "standard": "/assets/cards/ol/standard.svg",
-      "fullArt": "/assets/cards/ol/full-art.svg"
+      "standard": "/assets/cards/ol/illustration.8bfa97147f.webp",
+      "fullArt": "/assets/cards/ol/illustration.8bfa97147f.webp"
     }
   },
   {
@@ -786,8 +786,8 @@
     "collectionId": "matthieu",
     "description": "Le KFC Pouletto peut produire jusqu'à 1 stack toutes les 10 minutes ! Sauf quand il ne fonctionne plus…",
     "artwork": {
-      "standard": "/assets/cards/minecraft-pouletto/standard.svg",
-      "fullArt": "/assets/cards/minecraft-pouletto/full-art.svg"
+      "standard": "/assets/cards/minecraft-pouletto/illustration.1c78218270.webp",
+      "fullArt": "/assets/cards/minecraft-pouletto/illustration.1c78218270.webp"
     }
   },
   {
@@ -797,8 +797,8 @@
     "collectionId": "matthieu",
     "description": "Punaise, il y a un idiot qui roulait sur la bande d'arrêt d'urgence et qui m'a foncé dessus !",
     "artwork": {
-      "standard": "/assets/cards/m-routier/standard.svg",
-      "fullArt": "/assets/cards/m-routier/full-art.svg"
+      "standard": "/assets/cards/m-routier/illustration.aa4babb4d5.webp",
+      "fullArt": "/assets/cards/m-routier/illustration.aa4babb4d5.webp"
     }
   },
   {
@@ -806,10 +806,10 @@
     "title": "Matthieu jungler",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "Passif : Reine araignée\nA : Neurotoxine / Morsure venimeuse\nZ : Araignée explosive / Frénésie symbiotique\nE : Cocon / Suspension\nR : Forme arachnéenne",
+    "description": "A : Neurotoxine / Morsure venimeuse\nZ : Araignée explosive / Frénésie symbiotique\nE : Cocon / Suspension\nR : Forme arachnéenne",
     "artwork": {
-      "standard": "/assets/cards/m-jungler/standard.svg",
-      "fullArt": "/assets/cards/m-jungler/full-art.svg"
+      "standard": "/assets/cards/m-jungler/illustration.e31c3ee2c6.webp",
+      "fullArt": "/assets/cards/m-jungler/illustration.e31c3ee2c6.webp"
     }
   },
   {
@@ -819,8 +819,8 @@
     "collectionId": "matthieu",
     "description": "Euh… j'ai pas appris d'ouverture, je vais jouer au hasard.",
     "artwork": {
-      "standard": "/assets/cards/les-noirs/standard.svg",
-      "fullArt": "/assets/cards/les-noirs/full-art.svg"
+      "standard": "/assets/cards/les-noirs/illustration.9b789ef301.webp",
+      "fullArt": "/assets/cards/les-noirs/illustration.9b789ef301.webp"
     }
   },
   {
@@ -844,8 +844,8 @@
     "collectionId": "matthieu",
     "description": "Tout ça pour 200 $…",
     "artwork": {
-      "standard": "/assets/cards/vieille-appart/standard.svg",
-      "fullArt": "/assets/cards/vieille-appart/full-art.svg"
+      "standard": "/assets/cards/vieille-appart/illustration.b30a63d78e.webp",
+      "fullArt": "/assets/cards/vieille-appart/illustration.b30a63d78e.webp"
     }
   },
   {
@@ -869,8 +869,8 @@
     "collectionId": "matthieu",
     "description": "L'élément qui contribue le plus au bonheur de Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/jus-orange/standard.svg",
-      "fullArt": "/assets/cards/jus-orange/full-art.svg"
+      "standard": "/assets/cards/jus-orange/illustration.9594297333.webp",
+      "fullArt": "/assets/cards/jus-orange/illustration.9594297333.webp"
     }
   },
   {
@@ -894,8 +894,8 @@
     "collectionId": "matthieu",
     "description": "Mais comment on fait pour monter sur son dos ?!",
     "artwork": {
-      "standard": "/assets/cards/m-premier/standard.svg",
-      "fullArt": "/assets/cards/m-premier/full-art.svg"
+      "standard": "/assets/cards/m-premier/illustration.f34d8d2532.webp",
+      "fullArt": "/assets/cards/m-premier/illustration.f34d8d2532.webp"
     }
   },
   {
@@ -905,8 +905,8 @@
     "collectionId": "matthieu",
     "description": "Moi, je pense que c'est un poltergeist. Nan mais oui, je crois bien.",
     "artwork": {
-      "standard": "/assets/cards/m-exorciste/standard.svg",
-      "fullArt": "/assets/cards/m-exorciste/full-art.svg"
+      "standard": "/assets/cards/m-exorciste/illustration.c0c5752ae1.webp",
+      "fullArt": "/assets/cards/m-exorciste/illustration.c0c5752ae1.webp"
     }
   },
   {
@@ -986,8 +986,8 @@
     "collectionId": "matthieu",
     "description": "Penser et avoir des idées, mais ne jamais les concrétiser : telle est ma vocation.",
     "artwork": {
-      "standard": "/assets/cards/m-ingenieur/standard.svg",
-      "fullArt": "/assets/cards/m-ingenieur/full-art.svg"
+      "standard": "/assets/cards/m-ingenieur/illustration.b24260af3b.webp",
+      "fullArt": "/assets/cards/m-ingenieur/illustration.b24260af3b.webp"
     }
   },
   {
@@ -995,10 +995,10 @@
     "title": "Matthieu coureur",
     "rarity": "common",
     "collectionId": "matthieu",
-    "description": "",
+    "description": "Mais pourquoi j'ai décidé de courir de nuit sous la pluie ?",
     "artwork": {
-      "standard": "/assets/cards/m-coureur/standard.svg",
-      "fullArt": "/assets/cards/m-coureur/full-art.svg"
+      "standard": "/assets/cards/m-coureur/illustration.879a00602d.webp",
+      "fullArt": "/assets/cards/m-coureur/illustration.879a00602d.webp"
     }
   },
   {
@@ -1008,8 +1008,8 @@
     "collectionId": "matthieu",
     "description": "Matthieu Furansu-jin Desu",
     "artwork": {
-      "standard": "/assets/cards/m-parisien/standard.svg",
-      "fullArt": "/assets/cards/m-parisien/full-art.svg"
+      "standard": "/assets/cards/m-parisien/illustration.0c4947b6a9.webp",
+      "fullArt": "/assets/cards/m-parisien/illustration.0c4947b6a9.webp"
     }
   },
   {
@@ -1017,10 +1017,10 @@
     "title": "Oyster Card",
     "rarity": "epic",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Cette carte aurait pu valoir bien plus si Thomas avait accepté de payer plus cher pour inclure la zone 1 de Londres…",
     "artwork": {
-      "standard": "/assets/cards/oyster/standard.svg",
-      "fullArt": "/assets/cards/oyster/full-art.svg"
+      "standard": "/assets/cards/oyster/illustration.cecdfe1306.webp",
+      "fullArt": "/assets/cards/oyster/illustration.cecdfe1306.webp"
     }
   },
   {
@@ -1028,10 +1028,10 @@
     "title": "Daronned",
     "rarity": "epic",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "« Juste un petit café ? » Trois heures plus tard, tu connais toute la famille.",
     "artwork": {
-      "standard": "/assets/cards/daronned/standard.svg",
-      "fullArt": "/assets/cards/daronned/full-art.svg"
+      "standard": "/assets/cards/daronned/illustration.fcab929ff7.webp",
+      "fullArt": "/assets/cards/daronned/illustration.fcab929ff7.webp"
     }
   },
   {
@@ -1039,10 +1039,10 @@
     "title": "Visa Japon",
     "rarity": "legendary",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Une relique rare, que peu de gens parviennent à obtenir.",
     "artwork": {
-      "standard": "/assets/cards/visa-japon/standard.svg",
-      "fullArt": "/assets/cards/visa-japon/full-art.svg"
+      "standard": "/assets/cards/visa-japon/illustration.4ae7cb8eec.webp",
+      "fullArt": "/assets/cards/visa-japon/illustration.4ae7cb8eec.webp"
     }
   },
   {
@@ -1050,10 +1050,10 @@
     "title": "Visa Québec",
     "rarity": "legendary",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Une relique rare, que peu de gens parviennent à obtenir.",
     "artwork": {
-      "standard": "/assets/cards/visa-quebec/standard.svg",
-      "fullArt": "/assets/cards/visa-quebec/full-art.svg"
+      "standard": "/assets/cards/visa-quebec/illustration.e2548ad912.webp",
+      "fullArt": "/assets/cards/visa-quebec/illustration.e2548ad912.webp"
     }
   },
   {
@@ -1061,10 +1061,10 @@
     "title": "Sous 3 ans",
     "rarity": "common",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "C'est la règle ! Toute information ou action sera prise en compte et traitée sous 3 ans.",
     "artwork": {
-      "standard": "/assets/cards/sous-3-ans/standard.svg",
-      "fullArt": "/assets/cards/sous-3-ans/full-art.svg"
+      "standard": "/assets/cards/sous-3-ans/illustration.e40f5887fa.webp",
+      "fullArt": "/assets/cards/sous-3-ans/illustration.e40f5887fa.webp"
     }
   },
   {
@@ -1072,10 +1072,10 @@
     "title": "Cursed Week",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Tout ce qui peut mal tourner tournera mal. Courage, dimanche arrive.",
     "artwork": {
-      "standard": "/assets/cards/cursed-week/standard.svg",
-      "fullArt": "/assets/cards/cursed-week/full-art.svg"
+      "standard": "/assets/cards/cursed-week/illustration.2e29628832.webp",
+      "fullArt": "/assets/cards/cursed-week/illustration.2e29628832.webp"
     }
   },
   {
@@ -1083,10 +1083,10 @@
     "title": "Lucky Week",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Une semaine où tout sourit. Profites-en, ça ne durera que jusqu'à dimanche.",
     "artwork": {
-      "standard": "/assets/cards/lucky-week/standard.svg",
-      "fullArt": "/assets/cards/lucky-week/full-art.svg"
+      "standard": "/assets/cards/lucky-week/illustration.70ce391598.webp",
+      "fullArt": "/assets/cards/lucky-week/illustration.70ce391598.webp"
     }
   },
   {
@@ -1094,10 +1094,10 @@
     "title": "Golden Week",
     "rarity": "epic",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "La chance à son paroxysme : la Golden Week ultime !",
     "artwork": {
-      "standard": "/assets/cards/golden-week/standard.svg",
-      "fullArt": "/assets/cards/golden-week/full-art.svg"
+      "standard": "/assets/cards/golden-week/illustration.57cebd61b0.webp",
+      "fullArt": "/assets/cards/golden-week/illustration.57cebd61b0.webp"
     }
   },
   {
@@ -1105,10 +1105,10 @@
     "title": "Chaise",
     "rarity": "legendary",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Cette chaise a une signification bien précise. Peu de personnes en connaissent vraiment le sens.",
     "artwork": {
-      "standard": "/assets/cards/chaise/standard.svg",
-      "fullArt": "/assets/cards/chaise/full-art.svg"
+      "standard": "/assets/cards/chaise/illustration.dc4bc774f1.webp",
+      "fullArt": "/assets/cards/chaise/illustration.dc4bc774f1.webp"
     }
   },
   {
@@ -1116,10 +1116,10 @@
     "title": "Sanae Takaichi",
     "rarity": "legendary",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "L'immigration, c'est NON !",
     "artwork": {
-      "standard": "/assets/cards/takaichi/standard.svg",
-      "fullArt": "/assets/cards/takaichi/full-art.svg"
+      "standard": "/assets/cards/takaichi/illustration.892f91cd85.webp",
+      "fullArt": "/assets/cards/takaichi/illustration.892f91cd85.webp"
     }
   },
   {
@@ -1127,10 +1127,10 @@
     "title": "Paul St-Pierre Plamondon",
     "rarity": "legendary",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "L'immigration, c'est NON !",
     "artwork": {
-      "standard": "/assets/cards/pspp/standard.svg",
-      "fullArt": "/assets/cards/pspp/full-art.svg"
+      "standard": "/assets/cards/pspp/illustration.facd5a7987.webp",
+      "fullArt": "/assets/cards/pspp/illustration.facd5a7987.webp"
     }
   },
   {
@@ -1138,10 +1138,10 @@
     "title": "Centre du monde",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Le point originel de l'univers, le centre du monde.",
     "artwork": {
-      "standard": "/assets/cards/centre-du-monde/standard.svg",
-      "fullArt": "/assets/cards/centre-du-monde/full-art.svg"
+      "standard": "/assets/cards/centre-du-monde/illustration.86e58e926e.webp",
+      "fullArt": "/assets/cards/centre-du-monde/illustration.86e58e926e.webp"
     }
   },
   {
@@ -1149,10 +1149,10 @@
     "title": "Le Commencement",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "C'est ici que Thomas et Matthieu se sont rencontrés, dans l'une de ces voitures.",
     "artwork": {
-      "standard": "/assets/cards/commencement/standard.svg",
-      "fullArt": "/assets/cards/commencement/full-art.svg"
+      "standard": "/assets/cards/commencement/illustration.a00b900343.webp",
+      "fullArt": "/assets/cards/commencement/illustration.a00b900343.webp"
     }
   },
   {
@@ -1160,10 +1160,10 @@
     "title": "Douilled",
     "rarity": "epic",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Les douilles nous mèneront tous deux à Rome.",
     "artwork": {
-      "standard": "/assets/cards/douilled/standard.svg",
-      "fullArt": "/assets/cards/douilled/full-art.svg"
+      "standard": "/assets/cards/douilled/illustration.220243dbd1.webp",
+      "fullArt": "/assets/cards/douilled/illustration.220243dbd1.webp"
     }
   },
   {
@@ -1171,10 +1171,10 @@
     "title": "Proton VPN",
     "rarity": "epic",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Pour pouvoir voyager à la vitesse de la 5G+.",
     "artwork": {
-      "standard": "/assets/cards/proton-vpn/standard.svg",
-      "fullArt": "/assets/cards/proton-vpn/full-art.svg"
+      "standard": "/assets/cards/proton-vpn/illustration.694edbc067.webp",
+      "fullArt": "/assets/cards/proton-vpn/illustration.694edbc067.webp"
     }
   },
   {
@@ -1182,10 +1182,10 @@
     "title": "Le kayak",
     "rarity": "common",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "N'importe quelle rivière, lac, mer ou océan est traversable en kayak…",
     "artwork": {
-      "standard": "/assets/cards/kayak/standard.svg",
-      "fullArt": "/assets/cards/kayak/full-art.svg"
+      "standard": "/assets/cards/kayak/illustration.dbf8ea4660.webp",
+      "fullArt": "/assets/cards/kayak/illustration.dbf8ea4660.webp"
     }
   },
   {
@@ -1193,10 +1193,10 @@
     "title": "Le compte Renault",
     "rarity": "uncommon",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Sans doute la personne la plus dangereuse de nos contrées. Ses contrats et sa bourse n'ont pas de limites.",
     "artwork": {
-      "standard": "/assets/cards/compte-renault/standard.svg",
-      "fullArt": "/assets/cards/compte-renault/full-art.svg"
+      "standard": "/assets/cards/compte-renault/illustration.8a186f96bc.webp",
+      "fullArt": "/assets/cards/compte-renault/illustration.8a186f96bc.webp"
     }
   },
   {
@@ -1218,10 +1218,10 @@
     "title": "Le FC Papillon",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Un groupe d'amis, ou un harem… on ne sait pas vraiment.",
     "artwork": {
-      "standard": "/assets/cards/fc-papillon/standard.svg",
-      "fullArt": "/assets/cards/fc-papillon/full-art.svg"
+      "standard": "/assets/cards/fc-papillon/illustration.4e4ea45554.webp",
+      "fullArt": "/assets/cards/fc-papillon/illustration.4e4ea45554.webp"
     }
   },
   {
@@ -1229,10 +1229,10 @@
     "title": "MKQB",
     "rarity": "epic",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Le concept, c'était d'enchaîner McDo, KFC, Quick et Burger King… ça s'est mal terminé.",
     "artwork": {
-      "standard": "/assets/cards/mkqb/standard.svg",
-      "fullArt": "/assets/cards/mkqb/full-art.svg"
+      "standard": "/assets/cards/mkqb/illustration.02ecde7ad9.webp",
+      "fullArt": "/assets/cards/mkqb/illustration.02ecde7ad9.webp"
     }
   },
   {
@@ -1240,10 +1240,10 @@
     "title": "PGW 2022",
     "rarity": "uncommon",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Ce qui se passe à la PGW reste à la PGW.",
     "artwork": {
-      "standard": "/assets/cards/pgw-2022/standard.svg",
-      "fullArt": "/assets/cards/pgw-2022/full-art.svg"
+      "standard": "/assets/cards/pgw-2022/illustration.cec1021eda.webp",
+      "fullArt": "/assets/cards/pgw-2022/illustration.cec1021eda.webp"
     }
   },
   {
@@ -1251,10 +1251,10 @@
     "title": "Eli support",
     "rarity": "common",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "A : Prison aqueuse\nZ : Flux et reflux\nE : Bénédiction de l'Aquamancienne\nR : Raz-de-marée",
     "artwork": {
-      "standard": "/assets/cards/eli-support/standard.svg",
-      "fullArt": "/assets/cards/eli-support/full-art.svg"
+      "standard": "/assets/cards/eli-support/illustration.0004ab25ac.webp",
+      "fullArt": "/assets/cards/eli-support/illustration.0004ab25ac.webp"
     }
   },
   {
@@ -1262,10 +1262,10 @@
     "title": "Eli camionneuse",
     "rarity": "common",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Les hommes sont de meilleurs conducteurs, qu'ils disaient…",
     "artwork": {
-      "standard": "/assets/cards/eli-camionneuse/standard.svg",
-      "fullArt": "/assets/cards/eli-camionneuse/full-art.svg"
+      "standard": "/assets/cards/eli-camionneuse/illustration.618ebf9fa4.webp",
+      "fullArt": "/assets/cards/eli-camionneuse/illustration.618ebf9fa4.webp"
     }
   },
   {
@@ -1273,10 +1273,10 @@
     "title": "Eli biome cerisier",
     "rarity": "common",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Il est beau ce biome, il est vraiment joli… oui, apaisant.",
     "artwork": {
-      "standard": "/assets/cards/eli-cerisier/standard.svg",
-      "fullArt": "/assets/cards/eli-cerisier/full-art.svg"
+      "standard": "/assets/cards/eli-cerisier/illustration.776e4cf17b.webp",
+      "fullArt": "/assets/cards/eli-cerisier/illustration.776e4cf17b.webp"
     }
   },
   {
@@ -1284,10 +1284,10 @@
     "title": "Eli chasseuse de fantômes",
     "rarity": "common",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Alors ici, il fait au moins -8 000 les gars !",
     "artwork": {
-      "standard": "/assets/cards/eli-chasseuse/standard.svg",
-      "fullArt": "/assets/cards/eli-chasseuse/full-art.svg"
+      "standard": "/assets/cards/eli-chasseuse/illustration.d661fe8f00.webp",
+      "fullArt": "/assets/cards/eli-chasseuse/illustration.d661fe8f00.webp"
     }
   },
   {
@@ -1295,10 +1295,10 @@
     "title": "Eli canotière",
     "rarity": "common",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Vous en faites pas, je finis de réviser et je rejoins votre bateau, promis !",
     "artwork": {
-      "standard": "/assets/cards/eli-canotiere/standard.svg",
-      "fullArt": "/assets/cards/eli-canotiere/full-art.svg"
+      "standard": "/assets/cards/eli-canotiere/illustration.9f194fce06.webp",
+      "fullArt": "/assets/cards/eli-canotiere/illustration.9f194fce06.webp"
     }
   },
   {
@@ -1308,8 +1308,8 @@
     "collectionId": "speciaux",
     "description": "Eli Furansu-jin Desu",
     "artwork": {
-      "standard": "/assets/cards/eli-parisienne/standard.svg",
-      "fullArt": "/assets/cards/eli-parisienne/full-art.svg"
+      "standard": "/assets/cards/eli-parisienne/illustration.c23afeda80.webp",
+      "fullArt": "/assets/cards/eli-parisienne/illustration.c23afeda80.webp"
     }
   },
   {
@@ -1317,10 +1317,10 @@
     "title": "La glacière Picard",
     "rarity": "uncommon",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "La meilleure façon de transporter des mangas, selon Matthieu.",
     "artwork": {
-      "standard": "/assets/cards/glaciere-picard/standard.svg",
-      "fullArt": "/assets/cards/glaciere-picard/full-art.svg"
+      "standard": "/assets/cards/glaciere-picard/illustration.7fbb2d44c4.webp",
+      "fullArt": "/assets/cards/glaciere-picard/illustration.7fbb2d44c4.webp"
     }
   },
   {
@@ -1344,8 +1344,8 @@
     "collectionId": "speciaux",
     "description": "La saga Harry Potter, la saga The Hobbit… il faudra aussi regarder tous les Star Wars !",
     "artwork": {
-      "standard": "/assets/cards/soiree-film-1/standard.svg",
-      "fullArt": "/assets/cards/soiree-film-1/full-art.svg"
+      "standard": "/assets/cards/soiree-film-1/illustration.a0233cda47.webp",
+      "fullArt": "/assets/cards/soiree-film-1/illustration.a0233cda47.webp"
     }
   },
   {
@@ -1353,10 +1353,10 @@
     "title": "Soirée film #2",
     "rarity": "uncommon",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Jujutsu Kaisen, My Hero Academia, Dr. Stone… on peut aussi se refaire les JoJo.",
     "artwork": {
-      "standard": "/assets/cards/soiree-film-2/standard.svg",
-      "fullArt": "/assets/cards/soiree-film-2/full-art.svg"
+      "standard": "/assets/cards/soiree-film-2/illustration.0c669ad5f1.webp",
+      "fullArt": "/assets/cards/soiree-film-2/illustration.0c669ad5f1.webp"
     }
   },
   {
@@ -1364,10 +1364,10 @@
     "title": "Soirée film #3",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Scream, Smile… Ah, il y a aussi ce film d'horreur que je veux vous faire voir : They Will Kill You.",
     "artwork": {
-      "standard": "/assets/cards/soiree-film-3/standard.svg",
-      "fullArt": "/assets/cards/soiree-film-3/full-art.svg"
+      "standard": "/assets/cards/soiree-film-3/illustration.f8b8ae5095.webp",
+      "fullArt": "/assets/cards/soiree-film-3/illustration.f8b8ae5095.webp"
     }
   },
   {
@@ -1375,10 +1375,10 @@
     "title": "Les stagiaires",
     "rarity": "legendary",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Stagiaires depuis maintenant 10 ans, ils ont peu de chances de retrouver un jour le poste qu'ils occupaient au départ.",
     "artwork": {
-      "standard": "/assets/cards/stagiaires/standard.svg",
-      "fullArt": "/assets/cards/stagiaires/full-art.svg"
+      "standard": "/assets/cards/stagiaires/illustration.05532ab617.webp",
+      "fullArt": "/assets/cards/stagiaires/illustration.05532ab617.webp"
     }
   },
   {
@@ -1386,10 +1386,10 @@
     "title": "Lâcher de poule",
     "rarity": "rare",
     "collectionId": "speciaux",
-    "description": "",
+    "description": "Attention ! Je lâche la poule !\nLa poule est libérée !",
     "artwork": {
-      "standard": "/assets/cards/lacher-poule/standard.svg",
-      "fullArt": "/assets/cards/lacher-poule/full-art.svg"
+      "standard": "/assets/cards/lacher-poule/illustration.9c2d0c7930.webp",
+      "fullArt": "/assets/cards/lacher-poule/illustration.9c2d0c7930.webp"
     }
   }
 ]

@@ -15,7 +15,7 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Les sections d’import ci-dessous décrivent les fichiers et vérifications historiques avant conversion ; les 63 originaux actifs ont depuis été déplacés, avec empreintes inchangées, dans `originals/`. Les illustrations publiées sont désormais les WebP versionnés.
+Les sections d’import ci-dessous décrivent les fichiers et vérifications historiques. Les 63 premiers originaux actifs ont été déplacés, avec empreintes inchangées, dans `originals/` ; les imports du 27 octobre en ajoutent 47, soit 110 originaux. Les illustrations publiées sont les WebP versionnés.
 
 ## Import du 24 octobre 2026
 
@@ -49,3 +49,15 @@ Le catalogue actif et le pool Phantom Blood suivent les 110 cartes du nouveau ca
 Le carnet est conservé dans `references/carnet-cartes-2026-10-26.jsx`. Le manifeste `imports/2026-10-26/manifest.json` consigne les associations, dimensions et empreintes SHA-256, les fichiers ignorés, les retraits, ajouts, renommages et descriptions. Les anciennes images et leurs cadrages restent inchangés.
 
 Validation : 183 fichiers existants référencés par l’ancien catalogue contrôlés par SHA-256 sans modification ; 27 nouveaux PNG identiques à l’archive ; 220 chemins actifs valides ; pool et ordre couvrant exactement les 110 cartes actuelles. `npm run check` réussi : lint, 92 tests, TypeScript et build Vite. Aperçus de Thomas parisien et des descriptions longues Bizarre Aventure inspectés dans le navigateur, en Classique et Full Art. Capture : `artifacts/import-illustrations-2026-10-26.png`.
+
+## Import du 27 octobre 2026
+
+L’archive `TCG - bizave card. (1).zip` fournit 109 PNG pour les 110 cartes du carnet `references/carnet-cartes-2026-10-27.jsx`. Les identifiants, noms, raretés, groupes, cadrages et pools du projet sont conservés.
+
+- 46 illustrations manquantes sont ajoutées. Leurs PNG 1086 × 1448 sont conservés sans modification dans `originals/<id>.png`, hors Git et publication. Chaque nouvelle carte est traitée avec `npm run illustrations -- --only <id>` : WebP 900 × 1200, qualité 85, sRGB, recadrage central, métadonnées retirées et nom versionné par SHA-256. Les sorties totalisent 9 678 220 octets pour 180 036 538 octets d’originaux.
+- Les 63 illustrations WebP précédentes et leurs 63 originaux sont inchangés : empreintes et dates de modification contrôlées. Aucune de ces cartes n’a été reconvertie.
+- Le propriétaire confirme que `soiree_discord_#1.png` correspond à la carte renommée **Soirée film #1**. Cette image est importée sous `soiree-film-1`, sans recréer l’ancien identifiant `discord-1`.
+- 31 descriptions sont ajoutées et 3 sont corrigées (**Thomas Agent d’accueil**, **Les Blancs**, **Matthieu jungler**), exclusivement depuis `FICHES.description`. Les 110 cartes ont désormais une description.
+- **Eli biome cerisier** (`eli-cerisier`) est ensuite fournie séparément dans `eli_cerisier.png` : original 1086 × 1448 conservé dans `originals/eli-cerisier.png`, sans modification (3 850 529 octets). Seule cette carte est convertie en WebP 900 × 1200 (159 200 octets), et ses deux placeholders sont retirés. Les 109 images déjà présentes restent inchangées, empreintes et dates vérifiées. Le catalogue est complet : **110 cartes illustrées**, avec une image partagée entre Classique et Full Art.
+
+Le manifeste `imports/2026-10-27/manifest.json` détaille les associations source/identifiant, les dimensions, les empreintes des PNG et WebP, le renommage confirmé et les changements de descriptions. Les 46 PNG importés correspondent exactement aux octets de l’archive. Vérification des dimensions WebP, de l’espace sRGB, du retrait EXIF/ICC et des noms versionnés ; planche des nouvelles illustrations inspectée. `npm run check` valide lint, 113 tests, TypeScript et build Vite.
