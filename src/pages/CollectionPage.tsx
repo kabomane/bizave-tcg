@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { memo, useCallback, useMemo, useState } from 'react'
 import { ArrowLeft, ArrowRight, Check, Gem, Layers3, Search, Send, SlidersHorizontal, X } from 'lucide-react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGame } from '../components/useGame'
@@ -31,6 +31,13 @@ function FragmentValue({ card }: { card: Card }) {
   return <span className="card-fragment-value" aria-label={`${value} ${value === 1 ? 'fragment' : 'fragments'} par exemplaire`} title="Valeur de recyclage d’un exemplaire"><Gem size={12} aria-hidden="true" />{value}</span>
 }
 
+const CollectionEntryItem = memo(function CollectionEntryItem({ entry, showValue, onOpen }: { entry: CollectionEntry; showValue: boolean; onOpen: (entry: CollectionEntry) => void }) {
+  return <div className="collection-item"><CollectibleCard deferred card={entry.card} definition={cardById.get(entry.card.cardId)!} onActivate={() => onOpen(entry)} /><div className={`card-caption card-caption-single${showValue ? ' card-caption-valued' : ''}`}>{showValue && <FragmentValue card={entry.card} />}{entry.ids.length > 1 && <b>×{entry.ids.length}</b>}</div></div>
+})
+const CollectionPileItem = memo(function CollectionPileItem({ item, label, showValue, onOpen }: { item: ReturnType<typeof collectionView>[number]; label: string; showValue: boolean; onOpen: (key: string) => void }) {
+  return <div className="collection-item"><div className="collection-pile"><CollectibleCard deferred card={item.card} definition={cardById.get(item.card.cardId)!} activationLabel={`Ouvrir la pile, ${label}`} onActivate={() => onOpen(item.key)} /></div><div className="card-caption"><span>{label}</span>{showValue ? <FragmentValue card={item.card} /> : <Layers3 size={12} aria-hidden="true" />}</div></div>
+})
+
 export function CollectionPage() {
   const navigate = useNavigate()
   const { devCatalog, collectionDisplay } = useSettings()
@@ -51,19 +58,29 @@ export function CollectionPage() {
     const card = cardById.get(group.card.cardId)!
     return (!boosterCardIds || boosterCardIds.has(card.id)) && matchesCardSearch(card, search) && (!rarities.length || rarities.includes(card.rarity)) && (!finishes.length || finishes.includes(group.card.finish)) && (!fullArt || group.card.artVariant === 'fullArt')
   }), [variants, search, rarities, finishes, fullArt, boosterCardIds])
-  const visible = useMemo(() => collectionView(filtered, collectionDisplay), [filtered, collectionDisplay])
+  const allItems = useMemo(() => collectionView(variants, collectionDisplay), [variants, collectionDisplay])
+  const visible = useMemo(() => {
+    if (filtered.length === variants.length) return allItems
+    const items = new Map(allItems.map(item => [item.key, item])), entries = new Map(allItems.flatMap(item => item.entries.map(entry => [entry.key, entry] as const)))
+    return collectionView(filtered, collectionDisplay).map(item => {
+      const original = items.get(item.key)
+      if (original && original.entries.length === item.entries.length && original.entries.every((entry, index) => entry.key === item.entries[index].key)) return original
+      return { ...item, entries: item.entries.map(entry => entries.get(entry.key) || entry) }
+    })
+  }, [filtered, variants, collectionDisplay, allItems])
   const detail = visible.flatMap(item => item.entries).find(entry => entry.key === detailKey)
   const definition = detail ? cardById.get(detail.card.cardId)! : undefined
   const obtainedDate = detail && !preview && Number.isFinite(detail.acquiredAt) && detail.acquiredAt > 0 ? new Date(detail.acquiredAt) : undefined
   const stack = visible.find(item => item.key === stackKey)
   const variantQuantity = detail ? savedVariants.find(variant => variantKey(variant.card) === variantKey(detail.card))?.copies.length || 0 : 0
   function close(all = true) { setDetailKey(null); if (all) setStackKey(null); setRecycleConfirm(false); setError('') }
-  function openEntry(entry: CollectionEntry) { setDetailKey(entry.key); setRecycleConfirm(false); setError('') }
+  const openEntry = useCallback((entry: CollectionEntry) => { setDetailKey(entry.key); setRecycleConfirm(false); setError('') }, [])
+  const openPile = useCallback((key: string) => { setStackKey(key); setDetailKey(null); setError('') }, [])
   function changeDisplay(value: CollectionDisplay) {
     try { updateSettings({ collectionDisplay: value }); setDisplayError('') } catch (e) { setDisplayError(errorText(e)) }
   }
   function renderEntry(entry: CollectionEntry) {
-    return <div key={entry.key} className="collection-item"><CollectibleCard deferred card={entry.card} definition={cardById.get(entry.card.cardId)!} onActivate={() => openEntry(entry)} /><div className={`card-caption card-caption-single${showValue ? ' card-caption-valued' : ''}`}>{showValue && <FragmentValue card={entry.card} />}{entry.ids.length > 1 && <b>×{entry.ids.length}</b>}</div></div>
+    return <CollectionEntryItem key={entry.key} entry={entry} showValue={showValue} onOpen={openEntry} />
   }
   async function recycle() {
     if (preview || !detail?.ids.length || busy) return
@@ -83,7 +100,7 @@ export function CollectionPage() {
     {variants.length ? <><div className="collection-grid">{visible.map(item => {
       if (item.entries.length === 1) return renderEntry(item.entries[0])
       const label = collectionDisplay.duplicates === 'show' ? `${item.entries.length} cartes` : `${item.variantCount} variantes`
-      return <div key={item.key} className="collection-item"><div className="collection-pile"><CollectibleCard deferred card={item.card} definition={cardById.get(item.card.cardId)!} activationLabel={`Ouvrir la pile, ${label}`} onActivate={() => { setStackKey(item.key); setDetailKey(null); setError('') }} /></div><div className="card-caption"><span>{label}</span>{showValue ? <FragmentValue card={item.card} /> : <Layers3 size={12} aria-hidden="true" />}</div></div>
+      return <CollectionPileItem key={item.key} item={item} label={label} showValue={showValue} onOpen={openPile} />
     })}</div>{!visible.length && <EmptyState icon={<Layers3 size={24} />} title="Aucune carte">Essayez une autre sélection.</EmptyState>}</> : <EmptyState icon={<Layers3 size={25} />} title="La première vous attend." action={<Link className="primary-button" to="/">Phantom Blood <ArrowRight size={15} /></Link>}>Ouvrez votre premier booster.</EmptyState>}
     {(detail && definition || stack) && <Modal headerCenter={obtainedDate && <time dateTime={obtainedDate.toISOString()}>obtenu le {obtainedDateFormat.format(obtainedDate)}</time>} viewKey={detail?.key || stack?.key} title={detail && definition ? definition.title : cardById.get(stack!.card.cardId)!.title + (collectionDisplay.groupBy === 'format' ? stack!.card.artVariant === 'fullArt' ? ' · Full Art' : ' · Classique' : '')} showTitle={!detail} onClose={() => { if (!busy) close() }} wide={!!detail} className={detail ? '' : 'collection-stack-modal'} headerStart={detail && stack ? <button type="button" className="text-button pile-back" aria-label="Retour à la pile" disabled={busy} onClick={() => close(false)}><ArrowLeft size={16} /> La pile</button> : undefined}>
       {detail && definition ? <><div className="card-detail-layout"><div className="detail-card"><CollectibleCard card={detail.card} definition={definition} /></div><div className="detail-info">{preview && <p className="muted">Aperçu · Mode dev</p>}

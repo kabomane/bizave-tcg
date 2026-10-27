@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { Gem, Layers3, PackageOpen, Recycle, Users, X } from 'lucide-react'
 import { Link, Route, Routes, useLocation } from 'react-router-dom'
-import { db } from './storage/database'
+import { readGameState } from './storage/gameState'
 import { refreshRecharge } from './storage/services'
 import { GameContext } from './components/useGame'
 import { CardSvgDefinitions } from './components/CollectibleCard'
@@ -28,24 +28,25 @@ export default function App() {
   }, [])
   const { pathname } = useLocation()
   useEffect(() => { window.scrollTo(0, 0) }, [pathname])
-  const state = useLiveQuery(async () => {
-    const [player, drops, discoveries, openings, boosterStock] = await Promise.all([db.player.get('local'), db.drops.toArray(), db.discoveries.toArray(), db.openings.toArray(), db.boosterStock.toArray()])
-    return player ? { player, drops, discoveries, openings, boosterStock } : undefined
-  })
-  const [now, setNow] = useState(Date.now), [toast, setToast] = useState('')
+  const state = useLiveQuery(() => readGameState())
+  const [toast, setToast] = useState('')
+  const context = useMemo(() => state && { ...state, notify: setToast }, [state])
   useEffect(() => {
-    const resume = () => { if (document.visibilityState === 'visible') { setNow(Date.now()); pruneOutbox().catch(e => setToast(errorText(e))); refreshRecharge().catch(e => setToast(errorText(e))) } }
+    const resume = () => { if (document.visibilityState === 'visible') { pruneOutbox().catch(e => setToast(errorText(e))); refreshRecharge().catch(e => setToast(errorText(e))) } }
     pruneOutbox().catch(e => setToast(errorText(e)))
     const cleanup = setInterval(() => { pruneOutbox().catch(e => setToast(errorText(e))) }, 60_000)
-    const clock = setInterval(() => setNow(Date.now()), 1000)
     const persist = setInterval(() => { refreshRecharge().catch(e => setToast(errorText(e))) }, 60_000)
     document.addEventListener('visibilitychange', resume); window.addEventListener('focus', resume)
-    return () => { clearInterval(clock); clearInterval(persist); clearInterval(cleanup); document.removeEventListener('visibilitychange', resume); window.removeEventListener('focus', resume) }
+    return () => { clearInterval(persist); clearInterval(cleanup); document.removeEventListener('visibilitychange', resume); window.removeEventListener('focus', resume) }
   }, [])
   const nextFreePackAt = state?.player.nextFreePackAt
-  useEffect(() => { if (nextFreePackAt && now >= nextFreePackAt) refreshRecharge().catch(e => setToast(errorText(e))) }, [now, nextFreePackAt])
+  useEffect(() => {
+    if (nextFreePackAt === null || nextFreePackAt === undefined) return
+    const timer = setTimeout(() => { refreshRecharge().catch(e => setToast(errorText(e))) }, Math.max(0, Math.min(2_147_483_647, nextFreePackAt - Date.now())))
+    return () => clearTimeout(timer)
+  }, [nextFreePackAt])
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(''), 5000); return () => clearTimeout(timer) }, [toast])
-  if (!state) return <div className="boot-screen"><span className="brand-glyph">b.</span></div>
+  if (!state || !context) return <div className="boot-screen"><span className="brand-glyph">b.</span></div>
   const nav = [
     { to: '/', label: 'Boosters', icon: <PackageOpen size={19} /> },
     { to: '/collection', label: 'Collection', icon: <Layers3 size={19} /> },
@@ -53,7 +54,7 @@ export default function App() {
     { to: '/echanges', label: 'Amis', icon: <Users size={19} /> },
   ]
   const currentSection = (to: string) => pathname === to || (to === '/' && pathname === '/boutique')
-  return <GameContext.Provider value={{ ...state, now, notify: setToast }}><CardSvgDefinitions /><div className="app-shell">
+  return <GameContext.Provider value={context}><CardSvgDefinitions /><div className="app-shell">
     <header className="site-header"><Link to="/parametres" className="brand" aria-label="Bizave TCG, paramètres">bizave<span>TCG</span><i /></Link>
       <nav className="desktop-nav" aria-label="Navigation principale">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={currentSection(item.to) ? 'page' : undefined}>{item.label}</Link>)}</nav>
       <div className="header-actions"><div className="fragment-wallet" aria-label={`${state.player.fragments} fragments`} title="Fragments"><Gem size={16} /><strong>{state.player.fragments}</strong></div></div>

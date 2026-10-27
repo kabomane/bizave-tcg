@@ -1,19 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { useSearchParams } from 'react-router-dom'
-import { ArrowDownLeft, Check, ClipboardPaste, Copy, FileUp, Clock3, Pencil, Plus, Send, UserRound, Users } from 'lucide-react'
+import { ArrowDownLeft, Check, ClipboardPaste, Copy, FileUp, Pencil, Plus, UserRound, Users } from 'lucide-react'
 import { db } from '../storage/database'
-import { addContact, ensureIdentity, receiveTransfer, renameFriend, removeFriend, OUTBOX_RETENTION_MS } from '../exchanges/services'
+import { addContact, ensureIdentity, receiveTransfer, renameFriend, removeFriend } from '../exchanges/services'
 import { createContactCode, parseContactCode } from '../exchanges/crypto'
-import { cardById } from '../data/cards'
-import { useGame } from '../components/useGame'
 import { EmptyState, ErrorNotice, Modal } from '../components/ui'
-import { TransferDeliveryButton } from '../components/TransferDeliveryButton'
+import { OutboxList } from '../components/OutboxList'
 import { readTransferFile } from '../exchanges/transferFile'
-import { copyText, errorText, formatCountdown } from '../components/format'
+import { copyText, errorText } from '../components/format'
 
 export function ExchangesPage() {
-  const { notify, now } = useGame()
   const fileInput = useRef<HTMLInputElement>(null)
   const [transferSource, setTransferSource] = useState('')
   const [readingFile, setReadingFile] = useState(false)
@@ -25,10 +22,7 @@ export function ExchangesPage() {
   const [copied, setCopied] = useState(false), [copying, setCopying] = useState(false), [pasting, setPasting] = useState(false)
   const identity = useLiveQuery(() => db.identity.get('local'))
   const friends = useLiveQuery(() => db.friends.toArray(), [], [])
-  const outbox = useLiveQuery(() => db.outbox.orderBy('createdAt').reverse().toArray(), [], [])
-  const activeOutbox = outbox.filter(row => row.createdAt + OUTBOX_RETENTION_MS > now)
   const editingFriend = friends.find(friend => friend.playerUuid === editing)
-  const drops = useLiveQuery(() => db.drops.toArray(), [], [])
   useEffect(() => { ensureIdentity().catch(e => setIdentityError(errorText(e))) }, [])
   useEffect(() => {
     if (!copied) return
@@ -106,11 +100,7 @@ export function ExchangesPage() {
         }} />
         {transferSource && <p className="receive-ready" role="status"><Check size={16} /><span>{transferSource}</span><button type="button" className="text-button" disabled={busy} onClick={() => { setTransfer(''); setTransferSource(''); setTransferError('') }}>Changer</button></p>}
         {!friends.length && <p className="field-help">Ajoutez d’abord le contact de l’expéditeur.</p>}<ErrorNotice error={transferError} /><button className="primary-button" disabled={busy || readingFile || !transfer.trim() || !identity}><ArrowDownLeft size={16} />{readingFile ? 'Lecture…' : busy ? 'Vérification…' : 'Recevoir'}</button></form>}
-      {tab === 'outbox' && (activeOutbox.length ? <div className="transfer-list">{activeOutbox.map(row => {
-        const drop = drops.find(item => item.dropId === row.dropId), definition = drop && cardById.get(drop.cardId)
-        const friendName = friends.find(friend => friend.playerUuid === row.recipientId)?.label || row.recipientLabel || row.recipientId
-        return <article className="transfer-row" key={row.transferId}><div className="transfer-thumb">{definition && drop ? <img src={definition.artwork[drop.artVariant]} alt="" /> : <Send size={19} />}</div><div className="transfer-info"><strong>{definition?.title || 'Carte envoyée'}</strong><span>À {friendName}</span><small title="Suppression de cette entrée après 24 h"><Clock3 size={11} />{formatCountdown(row.createdAt + OUTBOX_RETENTION_MS - now)}</small></div><TransferDeliveryButton transfer={row} onError={notify} /></article>
-      })}</div> : <EmptyState icon={<Send size={25} />} title="Aucun envoi en cours.">Les transferts restent disponibles ici pendant 24 h.</EmptyState>)}
+      {tab === 'outbox' && <OutboxList friends={friends} />}
 
     </section>
     {adding && <Modal title="Ajouter un ami" onClose={() => { if (!busy && !pasting) setAdding(false) }}>
