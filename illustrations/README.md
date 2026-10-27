@@ -11,9 +11,11 @@ Ces sources sont hors de public/ et ne sont pas publiées avec l’application.
 
 ## Illustrations finales
 
-Les images utilisées vont dans public/assets/cards/<identifiant>/illustration.png. Une seule illustration sert aux versions **Classique** et **Full Art** ; les dispositions Fusion et Gundam assurent leur cadrage.
+Les originaux sont déposés par le propriétaire dans `illustrations/originals/<identifiant>.<ext>` (png, jpg, jpeg ou webp), hors publication et hors Git. En conserver une sauvegarde ailleurs. Le script les lit sans les modifier. `npm run illustrations` ou `npm run illustrations -- --only <identifiant>` génère `public/assets/cards/<identifiant>/illustration.<hash>.webp` : 900 × 1200, qualité 85, sRGB, dix caractères de SHA-256 dans le nom. Une seule illustration sert aux versions **Classique** et **Full Art** ; les dispositions Fusion et Gundam assurent leur cadrage.
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
+
+Les sections d’import ci-dessous décrivent les fichiers et vérifications historiques avant conversion ; les 63 originaux actifs ont depuis été déplacés, avec empreintes inchangées, dans `originals/`. Les illustrations publiées sont désormais les WebP versionnés.
 
 ## Import du 24 octobre 2026
 
@@ -21,7 +23,7 @@ Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json point
 
 Les associations, raretés, dimensions et empreintes SHA-256 sont dans imports/2026-10-24/manifest.json. Les raretés et identifiants des 110 cartes restent inchangés. Les deux Mini utilisent toujours leurs placeholders.
 
-Les 10 descriptions FICHES.description du carnet sont intégrées. Les champs Mémo et Création ne sont pas affichés comme descriptions. Le carnet fourni est conservé dans references/carnet-cartes-2026-10-24.jsx à la racine du projet.
+Les 10 descriptions FICHES.description du carnet sont intégrées. Les champs Mémo et Création ne sont pas affichés comme descriptions. Le carnet du 24 octobre a été retiré du dépôt lors du nettoyage ; il reste dans l’historique Git, commit `b37dbb2`.
 
 ## Import du 25 octobre 2026
 
@@ -29,7 +31,7 @@ Les 10 descriptions FICHES.description du carnet sont intégrées. Les champs M�
 
 Les quatre noms sont actualisés d’après le carnet, sans changer les identifiants : LOSC → Thomas supporter (`losc`), OL → Matthieu supporter (`ol`), Thomas routier → Thomas camionneur (`t-routier`), Matthieu routier → Matthieu camionneur (`m-routier`). Les deux cartes de Matthieu conservent leurs placeholders : aucune nouvelle illustration correspondante dans cette archive.
 
-Les 21 descriptions supplémentaires du carnet sont intégrées ; seuls les champs `FICHES.description` servent au texte des cartes. Le carnet est conservé dans `references/carnet-cartes-2026-10-25.jsx`. Le manifeste `imports/2026-10-25/manifest.json` détaille les ajouts, images ignorées, empreintes SHA-256, renommages et descriptions.
+Les 21 descriptions supplémentaires du carnet sont intégrées ; seuls les champs `FICHES.description` servent au texte des cartes. Le carnet du 25 octobre a été retiré du dépôt lors du nettoyage ; il reste dans l’historique Git, commit `1f608b2`. Le manifeste `imports/2026-10-25/manifest.json` détaille les ajouts, images ignorées, empreintes SHA-256, renommages et descriptions.
 
 Validation : les 14 images existantes et leurs cadrages sont inchangés ; les 23 nouveaux PNG correspondent exactement à l’archive ; les 110 identifiants, raretés et groupes restent identiques ; les 220 chemins du catalogue existent. Vérification TypeScript sans erreur pour les trois projets. Rendu des versions Classique et Full Art de Thomas supporter inspecté dans le navigateur ; recherche de Thomas camionneur et ses six variantes vérifiée. Capture : `artifacts/import-illustrations-2026-10-25.png`.
 

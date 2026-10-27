@@ -41,6 +41,7 @@ Sur `http://localhost:5173`, Web Crypto fonctionne car localhost est un contexte
 | --- | --- |
 | `npm run dev` | Développement HTTP, réseau local et étendu, port 5173 |
 | `npm run dev:https` | Développement HTTPS, réseau local et étendu, port 5174 |
+| `npm run illustrations` | Convertir les originaux en WebP versionnés |
 | `npm run build` | Vérification TypeScript puis build statique dans `dist/` |
 | `npm run preview` | Servir le build sur toutes les interfaces, port 4173 |
 | `npm test` | Tests Vitest : moteur, économie, Dexie, migrations, cryptographie et concurrence |
@@ -55,7 +56,7 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 
 - Un seul booster Phantom Blood, ouvrable avec les crédits gratuits ou achetable à 70 fragments, contenant les 110 modèles. Aucun autre booster n’est affiché dans l’atelier.
 - Les **110 définitions exactes du carnet du 26 octobre 2026** : 40 communes, 23 peu communes, 21 rares, 16 épiques, 10 légendaires. Le catalogue actif compte 63 cartes illustrées ; une même image sert aux formats Classique et Full Art.
-- 14 illustrations PNG finales, partagées entre Classique et Full Art ; placeholders SVG pour les autres modèles. Les finitions CSS produisent toujours les six variantes par modèle.
+- 63 illustrations WebP versionnées, partagées entre Classique et Full Art ; placeholders SVG pour les 47 autres modèles. Les finitions CSS produisent toujours les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
 - Stock gratuit global **5**, recharge **1/10 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
@@ -78,23 +79,33 @@ Le catalogue est dans `src/data/catalogue.json`. Une entrée :
   "rarity": "rare",
   "collectionId": "ma-collection",
   "artwork": {
-    "standard": "/assets/cards/ma-carte/illustration.png",
-    "fullArt": "/assets/cards/ma-carte/illustration.png"
+    "standard": "/assets/cards/ma-carte/illustration.<hash>.webp",
+    "fullArt": "/assets/cards/ma-carte/illustration.<hash>.webp"
   }
 }
 ```
 
 1. Choisir un `id` stable et unique. Après publication, **ne pas renommer cet ID ni changer sa rareté**.
-2. Ajouter une illustration dans `public/assets/cards/ma-carte/illustration.png`. Les deux chemins `artwork.standard` et `artwork.fullArt` pointent vers ce même fichier. Les clés techniques restent stables ; le jeu affiche Classique et Full Art.
+2. Ajouter une illustration dans `public/assets/cards/ma-carte/illustration.<hash>.webp`. Les deux chemins `artwork.standard` et `artwork.fullArt` pointent vers ce même fichier. Les clés techniques restent stables ; le jeu affiche Classique et Full Art.
 3. Le gabarit reste 326 × 540 : la même image est cadrée dans la fenêtre Fusion en Classique et sur toute la carte Gundam en Full Art. Les images utilisent `object-fit: cover`. Un point de cadrage peut être défini avec `artworkPosition.standard` ou `artworkPosition.fullArt` si nécessaire.
 4. `rarity` vaut `common`, `uncommon`, `rare`, `epic` ou `legendary`. `weight`, facultatif et strictement positif, change le poids du modèle **dans sa rareté**, jamais le taux de la rareté.
 5. Exécuter `npm test` et `npm run build`. Les tests vérifient les références et l’existence des illustrations des deux variantes, qui peuvent partager un fichier. Adapter les totaux éditoriaux du test de catalogue si une nouvelle carte est volontairement ajoutée ; le moteur ne dépend d’aucun de ces totaux.
 
 Seules les descriptions éditoriales du carnet sont affichées. Les champs Mémo et Création ne sont pas des descriptions ; les cartes sans description gardent un encart vide. La référence de génération est `illustrations/prompts/DA-illustrations-Souvenir-Moment-culte.md`. Les placeholders contiennent une mention discrète « Illustration à venir ».
 
+## Illustrations
+
+Les originaux restent dans `illustrations/originals/`, hors de `public/`, ignorés par Git et Firebase. Convention : un original `<id>.<ext>` par carte (png, jpg, jpeg ou webp). Le convertisseur lit ces fichiers sans jamais les modifier. Le propriétaire dépose les nouveaux originaux et garde une sauvegarde ailleurs : **ils ne sont plus sauvegardés par Git**.
+
+`npm run illustrations` traite toutes les cartes ; `npm run illustrations -- --only <id>` ne traite qu’une carte. Sortie : 900 × 1200 px, WebP qualité 85, sRGB, recadrage central et métadonnées retirées. Le nom `illustration.<hash>.webp` contient les dix premiers caractères du SHA-256 de l’image produite ; le cache immutable reste valide lorsque l’image change.
+
+Le script refuse les originaux inconnus avant toute écriture, avertit en cas de ratio différent ou d’agrandissement, conserve les cadrages `artworkPosition` et retire les anciens fichiers générés de la carte. Les cartes sans original gardent leurs SVG. Une seconde exécution sans changement ne réécrit aucun fichier.
+
+Les trois références conservées sont `references/carnet-cartes-2026-10-26.jsx`, `references/cahier-des-charges.md` et `references/demo-cartes-finitions.html`. Les autres carnets restent dans l’historique Git.
+
 ## Créer une collection
 
-1. Ajouter un `{ id, title }` dans `collections` dans `src/data/cards.ts`.
+1. Choisir un identifiant de groupe éditorial `collectionId` unique. Aucun registre de groupes séparé n’est nécessaire.
 2. Ajouter ses cartes dans le catalogue avec ce `collectionId` et leurs **deux** illustrations.
 3. Référencer explicitement les identifiants voulus dans le pool de chaque booster concerné. Chaque paquet doit contenir un modèle de chaque rareté ; les taux restent communs.
 
@@ -118,7 +129,6 @@ Les constantes sont centralisées dans `src/game/config.ts` :
 FREE_PACK_INITIAL_STOCK = 5 // stock d’une nouvelle installation
 FREE_PACK_CAPACITY = 5      // plafond V1
 FREE_PACK_RECHARGE_MS = 600_000 // dix minutes
-DEFAULT_SPECIAL_BOOSTER_PRICE = 60
 ```
 
 Le stock initial ne s’applique qu’à une nouvelle sauvegarde. Ne pas effacer une sauvegarde existante pour changer un paramètre. Si le plafond est réduit dans une évolution, écrire une migration de `player` avant de déployer. Le plafond et la durée de recharge sont utilisés dans le moteur et l’interface ; aucune nouvelle page n’est nécessaire.
@@ -135,7 +145,7 @@ Une variante est `(cardId, finish, artVariant)`. Un exemplaire possède un `drop
 
 Les transactions sérialisent ouvertures, recyclages, envois et réceptions, y compris entre onglets. Les migrations Dexie sont dans `src/storage/database.ts`. Ne pas changer un schéma publié en place : ajouter une version. Une migration de compatibilité répare les anciennes clés de découvertes et `artVariant`, sans supprimer les historiques ni l’antirejeu.
 
-Pour retirer un modèle, conserver sa définition dans `archivedCards` (`src/data/cards.ts`) et ses images. Les snapshots locaux sont également gardés en base. Ils permettent de consulter et recycler les anciennes cartes. Une tentative de changer la rareté d’un ID déjà publié est refusée.
+Pendant le développement fermé, un modèle retiré est supprimé du catalogue, de l’ordre, des pools et des assets ; `archivedCards` reste vide. Après publication auprès de vrais joueurs, conserver sa définition dans `archivedCards` (`src/data/cards.ts`) et ses images. Les snapshots locaux sont également gardés en base. Ils permettent de consulter et recycler les anciennes cartes. Une tentative de changer la rareté d’un ID déjà publié est refusée.
 
 Le stockage est lié au **navigateur et à l’origine**. Il n’y a ni synchronisation, ni export/import de sauvegarde, ni clé de restauration. Effacer les données du site supprime cartes et clés. Le bouton de protection demande le stockage persistant au navigateur, sans promettre son acceptation ni une sauvegarde distante.
 
@@ -177,8 +187,8 @@ src/components/     cartes, paquets, dialogues et état partagé
 src/pages/          Boosters, Collection, Atelier, Amis & échanges
 src/styles/        thème UI et CSS de carte de référence
 tests/             parcours navigateur Playwright
-references/        les trois fichiers source fournis
-public/assets/     220 placeholders remplaçables
+references/        carnet du 26 octobre, cahier des charges et démo des finitions
+public/assets/     63 WebP versionnés et 94 placeholders SVG
 ```
 
 Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs/installation/using-vite), [Dexie useLiveQuery](https://dexie.org/docs/dexie-react-hooks/useLiveQuery()), [Vite réseau](https://vite.dev/config/server-options).

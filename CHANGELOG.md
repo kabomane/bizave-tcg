@@ -1,5 +1,13 @@
 # Historique des versions
 
+## Optimisation du 27 octobre 2026
+
+- 63 illustrations converties en WebP 900 × 1200 qualité 85, URLs versionnées par contenu ; originaux conservés localement, hors Git et publication.
+- Préchargement des ouvertures, horloge partagée isolée, échéance de recharge et lectures IndexedDB ciblées ; collection mémoïsée.
+- Pages secondaires chargées à la demande, chiffrement séparé du bundle principal et analyse Tailwind limitée au code applicatif.
+- Assets orphelins, anciens carnets, code et dépendances inutilisés retirés ; copie et durées factorisées ; CSS consolidé sans changement de rendu.
+- Garde-fous assets/conversion et parcours d’échanges actuels automatisés.
+
 ## Révision du 26 octobre 2026
 
 - Catalogue Phantom Blood actualisé : six retraits, six nouvelles cartes, noms et descriptions du carnet à jour.

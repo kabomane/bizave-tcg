@@ -1,4 +1,17 @@
-# Validation — 26 octobre 2026
+# Validation — 27 octobre 2026
+
+## Audit optimisation et nettoyage — 27 octobre 2026
+
+- `npm run check` réussi : lint, **113 tests unitaires/intégration**, TypeScript et build de production.
+- **168 fichiers** publiables, dont **63 WebP versionnés** et **94 SVG** pour les 47 cartes sans illustration. `dist/` : **13 130 789 octets**, contre 246 267 504 avant audit.
+- Conversion 900 × 1200 qualité 85 : originaux préservés par SHA-256, chemins vérifiés, aucune ressource orpheline ; seconde conversion sans changement de contenu ni de date.
+- Horloge React contrôlée : aucun commit périodique en Collection, seul RechargeClock se met à jour sur Boosters.
+- 60 vues comparées sur desktop 1440 px et mobile 390 px, clair/sombre : géométrie et styles calculés conservés.
+- `npx knip` sans signalement ; carnet de référence explicitement conservé.
+- Rapport détaillé : [audit du 27 octobre](docs/audit-2026-10-27.md), avec tailles, suppressions, anomalies CSS et écarts justifiés.
+- `npm run test:e2e` : **21 parcours réussis sur Chromium, Firefox et WebKit** ; échanges actuels, antirejeu, reprise, filtres, mobile et clavier. Tous les contrôles de l’audit sont validés avant publication.
+
+Les sections suivantes sont historiques et décrivent les versions antérieures à l’optimisation.
 
 ## Déploiement Firebase Hosting — 26 octobre 2026
 

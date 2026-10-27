@@ -86,6 +86,7 @@ test('au clavier et en reduced-motion, carte et filtres restent accessibles', as
   await expect(page.getByRole('button', { name: /^Rareté/ })).toBeFocused()
 })
 test('échanges : contacts, transfert chiffré et antirejeu avec le parcours actuel', async ({ page, browser, baseURL }) => {
+  test.setTimeout(90_000) // Two isolated players, cryptography and repeated full-page navigations on WebKit.
   const secondContext = await browser.newContext({ baseURL })
   const second = await secondContext.newPage()
   try {
