@@ -1,6 +1,6 @@
 # Roadmap — Bizave TCG
 
-État pour **bizave-tcg.v1.2.5**, le 27 octobre 2026. L’installation PWA et le hors ligne restent prévus. Le transfert de sauvegarde est implémenté ; son fonctionnement actuel est résumé en section 2 et décrit dans [le guide de sauvegarde](docs/sauvegarde.md).
+État pour **bizave-tcg.v1.2.5**, le 28 octobre 2026. Memory Frame et Anima Isekai regroupent 181 cartes, dont 145 illustrées. Les miniatures holographiques utilisent un rendu allégé et les codes cadeaux sont implémentés sans backend. L’installation PWA et le hors ligne restent prévus. Le transfert de sauvegarde est implémenté ; son fonctionnement actuel est résumé en section 2 et décrit dans [le guide de sauvegarde](docs/sauvegarde.md).
 
 ## 1. Installation PWA et jeu hors ligne
 
@@ -33,7 +33,7 @@ L’installation et la disponibilité hors ligne sont deux états distincts. Aff
 - Inclure les placeholders pour les cartes sans illustration définitive.
 - Conserver les effets holographiques, les cadres et les animations exécutés localement.
 - Conserver l’accès aux visuels nécessaires aux anciennes cartes possédées si le catalogue évolue.
-- Réutiliser les WebP 900 × 1200 déjà diffusés et versionnés par contenu ; les 110 PNG originaux restent conservés localement, hors Git et publication.
+- Réutiliser les WebP 900 × 1200 déjà diffusés et versionnés par contenu ; les 145 PNG originaux restent conservés localement, hors Git et publication.
 
 État mesuré le 25 octobre 2026 : **37 illustrations PNG, 140 409 985 octets, soit environ 140 Mo**, hors code et autres ressources. Cette mesure ne préjuge pas du poids après optimisation ni des futures illustrations.
 
@@ -74,7 +74,7 @@ Afficher clairement l’état de connexion et les raisons d’indisponibilité. 
 - Demander un stockage persistant lorsque disponible, sans en garantir l’octroi.
 - Distinguer strictement suppression des ressources hors ligne et effacement de la sauvegarde.
 - Vérifier les ressources au lancement ou à la demande ; ne pas annoncer le jeu prêt si elles ont été supprimées par le navigateur.
-- L’installation ne garantit pas la conservation définitive du stockage. La sauvegarde personnelle fera l’objet d’une conception distincte.
+- L’installation ne garantit pas la conservation définitive du stockage. Le transfert de sauvegarde existant déplace une partie ; il ne constitue pas une copie de restauration ni une sauvegarde distante automatique.
 
 ### Validation à prévoir
 
@@ -101,7 +101,7 @@ Le parcours implémenté remplace la piste initiale à demande chiffrée, code o
 - Une seule paire de signature ECDSA P-256/SHA-256 transférable ; les échanges de cartes FR2/TR2 et les sauvegardes sont signés et lisibles.
 - L’ID joueur, la clé privée, les amis et toute la progression suivent la sauvegarde. L’ID d’installation reste propre à l’appareil. Les amis peuvent continuer à envoyer des cartes, y compris celles préparées avant la migration.
 - Le fichier est vérifié et enregistré dans la même transaction que l’effacement de la partie source. Celle-ci reste verrouillée sur la page de téléchargement, après fermeture et dans les autres onglets.
-- L’import remplace la partie cible, conserve les registres nécessaires et inscrit le transfert de façon atomique. Une erreur annule toutes les écritures. Le fichier est refusé sur une autre installation et en cas de réimport.
+- L’import remplace la partie cible, réunit les registres des transferts et des cadeaux utilisés, puis inscrit le transfert de façon atomique. Une erreur annule toutes les écritures. Le fichier est refusé sur une autre installation et en cas de réimport.
 - Les confirmations sont insensibles aux majuscules et minuscules ; les fenêtres sont adaptées au téléphone.
 - **Supprimer le compte** réinitialise progression, amis, registres, options, identité et ID d’installation ; un fichier de migration en attente est également supprimé après confirmation.
 

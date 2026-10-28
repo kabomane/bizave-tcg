@@ -196,6 +196,24 @@ describe('stocks de boosters et boutique', () => {
   })
 })
 describe('migrations et archives', () => {
+  it('ajoute le registre des cadeaux à une partie du schéma 5 sans changer ses données', async () => {
+    const name = `migration-v5-${uuid()}`, old = new Dexie(name)
+    const stores = Object.fromEntries(db.tables.filter(table => table.name !== 'usedGiftCodes').map(table => [table.name, [table.schema.primKey.src, ...table.schema.indexes.map(index => index.src)].join(', ')]))
+    old.version(5).stores(stores)
+    const player = { id: 'local', fragments: 73, freePackStock: 2, nextFreePackAt: 600_000, maxObservedClockAt: 100, schemaVersion: 5 }
+    const stock = { boosterId: 'phantom-blood', quantity: 7, updatedAt: 100 }
+    await old.table('player').add(player)
+    await old.table('boosterStock').add(stock)
+    old.close()
+    const upgraded = new BizaveDatabase(name)
+    try {
+      await upgraded.open()
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 6 })
+      expect(await upgraded.boosterStock.get(stock.boosterId)).toEqual(stock)
+      expect(await upgraded.usedGiftCodes.count()).toBe(0)
+    } finally { await upgraded.delete() }
+  })
+
   it('ajoute les stocks de paquets à une sauvegarde V2 sans toucher aux cartes, transferts ou échéances', async () => {
     const name = `migration-v2-${uuid()}`, old = new Dexie(name)
     old.version(2).stores({ drops: '&dropId, cardId, [cardId+finish+artVariant], finish, artVariant, status', discoveries: '&key, cardId, [cardId+finish+artVariant], artVariant', player: '&id', openings: '&id, openedAt, boosterId', recycling: '&id, createdAt', identity: '&id', friends: '&playerUuid', outbox: '&transferId, dropId, createdAt', usedTransfers: '&transferId', definitions: '&id' })
@@ -209,7 +227,7 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 5 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 6 })
       expect(await upgraded.drops.get(owned.dropId)).toEqual(owned)
       expect(await upgraded.outbox.get(outgoing.transferId)).toEqual(outgoing)
       expect(await upgraded.openings.get(legacyOpening.id)).toEqual(legacyOpening)
@@ -248,7 +266,7 @@ describe('migrations et archives', () => {
   })
 })
 
-describe('Phantom Blood gratuit et acheté', () => {
+describe('Memory Frame gratuit et acheté', () => {
   const id = 'phantom-blood'
   const open = (time = 0) => openConfiguredBooster(id, db, time, publishedBoosters)
   const buy = () => buyBooster(id, db, 0, publishedBoosters)
@@ -303,5 +321,31 @@ describe('Phantom Blood gratuit et acheté', () => {
     expect((await db.boosterStock.get(id))?.quantity).toBe(1)
     expect(await db.drops.count()).toBe(0)
     expect(await db.discoveries.count()).toBe(0)
+  })
+})
+
+describe('Anima Isekai exclusif à la boutique', () => {
+  it('refuse le gratuit, débite 50 fragments puis ouvre cinq cartes de son pool sans autre dépense', async () => {
+    const id = 'anima-isekai'
+    await expect(openConfiguredBooster(id, db, 0, publishedBoosters)).rejects.toThrow(/aucun exemplaire/)
+    await db.player.update('local', { fragments: 49 })
+    await expect(buyBooster(id, db, 0, publishedBoosters)).rejects.toThrow(/fragments/)
+    expect(await db.boosterPurchases.count()).toBe(0)
+    await db.player.update('local', { fragments: 50 })
+    const purchase = await buyBooster(id, db, 0, publishedBoosters)
+    expect(purchase).toMatchObject({ boosterId: id, boosterTitle: 'Anima Isekai', unitPrice: 50, fragmentsSpent: 50 })
+    expect(await db.drops.count()).toBe(0)
+    expect((await db.boosterStock.get(id))?.quantity).toBe(1)
+    const opening = await openConfiguredBooster(id, db, 10, publishedBoosters)
+    expect(opening).toMatchObject({ payment: 'shop', fragmentsSpent: 0, boosterTitle: 'Anima Isekai' })
+    expect(opening.results).toHaveLength(5)
+    const source = publishedBoosters.find(booster => booster.id === id)!.sources[0]
+    if (source.type !== 'cards') throw new Error('Pool explicite attendu')
+    expect(opening.results.every(card => source.cardIds.includes(card.cardId))).toBe(true)
+    expect(await db.player.get('local')).toMatchObject({ fragments: 0, freePackStock: 5, nextFreePackAt: null })
+    expect((await db.boosterStock.get(id))?.quantity).toBe(0)
+    await finishOpening(opening.id, db)
+    await expect(openConfiguredBooster(id, db, 20, publishedBoosters)).rejects.toThrow(/aucun exemplaire/)
+    expect(await db.drops.count()).toBe(5)
   })
 })

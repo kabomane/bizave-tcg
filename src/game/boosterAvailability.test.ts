@@ -1,9 +1,15 @@
 import { describe, expect, it } from 'vitest'
 import { fixtureBoosters } from '../test-fixtures'
+import { boosters } from '../data/boosters'
 import type { BoosterDefinition } from './types'
 import { availableBoosters, purchasedQuantity, shopBoosters } from './boosterAvailability'
 
 describe('disponibilité des paquets', () => {
+  it('réserve Anima Isekai aux achats tout en le proposant dans la boutique', () => {
+    expect(shopBoosters(boosters).map(booster => booster.id)).toEqual(['phantom-blood', 'anima-isekai'])
+    expect(availableBoosters(boosters, []).map(booster => booster.id)).toEqual(['phantom-blood'])
+    expect(availableBoosters(boosters, [{ boosterId: 'anima-isekai', quantity: 1, updatedAt: 0 }]).map(booster => booster.id)).toEqual(['phantom-blood', 'anima-isekai'])
+  })
   it('propose aussi les offres des gratuits sans dupliquer le paquet dans la sélection', () => {
     const offered: BoosterDefinition = { ...fixtureBoosters[0], access: { type: 'free', shop: { price: 70 } } }
     const stock = [{ boosterId: offered.id, quantity: 3, updatedAt: 0 }]

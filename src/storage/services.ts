@@ -4,7 +4,7 @@ import { FREE_PACK_CAPACITY, FREE_PACK_INITIAL_STOCK, FREE_PACK_RECHARGE_MS } fr
 import { shopOffer } from '../game/boosterAvailability'
 import { consumeFreePack, drawPack, getRecycleFragments, settleFreePackRecharge, uuid, variantKey, validateConfiguration } from '../game/engine'
 import type { BoosterPurchaseRow, Card, CardDefinition, CardDropRow, OpenRecord, PlayerStateRow } from '../game/types'
-import { db, type BizaveDatabase } from './database'
+import { db, DATABASE_SCHEMA_VERSION, type BizaveDatabase } from './database'
 import { assertAccountActive } from './accountGuard'
 import { ensureInstallation } from './installation'
 
@@ -14,7 +14,7 @@ export async function initializeDatabase(database = db, now = Date.now()) {
     if ((await database.accountState.get('local'))?.status === 'exported') return false
     const previous = new Map((await database.definitions.toArray()).map(c => [c.id, c]))
     for (const card of [...cards, ...archivedCards]) if (previous.has(card.id) && previous.get(card.id)!.rarity !== card.rarity) throw new Error(`Configuration : la rareté de ${card.id} est immuable après publication.`)
-    if (!await database.player.get('local')) await database.player.add({ id: 'local', fragments: 0, freePackStock: FREE_PACK_INITIAL_STOCK, nextFreePackAt: FREE_PACK_INITIAL_STOCK < FREE_PACK_CAPACITY ? now + FREE_PACK_RECHARGE_MS : null, maxObservedClockAt: now, schemaVersion: 5 })
+    if (!await database.player.get('local')) await database.player.add({ id: 'local', fragments: 0, freePackStock: FREE_PACK_INITIAL_STOCK, nextFreePackAt: FREE_PACK_INITIAL_STOCK < FREE_PACK_CAPACITY ? now + FREE_PACK_RECHARGE_MS : null, maxObservedClockAt: now, schemaVersion: DATABASE_SCHEMA_VERSION })
     await database.definitions.bulkPut([...cards, ...archivedCards])
     return true
   })

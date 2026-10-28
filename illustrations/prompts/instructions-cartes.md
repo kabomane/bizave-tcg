@@ -1,5 +1,7 @@
 # Instructions par carte
 
+Référence historique des 110 premiers modèles. Les carnets du 28 octobre 2026 dans `references/` décrivent les cartes actuelles de Memory Frame et Anima Isekai ; les imports sont détaillés dans `illustrations/README.md`.
+
 Référence de DA : [Souvenir × Moment culte](DA-illustrations-Souvenir-Moment-culte.md).
 
 Conservez les identifiants. Indiquez les consignes et les fichiers de référence à utiliser, avec un chemin relatif à `illustrations/references/`. Précisez si une consigne concerne la version standard ou Full Art.

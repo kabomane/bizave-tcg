@@ -3,7 +3,8 @@ import { existsSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { cards } from '../data/cards'
 import { boosters as publishedBoosters } from '../data/boosters'
-import phantomBloodIds from '../data/pools/phantom-blood.json'
+import memoryFrameIds from '../data/pools/memory-frame.json'
+import animaIsekaiIds from '../data/pools/anima-isekai.json'
 import { fixtureBoosters as boosters } from '../test-fixtures'
 import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES, DEFAULT_RARITY_RATES, FREE_PACK_RECHARGE_MS, RECYCLE_BASE_FRAGMENTS } from './config'
 import { consumeFreePack, drawPack, getRecycleFragments, resolveBoosterPool, settleFreePackRecharge, validateConfiguration, validateRates, variantKey, weightedPick } from './engine'
@@ -11,33 +12,41 @@ import type { ArtVariant, BoosterDefinition, Finish, Rarity } from './types'
 
 const minute = 60_000
 describe('catalogue et configuration', () => {
-  it('ne publie que Phantom Blood et rend les 110 modèles éligibles', () => {
-    expect(publishedBoosters).toHaveLength(1)
-    expect(publishedBoosters[0]).toMatchObject({ title: 'Phantom Blood', subtitle: '110 cartes', access: { type: 'free', shop: { price: 70 } }, enabled: true })
-    expect(resolveBoosterPool(publishedBoosters[0], cards)).toHaveLength(110)
+  it('publie Memory Frame et Anima Isekai avec leurs accès et leurs pools distincts', () => {
+    expect(publishedBoosters).toHaveLength(2)
+    expect(publishedBoosters[0]).toMatchObject({ id: 'phantom-blood', title: 'Memory Frame', subtitle: '126 cartes', access: { type: 'free', shop: { price: 70 } }, enabled: true })
+    expect(publishedBoosters[1]).toMatchObject({ id: 'anima-isekai', title: 'Anima Isekai', subtitle: '55 cartes', access: { type: 'shop', price: 50 }, enabled: true })
+    expect(new Set(resolveBoosterPool(publishedBoosters[0], cards).map(entry => entry.card.id))).toEqual(new Set(memoryFrameIds))
+    expect(new Set(resolveBoosterPool(publishedBoosters[1], cards).map(entry => entry.card.id))).toEqual(new Set(animaIsekaiIds))
+    expect(memoryFrameIds).toHaveLength(126)
+    expect(animaIsekaiIds).toHaveLength(55)
+    expect(new Set([...memoryFrameIds, ...animaIsekaiIds]).size).toBe(181)
+    expect(new Set([...memoryFrameIds, ...animaIsekaiIds])).toEqual(new Set(cards.map(card => card.id)))
   })
-  it('publie les 110 modèles du carnet actuel et valide les illustrations du catalogue complet', () => {
-    expect(phantomBloodIds).toHaveLength(110)
-    expect(new Set(phantomBloodIds).size).toBe(110)
-    expect(phantomBloodIds).toEqual(cards.map(card => card.id))
-    const phantomBlood = resolveBoosterPool(publishedBoosters[0], cards).map(entry => entry.card)
-    const counts = Object.fromEntries(Object.keys(DEFAULT_RARITY_RATES).map(r => [r, phantomBlood.filter(c => c.rarity === r).length]))
-    expect(counts).toEqual({ common: 40, uncommon: 23, rare: 21, epic: 16, legendary: 10 })
+  it('respecte les raretés des deux carnets et valide les illustrations du catalogue complet', () => {
+    const counts = publishedBoosters.map(booster => {
+      const pool = resolveBoosterPool(booster, cards)
+      return Object.fromEntries(Object.keys(DEFAULT_RARITY_RATES).map(r => [r, pool.filter(entry => entry.card.rarity === r).length]))
+    })
+    expect(counts).toEqual([
+      { common: 45, uncommon: 28, rare: 25, epic: 17, legendary: 11 },
+      { common: 16, uncommon: 15, rare: 11, epic: 10, legendary: 3 },
+    ])
     for (const card of cards) {
       expect(existsSync(resolve('public', card.artwork.standard.slice(1)))).toBe(true)
       expect(existsSync(resolve('public', card.artwork.fullArt.slice(1)))).toBe(true)
     }
-    expect(() => validateConfiguration(cards, boosters)).not.toThrow()
+    expect(() => validateConfiguration(cards, publishedBoosters)).not.toThrow()
   })
   it('les profils de tirage totalisent 100 et refusent les valeurs invalides', () => {
     for (const profile of [DEFAULT_RARITY_RATES, DEFAULT_FINISH_RATES, DEFAULT_ART_VARIANT_RATES]) { expect(Object.values(profile).reduce<number>((a, b) => a + b, 0)).toBe(100); validateRates(profile) }
     for (const profile of [{ x: 99 }, { x: NaN }, { x: 101, y: -1 }] as Record<string, number>[]) expect(() => validateRates(profile)).toThrow()
   })
-  it('fige Phantom Blood même si de nouvelles cartes rejoignent ses anciens groupes', () => {
+  it('fige chaque édition même si de nouvelles cartes rejoignent ses groupes', () => {
     const future = ['thomas', 'matthieu', 'speciaux'].map((collectionId, index) => ({ ...cards[0], id: `future-exclusive-${index}`, collectionId }))
-    const pool = resolveBoosterPool(publishedBoosters[0], [...cards, ...future])
-    expect(pool.map(entry => entry.card.id)).toEqual(phantomBloodIds)
-    expect(pool).toHaveLength(110)
+    for (const booster of publishedBoosters) {
+      expect(resolveBoosterPool(booster, [...cards, ...future])).toEqual(resolveBoosterPool(booster, cards))
+    }
     expect(() => validateConfiguration([...cards, ...future], publishedBoosters)).not.toThrow()
   })
   it('refuse IDs en double, image absente, poids, prix et pool invalides', () => {
@@ -147,8 +156,8 @@ describe('économie', () => {
     for (const r of rarities) for (const f of finishes) for (const a of variants) mean += DEFAULT_RARITY_RATES[r] * DEFAULT_FINISH_RATES[f] * DEFAULT_ART_VARIANT_RATES[a] / 1_000_000 * getRecycleFragments(r, f, a)
     expect(mean).toBeCloseTo(4.149816, 8)
     expect(mean * 5).toBeCloseTo(20.74908, 8)
-    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(11780)
-    for (const booster of boosters) if (booster.access.type === 'shop') expect(mean * booster.cardsPerPack).toBeLessThan(booster.access.price)
+    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(19044)
+    for (const booster of [...boosters, ...publishedBoosters]) if (booster.access.type === 'shop') expect(mean * booster.cardsPerPack).toBeLessThan(booster.access.price)
   })
   it('distingue bien les six clés de découverte par modèle', () => { expect(new Set(variants.flatMap(artVariant => finishes.map(finish => variantKey({ cardId: 'x', finish, artVariant })))).size).toBe(6) })
 })

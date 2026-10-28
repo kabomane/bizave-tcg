@@ -11,6 +11,7 @@ import { ensureIdentity } from '../exchanges/services'
 import { PLAYER_UUID_PATTERN } from '../exchanges/crypto'
 import { deleteAccount, exportSave, importSave, readSaveFile } from '../storage/saveTransfer'
 import type { PreparedSave } from '../storage/saveTransfer'
+import { GiftCodeForm } from '../components/GiftCodeForm'
 
 export function SettingsPage() {
   const settings = useSettings()
@@ -46,6 +47,7 @@ export function SettingsPage() {
       </div>
       <p className="settings-note">Votre ami peut recevoir un code ou un fichier .btcg dans Amis.</p>
     </section>
+    <GiftCodeForm />
     {DEV_CATALOG_ENABLED && <section className="settings-section settings-dev" aria-labelledby="dev-heading"><div><h2 id="dev-heading">Mode dev</h2><p className="settings-note" id="dev-description">Afficher toutes les cartes dans la collection. Votre sauvegarde reste intacte.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={settings.devCatalog} aria-label="Mode dev" aria-describedby="dev-description" onClick={() => change({ devCatalog: !settings.devCatalog })}><span /></button></section>}
     <div className="settings-account-actions"><button className="text-button" disabled={!identity || !installation} onClick={() => openDialog('transfer')}>Transfert de sauvegarde</button><button className="text-button" onClick={() => openDialog('delete')}>Supprimer le compte</button></div>
     <ErrorNotice error={error} />

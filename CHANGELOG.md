@@ -1,5 +1,33 @@
 # Historique des versions
 
+## Ajustements de l’interface — 28 octobre 2026
+
+- Fiche d’une carte : boutons Envoyer et Recycler encadrés, de même hauteur, alignés sur une ligne et répartis à parts égales. Le libellé et les fragments restent sur une ligne sur téléphone.
+- Confirmation du recyclage : Annuler sur un tiers de la largeur et Recycler sur deux tiers, sur une même ligne.
+- Codes cadeaux : aide, récompense et erreur dans le même texte sous le champ ; limite de 16 caractères utiles avec trois tirets facultatifs. Les espaces sont ignorés au clavier et retirés au collage avant d’appliquer la limite.
+
+## Codes cadeaux — 28 octobre 2026
+
+- Section Code cadeau dans les options, sous Envoi des cartes ; saisie insensible à la casse, aux espaces et aux tirets.
+- Catalogue hors ligne de 50 codes sans expiration : 20 cadeaux de 10 Memory Frame, 20 de 10 Anima Isekai et 10 de 500 fragments. Seules les empreintes sont publiées ; les codes restent dans les fichiers d’administration locaux.
+- Boosters ajoutés à la réserve achetée sans coût en fragments ni modification de la recharge gratuite.
+- Récompense et consommation du code atomiques, y compris entre onglets. Registre transféré et fusionné avec les sauvegardes ; migration IndexedDB vers le schéma 6 sans perte et import du schéma 5 conservé.
+
+## Rendu holographique — 28 octobre 2026
+
+- Rendu des miniatures distinct de la carte agrandie : texture irisée et pailletée partagée, cadre nacré et un seul reflet animé par translation.
+- Irisation conservée sans animation ; retrait des filtres, masques et contrôleurs d'inclinaison des miniatures holo. Le détail garde ses effets complets et sa limite de 20°.
+- Reflets limités aux cartes visibles et suspendus derrière les dialogues ; affichage différé des piles rattaché à leur propre zone de défilement.
+- Tests de collection sur écran haute densité avec 111 cartes et parcours de piles holo. Validation sur l'iPhone concerné encore nécessaire.
+
+## Mise à jour des boosters — 28 octobre 2026
+
+- Phantom Blood devient **Memory Frame** : 16 nouvelles cartes illustrées, soit 126 modèles. L’identifiant technique reste stable pour les stocks et ouvertures existants.
+- Nouveau booster **Anima Isekai**, exclusif à la boutique à **50 fragments**, avec 55 cartes et cinq cartes par ouverture.
+- Boutique en carrousel partagé avec Vos boosters, dimensions des sachets conservées et bouton d’achat fixe adapté à la sélection. Achat verrouillé pendant le déplacement, avec flèche tournante jusqu’à la stabilisation du paquet et de son offre.
+- 35 nouvelles illustrations WebP redimensionnées depuis les PNG originaux ; 36 cartes Anima Isekai avec illustration provisoire. Les 110 anciens modèles et leurs illustrations sont conservés.
+- Noms, raretés et descriptions repris des deux carnets ; pools distincts, numéros existants et taux de tirage inchangés. Carnets et manifeste d’import archivés, documentation actualisée.
+
 ## bizave-tcg.v1.2.5 — 27 octobre 2026
 
 - Échanges signés FR2/TR2 avec une seule paire de clés transférable ; retrait du chiffrement des cartes.

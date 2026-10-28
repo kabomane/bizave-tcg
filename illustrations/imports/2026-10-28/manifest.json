@@ -1,0 +1,999 @@
+{
+  "date": "2026-10-28",
+  "sources": [
+    {
+      "name": "vague 2 - 16 cartes.zip",
+      "bytes": 60568548,
+      "sha256": "c253bf4b3361a08462a79153d5287ca4f27c65bc8b43361393a89b489811bd06"
+    },
+    {
+      "name": "Anima isekai.zip",
+      "bytes": 75137238,
+      "sha256": "2eea8417dfcf2dc793e5967bccd900a047601484a9a28ec872d28c401f82bfb5"
+    },
+    {
+      "name": "carnet-cartes (2).jsx",
+      "bytes": 59978,
+      "sha256": "e738bc462d33886a7e1f874178a9592dc4ae129a767e43e09cd22155fd292a05"
+    },
+    {
+      "name": "carnet-cartes-2.jsx",
+      "bytes": 29149,
+      "sha256": "f1d67995c73dc632c66670df8dd05921f112b6c2d5f2e3b2dfac5bf1c559a8a1"
+    }
+  ],
+  "summary": {
+    "memoryFrameCards": 126,
+    "memoryFrameAdded": 16,
+    "animaIsekaiCards": 55,
+    "animaIsekaiIllustrated": 19,
+    "animaIsekaiPlaceholders": 36,
+    "catalogueCards": 181,
+    "illustratedCards": 145,
+    "previousCardsUnchanged": 110,
+    "previousFilesHashAndMtimeUnchanged": 220
+  },
+  "references": {
+    "memoryFrame": "references/carnet-memory-frame-2026-10-28.jsx",
+    "animaIsekai": "references/carnet-anima-isekai-2026-10-28.jsx"
+  },
+  "notes": [
+    "Seuls les champs FICHES.description servent aux descriptions ; les 110 descriptions précédentes sont inchangées.",
+    "Identifiant technique phantom-blood conservé sous le titre Memory Frame.",
+    "Anima Isekai : boutique uniquement, 50 fragments, cinq cartes ; pools exclusifs et taux communs inchangés."
+  ],
+  "illustrations": [
+    {
+      "cardId": "m-reparateur",
+      "title": "Matthieu réparateur",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/matthieu_reparateur.png",
+      "original": {
+        "path": "illustrations/originals/m-reparateur.png",
+        "bytes": 3779875,
+        "sha256": "88eb88af297b6e1211881286808a3f844aa89dab7debc5232907a080f8e7a5bb",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-reparateur/illustration.48a27d2aa0.webp",
+        "bytes": 178434,
+        "sha256": "48a27d2aa0d7856a4bdf0cd7657fb1acd2011de60021ca5d035053a44cfe930a",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "resto-poutine",
+      "title": "Resto de poutine",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/resto_de_poutine.png",
+      "original": {
+        "path": "illustrations/originals/resto-poutine.png",
+        "bytes": 3819426,
+        "sha256": "e9297d49b248fed473657d8711e639a4d4dad481b149566e52189bc29acab5ae",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/resto-poutine/illustration.9b21f7752a.webp",
+        "bytes": 198702,
+        "sha256": "9b21f7752a0c08176ab232c0e9705ad9f9006d5fd6a2494b0b2c1ca4e66870c6",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "date-aquarium",
+      "title": "Date à l'aquarium",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/date_a_aquarium.png",
+      "original": {
+        "path": "illustrations/originals/date-aquarium.png",
+        "bytes": 3858967,
+        "sha256": "03aed2250226f02ce8da3da9af416950292295930588e5f63030541e51bb855f",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/date-aquarium/illustration.3e6f6a3adf.webp",
+        "bytes": 194874,
+        "sha256": "3e6f6a3adffd7077d9d524bfad6b16ddb86158da5403035ad3320f1ae8eb3ffa",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "worlds-lcs",
+      "title": "Worlds 2024",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/words_2024.png",
+      "original": {
+        "path": "illustrations/originals/worlds-lcs.png",
+        "bytes": 3698812,
+        "sha256": "f4b52c44d20a199c4a03033fd506d0ca026cda82d67658468482b6fd383db99a",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/worlds-lcs/illustration.45ff05a9c1.webp",
+        "bytes": 184990,
+        "sha256": "45ff05a9c121e93f92c53d86bb1b21e2a49967f6b0315755aeff7c3c136f4648",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-arabe",
+      "title": "Eli arabe",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/eli_arabe.png",
+      "original": {
+        "path": "illustrations/originals/eli-arabe.png",
+        "bytes": 4078357,
+        "sha256": "f0dd5c83ab327f49af9fbd392fd64fe22aeff9dd78b396c40696b7da964a414d",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-arabe/illustration.2442e8608d.webp",
+        "bytes": 204948,
+        "sha256": "2442e8608de8e9f5aef5968df2940691d473f4c84b41dc6917d4e2cedeb1b569",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nana-arabe",
+      "title": "Nana arabe",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/nana_arabe.png",
+      "original": {
+        "path": "illustrations/originals/nana-arabe.png",
+        "bytes": 2755044,
+        "sha256": "92ea09b46357b454ab91418155ce9b57d05b1d5cba9d40df00227041f4050397",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nana-arabe/illustration.5def57e6f9.webp",
+        "bytes": 206712,
+        "sha256": "5def57e6f930cc21429300c1323a6455f7c3d9cfe12729d450155cfdd69ac174",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-kpop",
+      "title": "Eli K-pop star",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/eli_kpop_star.png",
+      "original": {
+        "path": "illustrations/originals/eli-kpop.png",
+        "bytes": 3948324,
+        "sha256": "70371b686ee4b879ea05c90bba809a07716634e464b99d87fb6ebfa7d05f2550",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-kpop/illustration.9585239c6e.webp",
+        "bytes": 257972,
+        "sha256": "9585239c6eeaa2f38ccc6d7831d988e1c83dfa850aefd21257c95c006ee9a2a0",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-immigration",
+      "title": "Thomas vs immigration",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/thomas_vs_immigration.png",
+      "original": {
+        "path": "illustrations/originals/t-immigration.png",
+        "bytes": 3800372,
+        "sha256": "4f0f40251fe3636e2cf531838d6a019682c39ef693bdb19533cc9e8df1eace2e",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-immigration/illustration.4da3e8cd7d.webp",
+        "bytes": 157626,
+        "sha256": "4da3e8cd7d232a72d8aaa4db0afb307fe666df4f3ca800eff796b79761b0fa84",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-petit",
+      "title": "Petit Thomas",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/petit_thomas.png",
+      "original": {
+        "path": "illustrations/originals/t-petit.png",
+        "bytes": 3823038,
+        "sha256": "831d11e47d2b5ae8603fa8d5a6ed37a0b1fccde04f44c5c228acd8891780f142",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-petit/illustration.bc27b76769.webp",
+        "bytes": 161560,
+        "sha256": "bc27b76769b2889f05ded7358b197a2acdab3f017ed721ae197b1300deb888a0",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-arabe",
+      "title": "Thomas arabe",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/thomas_arabe.png",
+      "original": {
+        "path": "illustrations/originals/t-arabe.png",
+        "bytes": 3942586,
+        "sha256": "d33a6daf2f90278a78a31f859b38be2e9d17d6095ad32c3799a3fe14de474d02",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-arabe/illustration.6b73ee8380.webp",
+        "bytes": 180848,
+        "sha256": "6b73ee83809706d42ebd952beccd1b61576cb5198fafe2f06e0b210df1b014c2",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-arabe",
+      "title": "Matthieu arabe",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/matthieu_arabe.png",
+      "original": {
+        "path": "illustrations/originals/m-arabe.png",
+        "bytes": 4037729,
+        "sha256": "4150ffa82bf34c360c39e177d79deb1f7a761c244a25d3bfad0960f0b9b6e747",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-arabe/illustration.36d6c41ac7.webp",
+        "bytes": 177272,
+        "sha256": "36d6c41ac74df9bbc55236aa754d0946b0d4dc0ff2d7ad1be520d0e33fca794d",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-dest-quebec",
+      "title": "Matthieu destination Québec",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/matthieu_destination_quebec.png",
+      "original": {
+        "path": "illustrations/originals/m-dest-quebec.png",
+        "bytes": 3687743,
+        "sha256": "82c97bdf0684f1a005428e79c470bb7f835ed1f40cc9a938bf70fd15c632a54b",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-dest-quebec/illustration.28d348f950.webp",
+        "bytes": 157172,
+        "sha256": "28d348f950f08c65d99b72094bf2a7ff72f332419bf12a7a8934b72115c5ec1b",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-belgique",
+      "title": "Matthieu en Belgique",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/matthieu_en_belgique.png",
+      "original": {
+        "path": "illustrations/originals/m-belgique.png",
+        "bytes": 4032218,
+        "sha256": "30bec49ebdf5e3cb246ea346812d325b9f1340090c3201a0ef56454b7d9fac06",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-belgique/illustration.aefb0b1643.webp",
+        "bytes": 199466,
+        "sha256": "aefb0b1643c0087c53a4cca8b84faa7bb53e0936d9eb15e2d6f5b8541ae23cfa",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-conducteur",
+      "title": "Thomas conducteur",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/thomas_conducteur.png",
+      "original": {
+        "path": "illustrations/originals/t-conducteur.png",
+        "bytes": 3912399,
+        "sha256": "46b50ff7fd734645327df33b02b7722f9130db1a77575bc66482dc2afc93cd04",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-conducteur/illustration.69d4f4ed52.webp",
+        "bytes": 242060,
+        "sha256": "69d4f4ed5264a00376a2b298e17e46d624a8111edaac4cc8c1bc04938647cb56",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-infirmier",
+      "title": "Matthieu infirmier",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/matthieu_infirmier.png",
+      "original": {
+        "path": "illustrations/originals/m-infirmier.png",
+        "bytes": 3600082,
+        "sha256": "f83d5999eb6ccc2c06d681bcfd69782274f432d82a6a8d484536aa515e565ed3",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-infirmier/illustration.f6feed5d3c.webp",
+        "bytes": 140940,
+        "sha256": "f6feed5d3c33f2cb5e0713c6b190df8a7642e8f6e64e1d85d6be37b3b26badb5",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-spotteur",
+      "title": "Thomas spotteur",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "vague 2 - 16 cartes.zip",
+      "sourceEntry": "vague 2 - 16 cartes/thomas_spotteur.png",
+      "original": {
+        "path": "illustrations/originals/t-spotteur.png",
+        "bytes": 3790686,
+        "sha256": "20af7588dbc69a0e95907b4490307d46bb353e29b24a25621bf76dd15c6fa7e2",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-spotteur/illustration.bb1b3fb390.webp",
+        "bytes": 183516,
+        "sha256": "bb1b3fb39072af06dc777138342b0a97aace5da83468235081717b386a0b16f9",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "op-thomas",
+      "title": "Roronoa Thomas",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/roronoa_thomas.png",
+      "original": {
+        "path": "illustrations/originals/op-thomas.png",
+        "bytes": 3893357,
+        "sha256": "79ee2dca82f4c31d12c61cbbd0e905a31c9a4397227990d200e529ab602ccac2",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/op-thomas/illustration.7cc88263bd.webp",
+        "bytes": 197846,
+        "sha256": "7cc88263bd0760931f85b03a9564634d5e997d7c85f9e2a612d3e52df66dc878",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "op-matthieu",
+      "title": "Monkey D. Matthieu",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/monkey_d_matthieu.png",
+      "original": {
+        "path": "illustrations/originals/op-matthieu.png",
+        "bytes": 4079644,
+        "sha256": "74e927be461f349296d8c1f114300207cb97f6a22fc7718c372d1664c2656e62",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/op-matthieu/illustration.53bfcefae6.webp",
+        "bytes": 222388,
+        "sha256": "53bfcefae640120414fb18eb297affe19424092ee705d90b986d34e461f2d235",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bb-matthieu",
+      "title": "Matthieu Inomata",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/matthieu_inomata.png",
+      "original": {
+        "path": "illustrations/originals/bb-matthieu.png",
+        "bytes": 3748853,
+        "sha256": "b4f44154f858f14c6af3c2e1aff1ce87307f4510080055e30f41b5c11a8155ab",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bb-matthieu/illustration.eb175b1422.webp",
+        "bytes": 156328,
+        "sha256": "eb175b142296401f9215e40ce2de507b6c1d2427a752e46df00caf4ddbc981e7",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bb-thomas",
+      "title": "Thomas Kasahara",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/thomas_kashara.png",
+      "original": {
+        "path": "illustrations/originals/bb-thomas.png",
+        "bytes": 3882272,
+        "sha256": "492cdba51bc6c8a73c54044f02ca4c8168d4b13f3f528928de87e492c3642726",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bb-thomas/illustration.3da1335ad7.webp",
+        "bytes": 157864,
+        "sha256": "3da1335ad7dc63d5a9d28117bd5dd76e20021d3d1f5c8fcc509efa58b99b031a",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "op-eli",
+      "title": "Nico Eli",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/niko_eli.png",
+      "original": {
+        "path": "illustrations/originals/op-eli.png",
+        "bytes": 4017489,
+        "sha256": "d29a2fa520ec21901e02de0b90d5eba95c0526875069da84f8b63ca1cfa3c52b",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/op-eli/illustration.6169d335f1.webp",
+        "bytes": 200100,
+        "sha256": "6169d335f15ea39a5e97ae9ff18ebb36eda4bdb4d7f191582936d9477d6ccf2d",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pkm-matthieu",
+      "title": "Matthieu dresseur Électrik",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/matthieu_dresseur_electrik.png",
+      "original": {
+        "path": "illustrations/originals/pkm-matthieu.png",
+        "bytes": 4101108,
+        "sha256": "cc5b8d9a1a870dc910b65d3ff7b5302b7dfb078708540b7225e3f605e728c0f5",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pkm-matthieu/illustration.754851592f.webp",
+        "bytes": 213260,
+        "sha256": "754851592f0f2bebab33480f7b95f21abaad4ac424cf52289ed0c439c4c3d2c5",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "jjk-thomas",
+      "title": "Thomas Fushiguro",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/thomas_fushiguro.png",
+      "original": {
+        "path": "illustrations/originals/jjk-thomas.png",
+        "bytes": 3908292,
+        "sha256": "b7f06e120ce3c2bc6d479b8ebadfacb17d96276363718466bfd5c34790de1ae3",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/jjk-thomas/illustration.ef1b3ff0d6.webp",
+        "bytes": 174978,
+        "sha256": "ef1b3ff0d677a48d1994de3884b9eaddd7073d2cd355e03380c910317adb1ec7",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pkm-eli",
+      "title": "Eli dresseuse Eau",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/eli_dresseuse_eau.png",
+      "original": {
+        "path": "illustrations/originals/pkm-eli.png",
+        "bytes": 4011500,
+        "sha256": "4c2dc8aeb16e101a27ccab98c829dade4dbaa78a8a6b1558aff53e7308c51e3d",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pkm-eli/illustration.4c5a0ede16.webp",
+        "bytes": 190634,
+        "sha256": "4c5a0ede161cd11a4228297a1c62125c35383ae1088dbe4571af1e44e0f58942",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pkm-thomas",
+      "title": "Thomas dresseur Roche",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/thomas_dresseur_roche.png",
+      "original": {
+        "path": "illustrations/originals/pkm-thomas.png",
+        "bytes": 3836295,
+        "sha256": "9dace9a7408ca1e77efa8be251e471e5319efea557aee84065f89bd870242bb4",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pkm-thomas/illustration.5016fd4f54.webp",
+        "bytes": 162668,
+        "sha256": "5016fd4f54cbe174afc565fe41a55c3a4800d902726f27cb63c15966f5733f0d",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nar-matthieu",
+      "title": "Matthieu Uchiwa",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/matthieu_uchiwa.png",
+      "original": {
+        "path": "illustrations/originals/nar-matthieu.png",
+        "bytes": 4216221,
+        "sha256": "0555f2a08da67c482c644abd0a3799141919e77ee3d9df884d349e7f3b630f4c",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nar-matthieu/illustration.3890069522.webp",
+        "bytes": 266816,
+        "sha256": "38900695226a75d38c95b0b5d96e1a9622d2cc513eefcf91654452a9cc2e6d50",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nar-eli",
+      "title": "Eli Haruno",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/eli_haruno.png",
+      "original": {
+        "path": "illustrations/originals/nar-eli.png",
+        "bytes": 4032737,
+        "sha256": "0823ff200f1e886b43e7d8568329a6117fd7e4a2e26e5448185997cfe469acdd",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nar-eli/illustration.2cdb62cc5d.webp",
+        "bytes": 201860,
+        "sha256": "2cdb62cc5d4050eee118254b86a09d6e55ce345a50395854da37d0053842807a",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "jjk-eli",
+      "title": "Eli Kugisaki",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/eli_kugisaki.png",
+      "original": {
+        "path": "illustrations/originals/jjk-eli.png",
+        "bytes": 3857067,
+        "sha256": "8edc7f41591b049537109f1ecba5d1adc796892d545eeee432aa8e22bd4ee83d",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/jjk-eli/illustration.18c59f8bb9.webp",
+        "bytes": 167374,
+        "sha256": "18c59f8bb912fb6069b4e4400a3f946274b8ffaf2fdca5d848f18c1bc5c2183b",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sxf-eli",
+      "title": "Eli Forger",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/eli_forger.png",
+      "original": {
+        "path": "illustrations/originals/sxf-eli.png",
+        "bytes": 3805578,
+        "sha256": "73fdd1ba628935ce78004c1b1c013373e61c22cec03f69ed8d734dd96e722112",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sxf-eli/illustration.be689a492e.webp",
+        "bytes": 169694,
+        "sha256": "be689a492e70491459a6f822ac7f65c0a6d2c5b6f1b0f5811e70679fe5804c6a",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nar-thomas",
+      "title": "Thomas Uzumaki",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/matthieu_uzumaki.png",
+      "note": "Nom de fichier divergent : seule carte Uzumaki du carnet, Thomas Uzumaki (Naruto).",
+      "original": {
+        "path": "illustrations/originals/nar-thomas.png",
+        "bytes": 4097604,
+        "sha256": "e94cae878f7890999fe85af9a5df480289c2aad933e16cc16e04390d73cd7588",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nar-thomas/illustration.d2433111d8.webp",
+        "bytes": 219630,
+        "sha256": "d2433111d88555db33fc06c3814758c39125746d1c5a2d7f59387be414ee4e84",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "jjk-nana",
+      "title": "Nana Zen'in",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/nana_zenin.png",
+      "original": {
+        "path": "illustrations/originals/jjk-nana.png",
+        "bytes": 3889028,
+        "sha256": "d05b0e9e60461a915720875a56e8b34c5b8e38323b0eb1cf92ef192ae62a89c6",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/jjk-nana/illustration.4c17e56d79.webp",
+        "bytes": 181446,
+        "sha256": "4c17e56d79cd440e875facfb2003edd87fa01fd34541bc545d10ae68215f8909",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bb-eli",
+      "title": "Eli Kano",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/eli_kano.png",
+      "original": {
+        "path": "illustrations/originals/bb-eli.png",
+        "bytes": 3856986,
+        "sha256": "43522f0209fdd7fd9d90c8a40469b8c6d034c45b1a296eff4278b45e3d779f00",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bb-eli/illustration.95aba0b2a4.webp",
+        "bytes": 147846,
+        "sha256": "95aba0b2a4a3b226cd4ee3707ac50ea88f8bb755e8843baa2b2762eecaf40b69",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sxf-matthieu",
+      "title": "Matthieu Forger",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/matthieu_forger.png",
+      "original": {
+        "path": "illustrations/originals/sxf-matthieu.png",
+        "bytes": 3894124,
+        "sha256": "67021fe0bd154558f031cae275e03b79f0b2f43cce48872389df95dc0ed23ef5",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sxf-matthieu/illustration.d0c857d391.webp",
+        "bytes": 176320,
+        "sha256": "d0c857d391ae28dc9e9892bd1555022af336463edc1cab3c9a5f3f9078bd76d1",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sxf-thomas",
+      "title": "Thomas Forger",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/thomas_forger.png",
+      "original": {
+        "path": "illustrations/originals/sxf-thomas.png",
+        "bytes": 4001518,
+        "sha256": "7348c6328a0a055ae1be2baf027873cfad791710b111565d20619872180b40fd",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sxf-thomas/illustration.855b6393b6.webp",
+        "bytes": 201460,
+        "sha256": "855b6393b66d55ff3d6037e22aee11b4ef24e910316bad9a3bf64b9588a3ad39",
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "jjk-matthieu",
+      "title": "Matthieu Itadori",
+      "artworkPosition": {
+        "standard": "center top"
+      },
+      "sourceArchive": "Anima isekai.zip",
+      "sourceEntry": "Anima isekai/vague 1 - en cours/matthieu_itadori.png",
+      "original": {
+        "path": "illustrations/originals/jjk-matthieu.png",
+        "bytes": 4003605,
+        "sha256": "ec9ca6069e4b8f29fae08e709a5250fa6fb926da82dbf5358c2c9c6563bd4122",
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/jjk-matthieu/illustration.c3e410013a.webp",
+        "bytes": 178266,
+        "sha256": "c3e410013a389f3d8079178d136f58759c0e424e839f1856f73d509264944a8a",
+        "width": 900,
+        "height": 1200
+      }
+    }
+  ],
+  "placeholders": [
+    {
+      "cardId": "jojo-thomas",
+      "title": "Thomas Giovanna"
+    },
+    {
+      "cardId": "jojo-matthieu",
+      "title": "Matthieu Anasui"
+    },
+    {
+      "cardId": "jojo-nana",
+      "title": "Nana Una"
+    },
+    {
+      "cardId": "jojo-eli",
+      "title": "Eli Cujoh"
+    },
+    {
+      "cardId": "sd-matthieu",
+      "title": "Matthieu Asakura"
+    },
+    {
+      "cardId": "sd-thomas",
+      "title": "Thomas Taro"
+    },
+    {
+      "cardId": "sd-eli",
+      "title": "Eli Lu"
+    },
+    {
+      "cardId": "sd-nana",
+      "title": "Nana Aoi"
+    },
+    {
+      "cardId": "bc-matthieu",
+      "title": "Matthieu Asta"
+    },
+    {
+      "cardId": "bc-thomas",
+      "title": "Thomas Grinberryall"
+    },
+    {
+      "cardId": "bc-eli",
+      "title": "Eli Silva"
+    },
+    {
+      "cardId": "bc-nana",
+      "title": "Nana Vermillion"
+    },
+    {
+      "cardId": "fr-matthieu",
+      "title": "Matthieu Stark"
+    },
+    {
+      "cardId": "fr-eli",
+      "title": "Eli Fern"
+    },
+    {
+      "cardId": "fr-thomas",
+      "title": "Thomas Himmel"
+    },
+    {
+      "cardId": "fr-nana",
+      "title": "Nana Frieren"
+    },
+    {
+      "cardId": "dd-nana",
+      "title": "Nana Ayase"
+    },
+    {
+      "cardId": "dd-thomas",
+      "title": "Thomas Takakura"
+    },
+    {
+      "cardId": "dd-eli",
+      "title": "Eli Ayase"
+    },
+    {
+      "cardId": "dd-matthieu",
+      "title": "Matthieu Enjoji"
+    },
+    {
+      "cardId": "ds-thomas",
+      "title": "Thomas Kamado"
+    },
+    {
+      "cardId": "ds-matthieu",
+      "title": "Matthieu Agatsuma"
+    },
+    {
+      "cardId": "ds-eli",
+      "title": "Eli Tsuyuri"
+    },
+    {
+      "cardId": "ds-nana",
+      "title": "Nana Kamado"
+    },
+    {
+      "cardId": "kis-arashi",
+      "title": "Arashi Shinichi"
+    },
+    {
+      "cardId": "kis-eli",
+      "title": "Eli Murano"
+    },
+    {
+      "cardId": "chi-nana",
+      "title": "Nana Draka"
+    },
+    {
+      "cardId": "chi-thomas",
+      "title": "Thomas Rafal"
+    },
+    {
+      "cardId": "gb-thomas",
+      "title": "Thomas Kitahara"
+    },
+    {
+      "cardId": "gb-matthieu",
+      "title": "Matthieu Imamura"
+    },
+    {
+      "cardId": "gb-eli",
+      "title": "Eli Kotegawa"
+    },
+    {
+      "cardId": "gb-nana",
+      "title": "Nana Yoshiwara"
+    },
+    {
+      "cardId": "sdh-thomas",
+      "title": "Thomas Jinya"
+    },
+    {
+      "cardId": "sdh-matthieu",
+      "title": "Matthieu Akitsu"
+    },
+    {
+      "cardId": "sdh-eli",
+      "title": "Eli Suzune"
+    },
+    {
+      "cardId": "sdh-nana",
+      "title": "Nana Shirayuki"
+    }
+  ]
+}

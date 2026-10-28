@@ -4,7 +4,7 @@
 
 La DA officielle est [Souvenir × Moment culte](prompts/DA-illustrations-Souvenir-Moment-culte.md). Elle remplace le prompt global provisoire. Son contenu est conservé à l’identique pour les futures demandes de génération. Aucune génération n’est lancée par son ajout.
 
-- prompts/instructions-cartes.md : noms et identifiants des 110 cartes, avec les consignes propres à chaque carte.
+- prompts/instructions-cartes.md : consignes historiques des 110 premiers modèles. Les carnets du 28 octobre dans `references/` font référence pour les 181 cartes actuelles.
 - references/ : références visuelles, éventuellement rangées par personnage ou carte.
 
 Ces sources sont hors de public/ et ne sont pas publiées avec l’application.
@@ -15,7 +15,15 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Les sections d’import ci-dessous décrivent les fichiers et vérifications historiques. Les 63 premiers originaux actifs ont été déplacés, avec empreintes inchangées, dans `originals/` ; les imports du 27 octobre en ajoutent 47, soit 110 originaux. Les illustrations publiées sont les WebP versionnés.
+Le catalogue actuel compte **181 cartes**, dont **145 illustrées** avec un WebP versionné et **36 avec deux SVG provisoires**. Les 145 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 28 octobre 2026
+
+**Memory Frame** remplace le nom Phantom Blood et ajoute les 16 cartes du carnet `references/carnet-memory-frame-2026-10-28.jsx`. Toutes leurs images sont fournies dans `vague 2 - 16 cartes.zip` : le booster compte 126 cartes illustrées.
+
+**Anima Isekai** suit les 55 cartes de `references/carnet-anima-isekai-2026-10-28.jsx`. Son archive fournit 19 illustrations ; les 36 autres cartes conservent des SVG « Illustration à venir », conformément au choix du propriétaire. `matthieu_uzumaki.png` est associé à `nar-thomas` (Thomas Uzumaki, unique carte Naruto Uzumaki du carnet) ; cette divergence de nom et les autres associations sont consignées dans `imports/2026-10-28/manifest.json`.
+
+Les **35 nouveaux PNG** 1086 × 1448 sont copiés à l’identique depuis les archives dans `originals/<id>.png`. Seules ces 35 cartes sont converties en WebP 900 × 1200, qualité 85, sRGB, sans métadonnées. Leur cadrage Classique est aligné en haut pour conserver les visages ; le Full Art reste centré. Les 110 anciennes définitions et leurs 220 fichiers (PNG + WebP) restent inchangés, empreintes et dates de modification vérifiées. Les descriptions proviennent uniquement de `FICHES.description` ; aucune description des 110 modèles précédents ne diffère du nouveau carnet.
 
 ## Import du 24 octobre 2026
 

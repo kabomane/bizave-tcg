@@ -47,7 +47,7 @@ test('valeur par exemplaire, piles, préférences et panneau mobile', async ({ p
 })
 
 test('filtre multi-booster avec cartes partagées et menus mobiles', async ({ page }) => {
-  // The second edition exists only in this isolated browser response, never in production data.
+  // This extra edition exists only in this isolated browser response, never in production data.
   await page.route('**/src/data/boosters.ts*', async route => {
     const response = await route.fetch()
     const body = await response.text()
@@ -63,13 +63,13 @@ test('filtre multi-booster avec cartes partagées et menus mobiles', async ({ pa
   await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(6)
   await page.getByRole('searchbox').fill('')
   await page.getByRole('button', { name: /^Boosters/ }).click()
-  await page.getByRole('menuitemcheckbox', { name: 'Phantom Blood', exact: true }).click()
+  await page.getByRole('menuitemcheckbox', { name: 'Memory Frame', exact: true }).click()
   await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
-  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(660)
+  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(756)
   await page.getByRole('button', { name: /^Finitions/ }).click()
   await page.getByRole('menuitemcheckbox', { name: 'Full Art', exact: true }).click()
   await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
-  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(330)
+  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(378)
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 })
     for (const name of ['Boosters', 'Rareté', 'Finitions']) {

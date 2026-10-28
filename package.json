@@ -8,6 +8,8 @@
     "dev:https": "vite --host 0.0.0.0 --configLoader native --mode https",
     "build": "tsc -b && vite build --configLoader native",
     "illustrations": "node scripts/convert-illustrations.mjs",
+    "holo:texture": "node scripts/generate-holo-texture.mjs",
+    "gifts:generate": "node scripts/generate-gift-codes.mjs",
     "preview": "vite preview --host 0.0.0.0 --port 4173 --configLoader native",
     "test": "vitest run --configLoader native",
     "test:watch": "vitest --configLoader native",

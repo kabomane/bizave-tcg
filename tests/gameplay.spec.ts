@@ -1,21 +1,21 @@
 import { expect, test, type Page } from '@playwright/test'
 
 async function openPack(page: Page) {
-  await page.getByRole('button', { name: 'Ouvrir le booster Phantom Blood', exact: true }).click()
+  await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
   for (let i = 1; i < 5; i++) await page.locator('.opening-card-area .card').click()
   await page.locator('.opening-card-area .card').click()
   await expect(page.getByRole('heading', { name: 'Dans votre collection.' })).toBeVisible()
 }
-test('un seul booster ; ouverture au clic, reprise et collection persistante', async ({ page }) => {
+test('un seul booster gratuit ; ouverture au clic, reprise et collection persistante', async ({ page }) => {
   await page.goto('/collection')
   await expect(page.getByRole('heading', { name: 'La première vous attend.' })).toBeVisible()
   await expect(page.locator('.collection-grid .card')).toHaveCount(0)
   await page.goto('/')
   await expect(page.locator('.pack-interaction')).toHaveCount(1)
-  await expect(page.locator('.booster-pack')).toContainText('Phantom Blood')
-  await expect(page.locator('.booster-pack')).toContainText('110 cartes')
-  await page.getByRole('button', { name: 'Ouvrir le booster Phantom Blood', exact: true }).click()
+  await expect(page.locator('.booster-pack')).toContainText('Memory Frame')
+  await expect(page.locator('.booster-pack')).toContainText('126 cartes')
+  await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
   await expect(page.locator('.opening-counter')).toHaveText('01 / 05')
   const firstCard = await page.locator('.opening-card-area .card').getAttribute('aria-label')
@@ -33,9 +33,9 @@ test('un seul booster ; ouverture au clic, reprise et collection persistante', a
   await page.reload()
   await expect(page.locator('.collection-grid .card')).toHaveCount(count)
 })
-test('deux filtres custom ; Full Art reste dans Finitions et se combine à la rareté', async ({ page }) => {
+test('trois filtres custom ; Full Art reste dans Finitions et se combine à la rareté', async ({ page }) => {
   await page.goto('/'); await openPack(page); await page.goto('/collection')
-  await expect(page.locator('.collection-filters .filter-trigger')).toHaveCount(2)
+  await expect(page.locator('.collection-filters .filter-trigger')).toHaveCount(3)
   await expect(page.locator('select')).toHaveCount(0)
   await page.getByRole('button', { name: 'Finitions', exact: true }).click()
   await page.getByRole('menuitemcheckbox', { name: 'Full Art', exact: true }).click()
@@ -61,7 +61,7 @@ test('responsive et navigation Amis dans la barre de menu', async ({ page }) => 
     await page.setViewportSize(viewport)
     await expect(page.getByRole('heading', { name: 'Vos boosters' })).toBeVisible()
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-    await expect(page.getByRole('button', { name: 'Ouvrir le booster Phantom Blood', exact: true })).toBeEnabled()
+    await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeEnabled()
     await expect(page.getByRole('link', { name: 'Amis', exact: true })).toBeVisible()
   }
   await expect(page.locator('.header-actions a')).toHaveCount(0)
@@ -69,7 +69,7 @@ test('responsive et navigation Amis dans la barre de menu', async ({ page }) => 
 test('au clavier et en reduced-motion, carte et filtres restent accessibles', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
-  await page.getByRole('button', { name: 'Ouvrir le booster Phantom Blood', exact: true }).press('Enter')
+  await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).press('Enter')
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).press('Enter')
   for (let i = 1; i < 5; i++) await page.locator('.opening-card-area .card').press('Enter')
   await page.locator('.opening-card-area .card').press('Enter')
@@ -117,7 +117,7 @@ test('échanges : contacts, transfert signé et antirejeu avec le parcours actue
     }
     await page.bringToFront()
     await page.goto('/')
-    await page.getByRole('button', { name: 'Ouvrir le booster Phantom Blood', exact: true }).click()
+    await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()
     await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
     for (let i = 1; i < 5; i++) await page.locator('.opening-card-area .card').click()
     await page.locator('.opening-card-area .card').click()

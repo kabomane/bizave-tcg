@@ -1,16 +1,18 @@
 # bizave-tcg.v1.2.5
 
-Version **bizave-tcg.v1.2.5** de **Bizave TCG**. Le premier booster, **Phantom Blood**, est prêt : 110 cartes, ouverture, collection, recyclage, boutique et échanges. Les 110 cartes sont illustrées.
+Version **bizave-tcg.v1.2.5** de **Bizave TCG**. Deux boosters : **Memory Frame**, 126 cartes, et **Anima Isekai**, 55 cartes. Le catalogue compte 181 modèles, dont 145 illustrés et 36 avec une illustration provisoire.
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
-## Édition actuelle : Phantom Blood
+## Éditions actuelles
 
-Un seul booster est publié : **Phantom Blood**, sous-titre **110 cartes**. Son pool gratuit est défini explicitement dans `src/data/pools/phantom-blood.json`. Avant publication, les 110 modèles ont été actualisés d’après le carnet du 26 octobre 2026 : six retraits et six ajouts, sans migration des anciennes sauvegardes de test.
+**Memory Frame** remplace le nom Phantom Blood et ajoute 16 cartes aux 110 existantes, toutes illustrées. Son pool est défini explicitement dans `src/data/pools/memory-frame.json` ; son identifiant technique `phantom-blood` conserve les stocks et ouvertures existants. Il utilise les crédits gratuits et reste achetable à 70 fragments.
+
+**Anima Isekai** propose les 55 cartes de son carnet, dans `src/data/pools/anima-isekai.json`. Exclusif à la boutique, il coûte **50 fragments** pour cinq cartes. Ses 19 illustrations fournies sont intégrées ; les 36 autres modèles affichent « Illustration à venir ». Les deux pools sont distincts et utilisent les mêmes taux de tirage.
 
 L’interface utilise une DA ivoire, encre et bordeaux indépendante du cahier de référence. Le sachet se clique directement ; chaque carte révélée se clique pour passer à la suivante. Après la cinquième, un clic affiche le récapitulatif. Les gabarits Fusion/Gundam et la limite de 20° restent inchangés.
 
-La navigation contient **Boosters / Collection / Atelier / Amis**. La collection n’a que deux filtres custom : **Rareté** et **Finitions**. Les finitions se combinent avec l’option **Full Art**, qui continue d’être un axe indépendant dans le moteur. Aucun sélecteur natif n’est utilisé. Les instructions et les formulaires de contact sont affichés à la demande.
+La navigation contient **Boosters / Collection / Atelier / Amis**. La collection propose trois filtres custom : **Boosters**, **Rareté** et **Finitions**. Les finitions se combinent avec l’option **Full Art**, qui continue d’être un axe indépendant dans le moteur. Aucun sélecteur natif n’est utilisé. Les instructions et les formulaires de contact sont affichés à la demande.
 
 ## Démarrer
 
@@ -33,7 +35,7 @@ Pour créer ou renouveler le certificat OpenSSL après un changement d’IP : `n
 
 Cette seconde instance écoute en **HTTPS sur le port 5174**, avec un certificat de développement autosigné. Le navigateur de l’utilisateur peut demander d’accepter ce certificat. L’agent ne passe pas cet avertissement à sa place. En production, Firebase fournit un certificat de confiance.
 
-Sur `http://localhost:5173`, Web Crypto fonctionne car localhost est un contexte de confiance. Sur une adresse IP distante en HTTP, le jeu de collection fonctionne, mais les échanges affichent une erreur HTTPS explicite. Pour tester les échanges, conserver la même adresse HTTPS : changer de protocole, domaine ou port crée une **autre origine et donc une autre sauvegarde**.
+Sur `http://localhost:5173`, Web Crypto fonctionne car localhost est un contexte de confiance. Sur une adresse IP distante en HTTP, le jeu de collection fonctionne, mais les échanges et les codes cadeaux affichent une erreur HTTPS explicite. Pour tester ces fonctions, conserver la même adresse HTTPS : changer de protocole, domaine ou port crée une **autre origine et donc une autre sauvegarde**.
 
 ## Commandes
 
@@ -42,6 +44,8 @@ Sur `http://localhost:5173`, Web Crypto fonctionne car localhost est un contexte
 | `npm run dev` | Développement HTTP, réseau local et étendu, port 5173 |
 | `npm run dev:https` | Développement HTTPS, réseau local et étendu, port 5174 |
 | `npm run illustrations` | Convertir les originaux en WebP versionnés |
+| `npm run holo:texture` | Régénérer la texture irisée partagée des miniatures |
+| `npm run gifts:generate -- --fragments 500 --count 10` | Ajouter un lot de cadeaux ; codes privés dans `.local/gift-codes/` |
 | `npm run build` | Vérification TypeScript puis build statique dans `dist/` |
 | `npm run preview` | Servir le build sur toutes les interfaces, port 4173 |
 | `npm test` | Tests Vitest : moteur, économie, Dexie, migrations, cryptographie et concurrence |
@@ -54,18 +58,20 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 
 ## Ce qui est livré
 
-- Un seul booster Phantom Blood, ouvrable avec les crédits gratuits ou achetable à 70 fragments, contenant les 110 modèles. Aucun autre booster n’est affiché dans l’atelier.
-- Les **110 définitions du carnet du 27 octobre 2026** : 40 communes, 23 peu communes, 21 rares, 16 épiques, 10 légendaires. Les 110 cartes ont une illustration et une description ; une même image sert aux formats Classique et Full Art.
-- 110 illustrations WebP versionnées, partagées entre Classique et Full Art. Les finitions CSS produisent toujours les six variantes par modèle.
+- Memory Frame : **126 modèles** (45 communs, 28 peu communs, 25 rares, 17 épiques, 11 légendaires), gratuits ou achetables à 70 fragments.
+- Anima Isekai : **55 modèles** (16 communs, 15 peu communs, 11 rares, 10 épiques, 3 légendaires), exclusivement en boutique à 50 fragments.
+- **145 illustrations WebP versionnées** et 36 illustrations provisoires SVG, pour 181 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
 - Stock gratuit global **5**, recharge **1/10 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
 - Ouvertures persistées avant leur animation, reprise après fermeture/refresh, inventaire par exemplaire, découvertes par variante.
-- Collection détenue uniquement, deux filtres custom, atelier, protection de la dernière copie, confirmation de recyclage et historique économique. Les découvertes historiques restent conservées en base.
+- Collection détenue uniquement, trois filtres custom, atelier, protection de la dernière copie, confirmation de recyclage et historique économique. Les découvertes historiques restent conservées en base.
+- Fiche d’une carte : Envoyer et Recycler encadrés sur une même ligne, chacun sur la moitié de la largeur. La confirmation de recyclage conserve Annuler sur un tiers et Recycler sur deux tiers.
 - Identité locale, carnet d’amis, codes FR2, transferts TR2 signés et lisibles, boîte d’envoi et registre antirejeu.
+- Codes cadeaux courts dans les options, vérifiés hors ligne par empreinte, avec récompenses et registre transférable.
 - Navigation clavier, dialogues natifs avec focus piégé, responsive et reduced-motion.
 
-Les fichiers fournis sont archivés dans `references/`. La nouvelle demande de refonte prime sur la DA initiale du cahier des charges. Les dispositions Fusion/Gundam et le maximum de 20° restent imposés. Les futurs paquets exclusifs à la boutique et les pools mixtes sont pris en charge et testés avec des fixtures ; seule l’édition Phantom Blood est publiée.
+Les fichiers fournis sont archivés dans `references/`. La demande de refonte prime sur la DA initiale du cahier des charges. Les dispositions Fusion/Gundam et le maximum de 20° restent imposés. Les paquets exclusifs à la boutique et les pools mixtes sont pris en charge ; Memory Frame et Anima Isekai sont les deux éditions configurées.
 
 ## Modifier les cartes et leurs illustrations
 
@@ -101,7 +107,7 @@ Les originaux restent dans `illustrations/originals/`, hors de `public/`, ignor�
 
 Le script refuse les originaux inconnus avant toute écriture, avertit en cas de ratio différent ou d’agrandissement, conserve les cadrages `artworkPosition` et retire les anciens fichiers générés de la carte. Les cartes sans original gardent leurs SVG. Une seconde exécution sans changement ne réécrit aucun fichier.
 
-Le carnet actuel est `references/carnet-cartes-2026-10-27.jsx`. Le carnet du 26 octobre, `references/cahier-des-charges.md` et `references/demo-cartes-finitions.html` restent conservés comme références historiques. L’import du 27 octobre est détaillé dans `illustrations/imports/2026-10-27/manifest.json`.
+Les carnets actuels sont `references/carnet-memory-frame-2026-10-28.jsx` et `references/carnet-anima-isekai-2026-10-28.jsx`. Le manifeste `illustrations/imports/2026-10-28/manifest.json` détaille les 35 nouvelles illustrations, les 36 modèles sans image et les correspondances de noms. Les carnets précédents et leurs manifestes restent des références historiques. Les 110 cartes et illustrations précédentes sont inchangées.
 
 ## Créer une collection
 
@@ -117,9 +123,11 @@ Le fonctionnement complet est documenté dans [docs/boosters.md](docs/boosters.m
 
 Les définitions sont dans `src/data/boosters.ts`. Chaque paquet possède son pool, son habillage, son ordre et son accès. Un paquet gratuit consomme le stock commun. Un paquet `access: { type: 'shop', price: 60 }` s’achète en boutique avant d’être ouvert depuis un stock séparé ; les taux de tirage restent communs.
 
-Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement si plusieurs paquets sont disponibles ; un paquet de boutique y apparaît uniquement quand un exemplaire est détenu. Phantom Blood est aussi proposé en boutique à **70 fragments l’unité**, avec achat direct et réserve distincte. Les crédits gratuits sont utilisés en premier, puis les exemplaires achetés lorsque le stock gratuit est vide.
+Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement si plusieurs paquets sont disponibles ; Anima Isekai y apparaît uniquement quand un exemplaire est détenu. Memory Frame est aussi proposé en boutique à **70 fragments l’unité**, avec achat direct et réserve distincte. Pour Memory Frame, les crédits gratuits sont utilisés en premier, puis les exemplaires achetés lorsque le stock gratuit est vide. Anima Isekai consomme uniquement son propre stock acheté.
 
-Phantom Blood référence une liste figée de 110 identifiants. Ajouter un modèle au catalogue ou à un groupe éditorial ne change plus son contenu. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
+Chaque édition référence une liste explicite de modèles : 126 pour Memory Frame, 55 pour Anima Isekai. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
+
+La boutique reprend le carrousel tactile et clavier de Vos boosters, avec les mêmes dimensions de sachets. Seul le paquet défile ; le bouton d’achat reste fixe et adapte son prix, sa disponibilité et son action au paquet sélectionné. Pendant le déplacement horizontal, il est désactivé et affiche une flèche tournante jusqu’à l’alignement du nouveau paquet et de son offre. Le défilement vertical de la page ne déclenche pas ce verrou.
 
 ## Stock, taux et économie
 
@@ -139,7 +147,7 @@ Recyclage : base **1/3/7/12/19**, multiplicateurs de finition **10/23/32 dixièm
 
 ## Sauvegarde et évolution
 
-Dexie `bizave-tcg-v2` conserve `drops`, `discoveries`, `player`, `openings`, `recycling`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 5. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
+Dexie `bizave-tcg-v2` conserve `drops`, `discoveries`, `player`, `openings`, `recycling`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 6, migrée sans perte depuis la version 5. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
 
 Une variante est `(cardId, finish, artVariant)`. Un exemplaire possède un `dropId` UUID v4 permanent. Les découvertes restent enregistrées après recyclage ou envoi. Les statuts `outgoing` et `recycled` empêchent les réutilisations incohérentes.
 
@@ -150,6 +158,12 @@ Pendant le développement fermé, un modèle retiré est supprimé du catalogue,
 Le stockage est lié au **navigateur et à l’origine**. Dans les options, les actions discrètes de transfert et de suppression se trouvent en bas de page ; l’ID joueur figure à droite du titre. **Transfert de sauvegarde** déplace la partie vers un ID destinataire avec un fichier `.btcg` signé : la source est effacée et verrouillée sur la page de téléchargement. L’import remplace la partie cible avec l’ID joueur, la clé de signature et les amis de la source, conserve l’ID d’installation destinataire et fusionne les registres anti-réutilisation. Les amis n’ont rien à modifier ; les cartes envoyées avant ou après la migration restent recevables. Le fichier reste téléchargeable sur la source après rechargement. Les boutons Exporter et Importer partagent une même ligne ; les confirmations `TRANSFERER`, `IMPORTER` et `SUPPRIMER` sont insensibles à la casse. Les boutons de confirmation occupent toute la largeur du champ, dans un rapport 1/3–2/3. Ce parcours est une migration, sans fonction de restauration ou de synchronisation. Détails : [docs/sauvegarde.md](docs/sauvegarde.md).
 
 **Supprimer le compte** réinitialise la partie, les registres et les options, avec un nouvel ID joueur, un nouvel ID d’installation et une nouvelle paire de signature. Cette action supprime aussi un éventuel fichier de migration en attente sur cet appareil. Effacer les données du site supprime également cartes et clés. Aucune copie distante automatique de la sauvegarde n’est effectuée.
+
+## Codes cadeaux
+
+Dans les options, **Code cadeau** se trouve sous **Envoi des cartes**. Les codes acceptent les minuscules et majuscules, avec 16 caractères utiles et trois tirets facultatifs. Les espaces sont ignorés au clavier et retirés au collage avant la limite de longueur. L’aide, la récompense et les erreurs partagent le même texte sous le champ. Le lot initial contient 20 codes de 10 Memory Frame, 20 codes de 10 Anima Isekai et 10 codes de 500 fragments, sans expiration. Les boosters rejoignent le stock acheté sans dépenser de fragments ni modifier les crédits gratuits.
+
+Le jeu publie seulement les empreintes SHA-256 et les récompenses. Les codes en clair restent dans `.local/gift-codes/`, hors Git et build. Chaque code s’utilise une fois par sauvegarde ; son registre suit les transferts et fusionne avec celui du destinataire. Une nouvelle partie peut réutiliser les codes : aucun usage unique mondial n’est garanti hors ligne. La génération de nouveaux lots et leur publication sont décrites dans [docs/codes-cadeaux.md](docs/codes-cadeaux.md).
 
 ## Protocole d’échange
 
@@ -185,12 +199,13 @@ src/data/           catalogue, collections et boosters configurables
 src/game/           types, probabilités, recharge, tirages et économie
 src/storage/        schémas Dexie et transactions
 src/exchanges/      contacts, crypto et services de transfert
+src/gifts/          empreintes, récompenses et utilisation des codes cadeaux
 src/components/     cartes, paquets, dialogues et état partagé
-src/pages/          Boosters, Collection, Atelier, Amis & échanges
+src/pages/          pages du jeu et options
 src/styles/        thème UI et CSS de carte de référence
 tests/             parcours navigateur Playwright
-references/        carnet actuel du 27 octobre, références historiques et démo des finitions
-public/assets/     110 WebP versionnés
+references/        carnets actuels du 28 octobre, références historiques et démo des finitions
+public/assets/     145 WebP versionnés et 72 SVG pour les 36 cartes sans illustration
 ```
 
 Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs/installation/using-vite), [Dexie useLiveQuery](https://dexie.org/docs/dexie-react-hooks/useLiveQuery()), [Vite réseau](https://vite.dev/config/server-options).
@@ -205,7 +220,7 @@ Les entrées d’Envois disparaissent au bout de 24 h et sont nettoyées au dém
 
 Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les choix Clair et Sombre sont mémorisés. En mode Système, un changement du thème de l’appareil s’applique immédiatement. Les cartes Fusion/Gundam gardent leurs palettes propres.
 
-Le mode dev affiche les 110 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
+Le mode dev affiche les 181 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
 Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 exact, sans clé privée. Le fichier de transfert d’une carte est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
 
@@ -213,16 +228,18 @@ La boîte d’envoi garde les entrées 24 h ; un fichier déjà téléchargé re
 
 ## Affichage de la collection
 
-Le bouton Affichage, à droite du titre Collection, ouvre un panneau sur PC et une feuille depuis le bas sur téléphone. Les deux filtres existants restent en place et sont appliqués avant le regroupement.
+Le bouton Affichage, à droite du titre Collection, ouvre un panneau sur PC et une feuille depuis le bas sur téléphone. Les filtres restent en place et sont appliqués avant le regroupement.
 
 Le tri propose **Nom, Ordre, Date et Valeur**, dans les deux sens. Valeur utilise le montant exact de recyclage d’un exemplaire selon la rareté, la finition et le format ; un petit montant en fragments apparaît sous les cartes uniquement pendant ce tri. Une pile utilise sa variante visible la plus précieuse et la montre en couverture, sans additionner ses doublons ; son contenu suit le sens du tri choisi. Le choix d’affichage est mémorisé localement.
 
-L’ordre fixe de l’édition est conservé dans `src/data/card-order.json` et suit le carnet du 26 octobre 2026. Après publication, conserver les positions existantes et les identifiants archivés ; ajouter les nouvelles cartes en fin de liste. Le tri Date utilise la dernière acquisition détenue d’une pile ; un retour par transfert utilise sa date de retour.
+L’ordre fixe est conservé dans `src/data/card-order.json` : les 110 numéros existants sont maintenus, suivis des 16 ajouts Memory Frame puis des 55 cartes Anima Isekai. Après publication, conserver les positions existantes et les identifiants archivés ; ajouter les nouvelles cartes en fin de liste. Le tri Date utilise la dernière acquisition détenue d’une pile ; un retour par transfert utilise sa date de retour.
 
-Le filtre **Boosters** apparaît à côté de Rareté et Finitions dès que plusieurs boosters sont activés. La sélection multiple réunit leurs pools de cartes sans dupliquer les modèles partagés ; elle concerne leur disponibilité dans ces éditions, pas l’historique d’obtention des exemplaires. Elle se combine avec la recherche, la rareté, la finition et Full Art. Avec le seul Phantom Blood actuel, les deux filtres existants restent affichés.
+Le filtre **Boosters** propose Memory Frame et Anima Isekai à côté de Rareté et Finitions. La sélection multiple réunit leurs pools de cartes sans dupliquer les modèles partagés ; elle concerne leur disponibilité dans ces éditions, pas l’historique d’obtention des exemplaires. Elle se combine avec la recherche, la rareté, la finition et Full Art. Ce filtre reste masqué dans une collection vide.
 
 Regroupement : Aucun, Par carte (six variantes possibles), ou Par carte et format (Classique / Full Art séparés). Les piles sont regroupées par identifiant de modèle, même si deux titres se ressemblent. Leur couverture est déterministe et provient toujours des variantes filtrées détenues.
 
 Doublons : Cacher conserve une entrée par variante et son compteur ×N ; Afficher présente chaque exemplaire séparément, dans la pile ou directement dans la collection si le regroupement est désactivé. Le détail d’un exemplaire séparé transmet son identifiant propre aux actions Envoyer et Recycler. La protection de dernière copie se base sur les possessions réelles, indépendamment du nombre d’entrées affichées.
 
 Une pile ouvre une grille, puis le détail d’une carte, dans un seul dialogue natif. Le retour La pile conserve ce parcours. Les cartes hors écran restent différées pour limiter les surfaces graphiques. Aucun tri ni regroupement ne modifie les cartes, les découvertes ou les historiques. Les choix sont mémorisés dans les préférences locales existantes ; Réinitialiser ne réinitialise que l’affichage.
+
+Les holos de la collection et des piles utilisent une texture irisée partagée, un cadre nacré et un seul reflet animé par déplacement. Elles restent distinctes des mates avec « Réduire les animations ». Les miniatures n'utilisent ni les filtres et masques dynamiques de paillettes, ni le contrôleur d'inclinaison ; la carte agrandie conserve le rendu détaillé et sa limite de 20°. Les reflets de l'arrière-plan sont arrêtés pendant l'ouverture d'une fenêtre. Architecture et vérifications : [rendu des cartes](docs/rendu-cartes.md).

@@ -12,8 +12,8 @@ describe('filtre de collection par booster', () => {
   it('propose les éditions actives dans leur ordre, sans ajouter de booster publié', () => {
     const options = collectionBoosters([...editions, { ...editions[0], id: 'disabled', enabled: false }], cards)
     expect(options.map(option => option.id)).toEqual(['second', 'first'])
-    expect(collectionBoosters(boosters, cards)).toHaveLength(1)
-    expect(boosters).toHaveLength(1)
+    expect(collectionBoosters(boosters, cards)).toHaveLength(2)
+    expect(boosters).toHaveLength(2)
   })
   it('filtre sur les modèles du pool, indépendamment du groupe et de la provenance', () => {
     const options = collectionBoosters(editions, cards)

@@ -30,6 +30,7 @@ async function seed() {
   await source.outbox.add({ transferId: uuid(), dropId: drops[1].dropId, recipientId: (await ensureIdentity(target)).playerUuid, code: 'TR2.YWJj', status: 'generated', createdAt: now })
   await source.usedTransfers.add({ transferId: uuid(), receivedAt: now })
   await source.usedSaveTransfers.add({ transferId: uuid(), receivedAt: now })
+  await source.usedGiftCodes.add({ codeHash: 'a'.repeat(64), redeemedAt: now })
   await addContact(await ownContact(target), 'Destination', source)
   const friend = await generateIdentity()
   await source.friends.add({ ...await parseContactCode(createContactCode(friend)), label: 'Ami conservé' })
@@ -78,6 +79,8 @@ describe('migration de sauvegarde', () => {
     const sourceIdentity = await ensureIdentity(source), targetInstallation = await ensureInstallation(target)
     const previousSave = { transferId: uuid(), receivedAt: 1 }, previousCard = { transferId: uuid(), receivedAt: 2 }
     await target.usedSaveTransfers.add(previousSave); await target.usedTransfers.add(previousCard)
+    const previousGift = { codeHash: 'b'.repeat(64), redeemedAt: 3 }
+    await target.usedGiftCodes.add(previousGift)
     const contents = await exportSave(targetInstallation.installationId, { ...DEFAULT_PREFERENCES, theme: 'dark' }, source)
     const prepared = await parseSaveFile(contents)
     expect(prepared.payload.preferences.theme).toBe('dark')
@@ -88,7 +91,10 @@ describe('migration de sauvegarde', () => {
     expect(identity.signingPublicJwk).toEqual(sourceIdentity.signingPublicJwk)
     expect(await ensureInstallation(target)).toEqual(targetInstallation)
     expect(identity.signingPrivateKey.extractable).toBe(true)
-    for (const name of SAVE_TABLES.filter(n => !['friends', 'usedTransfers', 'usedSaveTransfers'].includes(n))) expect(await target.table(name).toArray(), name).toEqual(prepared.payload.tables[name])
+    for (const name of SAVE_TABLES.filter(n => !['friends', 'usedTransfers', 'usedSaveTransfers', 'usedGiftCodes'].includes(n))) expect(await target.table(name).toArray(), name).toEqual(prepared.payload.tables[name])
+    expect(await target.usedGiftCodes.count()).toBe(2)
+    expect(await target.usedGiftCodes.get(previousGift.codeHash)).toEqual(previousGift)
+    expect(await target.usedGiftCodes.get('a'.repeat(64))).toEqual(prepared.payload.tables.usedGiftCodes![0])
     expect(await target.friends.count()).toBe(2)
     expect(await target.friends.get(identity.playerUuid)).toBeUndefined()
     expect(await target.usedTransfers.count()).toBe(2)
@@ -194,6 +200,35 @@ describe('migration de sauvegarde', () => {
     expect(await target.drops.count()).toBe(3)
   })
 
+  it('importe encore les fichiers du schéma 5 en gardant le registre de cadeaux du destinataire', async () => {
+    const identity = await ensureIdentity(source)
+    const envelope = JSON.parse(await exportToTarget())
+    const payload = JSON.parse(envelope.payload)
+    payload.schemaVersion = 5; payload.tables.player[0].schemaVersion = 5
+    delete payload.tables.usedGiftCodes
+    envelope.payload = JSON.stringify(payload)
+    envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
+    const gift = { codeHash: 'c'.repeat(64), redeemedAt: 1 }
+    await target.usedGiftCodes.add(gift)
+    await importSave(JSON.stringify(envelope), target)
+    expect((await target.player.get('local'))?.schemaVersion).toBe(6)
+    expect(await target.usedGiftCodes.toArray()).toEqual([gift])
+    await expect(exportSave('1234-56-78', DEFAULT_PREFERENCES, target)).resolves.toBeTypeOf('string')
+  })
+
+  it('rejette un registre de cadeaux mal formé, dupliqué ou manquant dans un fichier récent', async () => {
+    const identity = await ensureIdentity(source)
+    const original = JSON.parse(await exportToTarget())
+    for (const rows of [[{ codeHash: 'incorrect', redeemedAt: 1 }], [{ codeHash: 'd'.repeat(64), redeemedAt: -1 }], Array(2).fill({ codeHash: 'd'.repeat(64), redeemedAt: 1 }), undefined]) {
+      const payload = JSON.parse(original.payload)
+      payload.tables.usedGiftCodes = rows
+      const serialized = JSON.stringify(payload)
+      const signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(serialized))))
+      await expect(importSave(JSON.stringify({ ...original, payload: serialized, signature }), target)).rejects.toThrow(/invalide ou incompatible/)
+    }
+    expect(await target.usedGiftCodes.count()).toBe(0)
+  })
+
   it('sérialise deux imports concurrents et ne consomme le fichier qu’une fois', async () => {
     await seed()
     const contents = await exportToTarget(), second = new BizaveDatabase(target.name)
@@ -222,7 +257,7 @@ describe('suppression du compte', () => {
     const after = await ensureIdentity(source)
     expect(after.playerUuid).not.toBe(before.playerUuid)
     expect(after.signingPublicJwk).not.toEqual(before.signingPublicJwk)
-    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 5 })
+    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 6 })
     for (const table of source.tables.filter(t => !['player', 'identity', 'definitions', 'accountState', 'installation'].includes(t.name))) expect(await table.count(), table.name).toBe(0)
     expect(await source.accountState.get('local')).toEqual({ id: 'local', status: 'active', preferences: DEFAULT_PREFERENCES })
   })

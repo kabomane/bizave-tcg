@@ -1,8 +1,9 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { ART_LABELS, FINISH_LABELS, MAX_CARD_TILT_DEGREES, RARITY_LABELS } from '../game/config'
+import { ART_LABELS, FINISH_LABELS, RARITY_LABELS } from '../game/config'
 import type { Card, CardDefinition, Finish, Rarity } from '../game/types'
+import { useCardTilt } from './useCardTilt'
+import holoPreviewTexture from '../assets/holo-preview.webp'
 
-const clamp = (n: number, a: number, b: number) => Math.min(b, Math.max(a, n))
 const rarityPaths: Record<Rarity, string> = {
   common: '<circle cx="12" cy="12" r="6" fill="currentColor"/>',
   uncommon: '<path d="M12 3 20 12 12 21 4 12Z" fill="currentColor"/>',
@@ -21,122 +22,64 @@ export function CardSvgDefinitions() {
     <linearGradient id="ic-gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stopColor="#fcf6ba" /><stop offset=".45" stopColor="#bf953f" /><stop offset=".7" stopColor="#fbf5b7" /><stop offset="1" stopColor="#aa771c" /></linearGradient>
   </defs></svg>
 }
-// Markup and finish layers reproduce the supplied demo. The artwork alone is replaced.
-type CardProps = { card: Card; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean }
+// Reference layouts are shared. Thumbnails use baked foil; details retain the full finish layers.
+type CardPresentation = 'thumbnail' | 'detail'
+type CardProps = { card: Card; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean; presentation?: CardPresentation }
+type CardFaceProps = Omit<CardProps, 'deferred' | 'presentation'> & { presentation: CardPresentation }
 
-/** Only nearby collection cards allocate the layered foil surfaces. Slots keep scroll geometry stable. */
-export function CollectibleCard({ deferred = false, ...props }: CardProps) {
+/** Distant faces are unmounted; the presentation is independent from lazy loading. */
+export function CollectibleCard({ deferred = false, presentation = 'detail', ...props }: CardProps) {
   const slot = useRef<HTMLDivElement>(null)
   const [nearby, setNearby] = useState(!deferred)
   useEffect(() => {
     if (!deferred || !slot.current) return
-    const observer = new IntersectionObserver(([entry]) => setNearby(entry.isIntersecting), { rootMargin: '240px 0px' })
+    const observer = new IntersectionObserver(([entry]) => setNearby(entry.isIntersecting), { root: slot.current.closest('dialog'), rootMargin: '240px 0px' })
     observer.observe(slot.current)
     return () => observer.disconnect()
   }, [deferred])
-  return <div ref={slot} className={`card-slot ${deferred ? 'card-thumbnail' : ''}`}>
-    {nearby ? <CardFace {...props} /> : <button className="card-placeholder" onClick={props.onActivate} aria-label={`${props.definition.title}${props.activationLabel ? `. ${props.activationLabel}` : ''}`} />}
+  return <div ref={slot} className={`card-slot ${presentation === 'thumbnail' ? 'card-thumbnail' : ''}`}>
+    {!deferred || nearby ? <CardFace {...props} presentation={presentation} /> : <button className="card-placeholder" onClick={props.onActivate} aria-label={`${props.definition.title}${props.activationLabel ? `. ${props.activationLabel}` : ''}`} />}
   </div>
 }
 
-function CardFace({ card, definition, onActivate, activationLabel }: CardProps) {
-  const wrapper = useRef<HTMLDivElement>(null), element = useRef<HTMLElement>(null)
+function CardFace({ card, definition, onActivate, activationLabel, presentation }: CardFaceProps) {
+  const thumbnail = presentation === 'thumbnail'
+  const { wrapperRef, elementRef, draggedRef } = useCardTilt(!thumbnail, onActivate)
   const [scale, setScale] = useState(1)
-  const dragged = useRef(false), activate = useRef(onActivate)
-  useLayoutEffect(() => { activate.current = onActivate }, [onActivate])
+  const pointerOrigin = useRef<{ x: number; y: number } | null>(null)
   useLayoutEffect(() => {
-    setScale(wrapper.current!.getBoundingClientRect().width / 326)
+    setScale(wrapperRef.current!.getBoundingClientRect().width / 326)
     const observer = new ResizeObserver(entries => setScale(entries[0].contentRect.width / 326))
-    if (wrapper.current) observer.observe(wrapper.current)
+    if (wrapperRef.current) observer.observe(wrapperRef.current)
     return () => observer.disconnect()
-  }, [])
+  }, [wrapperRef])
   useEffect(() => {
     if (card.finish !== 'glossy') return
-    const el = element.current!
+    const el = elementRef.current!
     let visible = false
     const sync = () => { el.dataset.holoIdle = String(visible && !document.hidden) }
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync() }, { root: el.closest('dialog') })
-    observer.observe(wrapper.current!)
+    observer.observe(wrapperRef.current!)
     document.addEventListener('visibilitychange', sync)
     return () => { observer.disconnect(); document.removeEventListener('visibilitychange', sync); delete el.dataset.holoIdle }
-  }, [card.finish])
-  useEffect(() => {
-    const el = element.current!
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)')
-    const state = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 }
-    let raf = 0, last = 0, pointerActive = false
-    let pointerIdleTimer: number | undefined
-    el.dataset.interacting = 'false'
-    const apply = () => {
-      let x = clamp(state.x, -.6, .6), y = clamp(state.y, -.6, .6)
-      // Hard cap on combined rotation, including spring overshoot and keyboard flicks.
-      const magnitude = Math.hypot(x, y)
-      if (magnitude > .5) { x *= .5 / magnitude; y *= .5 / magnitude }
-      if (reduced.matches) { x = 0; y = 0 }
-      el.dataset.interacting = String(pointerActive || Math.abs(state.x - state.tx) + Math.abs(state.y - state.ty) + Math.abs(state.vx) + Math.abs(state.vy) > .002)
-      const tilt = clamp(Math.hypot(x, y) * 2.2, 0, 1)
-      const vars: Record<string, string> = {
-        '--rx': `${-y * MAX_CARD_TILT_DEGREES * 2}deg`, '--ry': `${x * MAX_CARD_TILT_DEGREES * 2}deg`,
-        '--px': `${-x * 16}px`, '--py': `${-y * 16}px`, '--hx': `${50 + x * 110}%`, '--hy': `${50 + y * 110}%`,
-        '--hx2': `${50 - x * 80}%`, '--hy2': `${50 - y * 80}%`, '--tilt': `${tilt}`, '--angle': `${Math.atan2(x, -y)}rad`,
-        '--sx': `${-x * 34}`, '--sy': `${-y * 34}`, '--s1': `${clamp(x * 2.6, 0, 1)}`, '--s2': `${clamp(-x * 2.6, 0, 1)}`, '--s3': `${clamp(Math.abs(y) * 2.6 - Math.abs(x), 0, 1)}`,
-      }
-      for (const [key, value] of Object.entries(vars)) el.style.setProperty(key, value)
-    }
-    function tick(now: number) {
-      const dt = Math.min(.032, (now - last) / 1000); last = now
-      state.vx += ((state.tx - state.x) * 210 - state.vx * 19) * dt; state.x += state.vx * dt
-      state.vy += ((state.ty - state.y) * 210 - state.vy * 19) * dt; state.y += state.vy * dt
-      apply()
-      raf = Math.abs(state.x - state.tx) + Math.abs(state.y - state.ty) + Math.abs(state.vx) + Math.abs(state.vy) > .001 ? requestAnimationFrame(tick) : 0
-    }
-    const wake = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick) } }
-    const releaseIdle = () => {
-      window.clearTimeout(pointerIdleTimer)
-      pointerIdleTimer = window.setTimeout(() => { pointerActive = false; wake() }, 650)
-    }
-    let touchStart: { x: number; y: number } | null = null
-    const aim = (e: PointerEvent) => {
-      if (e.pointerType !== 'mouse' && touchStart && !el.hasPointerCapture(e.pointerId)) {
-        const dx = Math.abs(e.clientX - touchStart.x), dy = Math.abs(e.clientY - touchStart.y)
-        if (dy > 8 && dy >= dx) touchStart = null
-        else if (dx > 8 && dx > dy) { el.setPointerCapture(e.pointerId); dragged.current = true }
-      }
-      if (e.pointerType !== 'mouse' && !el.hasPointerCapture(e.pointerId)) return
-      pointerActive = true
-      el.dataset.interacting = 'true'
-      const rect = wrapper.current!.getBoundingClientRect()
-      state.tx = clamp((e.clientX - rect.left) / rect.width - .5, -.5, .5)
-      state.ty = clamp((e.clientY - rect.top) / rect.height - .5, -.5, .5); wake()
-      if (e.pointerType === 'mouse') releaseIdle()
-    }
-    const reset = () => { window.clearTimeout(pointerIdleTimer); pointerActive = false; state.tx = state.ty = 0; wake() }
-    // Wait for a horizontal gesture before capturing touch; vertical gestures scroll natively.
-    const down = (e: PointerEvent) => { window.clearTimeout(pointerIdleTimer); pointerActive = true; el.dataset.interacting = 'true'; dragged.current = false; if (e.pointerType !== 'mouse') touchStart = { x: e.clientX, y: e.clientY } }
-    const up = (e: PointerEvent) => { touchStart = null; if (e.pointerType !== 'mouse') reset(); else releaseIdle() }
-    const key = (e: KeyboardEvent) => {
-      if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-        e.preventDefault(); state.vx += e.key === 'ArrowLeft' ? -4 : e.key === 'ArrowRight' ? 4 : 0
-        state.vy += e.key === 'ArrowUp' ? -4 : e.key === 'ArrowDown' ? 4 : 0; wake()
-      }
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (activate.current) activate.current(); else { state.vx += 4; state.vy -= 2.5; wake() } }
-    }
-    el.addEventListener('pointermove', aim); el.addEventListener('pointerleave', reset)
-    el.addEventListener('pointerdown', down); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', reset); el.addEventListener('keydown', key)
-    return () => { window.clearTimeout(pointerIdleTimer); cancelAnimationFrame(raf); el.removeEventListener('pointermove', aim); el.removeEventListener('pointerleave', reset); el.removeEventListener('pointerdown', down); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', reset); el.removeEventListener('keydown', key) }
-  }, [])
+  }, [card.finish, elementRef, wrapperRef])
   const f = card.finish, micro = f === 'normal' ? 'Mate' : f === 'glossy' ? 'Holographique' : 'Alternative'
   const rarity = RARITY_LABELS[definition.rarity]
   const title = f === 'alternative' ? <h2 className="foil-text" data-text={definition.title}>{definition.title}</h2> : <h2 className="card-title">{definition.title}</h2>
-  return <div ref={wrapper} className={`card-scene layout-${card.artVariant === 'fullArt' ? 'gundam' : 'fusion'}`} style={{ borderRadius: 20 * scale }}>
+  return <div ref={wrapperRef} className={`card-scene layout-${card.artVariant === 'fullArt' ? 'gundam' : 'fusion'}`} style={{ borderRadius: 20 * scale }}>
     <div className="card-scale" style={{ transform: `scale(${scale})` }}>
-      <article ref={element} className={`card has-custom ${f === 'normal' ? 'standard' : f}`} data-rarity={definition.rarity} data-art={card.artVariant} tabIndex={0} role="button" aria-label={`${definition.title}, ${rarity}, ${FINISH_LABELS[f]}, ${ART_LABELS[card.artVariant]}${activationLabel ? `. ${activationLabel}` : ''}`} onClick={() => { if (!dragged.current) onActivate?.(); dragged.current = false }} onContextMenu={event => event.preventDefault()} onDragStart={event => event.preventDefault()}>
+      <article ref={elementRef} className={`card has-custom ${f === 'normal' ? 'standard' : f}`} data-presentation={presentation} data-rarity={definition.rarity} data-art={card.artVariant} tabIndex={0} role="button" aria-label={`${definition.title}, ${rarity}, ${FINISH_LABELS[f]}, ${ART_LABELS[card.artVariant]}${activationLabel ? `. ${activationLabel}` : ''}`} onClick={() => { if (!draggedRef.current) onActivate?.(); draggedRef.current = false }} onKeyDown={thumbnail ? event => {
+        if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onActivate?.() }
+      } : undefined} onPointerDown={thumbnail ? event => { draggedRef.current = false; pointerOrigin.current = { x: event.clientX, y: event.clientY } } : undefined} onPointerMove={thumbnail ? event => {
+        const origin = pointerOrigin.current
+        if (origin && Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 8) draggedRef.current = true
+      } : undefined} onPointerUp={thumbnail ? () => { pointerOrigin.current = null } : undefined} onPointerCancel={thumbnail ? () => { pointerOrigin.current = null; draggedRef.current = true } : undefined} onContextMenu={event => event.preventDefault()} onDragStart={event => event.preventDefault()}>
         <header className="name-bar"><span className={`nb-title ${f === 'alternative' ? 'foil-text' : ''}`} data-text={definition.title}>{definition.title}</span><span className="nb-meta"><span className="rarity-text">{rarity}</span><span className="rarity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" dangerouslySetInnerHTML={{ __html: rarityPaths[definition.rarity] }} /></span></span><span className="nb-finish" title={FINISH_LABELS[f]}><svg viewBox="0 0 24 24" aria-hidden="true" dangerouslySetInnerHTML={{ __html: finishPaths[f] }} /></span></header>
         <div className="art"><img className="custom-art" src={definition.artwork[card.artVariant]} style={{ objectPosition: definition.artworkPosition?.[card.artVariant] }} alt={definition.artwork[card.artVariant].endsWith('.svg') ? 'Illustration à venir' : `Illustration de ${definition.title}`} loading="lazy" draggable={false} /></div>
-        {f === 'glossy' && <><div className="holo" /><div className="sparkle s1" /><div className="sparkle s2" /><div className="sparkle s3" /></>}
+        {f === 'glossy' && (thumbnail ? <div className="holo-preview" style={{ backgroundImage: `url("${holoPreviewTexture}")` }} aria-hidden="true"><div className="holo-preview-reflection" /></div> : <><div className="holo" /><div className="sparkle s1" /><div className="sparkle s2" /><div className="sparkle s3" /></>)}
         <div className="type-line"><span className="tl-rarity"><span className="rarity-text">{rarity}</span></span><span className="tl-sep"> — </span><span className="tl-fin">{micro}</span></div>
         <div className="card-info">{title}<p className="description">{definition.description}</p><div className="finish-name"><span className="rarity-text">{rarity}</span> · {micro}</div></div>
-        {f === 'glossy' ? <div className="foil-frame" /> : f === 'alternative' ? <><div className="gold-frame" /><div className="gold-inner" /></> : <div className="matte-frame" />}
+        {f === 'glossy' ? <div className={thumbnail ? 'holo-preview-frame' : 'foil-frame'} aria-hidden="true" /> : f === 'alternative' ? <><div className="gold-frame" /><div className="gold-inner" /></> : <div className="matte-frame" />}
         <div className="shade" />
       </article>
     </div>
