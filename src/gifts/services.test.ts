@@ -52,12 +52,13 @@ describe('codes cadeaux hors ligne', () => {
   })
 
   it('rend Anima Isekai ouvrable depuis son stock acheté', async () => {
+    await db.player.update('local', { freePackStock: 0, nextFreePackAt: 600_100 })
     await redeemGiftCode('BBBB-BBBB-BBBB-BBBB', db, 200)
     const opening = await openBooster('anima-isekai', db, 201)
     expect(opening).toMatchObject({ payment: 'shop', fragmentsSpent: 0 })
     expect(opening.results).toHaveLength(5)
     expect((await db.boosterStock.get('anima-isekai'))?.quantity).toBe(9)
-    expect((await db.player.get('local'))?.freePackStock).toBe(5)
+    expect((await db.player.get('local'))?.freePackStock).toBe(0)
   })
 
   it('crédite cinq cents fragments une seule fois, même longtemps après la génération', async () => {

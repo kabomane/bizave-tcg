@@ -4,7 +4,7 @@
 
 La DA officielle est [Souvenir × Moment culte](prompts/DA-illustrations-Souvenir-Moment-culte.md). Elle remplace le prompt global provisoire. Son contenu est conservé à l’identique pour les futures demandes de génération. Aucune génération n’est lancée par son ajout.
 
-- prompts/instructions-cartes.md : consignes historiques des 110 premiers modèles. Les carnets du 28 octobre dans `references/` font référence pour les 181 cartes actuelles.
+- prompts/instructions-cartes.md : consignes historiques des 110 premiers modèles. Les carnets du 28 octobre dans `references/` font référence pour les cartes initiales du catalogue ; le carnet Anima Isekai du 29 octobre ajoute quatre cartes Chainsaw Man.
 - references/ : références visuelles, éventuellement rangées par personnage ou carte.
 
 Ces sources sont hors de public/ et ne sont pas publiées avec l’application.
@@ -15,7 +15,15 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **181 cartes**, dont **145 illustrées** avec un WebP versionné et **36 avec deux SVG provisoires**. Les 145 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **185 cartes**, toutes illustrées avec un WebP versionné. Les 185 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 29 octobre 2026
+
+L’archive `vague 1 - 59 cartes.zip` complète les **36 illustrations manquantes** des 55 cartes actuelles d’Anima Isekai. Les 145 PNG et WebP précédents sont inchangés (290 fichiers vérifiés par empreinte SHA-256 et date de modification). Les nouveaux originaux sont copiés à l’identique dans `originals/<id>.png` ; l’archive extraite complète reste dans `.local/imports/2026-10-29-anima/`. Les quatre cartes Chainsaw Man du nouveau carnet sont également ajoutées au booster, avec leurs illustrations, noms, descriptions et raretés. Leurs numéros sont ajoutés à la fin de l’ordre global. Anima Isekai compte désormais 59 cartes.
+
+Conversion avec le script existant, uniquement pour les 36 cartes complétées et les quatre nouvelles cartes : WebP 900 × 1200, qualité 85, sRGB. Les deux variantes partagent le même fichier. Le manifeste `imports/2026-10-29/manifest.json` consigne les sources, dimensions et empreintes. Correspondances particulières : `nana_taro.png` → `sd-nana`, `emi_ayase.png` → `dd-eli`, `matthieu_shinichi.png` → `kis-arashi`. Les noms, descriptions, raretés et numéros des cartes existantes restent inchangés.
+
+Le nouveau carnet est conservé dans `references/carnet-anima-isekai-2026-10-29.jsx` comme référence ; ses consignes de génération ne sont pas exécutées.
 
 ## Import du 28 octobre 2026
 

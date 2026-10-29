@@ -12,10 +12,12 @@ import { PLAYER_UUID_PATTERN } from '../exchanges/crypto'
 import { deleteAccount, exportSave, importSave, readSaveFile } from '../storage/saveTransfer'
 import type { PreparedSave } from '../storage/saveTransfer'
 import { GiftCodeForm } from '../components/GiftCodeForm'
+import { acknowledgeUpdate, resetUpdateNotice, UPDATED_KEY } from '../settings/updateNotice'
 
 export function SettingsPage() {
   const settings = useSettings()
   const [error, setError] = useState('')
+  const [updateReset, setUpdateReset] = useState(() => { try { return localStorage.getItem(UPDATED_KEY) === '0' } catch { return false } })
   const identity = useLiveQuery(() => db.identity.get('local'))
   const installation = useLiveQuery(() => db.installation.get('local'))
   const fileInput = useRef<HTMLInputElement>(null)
@@ -49,6 +51,7 @@ export function SettingsPage() {
     </section>
     <GiftCodeForm />
     {DEV_CATALOG_ENABLED && <section className="settings-section settings-dev" aria-labelledby="dev-heading"><div><h2 id="dev-heading">Mode dev</h2><p className="settings-note" id="dev-description">Afficher toutes les cartes dans la collection. Votre sauvegarde reste intacte.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={settings.devCatalog} aria-label="Mode dev" aria-describedby="dev-description" onClick={() => change({ devCatalog: !settings.devCatalog })}><span /></button></section>}
+    {DEV_CATALOG_ENABLED && <section className="settings-section settings-dev" aria-labelledby="update-test-heading"><div><h2 id="update-test-heading">Page de mise à jour</h2><p className="settings-note" id="update-test-description">Afficher la page de mise à jour au prochain rechargement.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={updateReset} aria-label="Page de mise à jour" aria-describedby="update-test-description" onClick={() => { try { if (updateReset) acknowledgeUpdate(); else resetUpdateNotice(); setUpdateReset(value => !value); setError('') } catch { setError('Impossible de modifier cette option.') } }}><span /></button></section>}
     <div className="settings-account-actions"><button className="text-button" disabled={!identity || !installation} onClick={() => openDialog('transfer')}>Transfert de sauvegarde</button><button className="text-button" onClick={() => openDialog('delete')}>Supprimer le compte</button></div>
     <ErrorNotice error={error} />
     <input ref={fileInput} className="visually-hidden" type="file" accept=".btcg" aria-label="Fichier de sauvegarde .btcg" tabIndex={-1} disabled={busy} onChange={event => {

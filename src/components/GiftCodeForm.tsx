@@ -8,7 +8,7 @@ export function GiftCodeForm() {
   const [error, setError] = useState(''), [success, setSuccess] = useState('')
   const inFlight = useRef(false)
   function changeCode(value: string) {
-    const clean = value.replace(/\s/g, ''), characters = clean.replaceAll('-', '')
+    const clean = value.replace(/[^a-zA-Z0-9-]/g, ''), characters = clean.replaceAll('-', '')
     setCode((characters.length > 16 ? characters.slice(0, 16) : clean).slice(0, 19))
     setError(''); setSuccess('')
   }
@@ -28,9 +28,9 @@ export function GiftCodeForm() {
       <label htmlFor="gift-code" className="visually-hidden">Code cadeau</label>
       <div className="gift-code-fields">
         <input id="gift-code" name="gift-code" type="text" value={code} placeholder="XXXX-XXXX-XXXX-XXXX" autoComplete="off" autoCapitalize="characters" autoCorrect="off" spellCheck={false} maxLength={19} disabled={busy} aria-invalid={!!error} aria-describedby="gift-note" onChange={event => changeCode(event.target.value)} onKeyDown={event => { if (event.key === ' ') event.preventDefault() }} onPaste={event => {
-          // Strip whitespace before the browser applies maxLength to pasted text.
+          // Filter pasted text before applying the displayed and useful character limits.
           event.preventDefault()
-          const input = event.currentTarget, pasted = event.clipboardData.getData('text/plain').replace(/\s/g, '')
+          const input = event.currentTarget, pasted = event.clipboardData.getData('text/plain').replace(/[^a-zA-Z0-9-]/g, '')
           changeCode(input.value.slice(0, input.selectionStart ?? input.value.length) + pasted + input.value.slice(input.selectionEnd ?? input.value.length))
         }} />
         <button className="secondary-button" type="submit" disabled={busy || !code.trim()}>{busy ? 'Vérification…' : 'Utiliser'}</button>

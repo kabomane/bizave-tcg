@@ -1,3 +1,4 @@
+import { compactRecycledData } from './recycledCards'
 import Dexie from 'dexie'
 import { db, DATABASE_SCHEMA_VERSION, type BizaveDatabase } from './database'
 import { assertAccountActive } from './accountGuard'
@@ -10,7 +11,7 @@ import { cards, archivedCards } from '../data/cards'
 import { FREE_PACK_CAPACITY, FREE_PACK_INITIAL_STOCK, FREE_PACK_RECHARGE_MS } from '../game/config'
 import { DEFAULT_PREFERENCES, parsePreferences } from '../settings/preferences'
 import type { Preferences } from '../settings/preferences'
-import type { BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
+import type { RecycledCardRow, FavoriteRow, BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
 import type { UsedSaveTransferRow } from './accountTypes'
 import type { UsedGiftCodeRow } from '../gifts/types'
 import { GIFT_CODE_HASH_PATTERN } from '../gifts/format'
@@ -19,14 +20,16 @@ export const MAX_SAVE_FILE_BYTES = 25 * 1024 * 1024
 const FORMAT = 'bizave-tcg-save-transfer'
 const encoder = new TextEncoder()
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-export const SAVE_TABLES = ['player', 'drops', 'discoveries', 'openings', 'recycling', 'friends', 'outbox', 'usedTransfers', 'definitions', 'boosterStock', 'boosterPurchases', 'usedSaveTransfers', 'usedGiftCodes'] as const
+export const SAVE_TABLES = ['player', 'drops', 'discoveries', 'openings', 'recycling', 'friends', 'outbox', 'usedTransfers', 'definitions', 'boosterStock', 'boosterPurchases', 'usedSaveTransfers', 'usedGiftCodes', 'favorites', 'recycledCards'] as const
 type Snapshot = {
   player: PlayerStateRow[]; drops: CardDropRow[]; discoveries: CardDiscoveryRow[]; openings: OpenRecord[]
   recycling: RecyclingRecord[]; friends: FriendContactRow[]; outbox: OutgoingTransferRow[]; usedTransfers: UsedTransferRow[]
   definitions: CardDefinition[]; boosterStock: BoosterStockRow[]; boosterPurchases: BoosterPurchaseRow[]; usedSaveTransfers: UsedSaveTransferRow[]
+  recycledCards?: RecycledCardRow[]
+  favorites?: FavoriteRow[]
   usedGiftCodes?: UsedGiftCodeRow[] // Schema 5 files predate gift codes.
 }
-export type SavePayload = { version: 2; schemaVersion: 5 | 6; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
+export type SavePayload = { version: 2; schemaVersion: 5 | 6 | 7 | 8 | 9; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
 export type PreparedSave = { contents: string; payload: SavePayload }
 export const canonicalSavePayload = (serialized: string) => encoder.encode('BizaveTCG/SaveTransfer/v2\n' + serialized)
 function requireCrypto() {
@@ -41,12 +44,12 @@ const playerId = (value: unknown): value is string => typeof value === 'string' 
 const transferId = (value: unknown): value is string => typeof value === 'string' && uuidPattern.test(value)
 function assert(condition: unknown): asserts condition { if (!condition) throw new Error('Le contenu de cette sauvegarde est invalide ou incompatible.') }
 function validatePayload(value: unknown): asserts value is SavePayload {
-  assert(record(value) && value.version === 2 && (value.schemaVersion === 5 || value.schemaVersion === DATABASE_SCHEMA_VERSION) && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
+  assert(record(value) && value.version === 2 && (value.schemaVersion === 5 || value.schemaVersion === 6 || value.schemaVersion === 7 || value.schemaVersion === 8 || value.schemaVersion === DATABASE_SCHEMA_VERSION) && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
   assert(Object.keys(value).sort().join(',') === 'identity,issuedAt,preferences,recipientId,schemaVersion,sourceId,sourceInstallationId,tables,transferId,version')
   const tables = value.tables
-  const tableNames = value.schemaVersion === 5 ? SAVE_TABLES.filter(name => name !== 'usedGiftCodes') : SAVE_TABLES
+  const tableNames = SAVE_TABLES.filter(name => (value.schemaVersion !== 5 || name !== 'usedGiftCodes') && ((Number(value.schemaVersion) >= 7) || name !== 'favorites') && (Number(value.schemaVersion) >= 8 || name !== 'recycledCards'))
   assert(Object.keys(tables).sort().join(',') === [...tableNames].sort().join(','))
-  const primaryKeys: Record<typeof SAVE_TABLES[number], string> = { player: 'id', drops: 'dropId', discoveries: 'key', openings: 'id', recycling: 'id', friends: 'playerUuid', outbox: 'transferId', usedTransfers: 'transferId', definitions: 'id', boosterStock: 'boosterId', boosterPurchases: 'id', usedSaveTransfers: 'transferId', usedGiftCodes: 'codeHash' }
+  const primaryKeys: Record<typeof SAVE_TABLES[number], string> = { player: 'id', drops: 'dropId', discoveries: 'key', openings: 'id', recycling: 'id', friends: 'playerUuid', outbox: 'transferId', usedTransfers: 'transferId', definitions: 'id', boosterStock: 'boosterId', boosterPurchases: 'id', usedSaveTransfers: 'transferId', usedGiftCodes: 'codeHash', favorites: 'key', recycledCards: 'dropId' }
   for (const name of tableNames) {
     const rows = tables[name]
     assert(Array.isArray(rows) && rows.length <= 100_000 && rows.every(record))
@@ -63,9 +66,15 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   for (const current of [...cards, ...archivedCards]) assert(!definitions.has(current.id) || definitions.get(current.id)!.rarity === current.rarity)
   const card = (c: { cardId: string; finish: string; artVariant: string }) => text(c.cardId) && definitions.has(c.cardId) && ['normal', 'glossy', 'alternative'].includes(c.finish) && ['standard', 'fullArt'].includes(c.artVariant)
   assert(s.drops.every(c => card(c) && transferId(c.dropId) && ['owned', 'outgoing', 'recycled'].includes(c.status) && integer(c.acquiredAt) && integer(c.updatedAt)))
+  assert(s.drops.every(c => c.circulation === undefined || c.circulation === 'local' || c.circulation === 'exchanged'))
+  assert((s.recycledCards ?? []).every(c => transferId(c.dropId) && Object.keys(c).length === 1))
+  const destroyed = new Set((s.recycledCards ?? []).map(c => c.dropId))
+  assert(s.drops.every(c => !destroyed.has(c.dropId)))
   assert(s.discoveries.every(c => card(c) && c.key === variantKey(c) && integer(c.firstDiscoveredAt)))
   assert(s.openings.every(o => transferId(o.id) && id(o.boosterId) && (o.boosterTitle === undefined || text(o.boosterTitle)) && integer(o.openedAt) && ['free', 'fragments', 'shop'].includes(o.payment) && integer(o.fragmentsSpent) && typeof o.revealComplete === 'boolean' && Array.isArray(o.results) && o.results.length > 0 && o.results.length <= 100 && o.results.every(c => record(c) && card(c) && transferId(c.dropId)) && integer(o.revealedCount) && o.revealedCount <= o.results.length))
   assert(s.openings.filter(o => !o.revealComplete).length <= 1)
+  const ownedVariants = new Set(s.drops.filter(drop => drop.status === 'owned').map(variantKey))
+  assert((s.favorites ?? []).every(f => card(f) && f.key === variantKey(f) && ownedVariants.has(f.key)))
   assert(s.recycling.every(r => transferId(r.id) && integer(r.createdAt) && integer(r.fragmentsGained) && Array.isArray(r.dropIds) && r.dropIds.every(transferId)))
   assert(s.friends.every(f => playerId(f.playerUuid) && f.playerUuid !== value.sourceId && record(f.signingPublicJwk) && text(f.fingerprint) && integer(f.addedAt) && (f.label === undefined || (text(f.label) && f.label.length <= 80)) && !('encryptionPublicJwk' in f)))
   assert(s.outbox.every(o => transferId(o.transferId) && transferId(o.dropId) && playerId(o.recipientId) && text(o.code) && /^TR2\.[A-Za-z0-9_-]+$/.test(o.code) && o.code.length <= 12_000 && integer(o.createdAt) && o.status === 'generated' && (o.recipientLabel === undefined || text(o.recipientLabel))))
@@ -110,7 +119,9 @@ export async function exportSave(recipientId: string, preferences: Preferences, 
   return database.transaction('rw', database.tables, async () => {
     await assertAccountActive(database)
     if ((await database.identity.get('local'))?.playerUuid !== identity.playerUuid || (await database.installation.get('local'))?.installationId !== installation.installationId) throw new Error('L’identité locale a changé. Réessayez.')
+    await compactRecycledData(database)
     const tables = Object.fromEntries(await Promise.all(SAVE_TABLES.map(async name => [name, await database.table(name).toArray()]))) as Snapshot
+    tables.openings = tables.openings.filter(opening => !opening.revealComplete)
     const portable = await Dexie.waitFor(portableIdentity(identity))
     const payload: SavePayload = { version: 2, schemaVersion: DATABASE_SCHEMA_VERSION, transferId: uuid(), sourceId: identity.playerUuid, sourceInstallationId: installation.installationId, recipientId, issuedAt: Date.now(), identity: portable, preferences: parsePreferences(JSON.stringify(preferences)), tables }
     validatePayload(payload)
@@ -124,6 +135,7 @@ export async function exportSave(recipientId: string, preferences: Preferences, 
     // Persist the downloadable file and erase all playable data atomically.
     for (const table of database.tables) await table.clear()
     await database.accountState.put({ id: 'local', status: 'exported', transferId: payload.transferId, recipientId, file: contents })
+    await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
     return contents
   })
 }
@@ -137,13 +149,21 @@ export async function importSave(contents: string, database = db) {
     await assertAccountActive(database)
     if ((await database.installation.get('local'))?.installationId !== installation.installationId || installation.installationId !== payload.recipientId) throw new Error('Cette sauvegarde est destinée à un autre appareil.')
     if (await database.usedSaveTransfers.get(payload.transferId)) throw new Error('Cette sauvegarde a déjà été importée.')
+    const previousRecycled = await database.recycledCards.toArray()
     const previousSaves = await database.usedSaveTransfers.toArray(), previousCards = await database.usedTransfers.toArray(), previousGifts = await database.usedGiftCodes.toArray()
     for (const name of SAVE_TABLES) { await database.table(name).clear(); await database.table(name).bulkPut(payload.tables[name] ?? []) }
+    if (payload.schemaVersion < 8) await database.drops.toCollection().modify(row => { delete row.circulation })
+    await compactRecycledData(database)
+    await database.recycledCards.bulkPut(previousRecycled)
+    const destroyed = new Set((await database.recycledCards.toArray()).map(row => row.dropId))
+    if ((await database.drops.toArray()).some(row => destroyed.has(row.dropId))) throw new Error('Cette sauvegarde contient une carte déjà recyclée sur cet appareil.')
+    await database.openings.filter(opening => opening.revealComplete === true).delete()
     // Preserve both histories, then record this import in the same transaction.
     for (const row of previousSaves) if (!await database.usedSaveTransfers.get(row.transferId)) await database.usedSaveTransfers.add(row)
     for (const row of previousCards) if (!await database.usedTransfers.get(row.transferId)) await database.usedTransfers.add(row)
     for (const row of previousGifts) if (!await database.usedGiftCodes.get(row.codeHash)) await database.usedGiftCodes.add(row)
     await database.player.update('local', { schemaVersion: DATABASE_SCHEMA_VERSION })
+    await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
     await database.usedSaveTransfers.add({ transferId: payload.transferId, receivedAt: Date.now() })
     await database.identity.put(identity)
     await database.accountState.put({ id: 'local', status: 'active', preferences: parsePreferences(JSON.stringify(payload.preferences)) })
@@ -163,6 +183,7 @@ export async function deleteAccount(database: BizaveDatabase = db) {
     await database.identity.add(identity)
     await database.installation.add({ id: 'local', installationId, createdAt: now })
     await database.player.add({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, fragments: 0, freePackStock: FREE_PACK_INITIAL_STOCK, nextFreePackAt: FREE_PACK_INITIAL_STOCK < FREE_PACK_CAPACITY ? now + FREE_PACK_RECHARGE_MS : null, maxObservedClockAt: now })
+    await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
     await database.definitions.bulkPut([...cards, ...archivedCards])
     await database.accountState.put({ id: 'local', status: 'active', preferences: { ...DEFAULT_PREFERENCES } })
   })

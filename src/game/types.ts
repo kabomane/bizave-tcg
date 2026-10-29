@@ -8,15 +8,24 @@ export type CardDefinition = {
 type CardPoolSource =
   | { type: 'collection'; collectionId: string; excludeCardIds?: string[]; multiplier?: number }
   | { type: 'cards'; cardIds: string[]; multiplier?: number }
+  | { type: 'rarities'; rarities: Rarity[]; multiplier?: number }
 type BoosterShopOffer = { price: number; listed?: boolean }
 export type BoosterDefinition = {
   id: string; title: string; subtitle: string; description: string
   artwork: { symbol: 'spark' | 'moon' | 'bloom'; colors: { primary: string; secondary: string; shine: string; glow: string } }
   access: { type: 'free'; shop?: BoosterShopOffer } | ({ type: 'shop' } & BoosterShopOffer)
   cardsPerPack: number; sources: CardPoolSource[]; enabled: boolean; order: number
+  showInFilters?: boolean
+  rates?: {
+    rarity?: 'default' | Record<Rarity, number>
+    finish?: 'default' | Record<Finish, number>
+    illustration?: 'default' | Record<ArtVariant, number>
+  }
 }
 export type Card = { dropId: string; cardId: string; finish: Finish; artVariant: ArtVariant }
-export type CardDropRow = Card & { status: 'owned' | 'outgoing' | 'recycled'; acquiredAt: number; updatedAt: number }
+export type FavoriteRow = Pick<Card, 'cardId' | 'finish' | 'artVariant'> & { key: string }
+export type CardDropRow = Card & { status: 'owned' | 'outgoing' | 'recycled'; acquiredAt: number; updatedAt: number; circulation?: 'local' | 'exchanged' }
+export type RecycledCardRow = { dropId: string }
 export type CardDiscoveryRow = Omit<Card, 'dropId'> & { key: string; firstDiscoveredAt: number }
 export type PlayerStateRow = {
   id: 'local'; fragments: number; freePackStock: number; nextFreePackAt: number | null

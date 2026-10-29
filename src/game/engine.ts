@@ -1,6 +1,8 @@
 import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES, DEFAULT_RARITY_RATES, RECYCLE_BASE_FRAGMENTS, FINISH_MULTIPLIER_TENTHS, ART_MULTIPLIER_TENTHS, FREE_PACK_CAPACITY, FREE_PACK_RECHARGE_MS } from './config'
 import type { ArtVariant, BoosterDefinition, Card, CardDefinition, Finish, Rarity } from './types'
 import { shopOffer } from './boosterAvailability'
+import { resolveBoosterRates, validateRates } from './boosterRates'
+export { validateRates } from './boosterRates'
 type Rng = () => number
 export const secureRandom: Rng = () => crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32
 export function uuid(): string {
@@ -8,9 +10,6 @@ export function uuid(): string {
   b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128
   const h = [...b].map(n => n.toString(16).padStart(2, '0')).join('')
   return `${h.slice(0, 8)}-${h.slice(8, 12)}-${h.slice(12, 16)}-${h.slice(16, 20)}-${h.slice(20)}`
-}
-export function validateRates(rates: Record<string, number>) {
-  if (Object.values(rates).some(v => !Number.isFinite(v) || v < 0) || Math.abs(Object.values(rates).reduce((a, b) => a + b, 0) - 100) > 1e-9) throw new Error('Configuration : les probabilités doivent totaliser 100 %.')
 }
 export function weightedPick<T extends string>(rates: Record<T, number>, rng: Rng): T {
   const random = rng()
@@ -28,7 +27,8 @@ export function resolveBoosterPool(booster: BoosterDefinition, catalogue: CardDe
     const multiplier = source.multiplier ?? 1
     if (!Number.isFinite(multiplier) || multiplier <= 0) throw new Error('Configuration : multiplicateur invalide.')
     if (source.type === 'cards' && source.cardIds.some(id => !catalogue.some(c => c.id === id))) throw new Error('Configuration : carte inconnue dans le pool.')
-    const subset = catalogue.filter(c => source.type === 'collection' ? c.collectionId === source.collectionId && !source.excludeCardIds?.includes(c.id) : source.cardIds.includes(c.id))
+    if (source.type === 'rarities' && (!source.rarities.length || source.rarities.some(rarity => !Object.hasOwn(DEFAULT_RARITY_RATES, rarity)))) throw new Error('Configuration : raretés inconnues dans le pool.')
+    const subset = catalogue.filter(c => source.type === 'collection' ? c.collectionId === source.collectionId && !source.excludeCardIds?.includes(c.id) : source.type === 'rarities' ? source.rarities.includes(c.rarity) : source.cardIds.includes(c.id))
     if (source.type === 'collection' && !catalogue.some(c => c.collectionId === source.collectionId)) throw new Error('Configuration : collection inconnue.')
     for (const card of subset) result.set(card.id, { card, weight: (result.get(card.id)?.weight ?? 0) + (card.weight ?? 1) * multiplier })
   }
@@ -46,15 +46,17 @@ export function validateConfiguration(catalogue: CardDefinition[], boosterList: 
     const offer = shopOffer(booster)
     if (!Number.isInteger(booster.cardsPerPack) || booster.cardsPerPack < 1 || (offer && (!Number.isSafeInteger(offer.price) || offer.price <= 0))) throw new Error(`Configuration : booster invalide (${booster.id}).`)
     const pool = resolveBoosterPool(booster, catalogue)
-    for (const rarity of Object.keys(DEFAULT_RARITY_RATES) as Rarity[]) if (!pool.some(p => p.card.rarity === rarity)) throw new Error(`Configuration : rareté ${rarity} vide dans ${booster.id}.`)
+    const rates = resolveBoosterRates(booster)
+    for (const rarity of Object.keys(rates.rarity) as Rarity[]) if (rates.rarity[rarity] > 0 && !pool.some(p => p.card.rarity === rarity)) throw new Error(`Configuration : rareté ${rarity} vide dans ${booster.id}.`)
   }
 }
 export function drawPack(booster: BoosterDefinition, catalogue: CardDefinition[], rng: Rng = secureRandom): Card[] {
   const pool = resolveBoosterPool(booster, catalogue)
+  const rates = resolveBoosterRates(booster)
   return Array.from({ length: booster.cardsPerPack }, () => {
-    const rarity = weightedPick(DEFAULT_RARITY_RATES, rng)
-    const finish = weightedPick(DEFAULT_FINISH_RATES, rng)
-    const artVariant = weightedPick(DEFAULT_ART_VARIANT_RATES, rng)
+    const rarity = weightedPick(rates.rarity, rng)
+    const finish = weightedPick(rates.finish, rng)
+    const artVariant = weightedPick(rates.illustration, rng)
     const weights = Object.fromEntries(pool.filter(p => p.card.rarity === rarity).map(p => [p.card.id, p.weight]))
     const cardId = weightedPick(weights, rng)
     return { dropId: uuid(), cardId, finish, artVariant }

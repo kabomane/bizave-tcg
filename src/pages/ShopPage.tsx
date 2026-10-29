@@ -43,7 +43,7 @@ export function ShopPage() {
         </button>
         {booster.description && <p className="shop-description">{booster.description}</p>}
       </div> : <EmptyState icon={<ShoppingBag size={25} />} title="Aucun paquet en boutique.">Les prochains paquets apparaîtront ici.</EmptyState>}
-    {showRates && <Modal title="Taux de drop" onClose={() => setShowRates(false)}><DropRates /></Modal>}
+    {showRates && booster && <Modal title="Taux de drop" onClose={() => setShowRates(false)}><DropRates booster={booster} /></Modal>}
     <span className="visually-hidden" role="status">{purchasedId ? `${offers.find(booster => booster.id === purchasedId)?.title ?? 'Booster'} ajouté à vos boosters.` : ''}</span>
     <ErrorNotice error={error} />
   </section>

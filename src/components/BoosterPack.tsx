@@ -6,7 +6,7 @@ export function BoosterPack({ booster, small = false, tearing = false }: { boost
   const svgId = useId().replaceAll(':', '')
   const metalId = `booster-metal-${svgId}`, moonId = `booster-moon-${svgId}`
   const colors = booster.artwork.colors
-  return <div className={`booster-pack ${small ? 'pack-small' : ''} ${tearing ? 'pack-tearing' : ''}`} style={{ '--pack-primary': colors.primary, '--pack-secondary': colors.secondary, '--pack-shine': colors.shine } as CSSProperties} aria-label={`Booster ${booster.title}`}>
+  return <div className={`booster-pack ${small ? 'pack-small' : ''} ${tearing ? 'pack-tearing' : ''}`} data-booster={booster.id} style={{ '--pack-primary': colors.primary, '--pack-secondary': colors.secondary, '--pack-shine': colors.shine } as CSSProperties} aria-label={`Booster ${booster.title}`}>
     <div className="pack-seal seal-top" /><div className="pack-border" />
     <svg className="phantom-engraving" viewBox="0 0 300 450" fill="none" aria-hidden="true">
       <defs><linearGradient id={metalId} x1="20" y1="0" x2="280" y2="400" gradientUnits="userSpaceOnUse"><stop stopColor="#eddec2" /><stop offset=".35" stopColor="#9d8465" /><stop offset=".54" stopColor="#fff2d5" /><stop offset="1" stopColor="#8f7357" /></linearGradient><radialGradient id={moonId}><stop stopColor="#b94558" /><stop offset=".7" stopColor="#7b2639" /><stop offset="1" stopColor="#521a2a" /></radialGradient></defs>

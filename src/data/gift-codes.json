@@ -388,5 +388,85 @@
       "type": "fragments",
       "amount": 500
     }
+  },
+  {
+    "codeHash": "a3a4734947991b3110c8d575f3ab7984d330bd35321b4eb9403d14ca9843e631",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "a4407e4c2dfff0afb9195ec0701a9b1de858a83e7bdabb8655251d4d21426ce8",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "f4bd9b97cfae404357769dd97ed577d75c40976ae019335d7efa7724cab630b9",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "0c2be98de376a88c903d1e142690b82a08b75ee027350ae88084319d6e64742f",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "d9bdc2a86a3256e89901839f4eb6e5560041c000255c5d91079f1a26bea4ca8e",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "9336b2c08ca5b4aa0ff25964c934df9fc4e5e2d69612b590b257677d05e61b6a",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "167c1b84e782ccd7f8aac5d3d346d5b3b55d0694077779f3f5dbc677a3b233d4",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "b180e246dd97f4095e42e58907b98251707425d4259568a7d9123e88d6a56465",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "14edbe94b9454fb9cea41ac216506b0ca7d4edb9b8f11cacdcc59aacd7e8d098",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
+  },
+  {
+    "codeHash": "c3f0c70e1705196a09533857b80a0c7056cb2e331d65722cd11d95a195e80d22",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    }
   }
 ]

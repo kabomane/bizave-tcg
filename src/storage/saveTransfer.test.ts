@@ -104,13 +104,14 @@ describe('migration de sauvegarde', () => {
     expect(await target.usedSaveTransfers.get(prepared.payload.transferId)).toBeDefined()
     expect(await target.accountState.get('local')).toMatchObject({ status: 'active', preferences: { theme: 'dark' } })
     await expect(importSave(contents, target)).rejects.toThrow(/déjà été importée/)
-    expect(await target.drops.count()).toBe(3)
+    expect(await target.drops.count()).toBe(2)
+    expect(await target.recycledCards.count()).toBe(1)
   })
 
   it('ne laisse sur la source que le fichier téléchargeable, y compris après redémarrage et depuis une autre connexion', async () => {
     const drops = await seed(), contents = await exportToTarget()
     source.close(); await source.open(); await initializeDatabase(source)
-    for (const table of source.tables.filter(t => t.name !== 'accountState')) expect(await table.count(), table.name).toBe(0)
+    for (const table of source.tables.filter(t => !['accountState', 'version'].includes(t.name))) expect(await table.count(), table.name).toBe(0)
     expect(await source.accountState.get('local')).toMatchObject({ status: 'exported', file: contents })
     const second = new BizaveDatabase(source.name)
     try {
@@ -197,7 +198,8 @@ describe('migration de sauvegarde', () => {
     expect(await target.drops.count()).toBe(0)
     expect(await target.usedSaveTransfers.count()).toBe(0)
     await importSave(contents, target)
-    expect(await target.drops.count()).toBe(3)
+    expect(await target.drops.count()).toBe(2)
+    expect(await target.recycledCards.count()).toBe(1)
   })
 
   it('importe encore les fichiers du schéma 5 en gardant le registre de cadeaux du destinataire', async () => {
@@ -205,15 +207,29 @@ describe('migration de sauvegarde', () => {
     const envelope = JSON.parse(await exportToTarget())
     const payload = JSON.parse(envelope.payload)
     payload.schemaVersion = 5; payload.tables.player[0].schemaVersion = 5
+    delete payload.tables.recycledCards
+    delete payload.tables.favorites
     delete payload.tables.usedGiftCodes
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     const gift = { codeHash: 'c'.repeat(64), redeemedAt: 1 }
     await target.usedGiftCodes.add(gift)
     await importSave(JSON.stringify(envelope), target)
-    expect((await target.player.get('local'))?.schemaVersion).toBe(6)
+    expect((await target.player.get('local'))?.schemaVersion).toBe(9)
     expect(await target.usedGiftCodes.toArray()).toEqual([gift])
     await expect(exportSave('1234-56-78', DEFAULT_PREFERENCES, target)).resolves.toBeTypeOf('string')
+  })
+
+  it.each([7, 8])('importe un fichier du schéma %s et initialise la métadonnée locale actuelle', async schemaVersion => {
+    const identity = await ensureIdentity(source)
+    const envelope = JSON.parse(await exportToTarget())
+    const payload = JSON.parse(envelope.payload)
+    payload.schemaVersion = schemaVersion; payload.tables.player[0].schemaVersion = schemaVersion
+    if (schemaVersion === 7) delete payload.tables.recycledCards
+    envelope.payload = JSON.stringify(payload)
+    envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
+    await importSave(JSON.stringify(envelope), target)
+    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 9, ready: true })
   })
 
   it('rejette un registre de cadeaux mal formé, dupliqué ou manquant dans un fichier récent', async () => {
@@ -236,7 +252,8 @@ describe('migration de sauvegarde', () => {
       const results = await Promise.allSettled([importSave(contents, target), importSave(contents, second)])
       expect(results.filter(r => r.status === 'fulfilled')).toHaveLength(1)
       expect(results.filter(r => r.status === 'rejected')).toHaveLength(1)
-      expect(await target.drops.count()).toBe(3)
+      expect(await target.drops.count()).toBe(2)
+    expect(await target.recycledCards.count()).toBe(1)
     } finally { second.close() }
   })
 
@@ -257,8 +274,8 @@ describe('suppression du compte', () => {
     const after = await ensureIdentity(source)
     expect(after.playerUuid).not.toBe(before.playerUuid)
     expect(after.signingPublicJwk).not.toEqual(before.signingPublicJwk)
-    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 6 })
-    for (const table of source.tables.filter(t => !['player', 'identity', 'definitions', 'accountState', 'installation'].includes(t.name))) expect(await table.count(), table.name).toBe(0)
+    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 9 })
+    for (const table of source.tables.filter(t => !['player', 'identity', 'definitions', 'accountState', 'installation', 'version'].includes(t.name))) expect(await table.count(), table.name).toBe(0)
     expect(await source.accountState.get('local')).toEqual({ id: 'local', status: 'active', preferences: DEFAULT_PREFERENCES })
   })
 

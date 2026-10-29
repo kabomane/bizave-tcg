@@ -1,5 +1,21 @@
 # Historique des versions
 
+## bizave-tcg.v1.3.0 — 29 octobre 2026
+
+- Recharge du stock gratuit portée à un booster toutes les 15 minutes ; cadrage des illustrations aligné en haut via le paramètre existant, en Classique et Full Art.
+- Dix nouveaux codes cadeaux donnant chacun deux boosters epico stellari ; seuls leurs empreintes et récompenses sont publiés.
+- Anima Isekai accessible au stock gratuit commun ; ajout de quatre cartes Chainsaw Man et de 40 illustrations WebP, pour 59 cartes illustrées dans le booster et 185 modèles au total.
+- epico stellari en boutique à 700 fragments : cinq cartes, 91 % épiques et 9 % légendaires, pool dynamique de 42 modèles actuels. Trois profils de taux configurables par booster ; panneaux adaptés au paquet sélectionné, sans changer les taux par défaut.
+- Favoris par variante dans Collection ; filtre étoile, transfert de sauvegarde et suppression du favori à la perte du dernier exemplaire. Favoris protégés dans l’Atelier.
+- Atelier : trois filtres partagés avec Collection, choix Classique / Full Art et mode Toutes vos cartes pour recycler en lot les dernières copies non favorites.
+- Réception : vue détaillée de la carte et confirmation de réussite. Libellé Mate et compteurs de boosters harmonisés.
+- Page dédiée de mise à jour, vérifiée uniquement au chargement, confirmation dans localStorage.updated et interrupteur de test dans les options de développement.
+- Stockage allégé : suppression des ouvertures terminées et du journal détaillé des recyclages ; les nouveaux tirages jamais échangés sont entièrement supprimés au recyclage. Les cartes ayant circulé gardent seulement leur identifiant bloqué.
+- Issue #1 : base canonique unique bizave-tcg, migration vérifiée depuis bizave-tcg-v2, table version et patch temporaire isolé. Schéma 9, imports des schémas 5 à 8 conservés.
+- Suppression de roadmap.md et documentation actualisée.
+
+Note de publication : [bizave-tcg.v1.3.0](docs/releases/bizave-tcg.v1.3.0.md). Les sections suivantes sont historiques.
+
 ## Ajustements de l’interface — 28 octobre 2026
 
 - Fiche d’une carte : boutons Envoyer et Recycler encadrés, de même hauteur, alignés sur une ligne et répartis à parts égales. Le libellé et les fragments restent sur une ligne sur téléphone.

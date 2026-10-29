@@ -74,12 +74,12 @@ describe('ouvertures transactionnelles', () => {
     expect(await db.drops.count()).toBe(0); expect(await db.discoveries.count()).toBe(0); expect((await db.player.get('local'))?.freePackStock).toBe(5)
   })
   it('recharge au retour, conserve la progression et résiste au recul de l’horloge', async () => {
-    await db.player.update('local', { freePackStock: 0, nextFreePackAt: 600_000 })
-    expect((await refreshRecharge(db, 9 * 60_000)).freePackStock).toBe(0)
-    expect((await refreshRecharge(db, 25 * 60_000)).freePackStock).toBe(2)
-    const result = await openBooster('eclats', db, 24 * 60_000)
-    expect(result.openedAt).toBe(25 * 60_000)
-    expect((await db.player.get('local'))?.nextFreePackAt).toBe(30 * 60_000)
+    await db.player.update('local', { freePackStock: 0, nextFreePackAt: 15 * 60_000 })
+    expect((await refreshRecharge(db, 14 * 60_000)).freePackStock).toBe(0)
+    expect((await refreshRecharge(db, 40 * 60_000)).freePackStock).toBe(2)
+    const result = await openBooster('eclats', db, 39 * 60_000)
+    expect(result.openedAt).toBe(40 * 60_000)
+    expect((await db.player.get('local'))?.nextFreePackAt).toBe(45 * 60_000)
     expect((await refreshRecharge(db, 3 * 86400_000)).freePackStock).toBe(5)
     expect((await db.player.get('local'))?.nextFreePackAt).toBeNull()
   })
@@ -92,9 +92,10 @@ describe('recyclage', () => {
     await expect(recycleDrops([full.dropId], false, db)).rejects.toThrow(/dernière/)
     expect(await recycleDrops([second.dropId], false, db)).toBe(1)
     expect((await db.drops.get(first.dropId))?.status).toBe('owned')
-    expect((await db.drops.get(second.dropId))?.status).toBe('recycled')
+    expect(await db.drops.get(second.dropId)).toBeUndefined()
+    expect(await db.recycledCards.get(second.dropId)).toEqual({ dropId: second.dropId })
     expect(await db.discoveries.count()).toBe(3)
-    expect(await db.recycling.count()).toBe(1)
+    expect(await db.recycling.count()).toBe(0)
     expect(await recycleDrops([shiny.dropId], true, db)).toBe(2)
     expect(await db.discoveries.count()).toBe(3)
   })
@@ -208,7 +209,7 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 6 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 9 })
       expect(await upgraded.boosterStock.get(stock.boosterId)).toEqual(stock)
       expect(await upgraded.usedGiftCodes.count()).toBe(0)
     } finally { await upgraded.delete() }
@@ -227,7 +228,7 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 6 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 9 })
       expect(await upgraded.drops.get(owned.dropId)).toEqual(owned)
       expect(await upgraded.outbox.get(outgoing.transferId)).toEqual(outgoing)
       expect(await upgraded.openings.get(legacyOpening.id)).toEqual(legacyOpening)
@@ -324,10 +325,29 @@ describe('Memory Frame gratuit et acheté', () => {
   })
 })
 
-describe('Anima Isekai exclusif à la boutique', () => {
-  it('refuse le gratuit, débite 50 fragments puis ouvre cinq cartes de son pool sans autre dépense', async () => {
-    const id = 'anima-isekai'
+describe('epico stellari en boutique', () => {
+  it('exige un achat à 700 fragments puis ouvre cinq épiques ou légendaires sans crédit gratuit', async () => {
+    const id = 'epico-stellari'
     await expect(openConfiguredBooster(id, db, 0, publishedBoosters)).rejects.toThrow(/aucun exemplaire/)
+    await db.player.update('local', { fragments: 699 })
+    await expect(buyBooster(id, db, 0, publishedBoosters)).rejects.toThrow(/fragments/)
+    expect(await db.boosterPurchases.count()).toBe(0)
+    await db.player.update('local', { fragments: 700 })
+    expect(await buyBooster(id, db, 1, publishedBoosters)).toMatchObject({ boosterId: id, unitPrice: 700, fragmentsSpent: 700 })
+    const opening = await openConfiguredBooster(id, db, 2, publishedBoosters)
+    expect(opening).toMatchObject({ payment: 'shop', fragmentsSpent: 0 })
+    expect(opening.results).toHaveLength(5)
+    expect(opening.results.every(card => ['epic', 'legendary'].includes(cardById.get(card.cardId)!.rarity))).toBe(true)
+    expect(await db.player.get('local')).toMatchObject({ fragments: 0, freePackStock: 5, nextFreePackAt: null })
+    expect((await db.boosterStock.get(id))?.quantity).toBe(0)
+    await finishOpening(opening.id, db)
+    await expect(openConfiguredBooster(id, db, 3, publishedBoosters)).rejects.toThrow(/aucun exemplaire/)
+  })
+})
+
+describe('Anima Isekai gratuit et en boutique', () => {
+  it('utilise le stock gratuit commun avant la réserve achetée à 50 fragments', async () => {
+    const id = 'anima-isekai'
     await db.player.update('local', { fragments: 49 })
     await expect(buyBooster(id, db, 0, publishedBoosters)).rejects.toThrow(/fragments/)
     expect(await db.boosterPurchases.count()).toBe(0)
@@ -336,16 +356,22 @@ describe('Anima Isekai exclusif à la boutique', () => {
     expect(purchase).toMatchObject({ boosterId: id, boosterTitle: 'Anima Isekai', unitPrice: 50, fragmentsSpent: 50 })
     expect(await db.drops.count()).toBe(0)
     expect((await db.boosterStock.get(id))?.quantity).toBe(1)
+    const freeOpening = await openConfiguredBooster(id, db, 5, publishedBoosters)
+    expect(freeOpening).toMatchObject({ payment: 'free', fragmentsSpent: 0, boosterTitle: 'Anima Isekai' })
+    expect(await db.player.get('local')).toMatchObject({ freePackStock: 4, nextFreePackAt: 5 + FREE_PACK_RECHARGE_MS })
+    expect((await db.boosterStock.get(id))?.quantity).toBe(1)
+    await finishOpening(freeOpening.id, db)
+    await db.player.update('local', { freePackStock: 0 })
     const opening = await openConfiguredBooster(id, db, 10, publishedBoosters)
     expect(opening).toMatchObject({ payment: 'shop', fragmentsSpent: 0, boosterTitle: 'Anima Isekai' })
     expect(opening.results).toHaveLength(5)
     const source = publishedBoosters.find(booster => booster.id === id)!.sources[0]
     if (source.type !== 'cards') throw new Error('Pool explicite attendu')
     expect(opening.results.every(card => source.cardIds.includes(card.cardId))).toBe(true)
-    expect(await db.player.get('local')).toMatchObject({ fragments: 0, freePackStock: 5, nextFreePackAt: null })
+    expect(await db.player.get('local')).toMatchObject({ fragments: 0, freePackStock: 0, nextFreePackAt: 5 + FREE_PACK_RECHARGE_MS })
     expect((await db.boosterStock.get(id))?.quantity).toBe(0)
     await finishOpening(opening.id, db)
-    await expect(openConfiguredBooster(id, db, 20, publishedBoosters)).rejects.toThrow(/aucun exemplaire/)
-    expect(await db.drops.count()).toBe(5)
+    await expect(openConfiguredBooster(id, db, 20, publishedBoosters)).rejects.toThrow(/épuisé/)
+    expect(await db.drops.count()).toBe(10)
   })
 })

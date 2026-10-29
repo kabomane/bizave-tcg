@@ -1,9 +1,13 @@
 import Dexie, { type Table } from 'dexie'
 import type { AccountStateRow, InstallationRow, UsedSaveTransferRow } from './accountTypes'
 import type { UsedGiftCodeRow } from '../gifts/types'
+import type { FavoriteRow } from '../game/types'
+import type { RecycledCardRow } from '../game/types'
 import type { BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, LocalIdentityRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
 
-export const DATABASE_SCHEMA_VERSION = 6
+export const DATABASE_SCHEMA_VERSION = 9
+export const DATABASE_NAME = 'bizave-tcg'
+export type DatabaseVersionRow = { id: 'local'; schemaVersion: number; ready: boolean }
 export class BizaveDatabase extends Dexie {
   drops!: Table<CardDropRow, string>
   discoveries!: Table<CardDiscoveryRow, string>
@@ -21,7 +25,10 @@ export class BizaveDatabase extends Dexie {
   usedSaveTransfers!: Table<UsedSaveTransferRow, string>
   installation!: Table<InstallationRow, string>
   usedGiftCodes!: Table<UsedGiftCodeRow, string>
-  constructor(name = 'bizave-tcg-v2') {
+  favorites!: Table<FavoriteRow, string>
+  recycledCards!: Table<RecycledCardRow, string>
+  versionInfo!: Table<DatabaseVersionRow, string>
+  constructor(name = DATABASE_NAME) {
     super(name)
     this.version(1).stores({
       drops: '&dropId, cardId, [cardId+finish+artVariant], finish, artVariant, status',
@@ -57,6 +64,22 @@ export class BizaveDatabase extends Dexie {
     this.version(6).stores({ usedGiftCodes: '&codeHash' }).upgrade(async tx => {
       await tx.table('player').toCollection().modify(row => { row.schemaVersion = DATABASE_SCHEMA_VERSION })
     })
+    this.version(7).stores({ favorites: '&key, cardId' }).upgrade(async tx => {
+      await tx.table('openings').filter(row => row.revealComplete === true).delete()
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 7 })
+    })
+    this.version(8).stores({ recycledCards: '&dropId' }).upgrade(async tx => {
+      const recycled = await tx.table('drops').where('status').equals('recycled').toArray()
+      // Old cards have unknown provenance: preserve their identifiers conservatively.
+      await tx.table('recycledCards').bulkPut(recycled.map(row => ({ dropId: row.dropId })))
+      await tx.table('drops').bulkDelete(recycled.map(row => row.dropId))
+      await tx.table('recycling').clear()
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 8 })
+    })
+    this.version(9).stores({ version: '&id' }).upgrade(async tx => {
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 9 })
+    })
+    this.versionInfo = this.table('version')
   }
 }
 export const db = new BizaveDatabase()

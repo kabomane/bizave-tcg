@@ -7,14 +7,14 @@ async function openPack(page: Page) {
   await page.locator('.opening-card-area .card').click()
   await expect(page.getByRole('heading', { name: 'Dans votre collection.' })).toBeVisible()
 }
-test('un seul booster gratuit ; ouverture au clic, reprise et collection persistante', async ({ page }) => {
+test('boosters gratuits ; ouverture au clic, reprise et collection persistante', async ({ page }) => {
   await page.goto('/collection')
   await expect(page.getByRole('heading', { name: 'La première vous attend.' })).toBeVisible()
   await expect(page.locator('.collection-grid .card')).toHaveCount(0)
   await page.goto('/')
-  await expect(page.locator('.pack-interaction')).toHaveCount(1)
-  await expect(page.locator('.booster-pack')).toContainText('Memory Frame')
-  await expect(page.locator('.booster-pack')).toContainText('126 cartes')
+  await expect(page.locator('.pack-interaction')).toHaveCount(2)
+  await expect(page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')).toContainText('Memory Frame')
+  await expect(page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')).toContainText('126 cartes')
   await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
   await expect(page.locator('.opening-counter')).toHaveText('01 / 05')
@@ -87,7 +87,7 @@ test('au clavier et en reduced-motion, carte et filtres restent accessibles', as
 })
 test('échanges : contacts, transfert signé et antirejeu avec le parcours actuel', async ({ page, browser, baseURL }) => {
   test.setTimeout(90_000) // Two isolated players, cryptography and repeated full-page navigations on WebKit.
-  const secondContext = await browser.newContext({ baseURL })
+  const secondContext = await browser.newContext({ baseURL, viewport: { width: 390, height: 844 } })
   const second = await secondContext.newPage()
   try {
     // Clipboard permissions are browser-specific; exercise the same UI with an isolated clipboard.
@@ -137,6 +137,14 @@ test('échanges : contacts, transfert signé et antirejeu avec le parcours actue
     await second.getByRole('button', { name: 'Coller le code', exact: true }).click()
     await expect(second.getByRole('status')).toContainText('Code de transfert prêt')
     await second.getByRole('button', { name: 'Recevoir', exact: true }).click()
+    const received = second.getByRole('dialog', { name: 'Carte reçue', exact: true })
+    await expect(received.getByRole('status')).toHaveText('Vous avez reçu une carte')
+    await expect(received.locator('.card')).toHaveCount(1)
+    const messageBox = await received.getByRole('status').boundingBox()
+    expect(messageBox!.y + messageBox!.height).toBeLessThan(844)
+    await expect(received.getByRole('button', { name: /Envoyer|Recycler/ })).toHaveCount(0)
+    await second.screenshot({ path: 'artifacts/carte-recue-mobile.png', fullPage: true })
+    await received.getByRole('button', { name: 'Fermer', exact: true }).click()
     await expect(second.getByRole('button', { name: 'Recevoir', exact: true })).toBeDisabled()
     await second.goto('/collection')
     await expect(second.locator('.title-with-count > span')).toHaveText('1')

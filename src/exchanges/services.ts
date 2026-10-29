@@ -2,6 +2,7 @@ import { db, type BizaveDatabase } from '../storage/database'
 import { discover } from '../storage/services'
 import { createContactCode, verifyTransfer, signTransfer, generateIdentity, parseContactCode } from './crypto'
 import { assertAccountActive } from '../storage/accountGuard'
+import { pruneFavorites } from '../collection/favorites'
 
 export async function ensureIdentity(database = db) {
   await assertAccountActive(database)
@@ -40,14 +41,15 @@ export async function sendTransfer(dropId: string, friendId: string, database = 
   if (!drop || drop.status !== 'owned') throw new Error('Cette carte n’est plus disponible.')
   const { payload, code } = await signTransfer(identity, friend, drop)
   const row = { transferId: payload.transferId, dropId, recipientId: friendId, code, recipientLabel: friend.label, createdAt: Date.now(), status: 'generated' as const }
-  await database.transaction('rw', [database.drops, database.outbox, database.identity, database.friends, database.accountState], async () => {
+  await database.transaction('rw', [database.drops, database.outbox, database.identity, database.friends, database.accountState, database.favorites], async () => {
     await assertAccountActive(database)
     const current = await database.drops.get(dropId)
     const currentFriend = await database.friends.get(friendId)
     const currentIdentity = await database.identity.get('local')
     if (currentFriend?.fingerprint !== friend.fingerprint || currentIdentity?.playerUuid !== identity.playerUuid) throw new Error('Le contact ou l’identité a changé pendant le transfert.')
     if (!current || current.status !== 'owned' || current.cardId !== drop.cardId || current.finish !== drop.finish || current.artVariant !== drop.artVariant) throw new Error('La carte a déjà été envoyée ou recyclée.')
-    await database.drops.update(dropId, { status: 'outgoing', updatedAt: row.createdAt })
+    await database.drops.update(dropId, { status: 'outgoing', updatedAt: row.createdAt, circulation: 'exchanged' })
+    await pruneFavorites(database)
     await database.outbox.add(row)
   })
   return row
@@ -55,17 +57,18 @@ export async function sendTransfer(dropId: string, friendId: string, database = 
 export async function receiveTransfer(code: string, database: BizaveDatabase = db) {
   const identity = await ensureIdentity(database)
   const payload = await verifyTransfer(code, identity, await database.friends.toArray())
-  return database.transaction('rw', [database.drops, database.discoveries, database.usedTransfers, database.identity, database.accountState], async () => {
+  return database.transaction('rw', [database.drops, database.recycledCards, database.discoveries, database.usedTransfers, database.identity, database.accountState], async () => {
     await assertAccountActive(database)
     if ((await database.identity.get('local'))?.playerUuid !== identity.playerUuid) throw new Error('L’identité locale a changé.')
     if (await database.usedTransfers.get(payload.transferId)) throw new Error('Ce code a déjà été utilisé.')
+    if (await database.recycledCards.get(payload.dropId)) throw new Error('Cet exemplaire a été recyclé et ne peut pas revenir.')
     const existing = await database.drops.get(payload.dropId)
     if (existing?.status === 'owned') throw new Error('Cet exemplaire est déjà dans votre collection.')
     if (existing?.status === 'recycled') throw new Error('Cet exemplaire a été recyclé et ne peut pas revenir.')
     if (existing && (existing.cardId !== payload.cardId || existing.finish !== payload.finish || existing.artVariant !== payload.artVariant)) throw new Error('Les caractéristiques de la carte ont été altérées.')
     const now = Date.now()
     const card = { dropId: payload.dropId, cardId: payload.cardId, finish: payload.finish, artVariant: payload.artVariant }
-    await database.drops.put({ ...card, status: 'owned', acquiredAt: existing?.acquiredAt ?? now, updatedAt: now })
+    await database.drops.put({ ...card, status: 'owned', acquiredAt: existing?.acquiredAt ?? now, updatedAt: now, circulation: 'exchanged' })
     await discover(database, card, now)
     await database.usedTransfers.add({ transferId: payload.transferId, receivedAt: now })
     return card

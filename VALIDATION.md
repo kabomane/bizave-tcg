@@ -1,6 +1,23 @@
-# Validation — bizave-tcg.v1.2.5
+# Validation — bizave-tcg.v1.3.0
 
-## Vérification complète pour publication — 28 octobre 2026
+## Publication — 29 octobre 2026
+
+Publication reprise à la demande du propriétaire : version 1.3.0 déployée sur Firebase Hosting, sources destinées à la branche GitHub main. Aucune suite de tests relancée pour cette publication.
+
+- Build de production reconstruit avec les derniers ajustements : TypeScript et Vite réussis, 200 fichiers et 38 853 807 octets. Les 60 empreintes de cadeaux sont présentes, aucun code en clair ni original privé dans dist.
+- Déploiement Hosting réussi sur le projet bizave-tcg. HTML et quatre ressources d’entrée comparés par SHA-256 au build local, identiques sur https://bizave-tcg.web.app et https://bizave-tcg.kabomane.me.
+
+- Ajustements finaux : recharge à 15 minutes, dix cadeaux de deux epico stellari (60 empreintes uniques au total) et cadrage haut sur les 185 modèles. Contrôles ciblés précédents : 22 tests réussis, empreintes et récompenses des dix codes vérifiées ; liste privée ignorée par Git. La suite complète ci-dessous précède ces ajustements ; seul le build a été reconstruit pour publier.
+- Version 1.3.0 : package, lockfile, métadonnées HTML, README, changelog et nouvelle note de publication actualisés. Les anciennes notes ci-dessous restent historiques.
+- `npm run check` réussi : lint, 183 tests unitaires/intégration, TypeScript et build de production. Après ajustement du test de sélection du booster, lint et TypeScript ciblés restent valides.
+- Chromium et Firefox : 45 parcours réussis sur 46. Échec Chromium sur la sélection epico stellari à l’arrivée dans Vos boosters ; le test a été ajusté pour attendre les sélections visibles, mais ce parcours corrigé reste à relancer.
+- WebKit : 22 parcours réussis, 1 non applicable, 1 échec par délai de 45 secondes dans le parcours Atelier, en attendant l’option Classique. Migration IndexedDB, nouveaux joueurs, favoris, échanges, cadeaux et mise à jour réussis sur ce moteur.
+- La validation croisée Firefox → Chromium → WebKit reste à exécuter ; elle était exclue de la première suite et la commande suivante n’a pas démarré après l’échec WebKit.
+- Build statique contrôlé dans un navigateur vierge : version 1.3.0, seule base bizave-tcg avec version 9, options de développement masquées, boutique et taux epico stellari corrects, favoris et page de mise à jour fonctionnels, aucune erreur JavaScript.
+- Build : 200 fichiers, 38 843 818 octets ; contrôle de 100 références locales de codes cadeaux en clair, aucune présente dans le build. Aucun original PNG, certificat, archive, document ou fichier de sauvegarde publié dans dist.
+- Liens locaux des 13 documents Markdown courants et guides vérifiés, aucun lien manquant.
+
+## Historique : vérification complète pour publication — 28 octobre 2026
 
 - `npm run check` réussi : lint sans avertissement, **146 tests unitaires et d’intégration**, TypeScript et build de production.
 - Suite Playwright complète : **46 parcours réussis, 2 ignorés**, sur Chromium, Firefox et WebKit. Les deux exécutions ignorées correspondent au test de compatibilité qui pilote déjà les trois moteurs depuis Chromium.

@@ -225,8 +225,9 @@ describe('transferts IndexedDB et antirejeu', () => {
     await expect(receiveTransfer(forged.code, b)).rejects.toThrow(/recyclé/)
     await expect(receiveTransfer(first.code, b)).rejects.toThrow(/déjà été utilisé/)
     // An outgoing local row is reactivated only if all immutable fields agree.
-    await b.drops.update(drop.dropId, { status: 'outgoing' })
-    const changed = await signTransfer(identity, friend, { ...drop, artVariant: 'standard' })
+    const another = { ...drop, dropId: uuid(), status: 'outgoing' as const }
+    await b.drops.put(another)
+    const changed = await signTransfer(identity, friend, { ...another, artVariant: 'standard' })
     await expect(receiveTransfer(changed.code, b)).rejects.toThrow(/altérées/)
     expect(await b.usedTransfers.count()).toBe(1)
   })

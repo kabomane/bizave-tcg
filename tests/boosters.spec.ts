@@ -69,7 +69,7 @@ test('boutique : aucun achat pendant le mouvement, puis achat du paquet affiché
 
   await carousel.press('End')
   await carousel.press('Home')
-  await carousel.press('End')
+  await carousel.press('ArrowRight')
   await expect(button).toBeDisabled()
   await expect(button).toHaveAccessibleName('Acheter Anima Isekai pour 50 fragments')
   await expect(button).toBeEnabled()
@@ -94,15 +94,16 @@ test('boutique : aucun achat pendant le mouvement, puis achat du paquet affiché
   expect(after.player.fragments).toBe(150)
 })
 
-test('Anima Isekai : boutique à 50 fragments, réserve et ouverture exclusive', async ({ page }) => {
+test('Anima Isekai : gratuit, boutique à 50 fragments et réserve', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.goto('/')
   await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeEnabled()
-  await expect(page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true })).toHaveCount(0)
+  await page.getByRole('button', { name: 'Booster suivant', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true })).toBeEnabled()
   const packSizes = new Map<number, { width: number; height: number }>()
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 })
-    const box = await page.locator('.booster-pack').boundingBox()
+    const box = await page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack').boundingBox()
     packSizes.set(width, { width: box!.width, height: box!.height })
   }
   await page.getByRole('link', { name: 'Boutique', exact: true }).click()
@@ -137,8 +138,12 @@ test('Anima Isekai : boutique à 50 fragments, réserve et ouverture exclusive',
   await page.screenshot({ path: 'artifacts/boosters-boutique-mobile.png', fullPage: true })
   await buy.click()
   await expect(page.getByRole('button', { name: 'Anima Isekai ajouté', exact: true })).toBeVisible()
+  await page.evaluate(async () => {
+    const modulePath = '/src/storage/database.ts'
+    const { db } = await import(modulePath)
+    await db.player.update('local', { freePackStock: 0, nextFreePackAt: Date.now() + 600_000 })
+  })
   await page.getByRole('link', { name: 'Vos boosters', exact: true }).click()
-  await page.getByRole('button', { name: 'Booster suivant', exact: true }).click()
   await page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
   await expect(page.locator('.opening-counter')).toHaveText('01 / 05')
@@ -153,11 +158,12 @@ test('Anima Isekai : boutique à 50 fragments, réserve et ouverture exclusive',
     const { db } = await import(modulePath)
     return { player: await db.player.get('local'), stock: await db.boosterStock.get('anima-isekai'), drops: await db.drops.toArray() }
   })
-  expect(state.player).toMatchObject({ fragments: 0, freePackStock: 5, nextFreePackAt: null })
+  expect(state.player).toMatchObject({ fragments: 0, freePackStock: 0 })
   expect(state.stock.quantity).toBe(0)
   expect(state.drops).toHaveLength(5)
   expect(state.drops.every((drop: { cardId: string }) => animaIds.includes(drop.cardId))).toBe(true)
   await page.goto('/')
-  await expect(page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true })).toHaveCount(0)
-  await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true })).toBeDisabled()
+  await page.locator('.booster-carousel-track').press('Home')
+  await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeDisabled()
 })

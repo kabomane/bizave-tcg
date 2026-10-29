@@ -4,7 +4,7 @@ import type { BoosterDefinition, CardDefinition } from '../game/types'
 type CollectionBooster = { id: string; title: string; cardIds: Set<string> }
 
 export function collectionBoosters(boosters: BoosterDefinition[], cards: CardDefinition[]): CollectionBooster[] {
-  return boosters.filter(booster => booster.enabled).sort((a, b) => a.order - b.order).map(booster => ({
+  return boosters.filter(booster => booster.enabled && booster.showInFilters !== false).sort((a, b) => a.order - b.order).map(booster => ({
     id: booster.id, title: booster.title,
     cardIds: new Set(resolveBoosterPool(booster, cards).map(entry => entry.card.id)),
   }))

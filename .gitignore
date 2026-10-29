@@ -3,7 +3,7 @@ dist/
 .vite/
 *.tsbuildinfo
 playwright-report/
-test-results/
+test-results*/
 .env*
 !.env.example
 .firebase/

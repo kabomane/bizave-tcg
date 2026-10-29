@@ -10,7 +10,8 @@
       "fullArt": "/assets/cards/t-classique/illustration.d9167c4e44.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -24,7 +25,8 @@
       "fullArt": "/assets/cards/t-voyageur/illustration.1534571b76.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -38,7 +40,8 @@
       "fullArt": "/assets/cards/t-etudiant/illustration.825bb9b0e4.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -52,7 +55,8 @@
       "fullArt": "/assets/cards/nana-diff/illustration.71d009263b.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -66,7 +70,8 @@
       "fullArt": "/assets/cards/t-accueil/illustration.0e687c886c.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -80,7 +85,8 @@
       "fullArt": "/assets/cards/deuxieme-expedition/illustration.65248ca7cb.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -94,7 +100,8 @@
       "fullArt": "/assets/cards/t-support/illustration.e8d359fbff.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -108,7 +115,8 @@
       "fullArt": "/assets/cards/t-lowpoly/illustration.c2a38fe272.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -122,7 +130,8 @@
       "fullArt": "/assets/cards/t-perenoel/illustration.9f96c7cd31.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -136,7 +145,8 @@
       "fullArt": "/assets/cards/t-bizarre/illustration.555cef3b0d.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -150,7 +160,8 @@
       "fullArt": "/assets/cards/t-gundam/illustration.69494de726.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -162,6 +173,10 @@
     "artwork": {
       "standard": "/assets/cards/t-risitas/illustration.6d11b8ccd1.webp",
       "fullArt": "/assets/cards/t-risitas/illustration.6d11b8ccd1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -175,7 +190,8 @@
       "fullArt": "/assets/cards/t-stronk/illustration.564d464ef0.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -189,7 +205,8 @@
       "fullArt": "/assets/cards/t-notstronk/illustration.4b95f39c15.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -203,7 +220,8 @@
       "fullArt": "/assets/cards/t-chat/illustration.92f3adb133.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -217,7 +235,8 @@
       "fullArt": "/assets/cards/t-bourre/illustration.87bcc5e318.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -231,7 +250,8 @@
       "fullArt": "/assets/cards/mcdeal/illustration.a95411d9f2.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -245,7 +265,8 @@
       "fullArt": "/assets/cards/metro-japonais/illustration.36c7f9a2fe.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -259,7 +280,8 @@
       "fullArt": "/assets/cards/losc/illustration.5fe4441677.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -273,7 +295,8 @@
       "fullArt": "/assets/cards/minecraft-sncf/illustration.7247cb6c28.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -287,7 +310,8 @@
       "fullArt": "/assets/cards/t-routier/illustration.6b0073a5f9.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -301,7 +325,8 @@
       "fullArt": "/assets/cards/t-midlaner/illustration.dc50556c2c.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -315,7 +340,8 @@
       "fullArt": "/assets/cards/les-blancs/illustration.87cda444e2.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -329,7 +355,8 @@
       "fullArt": "/assets/cards/altimance/illustration.5dc9101280.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -343,7 +370,8 @@
       "fullArt": "/assets/cards/mamushi-chan/illustration.91b3c68c69.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -357,7 +385,8 @@
       "fullArt": "/assets/cards/bataille-peintre/illustration.20518439ba.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -371,7 +400,8 @@
       "fullArt": "/assets/cards/gateau-anniv/illustration.f6d147f103.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -385,7 +415,8 @@
       "fullArt": "/assets/cards/t-moussaillon/illustration.84dec7dd51.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -399,7 +430,8 @@
       "fullArt": "/assets/cards/t-lancier/illustration.a2784b4949.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -413,7 +445,8 @@
       "fullArt": "/assets/cards/t-trouillard/illustration.861fc87073.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -427,7 +460,8 @@
       "fullArt": "/assets/cards/t-bouffon/illustration.c88f6fd56d.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -441,7 +475,8 @@
       "fullArt": "/assets/cards/overwatch/illustration.01a89ea189.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -455,7 +490,8 @@
       "fullArt": "/assets/cards/t-muscle/illustration.ef985a9ff5.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -469,7 +505,8 @@
       "fullArt": "/assets/cards/t-citron/illustration.878a26fc2f.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -483,7 +520,8 @@
       "fullArt": "/assets/cards/t-minis/illustration.f402b20a14.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -497,7 +535,8 @@
       "fullArt": "/assets/cards/t-inventeur/illustration.14bbd879d9.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -511,7 +550,8 @@
       "fullArt": "/assets/cards/t-randonneur/illustration.9d5567ec12.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -525,7 +565,8 @@
       "fullArt": "/assets/cards/t-parisien/illustration.77a325202b.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -539,7 +580,8 @@
       "fullArt": "/assets/cards/m-classique/illustration.34467014ad.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -551,6 +593,10 @@
     "artwork": {
       "standard": "/assets/cards/m-voyageur/illustration.5fd912d3b2.webp",
       "fullArt": "/assets/cards/m-voyageur/illustration.5fd912d3b2.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -564,7 +610,8 @@
       "fullArt": "/assets/cards/m-etudiant/illustration.0586562b4a.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -578,7 +625,8 @@
       "fullArt": "/assets/cards/eli-diff/illustration.a66fcb8dad.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -592,7 +640,8 @@
       "fullArt": "/assets/cards/m-boucle/illustration.ea54d0cb1f.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -606,7 +655,8 @@
       "fullArt": "/assets/cards/premiere-expedition/illustration.400e4547b5.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -620,7 +670,8 @@
       "fullArt": "/assets/cards/m-timhortons/illustration.b30c773442.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -634,7 +685,8 @@
       "fullArt": "/assets/cards/m-lowpoly/illustration.7bf4432f1b.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -646,6 +698,10 @@
     "artwork": {
       "standard": "/assets/cards/m-lutin/illustration.c879b42af4.webp",
       "fullArt": "/assets/cards/m-lutin/illustration.c879b42af4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -659,7 +715,8 @@
       "fullArt": "/assets/cards/m-bizarre/illustration.613a112b70.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -673,7 +730,8 @@
       "fullArt": "/assets/cards/m-moufette/illustration.36fe675f96.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -685,6 +743,10 @@
     "artwork": {
       "standard": "/assets/cards/m-risitas/illustration.6a0b037bcd.webp",
       "fullArt": "/assets/cards/m-risitas/illustration.6a0b037bcd.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -698,7 +760,8 @@
       "fullArt": "/assets/cards/m-stronk/illustration.d3ac7c5916.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -712,7 +775,8 @@
       "fullArt": "/assets/cards/m-notstronk/illustration.448ce08c13.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -726,7 +790,8 @@
       "fullArt": "/assets/cards/m-chat/illustration.5df71c7131.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -740,7 +805,8 @@
       "fullArt": "/assets/cards/m-bourre/illustration.b83d41eed2.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -754,7 +820,8 @@
       "fullArt": "/assets/cards/patate-mcdo/illustration.4c2fc39605.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -766,6 +833,10 @@
     "artwork": {
       "standard": "/assets/cards/ferry-quebecois/illustration.e3b95a95e1.webp",
       "fullArt": "/assets/cards/ferry-quebecois/illustration.e3b95a95e1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -777,6 +848,10 @@
     "artwork": {
       "standard": "/assets/cards/ol/illustration.8bfa97147f.webp",
       "fullArt": "/assets/cards/ol/illustration.8bfa97147f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -788,6 +863,10 @@
     "artwork": {
       "standard": "/assets/cards/minecraft-pouletto/illustration.1c78218270.webp",
       "fullArt": "/assets/cards/minecraft-pouletto/illustration.1c78218270.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -799,6 +878,10 @@
     "artwork": {
       "standard": "/assets/cards/m-routier/illustration.aa4babb4d5.webp",
       "fullArt": "/assets/cards/m-routier/illustration.aa4babb4d5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -810,6 +893,10 @@
     "artwork": {
       "standard": "/assets/cards/m-jungler/illustration.e31c3ee2c6.webp",
       "fullArt": "/assets/cards/m-jungler/illustration.e31c3ee2c6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -821,6 +908,10 @@
     "artwork": {
       "standard": "/assets/cards/les-noirs/illustration.9b789ef301.webp",
       "fullArt": "/assets/cards/les-noirs/illustration.9b789ef301.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -834,7 +925,8 @@
       "fullArt": "/assets/cards/cegep/illustration.dd88eda27a.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -846,6 +938,10 @@
     "artwork": {
       "standard": "/assets/cards/vieille-appart/illustration.b30a63d78e.webp",
       "fullArt": "/assets/cards/vieille-appart/illustration.b30a63d78e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -859,7 +955,8 @@
       "fullArt": "/assets/cards/chanteuse-nocturne/illustration.b25b2fc8e7.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -871,6 +968,10 @@
     "artwork": {
       "standard": "/assets/cards/jus-orange/illustration.9594297333.webp",
       "fullArt": "/assets/cards/jus-orange/illustration.9594297333.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -884,7 +985,8 @@
       "fullArt": "/assets/cards/m-capitaine/illustration.b96b12135e.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -896,6 +998,10 @@
     "artwork": {
       "standard": "/assets/cards/m-premier/illustration.f34d8d2532.webp",
       "fullArt": "/assets/cards/m-premier/illustration.f34d8d2532.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -907,6 +1013,10 @@
     "artwork": {
       "standard": "/assets/cards/m-exorciste/illustration.c0c5752ae1.webp",
       "fullArt": "/assets/cards/m-exorciste/illustration.c0c5752ae1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -920,7 +1030,8 @@
       "fullArt": "/assets/cards/m-bouffon/illustration.352fe71b4c.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -934,7 +1045,8 @@
       "fullArt": "/assets/cards/splatoon/illustration.d737c2e277.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -948,7 +1060,8 @@
       "fullArt": "/assets/cards/m-muscle/illustration.26ebfe2449.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -962,7 +1075,8 @@
       "fullArt": "/assets/cards/m-tempete/illustration.2bbe84ac6a.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -976,7 +1090,8 @@
       "fullArt": "/assets/cards/m-minis/illustration.a829553077.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -988,6 +1103,10 @@
     "artwork": {
       "standard": "/assets/cards/m-ingenieur/illustration.b24260af3b.webp",
       "fullArt": "/assets/cards/m-ingenieur/illustration.b24260af3b.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -999,6 +1118,10 @@
     "artwork": {
       "standard": "/assets/cards/m-coureur/illustration.879a00602d.webp",
       "fullArt": "/assets/cards/m-coureur/illustration.879a00602d.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1010,6 +1133,10 @@
     "artwork": {
       "standard": "/assets/cards/m-parisien/illustration.0c4947b6a9.webp",
       "fullArt": "/assets/cards/m-parisien/illustration.0c4947b6a9.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1021,6 +1148,10 @@
     "artwork": {
       "standard": "/assets/cards/oyster/illustration.cecdfe1306.webp",
       "fullArt": "/assets/cards/oyster/illustration.cecdfe1306.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1032,6 +1163,10 @@
     "artwork": {
       "standard": "/assets/cards/daronned/illustration.fcab929ff7.webp",
       "fullArt": "/assets/cards/daronned/illustration.fcab929ff7.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1043,6 +1178,10 @@
     "artwork": {
       "standard": "/assets/cards/visa-japon/illustration.4ae7cb8eec.webp",
       "fullArt": "/assets/cards/visa-japon/illustration.4ae7cb8eec.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1054,6 +1193,10 @@
     "artwork": {
       "standard": "/assets/cards/visa-quebec/illustration.e2548ad912.webp",
       "fullArt": "/assets/cards/visa-quebec/illustration.e2548ad912.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1065,6 +1208,10 @@
     "artwork": {
       "standard": "/assets/cards/sous-3-ans/illustration.e40f5887fa.webp",
       "fullArt": "/assets/cards/sous-3-ans/illustration.e40f5887fa.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1076,6 +1223,10 @@
     "artwork": {
       "standard": "/assets/cards/cursed-week/illustration.2e29628832.webp",
       "fullArt": "/assets/cards/cursed-week/illustration.2e29628832.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1087,6 +1238,10 @@
     "artwork": {
       "standard": "/assets/cards/lucky-week/illustration.70ce391598.webp",
       "fullArt": "/assets/cards/lucky-week/illustration.70ce391598.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1098,6 +1253,10 @@
     "artwork": {
       "standard": "/assets/cards/golden-week/illustration.57cebd61b0.webp",
       "fullArt": "/assets/cards/golden-week/illustration.57cebd61b0.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1109,6 +1268,10 @@
     "artwork": {
       "standard": "/assets/cards/chaise/illustration.dc4bc774f1.webp",
       "fullArt": "/assets/cards/chaise/illustration.dc4bc774f1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1120,6 +1283,10 @@
     "artwork": {
       "standard": "/assets/cards/takaichi/illustration.892f91cd85.webp",
       "fullArt": "/assets/cards/takaichi/illustration.892f91cd85.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1131,6 +1298,10 @@
     "artwork": {
       "standard": "/assets/cards/pspp/illustration.facd5a7987.webp",
       "fullArt": "/assets/cards/pspp/illustration.facd5a7987.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1142,6 +1313,10 @@
     "artwork": {
       "standard": "/assets/cards/centre-du-monde/illustration.86e58e926e.webp",
       "fullArt": "/assets/cards/centre-du-monde/illustration.86e58e926e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1153,6 +1328,10 @@
     "artwork": {
       "standard": "/assets/cards/commencement/illustration.a00b900343.webp",
       "fullArt": "/assets/cards/commencement/illustration.a00b900343.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1164,6 +1343,10 @@
     "artwork": {
       "standard": "/assets/cards/douilled/illustration.220243dbd1.webp",
       "fullArt": "/assets/cards/douilled/illustration.220243dbd1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1175,6 +1358,10 @@
     "artwork": {
       "standard": "/assets/cards/proton-vpn/illustration.694edbc067.webp",
       "fullArt": "/assets/cards/proton-vpn/illustration.694edbc067.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1186,6 +1373,10 @@
     "artwork": {
       "standard": "/assets/cards/kayak/illustration.dbf8ea4660.webp",
       "fullArt": "/assets/cards/kayak/illustration.dbf8ea4660.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1197,6 +1388,10 @@
     "artwork": {
       "standard": "/assets/cards/compte-renault/illustration.8a186f96bc.webp",
       "fullArt": "/assets/cards/compte-renault/illustration.8a186f96bc.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1210,7 +1405,8 @@
       "fullArt": "/assets/cards/green-card/illustration.5b5a02a5ee.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1222,6 +1418,10 @@
     "artwork": {
       "standard": "/assets/cards/fc-papillon/illustration.4e4ea45554.webp",
       "fullArt": "/assets/cards/fc-papillon/illustration.4e4ea45554.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1233,6 +1433,10 @@
     "artwork": {
       "standard": "/assets/cards/mkqb/illustration.02ecde7ad9.webp",
       "fullArt": "/assets/cards/mkqb/illustration.02ecde7ad9.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1244,6 +1448,10 @@
     "artwork": {
       "standard": "/assets/cards/pgw-2022/illustration.cec1021eda.webp",
       "fullArt": "/assets/cards/pgw-2022/illustration.cec1021eda.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1255,6 +1463,10 @@
     "artwork": {
       "standard": "/assets/cards/eli-support/illustration.0004ab25ac.webp",
       "fullArt": "/assets/cards/eli-support/illustration.0004ab25ac.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1266,6 +1478,10 @@
     "artwork": {
       "standard": "/assets/cards/eli-camionneuse/illustration.618ebf9fa4.webp",
       "fullArt": "/assets/cards/eli-camionneuse/illustration.618ebf9fa4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1277,6 +1493,10 @@
     "artwork": {
       "standard": "/assets/cards/eli-cerisier/illustration.776e4cf17b.webp",
       "fullArt": "/assets/cards/eli-cerisier/illustration.776e4cf17b.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1288,6 +1508,10 @@
     "artwork": {
       "standard": "/assets/cards/eli-chasseuse/illustration.d661fe8f00.webp",
       "fullArt": "/assets/cards/eli-chasseuse/illustration.d661fe8f00.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1299,6 +1523,10 @@
     "artwork": {
       "standard": "/assets/cards/eli-canotiere/illustration.9f194fce06.webp",
       "fullArt": "/assets/cards/eli-canotiere/illustration.9f194fce06.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1310,6 +1538,10 @@
     "artwork": {
       "standard": "/assets/cards/eli-parisienne/illustration.c23afeda80.webp",
       "fullArt": "/assets/cards/eli-parisienne/illustration.c23afeda80.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1321,6 +1553,10 @@
     "artwork": {
       "standard": "/assets/cards/glaciere-picard/illustration.7fbb2d44c4.webp",
       "fullArt": "/assets/cards/glaciere-picard/illustration.7fbb2d44c4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1334,7 +1570,8 @@
       "fullArt": "/assets/cards/trisomie-21/illustration.6ed8b8d08b.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1346,6 +1583,10 @@
     "artwork": {
       "standard": "/assets/cards/soiree-film-1/illustration.a0233cda47.webp",
       "fullArt": "/assets/cards/soiree-film-1/illustration.a0233cda47.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1357,6 +1598,10 @@
     "artwork": {
       "standard": "/assets/cards/soiree-film-2/illustration.0c669ad5f1.webp",
       "fullArt": "/assets/cards/soiree-film-2/illustration.0c669ad5f1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1368,6 +1613,10 @@
     "artwork": {
       "standard": "/assets/cards/soiree-film-3/illustration.f8b8ae5095.webp",
       "fullArt": "/assets/cards/soiree-film-3/illustration.f8b8ae5095.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1379,6 +1628,10 @@
     "artwork": {
       "standard": "/assets/cards/stagiaires/illustration.05532ab617.webp",
       "fullArt": "/assets/cards/stagiaires/illustration.05532ab617.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1390,6 +1643,10 @@
     "artwork": {
       "standard": "/assets/cards/lacher-poule/illustration.9c2d0c7930.webp",
       "fullArt": "/assets/cards/lacher-poule/illustration.9c2d0c7930.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1403,7 +1660,8 @@
       "fullArt": "/assets/cards/t-conducteur/illustration.69d4f4ed52.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1417,7 +1675,8 @@
       "fullArt": "/assets/cards/t-petit/illustration.bc27b76769.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1431,7 +1690,8 @@
       "fullArt": "/assets/cards/t-immigration/illustration.4da3e8cd7d.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1445,7 +1705,8 @@
       "fullArt": "/assets/cards/t-arabe/illustration.6b73ee8380.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1459,7 +1720,8 @@
       "fullArt": "/assets/cards/t-spotteur/illustration.bb1b3fb390.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1473,7 +1735,8 @@
       "fullArt": "/assets/cards/m-dest-quebec/illustration.28d348f950.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1487,7 +1750,8 @@
       "fullArt": "/assets/cards/m-reparateur/illustration.48a27d2aa0.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1501,7 +1765,8 @@
       "fullArt": "/assets/cards/m-infirmier/illustration.f6feed5d3c.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1515,7 +1780,8 @@
       "fullArt": "/assets/cards/m-belgique/illustration.aefb0b1643.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1529,7 +1795,8 @@
       "fullArt": "/assets/cards/m-arabe/illustration.36d6c41ac7.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1543,7 +1810,8 @@
       "fullArt": "/assets/cards/eli-arabe/illustration.2442e8608d.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1557,7 +1825,8 @@
       "fullArt": "/assets/cards/nana-arabe/illustration.5def57e6f9.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1571,7 +1840,8 @@
       "fullArt": "/assets/cards/resto-poutine/illustration.9b21f7752a.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1585,7 +1855,8 @@
       "fullArt": "/assets/cards/date-aquarium/illustration.3e6f6a3adf.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1599,7 +1870,8 @@
       "fullArt": "/assets/cards/eli-kpop/illustration.9585239c6e.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1613,7 +1885,8 @@
       "fullArt": "/assets/cards/worlds-lcs/illustration.45ff05a9c1.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1627,7 +1900,8 @@
       "fullArt": "/assets/cards/op-matthieu/illustration.53bfcefae6.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1641,7 +1915,8 @@
       "fullArt": "/assets/cards/op-eli/illustration.6169d335f1.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1655,7 +1930,8 @@
       "fullArt": "/assets/cards/op-thomas/illustration.7cc88263bd.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1669,7 +1945,8 @@
       "fullArt": "/assets/cards/jjk-matthieu/illustration.c3e410013a.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1683,7 +1960,8 @@
       "fullArt": "/assets/cards/jjk-eli/illustration.18c59f8bb9.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1697,7 +1975,8 @@
       "fullArt": "/assets/cards/jjk-thomas/illustration.ef1b3ff0d6.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1711,7 +1990,8 @@
       "fullArt": "/assets/cards/jjk-nana/illustration.4c17e56d79.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1725,7 +2005,8 @@
       "fullArt": "/assets/cards/bb-matthieu/illustration.eb175b1422.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1739,7 +2020,8 @@
       "fullArt": "/assets/cards/bb-eli/illustration.95aba0b2a4.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1753,7 +2035,8 @@
       "fullArt": "/assets/cards/bb-thomas/illustration.3da1335ad7.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1767,7 +2050,8 @@
       "fullArt": "/assets/cards/sxf-thomas/illustration.855b6393b6.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1781,7 +2065,8 @@
       "fullArt": "/assets/cards/sxf-eli/illustration.be689a492e.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1795,7 +2080,8 @@
       "fullArt": "/assets/cards/sxf-matthieu/illustration.d0c857d391.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1809,7 +2095,8 @@
       "fullArt": "/assets/cards/pkm-matthieu/illustration.754851592f.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1823,7 +2110,8 @@
       "fullArt": "/assets/cards/pkm-thomas/illustration.5016fd4f54.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1837,7 +2125,8 @@
       "fullArt": "/assets/cards/pkm-eli/illustration.4c5a0ede16.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1851,7 +2140,8 @@
       "fullArt": "/assets/cards/nar-thomas/illustration.d2433111d8.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1865,7 +2155,8 @@
       "fullArt": "/assets/cards/nar-eli/illustration.2cdb62cc5d.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1879,7 +2170,8 @@
       "fullArt": "/assets/cards/nar-matthieu/illustration.3890069522.webp"
     },
     "artworkPosition": {
-      "standard": "center top"
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1889,8 +2181,12 @@
     "collectionId": "shonen",
     "description": "Giorno Giovanna\nJoJo's Bizarre Adventure",
     "artwork": {
-      "standard": "/assets/cards/jojo-thomas/standard.svg",
-      "fullArt": "/assets/cards/jojo-thomas/full-art.svg"
+      "standard": "/assets/cards/jojo-thomas/illustration.b98efda08a.webp",
+      "fullArt": "/assets/cards/jojo-thomas/illustration.b98efda08a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1900,8 +2196,12 @@
     "collectionId": "shonen",
     "description": "Narciso Anasui\nJoJo's Bizarre Adventure",
     "artwork": {
-      "standard": "/assets/cards/jojo-matthieu/standard.svg",
-      "fullArt": "/assets/cards/jojo-matthieu/full-art.svg"
+      "standard": "/assets/cards/jojo-matthieu/illustration.36233bb825.webp",
+      "fullArt": "/assets/cards/jojo-matthieu/illustration.36233bb825.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1911,8 +2211,12 @@
     "collectionId": "shonen",
     "description": "Trish Una\nJoJo's Bizarre Adventure",
     "artwork": {
-      "standard": "/assets/cards/jojo-nana/standard.svg",
-      "fullArt": "/assets/cards/jojo-nana/full-art.svg"
+      "standard": "/assets/cards/jojo-nana/illustration.62fec71720.webp",
+      "fullArt": "/assets/cards/jojo-nana/illustration.62fec71720.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1922,8 +2226,12 @@
     "collectionId": "shonen",
     "description": "Jolyne Cujoh\nJoJo's Bizarre Adventure",
     "artwork": {
-      "standard": "/assets/cards/jojo-eli/standard.svg",
-      "fullArt": "/assets/cards/jojo-eli/full-art.svg"
+      "standard": "/assets/cards/jojo-eli/illustration.5c30f00b1c.webp",
+      "fullArt": "/assets/cards/jojo-eli/illustration.5c30f00b1c.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1933,8 +2241,12 @@
     "collectionId": "shonen",
     "description": "Shin Asakura\nSakamoto Days",
     "artwork": {
-      "standard": "/assets/cards/sd-matthieu/standard.svg",
-      "fullArt": "/assets/cards/sd-matthieu/full-art.svg"
+      "standard": "/assets/cards/sd-matthieu/illustration.c872cbee5f.webp",
+      "fullArt": "/assets/cards/sd-matthieu/illustration.c872cbee5f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1944,8 +2256,12 @@
     "collectionId": "shonen",
     "description": "Taro Sakamoto\nSakamoto Days",
     "artwork": {
-      "standard": "/assets/cards/sd-thomas/standard.svg",
-      "fullArt": "/assets/cards/sd-thomas/full-art.svg"
+      "standard": "/assets/cards/sd-thomas/illustration.60a6be7521.webp",
+      "fullArt": "/assets/cards/sd-thomas/illustration.60a6be7521.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1955,8 +2271,12 @@
     "collectionId": "shonen",
     "description": "Lu Xiaotang\nSakamoto Days",
     "artwork": {
-      "standard": "/assets/cards/sd-eli/standard.svg",
-      "fullArt": "/assets/cards/sd-eli/full-art.svg"
+      "standard": "/assets/cards/sd-eli/illustration.fb56c523b1.webp",
+      "fullArt": "/assets/cards/sd-eli/illustration.fb56c523b1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1966,8 +2286,12 @@
     "collectionId": "shonen",
     "description": "Aoi Sakamoto\nSakamoto Days",
     "artwork": {
-      "standard": "/assets/cards/sd-nana/standard.svg",
-      "fullArt": "/assets/cards/sd-nana/full-art.svg"
+      "standard": "/assets/cards/sd-nana/illustration.3c6b16f5c0.webp",
+      "fullArt": "/assets/cards/sd-nana/illustration.3c6b16f5c0.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1977,8 +2301,12 @@
     "collectionId": "shonen",
     "description": "Asta\nBlack Clover",
     "artwork": {
-      "standard": "/assets/cards/bc-matthieu/standard.svg",
-      "fullArt": "/assets/cards/bc-matthieu/full-art.svg"
+      "standard": "/assets/cards/bc-matthieu/illustration.f57ad38a1f.webp",
+      "fullArt": "/assets/cards/bc-matthieu/illustration.f57ad38a1f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1988,8 +2316,12 @@
     "collectionId": "shonen",
     "description": "Yuno Grinberryall\nBlack Clover",
     "artwork": {
-      "standard": "/assets/cards/bc-thomas/standard.svg",
-      "fullArt": "/assets/cards/bc-thomas/full-art.svg"
+      "standard": "/assets/cards/bc-thomas/illustration.20fe785199.webp",
+      "fullArt": "/assets/cards/bc-thomas/illustration.20fe785199.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -1999,8 +2331,12 @@
     "collectionId": "shonen",
     "description": "Noelle Silva\nBlack Clover",
     "artwork": {
-      "standard": "/assets/cards/bc-eli/standard.svg",
-      "fullArt": "/assets/cards/bc-eli/full-art.svg"
+      "standard": "/assets/cards/bc-eli/illustration.622bd7c7ea.webp",
+      "fullArt": "/assets/cards/bc-eli/illustration.622bd7c7ea.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2010,8 +2346,12 @@
     "collectionId": "shonen",
     "description": "Mimosa Vermillion\nBlack Clover",
     "artwork": {
-      "standard": "/assets/cards/bc-nana/standard.svg",
-      "fullArt": "/assets/cards/bc-nana/full-art.svg"
+      "standard": "/assets/cards/bc-nana/illustration.3dc2526bc5.webp",
+      "fullArt": "/assets/cards/bc-nana/illustration.3dc2526bc5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2021,8 +2361,12 @@
     "collectionId": "shonen",
     "description": "Stark\nFrieren",
     "artwork": {
-      "standard": "/assets/cards/fr-matthieu/standard.svg",
-      "fullArt": "/assets/cards/fr-matthieu/full-art.svg"
+      "standard": "/assets/cards/fr-matthieu/illustration.f0f6af16dc.webp",
+      "fullArt": "/assets/cards/fr-matthieu/illustration.f0f6af16dc.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2032,8 +2376,12 @@
     "collectionId": "shonen",
     "description": "Fern\nFrieren",
     "artwork": {
-      "standard": "/assets/cards/fr-eli/standard.svg",
-      "fullArt": "/assets/cards/fr-eli/full-art.svg"
+      "standard": "/assets/cards/fr-eli/illustration.b26ad46e4e.webp",
+      "fullArt": "/assets/cards/fr-eli/illustration.b26ad46e4e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2043,8 +2391,12 @@
     "collectionId": "shonen",
     "description": "Himmel\nFrieren",
     "artwork": {
-      "standard": "/assets/cards/fr-thomas/standard.svg",
-      "fullArt": "/assets/cards/fr-thomas/full-art.svg"
+      "standard": "/assets/cards/fr-thomas/illustration.082ca221e3.webp",
+      "fullArt": "/assets/cards/fr-thomas/illustration.082ca221e3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2054,8 +2406,12 @@
     "collectionId": "shonen",
     "description": "Frieren\nFrieren",
     "artwork": {
-      "standard": "/assets/cards/fr-nana/standard.svg",
-      "fullArt": "/assets/cards/fr-nana/full-art.svg"
+      "standard": "/assets/cards/fr-nana/illustration.e5a82d9a70.webp",
+      "fullArt": "/assets/cards/fr-nana/illustration.e5a82d9a70.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2065,8 +2421,12 @@
     "collectionId": "shonen",
     "description": "Momo Ayase\nDandadan",
     "artwork": {
-      "standard": "/assets/cards/dd-nana/standard.svg",
-      "fullArt": "/assets/cards/dd-nana/full-art.svg"
+      "standard": "/assets/cards/dd-nana/illustration.6329f61906.webp",
+      "fullArt": "/assets/cards/dd-nana/illustration.6329f61906.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2076,8 +2436,12 @@
     "collectionId": "shonen",
     "description": "Ken Takakura\nDandadan",
     "artwork": {
-      "standard": "/assets/cards/dd-thomas/standard.svg",
-      "fullArt": "/assets/cards/dd-thomas/full-art.svg"
+      "standard": "/assets/cards/dd-thomas/illustration.cbfbe1d410.webp",
+      "fullArt": "/assets/cards/dd-thomas/illustration.cbfbe1d410.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2087,8 +2451,12 @@
     "collectionId": "shonen",
     "description": "Seiko Ayase\nDandadan",
     "artwork": {
-      "standard": "/assets/cards/dd-eli/standard.svg",
-      "fullArt": "/assets/cards/dd-eli/full-art.svg"
+      "standard": "/assets/cards/dd-eli/illustration.e21398480d.webp",
+      "fullArt": "/assets/cards/dd-eli/illustration.e21398480d.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2098,8 +2466,12 @@
     "collectionId": "shonen",
     "description": "Jin Enjoji\nDandadan",
     "artwork": {
-      "standard": "/assets/cards/dd-matthieu/standard.svg",
-      "fullArt": "/assets/cards/dd-matthieu/full-art.svg"
+      "standard": "/assets/cards/dd-matthieu/illustration.d2944b08c7.webp",
+      "fullArt": "/assets/cards/dd-matthieu/illustration.d2944b08c7.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2109,8 +2481,12 @@
     "collectionId": "shonen",
     "description": "Tanjiro Kamado\nDemon Slayer",
     "artwork": {
-      "standard": "/assets/cards/ds-thomas/standard.svg",
-      "fullArt": "/assets/cards/ds-thomas/full-art.svg"
+      "standard": "/assets/cards/ds-thomas/illustration.5fd485aad2.webp",
+      "fullArt": "/assets/cards/ds-thomas/illustration.5fd485aad2.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2120,8 +2496,12 @@
     "collectionId": "shonen",
     "description": "Zenitsu Agatsuma\nDemon Slayer",
     "artwork": {
-      "standard": "/assets/cards/ds-matthieu/standard.svg",
-      "fullArt": "/assets/cards/ds-matthieu/full-art.svg"
+      "standard": "/assets/cards/ds-matthieu/illustration.a07eb3f1fd.webp",
+      "fullArt": "/assets/cards/ds-matthieu/illustration.a07eb3f1fd.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2131,8 +2511,12 @@
     "collectionId": "shonen",
     "description": "Kanao Tsuyuri\nDemon Slayer",
     "artwork": {
-      "standard": "/assets/cards/ds-eli/standard.svg",
-      "fullArt": "/assets/cards/ds-eli/full-art.svg"
+      "standard": "/assets/cards/ds-eli/illustration.c61c79c261.webp",
+      "fullArt": "/assets/cards/ds-eli/illustration.c61c79c261.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2142,8 +2526,12 @@
     "collectionId": "shonen",
     "description": "Nezuko Kamado\nDemon Slayer",
     "artwork": {
-      "standard": "/assets/cards/ds-nana/standard.svg",
-      "fullArt": "/assets/cards/ds-nana/full-art.svg"
+      "standard": "/assets/cards/ds-nana/illustration.3e87100195.webp",
+      "fullArt": "/assets/cards/ds-nana/illustration.3e87100195.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2153,8 +2541,12 @@
     "collectionId": "seinen",
     "description": "Shinichi Izumi\nKiseijū",
     "artwork": {
-      "standard": "/assets/cards/kis-arashi/standard.svg",
-      "fullArt": "/assets/cards/kis-arashi/full-art.svg"
+      "standard": "/assets/cards/kis-arashi/illustration.154b2fbb43.webp",
+      "fullArt": "/assets/cards/kis-arashi/illustration.154b2fbb43.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2164,8 +2556,12 @@
     "collectionId": "seinen",
     "description": "Satomi Murano\nKiseijū",
     "artwork": {
-      "standard": "/assets/cards/kis-eli/standard.svg",
-      "fullArt": "/assets/cards/kis-eli/full-art.svg"
+      "standard": "/assets/cards/kis-eli/illustration.38661637fc.webp",
+      "fullArt": "/assets/cards/kis-eli/illustration.38661637fc.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2175,8 +2571,12 @@
     "collectionId": "seinen",
     "description": "Draka\nChi. Du mouvement de la Terre",
     "artwork": {
-      "standard": "/assets/cards/chi-nana/standard.svg",
-      "fullArt": "/assets/cards/chi-nana/full-art.svg"
+      "standard": "/assets/cards/chi-nana/illustration.7a838dd976.webp",
+      "fullArt": "/assets/cards/chi-nana/illustration.7a838dd976.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2186,8 +2586,12 @@
     "collectionId": "seinen",
     "description": "Rafal\nChi. Du mouvement de la Terre",
     "artwork": {
-      "standard": "/assets/cards/chi-thomas/standard.svg",
-      "fullArt": "/assets/cards/chi-thomas/full-art.svg"
+      "standard": "/assets/cards/chi-thomas/illustration.2d86a95824.webp",
+      "fullArt": "/assets/cards/chi-thomas/illustration.2d86a95824.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2197,8 +2601,12 @@
     "collectionId": "seinen",
     "description": "Iori Kitahara\nGrand Blue",
     "artwork": {
-      "standard": "/assets/cards/gb-thomas/standard.svg",
-      "fullArt": "/assets/cards/gb-thomas/full-art.svg"
+      "standard": "/assets/cards/gb-thomas/illustration.8f668b2aa5.webp",
+      "fullArt": "/assets/cards/gb-thomas/illustration.8f668b2aa5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2208,8 +2616,12 @@
     "collectionId": "seinen",
     "description": "Kōhei Imamura\nGrand Blue",
     "artwork": {
-      "standard": "/assets/cards/gb-matthieu/standard.svg",
-      "fullArt": "/assets/cards/gb-matthieu/full-art.svg"
+      "standard": "/assets/cards/gb-matthieu/illustration.6ac7aefc75.webp",
+      "fullArt": "/assets/cards/gb-matthieu/illustration.6ac7aefc75.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2219,8 +2631,12 @@
     "collectionId": "seinen",
     "description": "Chisa Kotegawa\nGrand Blue",
     "artwork": {
-      "standard": "/assets/cards/gb-eli/standard.svg",
-      "fullArt": "/assets/cards/gb-eli/full-art.svg"
+      "standard": "/assets/cards/gb-eli/illustration.9253095e7a.webp",
+      "fullArt": "/assets/cards/gb-eli/illustration.9253095e7a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2230,8 +2646,12 @@
     "collectionId": "seinen",
     "description": "Aina Yoshiwara\nGrand Blue",
     "artwork": {
-      "standard": "/assets/cards/gb-nana/standard.svg",
-      "fullArt": "/assets/cards/gb-nana/full-art.svg"
+      "standard": "/assets/cards/gb-nana/illustration.f4da6073c6.webp",
+      "fullArt": "/assets/cards/gb-nana/illustration.f4da6073c6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2241,8 +2661,12 @@
     "collectionId": "seinen",
     "description": "Jinya\nSword of the Demon Hunter",
     "artwork": {
-      "standard": "/assets/cards/sdh-thomas/standard.svg",
-      "fullArt": "/assets/cards/sdh-thomas/full-art.svg"
+      "standard": "/assets/cards/sdh-thomas/illustration.6f5ea30cd2.webp",
+      "fullArt": "/assets/cards/sdh-thomas/illustration.6f5ea30cd2.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2252,8 +2676,12 @@
     "collectionId": "seinen",
     "description": "Somegorō Akitsu\nSword of the Demon Hunter",
     "artwork": {
-      "standard": "/assets/cards/sdh-matthieu/standard.svg",
-      "fullArt": "/assets/cards/sdh-matthieu/full-art.svg"
+      "standard": "/assets/cards/sdh-matthieu/illustration.6867b46b2a.webp",
+      "fullArt": "/assets/cards/sdh-matthieu/illustration.6867b46b2a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2263,8 +2691,12 @@
     "collectionId": "seinen",
     "description": "Suzune\nSword of the Demon Hunter",
     "artwork": {
-      "standard": "/assets/cards/sdh-eli/standard.svg",
-      "fullArt": "/assets/cards/sdh-eli/full-art.svg"
+      "standard": "/assets/cards/sdh-eli/illustration.f70b96ad62.webp",
+      "fullArt": "/assets/cards/sdh-eli/illustration.f70b96ad62.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   },
   {
@@ -2274,8 +2706,72 @@
     "collectionId": "seinen",
     "description": "Shirayuki\nSword of the Demon Hunter",
     "artwork": {
-      "standard": "/assets/cards/sdh-nana/standard.svg",
-      "fullArt": "/assets/cards/sdh-nana/full-art.svg"
+      "standard": "/assets/cards/sdh-nana/illustration.493e2daafe.webp",
+      "fullArt": "/assets/cards/sdh-nana/illustration.493e2daafe.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "csm-matthieu",
+    "title": "Matthieu Denji",
+    "rarity": "common",
+    "collectionId": "seinen",
+    "description": "Denji\nChainsaw Man",
+    "artwork": {
+      "standard": "/assets/cards/csm-matthieu/illustration.87be80ffa2.webp",
+      "fullArt": "/assets/cards/csm-matthieu/illustration.87be80ffa2.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "csm-eli",
+    "title": "Eli Makima",
+    "rarity": "legendary",
+    "collectionId": "seinen",
+    "description": "Makima\nChainsaw Man",
+    "artwork": {
+      "standard": "/assets/cards/csm-eli/illustration.f07e57c601.webp",
+      "fullArt": "/assets/cards/csm-eli/illustration.f07e57c601.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "csm-thomas",
+    "title": "Thomas Hayakawa",
+    "rarity": "common",
+    "collectionId": "seinen",
+    "description": "Aki Hayakawa\nChainsaw Man",
+    "artwork": {
+      "standard": "/assets/cards/csm-thomas/illustration.1147723f81.webp",
+      "fullArt": "/assets/cards/csm-thomas/illustration.1147723f81.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "csm-nana",
+    "title": "Nana Ange",
+    "rarity": "common",
+    "collectionId": "seinen",
+    "description": "Démon de l'Ange\nChainsaw Man",
+    "artwork": {
+      "standard": "/assets/cards/csm-nana/illustration.0bee224660.webp",
+      "fullArt": "/assets/cards/csm-nana/illustration.0bee224660.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
     }
   }
 ]

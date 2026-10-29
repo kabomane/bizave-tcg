@@ -11,9 +11,13 @@ import { ConfirmationButton } from '../components/ConfirmationButton'
 import { useTransientFlag } from '../components/useTransientFlag'
 import { readTransferFile } from '../exchanges/transferFile'
 import { copyText, errorText } from '../components/format'
+import { CollectibleCard } from '../components/CollectibleCard'
+import { cardById } from '../data/cards'
+import type { Card } from '../game/types'
 
 export function ExchangesPage() {
   const fileInput = useRef<HTMLInputElement>(null)
+  const [received, setReceived] = useState<Card | null>(null)
   const [transferSource, setTransferSource] = useState('')
   const [readingFile, setReadingFile] = useState(false)
   const [params] = useSearchParams()
@@ -58,7 +62,7 @@ export function ExchangesPage() {
   async function receive() {
     if (busy || readingFile) return
     setBusy(true); setTransferError('')
-    try { await receiveTransfer(transfer); setTransfer(''); setTransferSource('') } catch (e) { setTransferError(errorText(e)) } finally { setBusy(false) }
+    try { const card = await receiveTransfer(transfer); setTransfer(''); setTransferSource(''); setReceived(card) } catch (e) { setTransferError(errorText(e)) } finally { setBusy(false) }
   }
   async function saveFriend(remove = false) {
     if (!editingFriend || busy) return
@@ -100,6 +104,7 @@ export function ExchangesPage() {
       {tab === 'outbox' && <OutboxList friends={friends} />}
 
     </section>
+    {received && <Modal title="Carte reçue" showTitle={false} onClose={() => setReceived(null)}><div className="received-card"><div className="detail-card"><CollectibleCard card={received} definition={cardById.get(received.cardId)!} /></div><p role="status">Vous avez reçu une carte</p></div></Modal>}
     {adding && <Modal title="Ajouter un ami" onClose={() => { if (!busy && !pasting) setAdding(false) }}>
       {identity && <div className="friend-code-row"><div className="friend-code-avatar" aria-hidden="true"><UserRound size={23} /></div><ConfirmationButton icon={Copy} label="Copier mon code ami" confirmation="Code copié !" confirmed={copied} className={`secondary-button friend-copy-button ${copied ? 'is-confirmed' : ''}`} iconSize={17} disabled={copying} action={copyOwnCode} live="polite" /></div>}
       <form className="contact-form" onSubmit={event => { event.preventDefault(); void add() }}>

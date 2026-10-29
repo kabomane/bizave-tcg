@@ -7,10 +7,12 @@ import type { BoosterPurchaseRow, Card, CardDefinition, CardDropRow, OpenRecord,
 import { db, DATABASE_SCHEMA_VERSION, type BizaveDatabase } from './database'
 import { assertAccountActive } from './accountGuard'
 import { ensureInstallation } from './installation'
+import { pruneFavorites } from '../collection/favorites'
 
 export async function initializeDatabase(database = db, now = Date.now()) {
   validateConfiguration(cards, boosters)
-  const active = await database.transaction('rw', [database.player, database.definitions, database.accountState], async () => {
+  const active = await database.transaction('rw', [database.player, database.definitions, database.accountState, database.versionInfo], async () => {
+    await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
     if ((await database.accountState.get('local'))?.status === 'exported') return false
     const previous = new Map((await database.definitions.toArray()).map(c => [c.id, c]))
     for (const card of [...cards, ...archivedCards]) if (previous.has(card.id) && previous.get(card.id)!.rarity !== card.rarity) throw new Error(`Configuration : la rareté de ${card.id} est immuable après publication.`)
@@ -19,6 +21,7 @@ export async function initializeDatabase(database = db, now = Date.now()) {
     return true
   })
   if (!active) return
+  await database.openings.filter(opening => opening.revealComplete === true).delete()
   // Archived snapshots are never deleted; removed models still have a definition.
   for (const definition of await database.definitions.toArray()) if (!cardById.has(definition.id)) cardById.set(definition.id, definition)
   try { await ensureInstallation(database); await refreshRecharge(database, now) }
@@ -70,7 +73,7 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
   return database.transaction('rw', [database.player, database.drops, database.discoveries, database.openings, database.boosterStock, database.accountState], async () => {
     await assertAccountActive(database)
     // A committed but unrevealed opening takes precedence: refresh never rerolls.
-    const pending = (await database.openings.toArray()).find(o => !o.revealComplete)
+    const pending = await database.openings.filter(opening => !opening.revealComplete).first()
     if (pending) return pending
     const raw = await database.player.get('local')
     if (!raw) throw new Error('La sauvegarde locale est indisponible.')
@@ -89,7 +92,7 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
     const results = drawPack(booster, cards)
     const record: OpenRecord = { id: uuid(), boosterId, boosterTitle: booster.title, openedAt: time, payment, fragmentsSpent: 0, results, revealComplete: false, revealedCount: 0 }
     await database.player.put(player)
-    await database.drops.bulkAdd(results.map(c => ({ ...c, status: 'owned' as const, acquiredAt: time, updatedAt: time })))
+    await database.drops.bulkAdd(results.map(c => ({ ...c, status: 'owned' as const, acquiredAt: time, updatedAt: time, circulation: 'local' as const })))
     for (const card of results) await discover(database, card, time)
     await database.openings.add(record)
     return record
@@ -109,7 +112,7 @@ export async function finishOpening(id: string, database = db) {
     await assertAccountActive(database)
     const record = await database.openings.get(id)
     if (!record) throw new Error('Cette ouverture est introuvable.')
-    await database.openings.update(id, { revealComplete: true, revealedCount: record.results.length })
+    await database.openings.delete(id)
   })
 }
 export function duplicateDrops(drops: CardDropRow[]) {
@@ -120,13 +123,19 @@ export function duplicateDrops(drops: CardDropRow[]) {
     seen.add(key); return false
   })
 }
-export async function recycleDrops(ids: string[], allowLastCopy = false, database = db, now = Date.now()) {
+export async function recycleDrops(ids: string[], allowLastCopy = false, database = db, now = Date.now(), protectFavorites = false) {
+  void now // Retained for compatibility with callers; recycled cards no longer store timestamps.
   if (!ids.length || new Set(ids).size !== ids.length) throw new Error('Sélection de recyclage invalide.')
-  return database.transaction('rw', [database.player, database.drops, database.recycling, database.definitions, database.accountState], async () => {
+  return database.transaction('rw', [database.player, database.drops, database.recycledCards, database.definitions, database.accountState, database.favorites], async () => {
     await assertAccountActive(database)
     const inventory = await database.drops.where('status').equals('owned').toArray()
-    const selected = ids.map(id => inventory.find(d => d.dropId === id))
+    const byId = new Map(inventory.map(drop => [drop.dropId, drop]))
+    const selected = ids.map(id => byId.get(id))
     if (selected.some(d => !d)) throw new Error('Une carte sélectionnée n’est plus disponible.')
+    if (protectFavorites) {
+      const favorites = new Set((await database.favorites.toArray()).map(row => row.key))
+      if ((selected as CardDropRow[]).some(drop => favorites.has(variantKey(drop)))) throw new Error('Une carte sélectionnée est favorite et ne peut pas être recyclée dans l’Atelier.')
+    }
     const safe = new Set(duplicateDrops(inventory).map(d => d.dropId))
     if (!allowLastCopy && ids.some(id => !safe.has(id))) throw new Error('Confirmez le recyclage de la dernière copie de cette variante.')
     const definitions = new Map((await database.definitions.toArray()).map(c => [c.id, c]))
@@ -139,8 +148,9 @@ export async function recycleDrops(ids: string[], allowLastCopy = false, databas
     const player = await database.player.get('local')
     if (!player) throw new Error('La sauvegarde locale est indisponible.')
     await database.player.put({ ...player, fragments: player.fragments + gain })
-    for (const id of ids) await database.drops.update(id, { status: 'recycled', updatedAt: now })
-    await database.recycling.add({ id: uuid(), createdAt: now, dropIds: ids, fragmentsGained: gain })
+    await database.recycledCards.bulkPut((selected as CardDropRow[]).filter(drop => drop.circulation !== 'local').map(drop => ({ dropId: drop.dropId })))
+    await database.drops.bulkDelete(ids)
+    await pruneFavorites(database)
     return gain
   })
 }
