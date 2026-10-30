@@ -15,7 +15,17 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **185 cartes**, toutes illustrées avec un WebP versionné. Les 185 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **217 cartes**, toutes illustrées avec un WebP versionné. Les 217 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 30 octobre 2026
+
+Le carnet `references/carnet-memory-frame-2026-10-30.jsx` ajoute **32 cartes** à Memory Frame, qui compte désormais **158 cartes** (57 communes, 40 peu communes, 29 rares, 20 épiques, 12 légendaires). **Soirée film #3** (`soiree-film-3`) passe de rare à peu commune. Aucun autre nom, description ou rareté existant ne change lors de cet import. Les renommages Thomas Sakamoto et Nana Sakamoto sont conservés.
+
+Les 32 nouvelles illustrations de `vague 2 - 48 cartes.zip` sont importées ; les **16 images correspondant à des cartes déjà illustrées sont ignorées**. Les 370 fichiers existants (185 originaux et 185 WebP), leurs empreintes SHA-256 et dates de modification sont vérifiés inchangés. Les nouveaux originaux sont conservés à l’identique ; seuls les nouveaux modèles sont convertis en WebP 900 × 1200, qualité 85, sRGB, avec nom versionné par SHA-256 et illustration partagée entre Classique et Full Art.
+
+Les nouveaux identifiants sont ajoutés en fin d’ordre global pour préserver les numéros existants. Les descriptions proviennent uniquement de `FICHES.description` ; les consignes de création du carnet ne sont pas exécutées. Le manifeste `imports/2026-10-30/manifest.json` détaille les associations, les fichiers ignorés, les empreintes et le changement de rareté. Les fichiers extraits restent dans `.local/imports/2026-10-30-memory/`, hors Git. Anima Isekai conserve ses 59 cartes ; epico stellari intègre automatiquement les quatre nouvelles épiques et légendaires et compte 46 cartes.
+
+Validation : `npm run check` réussi (lint, 183 tests, TypeScript et build). Parcours Chromium d’ouverture, reprise et collection persistante réussi. Les 158 noms, raretés et descriptions de Memory Frame correspondent au carnet ; tous les anciens numéros et champs des cartes sont conservés, sauf la rareté annoncée. Les 32 PNG sont identiques à l’archive ; dimensions, espace couleur et empreintes des WebP sont contrôlés. Planche des 32 nouvelles illustrations inspectée dans `.local/imports/2026-10-30-memory/contact-sheet.png`.
 
 ## Import du 29 octobre 2026
 

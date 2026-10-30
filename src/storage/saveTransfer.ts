@@ -15,6 +15,7 @@ import type { RecycledCardRow, FavoriteRow, BoosterPurchaseRow, BoosterStockRow,
 import type { UsedSaveTransferRow } from './accountTypes'
 import type { UsedGiftCodeRow } from '../gifts/types'
 import { GIFT_CODE_HASH_PATTERN } from '../gifts/format'
+import { patchSoireeFilm3Rarity } from './patches/soireeFilm3Rarity'
 
 export const MAX_SAVE_FILE_BYTES = 25 * 1024 * 1024
 const FORMAT = 'bizave-tcg-save-transfer'
@@ -62,7 +63,7 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   assert(player.id === 'local' && integer(player.fragments) && integer(player.maxObservedClockAt) && player.schemaVersion === value.schemaVersion && integer(player.freePackStock) && player.freePackStock <= FREE_PACK_CAPACITY && (player.nextFreePackAt === null || integer(player.nextFreePackAt)))
   settleFreePackRecharge(player, player.maxObservedClockAt)
   assert(s.definitions.length > 0 && s.definitions.every(c => id(c.id) && text(c.title) && text(c.description) && id(c.collectionId) && ['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(c.rarity) && record(c.artwork) && Object.values(c.artwork).length === 2 && ['standard', 'fullArt'].every(k => typeof c.artwork[k as 'standard'] === 'string' && /^\/assets\/cards\/[a-z0-9/-]+\/[a-zA-Z0-9.-]+$/.test(c.artwork[k as 'standard'])) && (c.weight === undefined || (Number.isFinite(c.weight) && c.weight > 0)) && (c.artworkPosition === undefined || (record(c.artworkPosition) && Object.values(c.artworkPosition).every(text)))))
-  const definitions = new Map(s.definitions.map(c => [c.id, c]))
+  const definitions = new Map(s.definitions.map(patchSoireeFilm3Rarity).map(c => [c.id, c]))
   for (const current of [...cards, ...archivedCards]) assert(!definitions.has(current.id) || definitions.get(current.id)!.rarity === current.rarity)
   const card = (c: { cardId: string; finish: string; artVariant: string }) => text(c.cardId) && definitions.has(c.cardId) && ['normal', 'glossy', 'alternative'].includes(c.finish) && ['standard', 'fullArt'].includes(c.artVariant)
   assert(s.drops.every(c => card(c) && transferId(c.dropId) && ['owned', 'outgoing', 'recycled'].includes(c.status) && integer(c.acquiredAt) && integer(c.updatedAt)))
@@ -151,7 +152,10 @@ export async function importSave(contents: string, database = db) {
     if (await database.usedSaveTransfers.get(payload.transferId)) throw new Error('Cette sauvegarde a déjà été importée.')
     const previousRecycled = await database.recycledCards.toArray()
     const previousSaves = await database.usedSaveTransfers.toArray(), previousCards = await database.usedTransfers.toArray(), previousGifts = await database.usedGiftCodes.toArray()
-    for (const name of SAVE_TABLES) { await database.table(name).clear(); await database.table(name).bulkPut(payload.tables[name] ?? []) }
+    for (const name of SAVE_TABLES) {
+      const rows = name === 'definitions' ? payload.tables.definitions.map(patchSoireeFilm3Rarity) : payload.tables[name] ?? []
+      await database.table(name).clear(); await database.table(name).bulkPut(rows)
+    }
     if (payload.schemaVersion < 8) await database.drops.toCollection().modify(row => { delete row.circulation })
     await compactRecycledData(database)
     await database.recycledCards.bulkPut(previousRecycled)

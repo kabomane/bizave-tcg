@@ -62,7 +62,7 @@ test('111 cartes : longs défilements, piles holo et retours au détail sans acc
   const before = await page.evaluate(async () => {
     const databasePath = '/src/storage/database.ts', cardsPath = '/src/data/cards.ts', settingsPath = '/src/settings/useSettings.ts'
     const { db } = await import(databasePath), { cards } = await import(cardsPath), { updateSettings } = await import(settingsPath)
-    updateSettings({ collectionDisplay: { sort: 'number', direction: 'asc', groupBy: 'card', duplicates: 'hide' } })
+    updateSettings({ collectionDisplay: { sort: 'rarity', direction: 'asc', groupBy: 'card', duplicates: 'hide' } })
     const rows = cards.slice(0, 75).flatMap((card: { id: string }, index: number) => Array.from({ length: index < 72 && index % 2 === 0 ? 2 : 1 }, (_, variant) => ({
       dropId: crypto.randomUUID(), cardId: card.id, finish: variant ? 'alternative' : 'glossy', artVariant: Math.floor(index / 2) % 2 ? 'fullArt' : 'standard', status: 'owned', acquiredAt: index, updatedAt: index,
     })))

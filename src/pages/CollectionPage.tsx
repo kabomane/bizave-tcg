@@ -59,6 +59,7 @@ export function CollectionPage() {
     const card = cardById.get(group.card.cardId)!
     return (!favoritesOnly || favoriteKeys.has(variantKey(group.card))) && matchesCardFilters(group.card, filters) && matchesCardSearch(card, search)
   }), [variants, search, filters, favoritesOnly, favoriteKeys])
+  const filteredQuantity = filtered.reduce((sum, variant) => sum + variant.copies.length, 0)
   const allItems = useMemo(() => collectionView(variants, collectionDisplay), [variants, collectionDisplay])
   const visible = useMemo(() => {
     if (filtered.length === variants.length) return allItems
@@ -94,7 +95,7 @@ export function CollectionPage() {
     try { await recycleDrops([detail.ids[detail.ids.length - 1]], true); close(false) } catch (e) { setError(errorText(e)) } finally { setBusy(false) }
   }
   return <>
-    <div className="page-heading collection-heading"><div className="title-with-count"><h1 className="page-title">Collection</h1><span>{preview ? 'Mode dev' : drops.filter(d => d.status === 'owned').length}</span></div><button type="button" className="text-button collection-display-trigger" aria-haspopup="dialog" aria-expanded={!!displayAnchor} onClick={event => { setDisplayError(''); setDisplayAnchor(event.currentTarget.getBoundingClientRect()) }}><SlidersHorizontal size={16} /> Affichage</button></div>
+    <div className="page-heading collection-heading"><div className="title-with-count"><h1 className="page-title">Collection</h1><span>{preview ? 'Mode dev' : filteredQuantity}</span></div><button type="button" className="text-button collection-display-trigger" aria-haspopup="dialog" aria-expanded={!!displayAnchor} onClick={event => { setDisplayError(''); setDisplayAnchor(event.currentTarget.getBoundingClientRect()) }}><SlidersHorizontal size={16} /> Affichage</button></div>
     {displayAnchor && <CollectionDisplayOptions value={collectionDisplay} onChange={changeDisplay} onClose={() => setDisplayAnchor(null)} anchor={displayAnchor} error={<ErrorNotice error={displayError} />} />}
     <div className="collection-tools"><div className="collection-search-row"><label className="collection-search"><Search size={17} /><input type="search" aria-label="Rechercher une carte" placeholder="Rechercher une carte…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" className="icon-button" aria-label="Effacer la recherche" onClick={() => setSearch('')}><X size={15} /></button>}</label><button type="button" className="icon-button favorites-filter" aria-label="Afficher uniquement les favoris" aria-pressed={favoritesOnly} onClick={() => setFavoritesOnly(value => !value)}><Star size={18} fill={favoritesOnly ? 'currentColor' : 'none'} /></button></div>
       <CardFilters value={filters} onChange={setFilters} />

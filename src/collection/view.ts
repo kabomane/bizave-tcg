@@ -10,6 +10,11 @@ type CollectionItem = { key: string; card: Card; entries: CollectionEntry[]; var
 const order = new Map(editionOrder.map((id, index) => [id, index + 1]))
 const collator = new Intl.Collator('fr', { sensitivity: 'base', numeric: true })
 const finishOrder = { normal: 0, glossy: 1, alternative: 2 }
+const rarityOrder = { common: 0, uncommon: 1, rare: 2, epic: 3, legendary: 4 }
+function compareRarity(a: Card, b: Card) {
+  return rarityOrder[cardById.get(a.cardId)!.rarity] - rarityOrder[cardById.get(b.cardId)!.rarity] ||
+    Number(a.artVariant === 'fullArt') - Number(b.artVariant === 'fullArt') || finishOrder[a.finish] - finishOrder[b.finish]
+}
 export function cardNumber(cardId: string) { return order.get(cardId) ?? Number.MAX_SAFE_INTEGER }
 export function cardFragmentValue(card: Card) {
   const definition = cardById.get(card.cardId)
@@ -38,7 +43,7 @@ export function collectionView(variants: readonly CollectionVariant[], display: 
   const direction = display.direction === 'asc' ? 1 : -1
   const compare = (a: { card: Card; acquiredAt: number; key: string }, b: { card: Card; acquiredAt: number; key: string }) => {
     const primary = display.sort === 'name' ? collator.compare(cardById.get(a.card.cardId)?.title || a.card.cardId, cardById.get(b.card.cardId)?.title || b.card.cardId)
-      : display.sort === 'number' ? cardNumber(a.card.cardId) - cardNumber(b.card.cardId)
+      : display.sort === 'rarity' ? compareRarity(a.card, b.card)
       : display.sort === 'value' ? cardFragmentValue(a.card) - cardFragmentValue(b.card) : a.acquiredAt - b.acquiredAt
     return primary * direction || canonical(a.card, b.card) || a.key.localeCompare(b.key)
   }
@@ -57,9 +62,9 @@ export function collectionView(variants: readonly CollectionVariant[], display: 
   for (const item of items.values()) {
     item.variantCount = new Set(item.entries.map(entry => variantKey(entry.card))).size
     item.entries.sort(compare)
-    // A pile represents its most valuable visible variant, never the sum of its copies.
-    if (display.sort === 'value') item.card = item.entries.reduce((best, entry) => {
-      const difference = cardFragmentValue(entry.card) - cardFragmentValue(best.card)
+    // A pile represents its best visible variant for the selected criterion.
+    if (display.sort === 'value' || display.sort === 'rarity') item.card = item.entries.reduce((best, entry) => {
+      const difference = display.sort === 'rarity' ? compareRarity(entry.card, best.card) : cardFragmentValue(entry.card) - cardFragmentValue(best.card)
       return difference > 0 || difference === 0 && canonical(entry.card, best.card) < 0 ? entry : best
     }).card
   }

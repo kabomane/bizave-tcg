@@ -1,6 +1,6 @@
 # bizave-tcg.v1.3.0
 
-Version **bizave-tcg.v1.3.0** de **Bizave TCG**. Trois boosters : **Memory Frame**, 126 cartes, **Anima Isekai**, 59 cartes, et **epico stellari**, 42 cartes partagées avec les autres éditions. Le catalogue compte 185 modèles, tous illustrés.
+Version **bizave-tcg.v1.3.0** de **Bizave TCG**. Trois boosters : **Memory Frame**, 158 cartes, **Anima Isekai**, 59 cartes, et **epico stellari**, 46 cartes partagées avec les autres éditions. Le catalogue compte 217 modèles, tous illustrés.
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
@@ -10,7 +10,7 @@ Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, 
 
 **Anima Isekai** propose les 59 cartes de son carnet, dans `src/data/pools/anima-isekai.json`. Il utilise le stock gratuit commun et reste disponible en boutique à **50 fragments** pour cinq cartes. Ses 59 illustrations sont intégrées. Les pools Memory Frame et Anima Isekai sont distincts et utilisent les mêmes taux de tirage par défaut.
 
-**epico stellari** est disponible uniquement en boutique à **700 fragments** pour cinq cartes. Son pool réunit automatiquement toutes les épiques et légendaires du catalogue actuel et futur : actuellement 27 épiques et 15 légendaires. Chaque carte a 91 % de chance d’être épique et 9 % légendaire ; finitions et illustrations gardent leurs taux par défaut. Les cartes partagées conservent leur numéro et leurs exemplaires.
+**epico stellari** est disponible uniquement en boutique à **700 fragments** pour cinq cartes. Son pool réunit automatiquement toutes les épiques et légendaires du catalogue actuel et futur : actuellement 30 épiques et 16 légendaires. Chaque carte a 91 % de chance d’être épique et 9 % légendaire ; finitions et illustrations gardent leurs taux par défaut. Les cartes partagées conservent leur numéro et leurs exemplaires.
 
 L’interface utilise une DA ivoire, encre et bordeaux indépendante du cahier de référence. Le sachet se clique directement ; chaque carte révélée se clique pour passer à la suivante. Après la cinquième, un clic affiche le récapitulatif. Les gabarits Fusion/Gundam et la limite de 20° restent inchangés.
 
@@ -64,9 +64,9 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 
 ## Ce qui est livré
 
-- Memory Frame : **126 modèles** (45 communs, 28 peu communs, 25 rares, 17 épiques, 11 légendaires), gratuits ou achetables à 70 fragments.
+- Memory Frame : **158 modèles** (57 communs, 40 peu communs, 29 rares, 20 épiques, 12 légendaires), gratuits ou achetables à 70 fragments.
 - Anima Isekai : **59 modèles** (19 communs, 15 peu communs, 11 rares, 10 épiques, 4 légendaires), gratuits ou en boutique à 50 fragments.
-- **185 illustrations WebP versionnées**, pour 185 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
+- **217 illustrations WebP versionnées**, pour 217 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
 - Stock gratuit global **5**, recharge **1/15 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
@@ -131,7 +131,7 @@ Les définitions sont dans `src/data/boosters.ts`. Chaque paquet possède son po
 
 Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement si plusieurs paquets sont disponibles ; Memory Frame et Anima Isekai sont toujours sélectionnables. Ils utilisent d’abord les crédits gratuits, puis leur réserve achetée lorsque le gratuit est vide. epico stellari apparaît dans Vos boosters lorsqu’un exemplaire est détenu et consomme uniquement sa réserve achetée.
 
-Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 126 et 59 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
+Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 158 et 59 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
 
 La boutique reprend le carrousel tactile et clavier de Vos boosters, avec les mêmes dimensions de sachets. Seul le paquet défile ; le bouton d’achat reste fixe et adapte son prix, sa disponibilité et son action au paquet sélectionné. Pendant le déplacement horizontal, il est désactivé et affiche une flèche tournante jusqu’à l’alignement du nouveau paquet et de son offre. Le défilement vertical de la page ne déclenche pas ce verrou.
 
@@ -221,7 +221,7 @@ src/pages/          pages du jeu et options
 src/styles/        thème UI et CSS de carte de référence
 tests/             parcours navigateur Playwright
 references/        carnets actuels du 28 octobre, références historiques et démo des finitions
-public/assets/     185 WebP versionnés
+public/assets/     217 WebP versionnés
 ```
 
 Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs/installation/using-vite), [Dexie useLiveQuery](https://dexie.org/docs/dexie-react-hooks/useLiveQuery()), [Vite réseau](https://vite.dev/config/server-options).
@@ -236,7 +236,7 @@ Les entrées d’Envois disparaissent au bout de 24 h et sont nettoyées au dém
 
 Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les choix Clair et Sombre sont mémorisés. En mode Système, un changement du thème de l’appareil s’applique immédiatement. Les cartes Fusion/Gundam gardent leurs palettes propres.
 
-Le mode dev affiche les 185 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
+Le mode dev affiche les 217 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
 Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 exact, sans clé privée. Le fichier de transfert d’une carte est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
 
@@ -246,7 +246,11 @@ La boîte d’envoi garde les entrées 24 h ; un fichier déjà téléchargé re
 
 Le bouton Affichage, à droite du titre Collection, ouvre un panneau sur PC et une feuille depuis le bas sur téléphone. Les filtres restent en place et sont appliqués avant le regroupement.
 
-Le tri propose **Nom, Ordre, Date et Valeur**, dans les deux sens. Valeur utilise le montant exact de recyclage d’un exemplaire selon la rareté, la finition et le format ; un petit montant en fragments apparaît sous les cartes uniquement pendant ce tri. Une pile utilise sa variante visible la plus précieuse et la montre en couverture, sans additionner ses doublons ; son contenu suit le sens du tri choisi. Le choix d’affichage est mémorisé localement.
+Le tri propose **Nom, Rareté, Date et Valeur**, dans les deux sens. Rareté classe d’abord les légendaires avant les épiques, rares, peu communes et communes, puis Full Art avant Classique, puis Alternative avant Holographique et Mate. Ce classement est indépendant des fragments ; il commence par les plus rares lorsqu’on le sélectionne. Une pile montre sa variante visible la plus rare pour ce tri. Les anciens réglages Ordre sont convertis en Rareté en conservant le sens choisi.
+
+Valeur utilise le montant exact de recyclage d’un exemplaire selon la rareté, la finition et le format ; un petit montant en fragments apparaît sous les cartes uniquement pendant ce tri. Une pile utilise alors sa variante visible la plus précieuse et la montre en couverture, sans additionner ses doublons ; son contenu suit le sens du tri choisi. Le choix d’affichage est mémorisé localement.
+
+Le compteur à côté de Collection indique les exemplaires possédés correspondant aux filtres actifs, à la recherche et aux favoris. Il inclut les doublons même lorsqu’ils sont cachés ou regroupés en piles et affiche zéro lorsque rien ne correspond. Le catalogue de démonstration conserve son indicateur Mode dev.
 
 L’ordre fixe est conservé dans `src/data/card-order.json` : les 110 numéros existants sont maintenus, suivis des 16 ajouts Memory Frame puis des 55 cartes initiales Anima Isekai et des quatre ajouts Chainsaw Man. Après publication, conserver les positions existantes et les identifiants archivés ; ajouter les nouvelles cartes en fin de liste. Le tri Date utilise la dernière acquisition détenue d’une pile ; un retour par transfert utilise sa date de retour.
 

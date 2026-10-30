@@ -1607,7 +1607,7 @@
   {
     "id": "soiree-film-3",
     "title": "Soirée film #3",
-    "rarity": "rare",
+    "rarity": "uncommon",
     "collectionId": "speciaux",
     "description": "Scream, Smile… Ah, il y a aussi ce film d'horreur que je veux vous faire voir : They Will Kill You.",
     "artwork": {
@@ -2251,7 +2251,7 @@
   },
   {
     "id": "sd-thomas",
-    "title": "Thomas Taro",
+    "title": "Thomas Sakamoto",
     "rarity": "common",
     "collectionId": "shonen",
     "description": "Taro Sakamoto\nSakamoto Days",
@@ -2281,7 +2281,7 @@
   },
   {
     "id": "sd-nana",
-    "title": "Nana Aoi",
+    "title": "Nana Sakamoto",
     "rarity": "common",
     "collectionId": "shonen",
     "description": "Aoi Sakamoto\nSakamoto Days",
@@ -2768,6 +2768,486 @@
     "artwork": {
       "standard": "/assets/cards/csm-nana/illustration.0bee224660.webp",
       "fullArt": "/assets/cards/csm-nana/illustration.0bee224660.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "cafe-glace-mcdo",
+    "title": "Café glacé McDo",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "L'élément qui contribue le plus au bonheur d'Eli.",
+    "artwork": {
+      "standard": "/assets/cards/cafe-glace-mcdo/illustration.5f47f63f86.webp",
+      "fullArt": "/assets/cards/cafe-glace-mcdo/illustration.5f47f63f86.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "micro-ondes-pizza",
+    "title": "Micro-ondes pizza",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "Seuls les fous font cuire leur pizza au micro-ondes. Méfiez-vous d'eux.",
+    "artwork": {
+      "standard": "/assets/cards/micro-ondes-pizza/illustration.667746ed4a.webp",
+      "fullArt": "/assets/cards/micro-ondes-pizza/illustration.667746ed4a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "ubigi-esim",
+    "title": "Ubigi e-SIM",
+    "rarity": "epic",
+    "collectionId": "speciaux",
+    "description": "Restez connecté en toute circonstance avec Ubigi.",
+    "artwork": {
+      "standard": "/assets/cards/ubigi-esim/illustration.bd0015fac5.webp",
+      "fullArt": "/assets/cards/ubigi-esim/illustration.bd0015fac5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "pgw-2023",
+    "title": "PGW 2023",
+    "rarity": "uncommon",
+    "collectionId": "groupes",
+    "description": "6ᵉ Red Bull gratuit… on attend que le staff change et on y retourne.",
+    "artwork": {
+      "standard": "/assets/cards/pgw-2023/illustration.ee055c78e1.webp",
+      "fullArt": "/assets/cards/pgw-2023/illustration.ee055c78e1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "c-est-pas-loin",
+    "title": "C'est pas loin",
+    "rarity": "common",
+    "collectionId": "groupes",
+    "description": "Thomas disait : « Le McDo est pas très loin. » On marche depuis 20 minutes.",
+    "artwork": {
+      "standard": "/assets/cards/c-est-pas-loin/illustration.62cb704d49.webp",
+      "fullArt": "/assets/cards/c-est-pas-loin/illustration.62cb704d49.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-romantique",
+    "title": "Thomas romantique",
+    "rarity": "rare",
+    "collectionId": "groupes",
+    "description": "Attention bébou, il y a une merde de chien juste là.",
+    "artwork": {
+      "standard": "/assets/cards/t-romantique/illustration.5e37e0de05.webp",
+      "fullArt": "/assets/cards/t-romantique/illustration.5e37e0de05.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-romantique",
+    "title": "Dorian romantique",
+    "rarity": "rare",
+    "collectionId": "groupes",
+    "description": "Attention bébou, ne trébuche pas… même si je serai toujours là pour te rattraper.",
+    "artwork": {
+      "standard": "/assets/cards/d-romantique/illustration.2b1b409599.webp",
+      "fullArt": "/assets/cards/d-romantique/illustration.2b1b409599.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-classique",
+    "title": "Dorian classique",
+    "rarity": "common",
+    "collectionId": "dorian",
+    "description": "Musclé, imberbe, impulsif… oui, c'est bien la version classique de Dorian.",
+    "artwork": {
+      "standard": "/assets/cards/d-classique/illustration.89d9b9c30f.webp",
+      "fullArt": "/assets/cards/d-classique/illustration.89d9b9c30f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-vs-ubigi",
+    "title": "Dorian vs Ubigi",
+    "rarity": "epic",
+    "collectionId": "dorian",
+    "description": "Ils m'ont retiré mon abonnement ! J'ai payé et j'ai plus de connexion !",
+    "artwork": {
+      "standard": "/assets/cards/d-vs-ubigi/illustration.163b4244e4.webp",
+      "fullArt": "/assets/cards/d-vs-ubigi/illustration.163b4244e4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-pas-muscle",
+    "title": "Dorian pas musclé",
+    "rarity": "rare",
+    "collectionId": "dorian",
+    "description": "Pas énorme et pas sec…",
+    "artwork": {
+      "standard": "/assets/cards/d-pas-muscle/illustration.07486d9214.webp",
+      "fullArt": "/assets/cards/d-pas-muscle/illustration.07486d9214.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-arabe",
+    "title": "Dorian arabe",
+    "rarity": "common",
+    "collectionId": "dorian",
+    "description": "Alors non, moi je suis pas arabe, je suis marocain. C'est pas la même chose.",
+    "artwork": {
+      "standard": "/assets/cards/d-arabe/illustration.d9155685ed.webp",
+      "fullArt": "/assets/cards/d-arabe/illustration.d9155685ed.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-bourre",
+    "title": "Dorian à la bourre",
+    "rarity": "epic",
+    "collectionId": "dorian",
+    "description": "Mieux vaut bien dormir et arriver en retard que se réveiller tôt et… arriver en avance…",
+    "artwork": {
+      "standard": "/assets/cards/d-bourre/illustration.032ac4aeb8.webp",
+      "fullArt": "/assets/cards/d-bourre/illustration.032ac4aeb8.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-chamelier",
+    "title": "Dorian chamelier",
+    "rarity": "common",
+    "collectionId": "dorian",
+    "description": "Dorian a obtenu le permis chameau au Maroc.",
+    "artwork": {
+      "standard": "/assets/cards/d-chamelier/illustration.d6745beb67.webp",
+      "fullArt": "/assets/cards/d-chamelier/illustration.d6745beb67.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-mer",
+    "title": "Dorian à la mer",
+    "rarity": "common",
+    "collectionId": "dorian",
+    "description": "L'eau m'arrive même pas au niveau des genoux !",
+    "artwork": {
+      "standard": "/assets/cards/d-mer/illustration.b2d401f4e5.webp",
+      "fullArt": "/assets/cards/d-mer/illustration.b2d401f4e5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-lutoza",
+    "title": "Dorian Lutosa",
+    "rarity": "rare",
+    "collectionId": "dorian",
+    "description": "17 h – 22 h. Il reste des frites à produire !",
+    "artwork": {
+      "standard": "/assets/cards/d-lutoza/illustration.3e85761d1c.webp",
+      "fullArt": "/assets/cards/d-lutoza/illustration.3e85761d1c.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-bouffon",
+    "title": "Dorian costume bouffon",
+    "rarity": "common",
+    "collectionId": "dorian",
+    "description": "Parfois, il faut accepter d'être pris pour un bouffon…",
+    "artwork": {
+      "standard": "/assets/cards/d-bouffon/illustration.26b1749f06.webp",
+      "fullArt": "/assets/cards/d-bouffon/illustration.26b1749f06.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-motard",
+    "title": "Dorian motard",
+    "rarity": "common",
+    "collectionId": "dorian",
+    "description": "Celle-là, c'est la meilleure des A2, mais elle sera limitée sur l'autoroute… ou alors je pars sur une A1 ?",
+    "artwork": {
+      "standard": "/assets/cards/d-motard/illustration.93f8e93339.webp",
+      "fullArt": "/assets/cards/d-motard/illustration.93f8e93339.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-viandard",
+    "title": "Dorian viandard",
+    "rarity": "uncommon",
+    "collectionId": "dorian",
+    "description": "Il n'y a rien de mieux qu'une bonne pièce de viande.",
+    "artwork": {
+      "standard": "/assets/cards/d-viandard/illustration.c5960d209c.webp",
+      "fullArt": "/assets/cards/d-viandard/illustration.c5960d209c.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-parisien",
+    "title": "Dorian parisien",
+    "rarity": "common",
+    "collectionId": "dorian",
+    "description": "Dorian Furansu-jin Desu",
+    "artwork": {
+      "standard": "/assets/cards/d-parisien/illustration.d04e821fb5.webp",
+      "fullArt": "/assets/cards/d-parisien/illustration.d04e821fb5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-mma",
+    "title": "Dorian MMA",
+    "rarity": "legendary",
+    "collectionId": "dorian",
+    "description": "Je crois que le coach veut nous tuer. C'est sûr, il veut nous assassiner.",
+    "artwork": {
+      "standard": "/assets/cards/d-mma/illustration.a44cd5b956.webp",
+      "fullArt": "/assets/cards/d-mma/illustration.a44cd5b956.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-mer",
+    "title": "Thomas à la mer",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "J'ai pas pied ! Dorian, c'est la merde, j'ai pas pied !",
+    "artwork": {
+      "standard": "/assets/cards/t-mer/illustration.496056b8a5.webp",
+      "fullArt": "/assets/cards/t-mer/illustration.496056b8a5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-motard",
+    "title": "Thomas motard",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Une A2, ça coûte moins cher pour le permis et la moto, puis l'assurance nous fera un peu plus confiance…",
+    "artwork": {
+      "standard": "/assets/cards/t-motard/illustration.b8ee284d95.webp",
+      "fullArt": "/assets/cards/t-motard/illustration.b8ee284d95.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "m-yoga",
+    "title": "Matthieu passion yoga",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "Non mais je suis pas un arbre à chat !",
+    "artwork": {
+      "standard": "/assets/cards/m-yoga/illustration.f0984febf4.webp",
+      "fullArt": "/assets/cards/m-yoga/illustration.f0984febf4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "m-caca-chien",
+    "title": "Matthieu caca de chien",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "Non mais ils savent pas ramasser les merdes de leurs chiens ?!",
+    "artwork": {
+      "standard": "/assets/cards/m-caca-chien/illustration.828519ee7b.webp",
+      "fullArt": "/assets/cards/m-caca-chien/illustration.828519ee7b.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "eli-bouffonne",
+    "title": "Eli costume bouffonne",
+    "rarity": "common",
+    "collectionId": "eli",
+    "description": "Parfois, il faut accepter d'être prise pour une bouffonne…",
+    "artwork": {
+      "standard": "/assets/cards/eli-bouffonne/illustration.0471e96b34.webp",
+      "fullArt": "/assets/cards/eli-bouffonne/illustration.0471e96b34.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "eli-traitresse",
+    "title": "Eli traîtresse",
+    "rarity": "uncommon",
+    "collectionId": "eli",
+    "description": "Mais je ne savais pas que c'était une poubelle ! Mettez un panneau « Ceci est une poubelle » !",
+    "artwork": {
+      "standard": "/assets/cards/eli-traitresse/illustration.fdb97c7299.webp",
+      "fullArt": "/assets/cards/eli-traitresse/illustration.fdb97c7299.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "eli-bilingue",
+    "title": "Eli bilingue",
+    "rarity": "rare",
+    "collectionId": "eli",
+    "description": "You know, English isn't hard to learn. It's actually a really simple language!",
+    "artwork": {
+      "standard": "/assets/cards/eli-bilingue/illustration.381d4ebeae.webp",
+      "fullArt": "/assets/cards/eli-bilingue/illustration.381d4ebeae.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "statue-thomas",
+    "title": "Statue de Thomas",
+    "rarity": "uncommon",
+    "collectionId": "thomas",
+    "description": "Ici se dresse Thomas. Son nom résonne encore dans chaque taverne du royaume.",
+    "artwork": {
+      "standard": "/assets/cards/statue-thomas/illustration.1848956800.webp",
+      "fullArt": "/assets/cards/statue-thomas/illustration.1848956800.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "statue-matthieu",
+    "title": "Statue de Matthieu",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "En l'honneur de Matthieu, dont le courage fit trembler les montagnes et taire les légendes.",
+    "artwork": {
+      "standard": "/assets/cards/statue-matthieu/illustration.ccdbe8fccd.webp",
+      "fullArt": "/assets/cards/statue-matthieu/illustration.ccdbe8fccd.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "statue-eli",
+    "title": "Statue de Eli",
+    "rarity": "uncommon",
+    "collectionId": "eli",
+    "description": "À Eli, lumière des temps sombres. Que nul n'oublie jamais son nom.",
+    "artwork": {
+      "standard": "/assets/cards/statue-eli/illustration.a2ddeb3e6b.webp",
+      "fullArt": "/assets/cards/statue-eli/illustration.a2ddeb3e6b.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "statue-dorian",
+    "title": "Statue de Dorian",
+    "rarity": "uncommon",
+    "collectionId": "dorian",
+    "description": "Gloire à Dorian, qui affronta mille batailles et n'en perdit aucune… sauf une.",
+    "artwork": {
+      "standard": "/assets/cards/statue-dorian/illustration.9be96dd9f3.webp",
+      "fullArt": "/assets/cards/statue-dorian/illustration.9be96dd9f3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "statue-nana",
+    "title": "Statue de Nana",
+    "rarity": "uncommon",
+    "collectionId": "speciaux",
+    "description": "À Nana, gardienne de la cité. Sa légende se raconte encore à la veillée.",
+    "artwork": {
+      "standard": "/assets/cards/statue-nana/illustration.9611981968.webp",
+      "fullArt": "/assets/cards/statue-nana/illustration.9611981968.webp"
     },
     "artworkPosition": {
       "standard": "center top",

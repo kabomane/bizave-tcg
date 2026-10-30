@@ -1,5 +1,15 @@
 # Validation — bizave-tcg.v1.3.0
 
+## Publication — 30 octobre 2026, mise à jour 2
+
+- 32 modèles illustrés ajoutés à Memory Frame : 158 modèles dans ce booster, 217 dans le catalogue complet. Les 185 originaux et 185 WebP précédents restent inchangés, empreintes et dates contrôlées ; 16 images déjà présentes dans l’archive sont ignorées. Les numéros précédents sont préservés.
+- Thomas Sakamoto et Nana Sakamoto renommés. Soirée film #3 passe de rare à peu commune ; correctif de compatibilité isolé dans `src/storage/patches/soireeFilm3Rarity.ts`, retrait documenté dans `docs/patch-soiree-film-3.md`.
+- Tri Rareté indépendant des fragments, compteur filtré des exemplaires détenus, `UPDATE_VERSION = 2` et nouvelle note en trois lignes fournie par le propriétaire.
+- `npm run check` réussi : lint, 189 tests unitaires/intégration, TypeScript et build. Huit parcours Chromium réussis sur la collection, la migration et la notification de mise à jour.
+- Build de production : 232 fichiers, 44 915 210 octets, mode dev désactivé. Audit des 60 empreintes de cadeaux réussi, aucun code en clair, original, archive, certificat ou fichier privé dans `dist/`.
+- Firebase Hosting déployé sur `bizave-tcg`. HTML et quatre ressources d’entrée identiques au build local par SHA-256 sur `https://bizave-tcg.web.app` et `https://bizave-tcg.kabomane.me`.
+- Parcours du build puis du site publié : note exacte et retours à la ligne, validation de la mise à jour 2, booster à 158 cartes, option Rareté et absence d’Ordre, mode dev absent et aucune erreur JavaScript. Capture locale : `.local/publication-2026-10-30-note.png`.
+
 ## Publication — 29 octobre 2026
 
 Publication reprise à la demande du propriétaire : version 1.3.0 déployée sur Firebase Hosting, sources destinées à la branche GitHub main. Aucune suite de tests relancée pour cette publication.
