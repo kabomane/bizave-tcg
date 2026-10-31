@@ -1,5 +1,14 @@
 # Validation — bizave-tcg.v1.3.1
 
+## Correctif silencieux — 31 octobre 2026
+
+- Version 1.3.1, compteur 3 et note de mise à jour conservés à l’identique.
+- Encarts blancs Full Art à 75 % et flou désactivé dans les miniatures et aperçus, y compris sur les titres alternatifs ; comparaison des styles sur les trois navigateurs validée lors du correctif.
+- Nouveau paquet rarity only : 400 fragments, cinq rares garanties, pool dynamique de 40 modèles. Ordre des sélecteurs : Memory Frame, Anima Isekai, rarity only, epico stellari.
+- Dix nouveaux codes donnant chacun cinq paquets rarity only ; 80 empreintes au catalogue. Liste en clair uniquement dans le dossier privé local.
+- Vérifications avant publication : lint, 195 tests unitaires/intégration et build réussis. Trois parcours Chromium passent : epico stellari, rarity only et cohérence des encarts entre miniatures et aperçus.
+- Firebase Hosting publié sans changement de version ni de notification. HTML et ressources d’entrée identiques au build local par SHA-256 sur les deux domaines publics.
+
 ## Version 1.3.1 — 31 octobre 2026, mise à jour 3
 
 - `npm run check` réussi : lint, 193 tests unitaires/intégration, TypeScript et build de production.

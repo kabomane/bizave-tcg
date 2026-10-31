@@ -558,5 +558,85 @@
       "quantity": 2,
       "fragments": 100
     }
+  },
+  {
+    "codeHash": "4190fb0599e743c025560c5fb8aca5a5f57b8de5c8672ba348960cba162eab6f",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "9e55be690a5d9a4f0db0acb5bda5f71d0fb7934e05c932413a023540d193dfb3",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "004c71944a64700ce917f73c87b06359d040fac95dec2fbc3e097d45294540d2",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "ce46c0b2454001cda70c3357ec0e2169f3786c20ee7911b4d47b34106917fed1",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "eefd1b022d1bc9d362eb71644d847aa25b4892c4f880e946cdf15dc19da5613c",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "f4a9a042c4a5903e4c8a0d990156449441d82bbfdf234c71d02822a95bafebf0",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "3ac076de7c6025168bd4027c803f5ca0d3ec4bb73dd4ccb27f634c338b62f2ed",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "b0f7b78205ff932d228e5c852f4984b5987190a365f051249e9f30d047a1a29f",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "bf8342a1f8ad381605474cdc61756c6851a0d4e1d83e74b8ec8dd0bb7cdebbc8",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
+  },
+  {
+    "codeHash": "d365ca0206cbc70cbfcd89883a41b51af11e3dcdbae18fa19bcfe7b452353c6b",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 5
+    }
   }
 ]

@@ -13,7 +13,7 @@ describe('filtre de collection par booster', () => {
     const options = collectionBoosters([...editions, { ...editions[0], id: 'disabled', enabled: false }], cards)
     expect(options.map(option => option.id)).toEqual(['second', 'first'])
     expect(collectionBoosters(boosters, cards).map(booster => booster.id)).toEqual(['phantom-blood', 'anima-isekai'])
-    expect(boosters).toHaveLength(3)
+    expect(boosters).toHaveLength(4)
   })
   it('filtre sur les modèles du pool, indépendamment du groupe et de la provenance', () => {
     const options = collectionBoosters(editions, cards)

@@ -10,6 +10,22 @@ import type { BoosterDefinition } from './types'
 const stellar = boosters.find(booster => booster.id === 'epico-stellari')!
 
 describe('taux propres à chaque booster', () => {
+  it('réserve rarity only à la boutique et tire cinq rares avec les finitions habituelles', () => {
+    const rareOnly = boosters.find(booster => booster.id === 'rarity-only')!
+    expect(rareOnly.access).toEqual({ type: 'shop', price: 400 })
+    expect(resolveBoosterRates(rareOnly)).toEqual({ rarity: { common: 0, uncommon: 0, rare: 100, epic: 0, legendary: 0 }, finish: DEFAULT_FINISH_RATES, illustration: DEFAULT_ART_VARIANT_RATES })
+    const future = { ...cards[0], id: 'future-rare', rarity: 'rare' as const }
+    expect(resolveBoosterPool(rareOnly, [...cards, future]).map(entry => entry.card.id)).toEqual([...cards.filter(card => card.rarity === 'rare').map(card => card.id), 'future-rare'])
+    for (const random of [0, .82, .99]) {
+      const drops = drawPack(rareOnly, cards, () => random)
+      expect(drops).toHaveLength(5)
+      expect(drops.every(drop => cards.find(card => card.id === drop.cardId)?.rarity === 'rare')).toBe(true)
+      expect(drops.every(drop => drop.finish === (random === .99 ? 'alternative' : random === .82 ? 'glossy' : 'normal'))).toBe(true)
+      expect(drops.every(drop => drop.artVariant === (random === .99 ? 'fullArt' : 'standard'))).toBe(true)
+    }
+    expect(() => validateConfiguration(cards, [rareOnly])).not.toThrow()
+    expect(() => validateConfiguration(cards.filter(card => card.rarity !== 'rare'), [rareOnly])).toThrow(/rare/)
+  })
   it('conserve les trois distributions par défaut pour les anciens paquets', () => {
     for (const booster of [...fixtureBoosters, ...boosters.slice(0, 2)]) expect(resolveBoosterRates(booster)).toEqual({
       rarity: DEFAULT_RARITY_RATES, finish: DEFAULT_FINISH_RATES, illustration: DEFAULT_ART_VARIANT_RATES,

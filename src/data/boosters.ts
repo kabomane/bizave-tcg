@@ -27,6 +27,14 @@ export const boosters: BoosterDefinition[] = [{
   access: { type: 'shop', price: 700 }, cardsPerPack: 5,
   sources: [{ type: 'rarities', rarities: ['epic', 'legendary'] }],
   rates: { rarity: { common: 0, uncommon: 0, rare: 0, epic: 91, legendary: 9 }, finish: 'default', illustration: 'default' },
+  enabled: true, order: 3,
+  showInFilters: false,
+}, {
+  id: 'rarity-only', title: 'rarity only', subtitle: `${catalogue.filter(card => card.rarity === 'rare').length} cartes`, description: '',
+  artwork: { symbol: 'spark', colors: { primary: RARITY_COLORS.rare, secondary: '#101f39', shine: '#c9dffc', glow: RARITY_COLORS.rare } },
+  access: { type: 'shop', price: 400 }, cardsPerPack: 5,
+  sources: [{ type: 'rarities', rarities: ['rare'] }],
+  rates: { rarity: { common: 0, uncommon: 0, rare: 100, epic: 0, legendary: 0 }, finish: 'default', illustration: 'default' },
   enabled: true, order: 2,
   showInFilters: false,
 }]

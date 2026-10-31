@@ -94,21 +94,21 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .pack-wordmark { position: absolute; left: 13%; right: 13%; top: 68%; bottom: 13%; display: flex; align-items: center; flex-direction: column; justify-content: center; text-align: center; container-type: inline-size; z-index: 2; }
 .pack-wordmark strong { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; text-transform: uppercase; font-size: 14.8cqw; letter-spacing: -.015em; line-height: .95; max-width: 100%; background: linear-gradient(120deg, #eee2ca, #af9479 40%, #fff1d4 65%, #c4ad8d); color: #e2cfb1; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 .pack-wordmark span { text-transform: uppercase; font-size: 4.6cqw; letter-spacing: .22em; color: #cbb898a3; margin-top: 8%; }
-.booster-pack[data-booster='epico-stellari'] {
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) {
   background: radial-gradient(ellipse at 80% 15%, color-mix(in srgb,var(--pack-shine) 22%,transparent), transparent 55%), linear-gradient(105deg, #ffffff0c, transparent 14% 66%, #ffffff09 83%, transparent 93%), linear-gradient(165deg, color-mix(in srgb,var(--pack-primary) 55%,var(--pack-secondary)), var(--pack-secondary) 60%, color-mix(in srgb,var(--pack-primary) 40%,var(--pack-secondary)));
 }
-.booster-pack[data-booster='epico-stellari'] .pack-border { border-color:color-mix(in srgb,var(--pack-shine) 50%,transparent); }
-.booster-pack[data-booster='epico-stellari'] .pack-border::before,
-.booster-pack[data-booster='epico-stellari'] .pack-border::after { border-color:var(--pack-shine); background:var(--pack-secondary); }
-.booster-pack[data-booster='epico-stellari'] .pack-seal { background:repeating-linear-gradient(90deg, #0008 0 1px, #ffffff26 1px 2px, transparent 2px 4px), linear-gradient(var(--pack-shine),var(--pack-secondary)); }
-.booster-pack[data-booster='epico-stellari'] .phantom-engraving > circle { filter:blur(3px); }
-.booster-pack[data-booster='epico-stellari'] .phantom-engraving radialGradient stop { stop-color:color-mix(in srgb,var(--pack-primary) 65%,var(--pack-secondary)); }
-.booster-pack[data-booster='epico-stellari'] .phantom-engraving radialGradient stop:nth-child(2) { stop-color:color-mix(in srgb,var(--pack-primary) 51%,var(--pack-secondary)); }
-.booster-pack[data-booster='epico-stellari'] .phantom-engraving radialGradient stop:last-child { stop-color:color-mix(in srgb,var(--pack-primary) 38%,var(--pack-secondary)); }
-.booster-pack[data-booster='epico-stellari'] .phantom-engraving linearGradient stop { stop-color:var(--pack-shine); }
-.booster-pack[data-booster='epico-stellari'] .phantom-engraving linearGradient stop:nth-child(3) { stop-color:color-mix(in srgb,var(--pack-shine) 60%,white); }
-.booster-pack[data-booster='epico-stellari'] .pack-wordmark strong { background-image:linear-gradient(120deg,var(--pack-shine),color-mix(in srgb,var(--pack-shine) 65%,white) 50%,var(--pack-shine)); }
-.booster-pack[data-booster='epico-stellari'] .pack-wordmark span { color:var(--pack-shine); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .pack-border { border-color:color-mix(in srgb,var(--pack-shine) 50%,transparent); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .pack-border::before,
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .pack-border::after { border-color:var(--pack-shine); background:var(--pack-secondary); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .pack-seal { background:repeating-linear-gradient(90deg, #0008 0 1px, #ffffff26 1px 2px, transparent 2px 4px), linear-gradient(var(--pack-shine),var(--pack-secondary)); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .phantom-engraving > circle { filter:blur(3px); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .phantom-engraving radialGradient stop { stop-color:color-mix(in srgb,var(--pack-primary) 65%,var(--pack-secondary)); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .phantom-engraving radialGradient stop:nth-child(2) { stop-color:color-mix(in srgb,var(--pack-primary) 51%,var(--pack-secondary)); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .phantom-engraving radialGradient stop:last-child { stop-color:color-mix(in srgb,var(--pack-primary) 38%,var(--pack-secondary)); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .phantom-engraving linearGradient stop { stop-color:var(--pack-shine); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .phantom-engraving linearGradient stop:nth-child(3) { stop-color:color-mix(in srgb,var(--pack-shine) 60%,white); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .pack-wordmark strong { background-image:linear-gradient(120deg,var(--pack-shine),color-mix(in srgb,var(--pack-shine) 65%,white) 50%,var(--pack-shine)); }
+.booster-pack:is([data-booster='epico-stellari'], [data-booster='rarity-only']) .pack-wordmark span { color:var(--pack-shine); }
 .pack-sheen { position: absolute; inset: 0; background: linear-gradient(105deg, transparent 2%, #fff1 3%, transparent 5% 16%, #eec6a906 20%, transparent 25% 60%, #fff1 76%, transparent 90%); z-index: 3; pointer-events: none; mix-blend-mode: screen; }
 .pack-tearing { animation: packVanish .62s cubic-bezier(.3,0,.4,1) both; }.pack-tearing .seal-top { animation: ripSeal .55s ease both; }
 .page-heading .collection-filters { display: flex; gap: 9px; }
@@ -423,11 +423,11 @@ body:has(dialog[open]) .collection-grid:not(.stack-grid) .holo-preview-reflectio
 .layout-gundam .nb-meta { left:16px; top:16px; }
 .layout-gundam .nb-finish { left:16px; top:62px; z-index:4; }
 .layout-gundam .standard .nb-title,
-.layout-gundam .standard .card-info { background:rgba(248,249,252,.65); }
+.layout-gundam .standard .card-info { background:rgba(248,249,252,.75); }
 .layout-gundam .glossy .nb-title,
-.layout-gundam .glossy .card-info { background:rgba(255,255,255,.65); }
-.layout-gundam .card[data-presentation='detail'] .nb-title,
-.layout-gundam .card[data-presentation='detail'] .card-info { backdrop-filter:blur(2px); -webkit-backdrop-filter:blur(2px); }
+.layout-gundam .glossy .card-info { background:rgba(255,255,255,.75); }
+.layout-gundam .card[data-presentation] .nb-title,
+.layout-gundam .card[data-presentation] .card-info { backdrop-filter:none; -webkit-backdrop-filter:none; }
 .layout-gundam .description { font-family:Georgia, 'Times New Roman', serif; font-style:italic; font-size:13px; }
 .layout-gundam .nb-title { letter-spacing:-.01em; }
 .layout-gundam .nb-title.foil-text { letter-spacing:.06em; }

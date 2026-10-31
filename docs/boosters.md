@@ -1,6 +1,6 @@
 # Paquets, boutique et stocks
 
-Trois paquets sont configurés : **Memory Frame** (126 cartes, gratuit ou 70 fragments), **Anima Isekai** (59 cartes, gratuit ou 50 fragments) et **epico stellari** (42 cartes actuellement, boutique uniquement à 700 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
+Quatre paquets sont configurés : **Memory Frame** (158 cartes, gratuit ou 70 fragments), **Anima Isekai** (59 cartes, gratuit ou 50 fragments), **epico stellari** (46 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (40 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
 
 ## Contenus
 
@@ -23,6 +23,8 @@ La propriété `showInFilters` contrôle la présence du booster dans les filtre
 Pour **epico stellari**, `rarity` vaut `{ common: 0, uncommon: 0, rare: 0, epic: 91, legendary: 9 }`. Finitions et illustrations restent à `default` : Mate 81 %, Holographique 15 %, Alternative 4 % ; Classique 92 %, Full Art 8 %. Les trois tirages restent indépendants et les taux sont par carte, sans garantie de légendaire par paquet.
 
 `resolveBoosterRates` dans `src/game/boosterRates.ts` est utilisé par le moteur de tirage et le panneau « Taux de drop » dans Boutique et Vos boosters. Le panneau reçoit le booster sélectionné sans ajouter son nom au titre. Les constantes par défaut et les clés de sauvegarde ne changent pas. Une ouverture déjà enregistrée garde ses résultats.
+
+**rarity only** utilise une source dynamique `rarities: ['rare']` et un profil de rareté à 100 % rare. Ses finitions et illustrations restent à leurs taux par défaut. Les nouvelles rares entrent automatiquement dans son pool ; ses modèles restent partagés et ce paquet est masqué dans les filtres. Il utilise uniquement sa réserve achetée, sans crédit gratuit.
 
 ## Accès
 

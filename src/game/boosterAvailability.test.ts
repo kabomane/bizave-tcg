@@ -5,8 +5,13 @@ import type { BoosterDefinition } from './types'
 import { availableBoosters, purchasedQuantity, shopBoosters } from './boosterAvailability'
 
 describe('disponibilité des paquets', () => {
+  it('rend rarity only ouvrable uniquement avec un exemplaire détenu', () => {
+    expect(availableBoosters(boosters, []).some(booster => booster.id === 'rarity-only')).toBe(false)
+    expect(availableBoosters(boosters, [{ boosterId: 'rarity-only', quantity: 1, updatedAt: 0 }]).some(booster => booster.id === 'rarity-only')).toBe(true)
+    expect(availableBoosters(boosters, [{ boosterId: 'rarity-only', quantity: 0, updatedAt: 0 }]).some(booster => booster.id === 'rarity-only')).toBe(false)
+  })
   it('propose Anima Isekai gratuitement et dans la boutique', () => {
-    expect(shopBoosters(boosters).map(booster => booster.id)).toEqual(['phantom-blood', 'anima-isekai', 'epico-stellari'])
+    expect(shopBoosters(boosters).map(booster => booster.id)).toEqual(['phantom-blood', 'anima-isekai', 'rarity-only', 'epico-stellari'])
     expect(availableBoosters(boosters, []).map(booster => booster.id)).toEqual(['phantom-blood', 'anima-isekai'])
     expect(availableBoosters(boosters, [{ boosterId: 'anima-isekai', quantity: 1, updatedAt: 0 }]).map(booster => booster.id)).toEqual(['phantom-blood', 'anima-isekai'])
   })

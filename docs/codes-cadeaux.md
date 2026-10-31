@@ -22,6 +22,7 @@ npm run gifts:generate -- --booster anima-isekai --quantity 10 --count 20
 npm run gifts:generate -- --fragments 500 --count 10
 npm run gifts:generate -- --booster epico-stellari --quantity 2 --count 10
 npm run gifts:generate -- --booster phantom-blood --quantity 2 --fragments 100 --count 10
+npm run gifts:generate -- --booster rarity-only --quantity 5 --count 10
 ```
 
 Chaque commande **ajoute un nouveau lot** au catalogue existant. Ne pas la relancer pour simplement consulter les codes déjà créés. Le générateur écrit d’abord leur liste en clair dans `.local/gift-codes/<lot>.json`, puis ajoute les seules empreintes au catalogue public. Les fichiers privés sont ignorés par Git et restent hors de `public/` et du build. Les conserver ailleurs dans un emplacement privé : ils ne sont pas sauvegardés sur GitHub. La liste Markdown locale du premier lot regroupe les 50 codes pour leur distribution.

@@ -15,10 +15,11 @@ import type { ArtVariant, BoosterDefinition, Finish, Rarity } from './types'
 const minute = 60_000
 describe('catalogue et configuration', () => {
   it('publie Memory Frame et Anima Isekai avec leurs accès et leurs pools distincts', () => {
-    expect(publishedBoosters).toHaveLength(3)
+    expect(publishedBoosters).toHaveLength(4)
     expect(publishedBoosters[0]).toMatchObject({ id: 'phantom-blood', title: 'Memory Frame', subtitle: '158 cartes', access: { type: 'free', shop: { price: 70 } }, enabled: true })
     expect(publishedBoosters[1]).toMatchObject({ id: 'anima-isekai', title: 'Anima Isekai', subtitle: '59 cartes', access: { type: 'free', shop: { price: 50 } }, enabled: true })
     expect(publishedBoosters[2]).toMatchObject({ id: 'epico-stellari', title: 'epico stellari', subtitle: '46 cartes', access: { type: 'shop', price: 700 }, cardsPerPack: 5, enabled: true })
+    expect(publishedBoosters[3]).toMatchObject({ id: 'rarity-only', title: 'rarity only', subtitle: '40 cartes', access: { type: 'shop', price: 400 }, cardsPerPack: 5, enabled: true })
     expect(new Set(resolveBoosterPool(publishedBoosters[0], cards).map(entry => entry.card.id))).toEqual(new Set(memoryFrameIds))
     expect(new Set(resolveBoosterPool(publishedBoosters[1], cards).map(entry => entry.card.id))).toEqual(new Set(animaIsekaiIds))
     expect(memoryFrameIds).toHaveLength(158)
@@ -35,6 +36,7 @@ describe('catalogue et configuration', () => {
       { common: 57, uncommon: 40, rare: 29, epic: 20, legendary: 12 },
       { common: 19, uncommon: 15, rare: 11, epic: 10, legendary: 4 },
       { common: 0, uncommon: 0, rare: 0, epic: 30, legendary: 16 },
+      { common: 0, uncommon: 0, rare: 40, epic: 0, legendary: 0 },
     ])
     for (const card of cards) {
       expect(existsSync(resolve('public', card.artwork.standard.slice(1)))).toBe(true)
