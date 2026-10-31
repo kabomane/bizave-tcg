@@ -139,7 +139,7 @@
     "title": "Thomas Bizarre Aventure",
     "rarity": "legendary",
     "collectionId": "thomas",
-    "description": "Stand : Lucky Corrupted\nCorrompt la chance d'autrui ou la sienne, figée jusqu'au dimanche. Perçoit le temps inconsciemment.\nPuiss. E · Vit. B · Port. B · Pers. A · Préc. B · Pot. B",
+    "description": "Stand : Lucky Corrupted\nCorrompt la chance d'autrui ou la sienne, figée jusqu'au dimanche. Perçoit le temps inconsciemment.",
     "artwork": {
       "standard": "/assets/cards/t-bizarre/illustration.555cef3b0d.webp",
       "fullArt": "/assets/cards/t-bizarre/illustration.555cef3b0d.webp"
@@ -709,7 +709,7 @@
     "title": "Matthieu Bizarre Aventure",
     "rarity": "legendary",
     "collectionId": "matthieu",
-    "description": "Stand : State Shifter\nModifie sans limite tout état physique, mental ou conceptuel, jusqu'au destin. Effets imprévisibles, difficilement réversibles.\nPuiss. A · Vit. B · Port. C · Pers. A · Préc. E · Pot. A",
+    "description": "Stand : State Shifter\nModifie sans limite tout état physique, mental ou conceptuel, jusqu'au destin. Effets imprévisibles, difficilement réversibles.",
     "artwork": {
       "standard": "/assets/cards/m-bizarre/illustration.613a112b70.webp",
       "fullArt": "/assets/cards/m-bizarre/illustration.613a112b70.webp"
@@ -1611,8 +1611,8 @@
     "collectionId": "speciaux",
     "description": "Scream, Smile… Ah, il y a aussi ce film d'horreur que je veux vous faire voir : They Will Kill You.",
     "artwork": {
-      "standard": "/assets/cards/soiree-film-3/illustration.f8b8ae5095.webp",
-      "fullArt": "/assets/cards/soiree-film-3/illustration.f8b8ae5095.webp"
+      "standard": "/assets/cards/soiree-film-3/illustration.d4ffc68166.webp",
+      "fullArt": "/assets/cards/soiree-film-3/illustration.d4ffc68166.webp"
     },
     "artworkPosition": {
       "standard": "center top",

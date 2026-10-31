@@ -22,6 +22,6 @@ export function CollectionDisplayOptions({ value, onChange, onClose, anchor, err
     <Choices label="Sens" value={value.direction} options={[{ value: 'asc', label: directions[0] }, { value: 'desc', label: directions[1] }]} onChange={direction => onChange({ ...value, direction })} />
     <Choices label="Regrouper" value={value.groupBy} options={[{ value: 'none', label: 'Aucun' }, { value: 'card', label: 'Par carte' }, { value: 'format', label: 'Par carte & format' }]} onChange={groupBy => onChange({ ...value, groupBy })} />
     <Choices label="Doublons" value={value.duplicates} options={[{ value: 'hide', label: 'Cacher' }, { value: 'show', label: 'Afficher' }]} onChange={duplicates => onChange({ ...value, duplicates })} />
-    {error}<button type="button" className="text-button display-reset" onClick={() => onChange({ ...DEFAULT_COLLECTION_DISPLAY })}>Réinitialiser</button>
+    {error}<button type="button" className="text-button display-reset" onClick={() => onChange({ ...DEFAULT_COLLECTION_DISPLAY, pileCover: value.pileCover })}>Réinitialiser</button>
   </div></Modal>
 }

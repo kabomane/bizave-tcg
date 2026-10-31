@@ -14,9 +14,9 @@ function positive(value, label) {
 const count = positive(values.count, 'Le nombre de codes')
 if (count > 10_000) throw new Error('Un lot est limité à 10 000 codes.')
 let reward
-if (values.booster && !values.fragments && /^[a-z0-9][a-z0-9-]{0,79}$/.test(values.booster)) reward = { type: 'booster', boosterId: values.booster, quantity: positive(values.quantity, 'La quantité de boosters') }
+if (values.booster && /^[a-z0-9][a-z0-9-]{0,79}$/.test(values.booster)) reward = { type: 'booster', boosterId: values.booster, quantity: positive(values.quantity, 'La quantité de boosters'), ...(values.fragments ? { fragments: positive(values.fragments, 'Le nombre de fragments') } : {}) }
 else if (values.fragments && !values.booster && !values.quantity) reward = { type: 'fragments', amount: positive(values.fragments, 'Le nombre de fragments') }
-else throw new Error('Utilisez --booster <id> --quantity <nombre> --count <nombre>, ou --fragments <nombre> --count <nombre>.')
+else throw new Error('Utilisez --booster <id> --quantity <nombre> [--fragments <nombre>] --count <nombre>, ou --fragments <nombre> --count <nombre>.')
 
 const cataloguePath = new URL('src/data/gift-codes.json', root)
 const catalogue = JSON.parse(await readFile(cataloguePath, 'utf8'))

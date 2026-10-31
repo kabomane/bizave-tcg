@@ -1,5 +1,63 @@
 import { expect, test } from '@playwright/test'
 
+for (const groupBy of ['none', 'card'] as const) test(`retirer un favori garde l’aperçu ouvert jusqu’à sa fermeture (${groupBy})`, async ({ page }) => {
+  await page.goto('/collection')
+  await expect(page.getByRole('heading', { name: 'Collection', exact: true })).toBeVisible()
+  await page.evaluate(async groupBy => {
+    const databasePath = '/src/storage/database.ts', favoritesPath = '/src/collection/favorites.ts', settingsPath = '/src/settings/useSettings.ts'
+    const { db } = await import(databasePath), { setFavorite } = await import(favoritesPath), { updateSettings } = await import(settingsPath)
+    updateSettings({ collectionDisplay: { sort: 'obtained', direction: 'desc', groupBy, duplicates: 'hide' } })
+    const cards = [
+      { cardId: 't-classique', finish: 'normal', artVariant: 'standard' },
+      { cardId: 't-classique', finish: 'glossy', artVariant: 'fullArt' },
+    ]
+    await db.drops.bulkAdd(cards.map((card, index) => ({ ...card, dropId: crypto.randomUUID(), status: 'owned', acquiredAt: index + 1, updatedAt: index + 1 })))
+    for (const card of cards) await setFavorite(card, true)
+  }, groupBy)
+  // Reopen with the persisted display preference before exercising the preview.
+  await page.reload()
+  await expect(page.locator('.title-with-count > span')).toHaveText('2')
+  await expect(page.locator('.collection-pile')).toHaveCount(groupBy === 'card' ? 1 : 0)
+  const grid = page.locator('.collection-grid').first()
+  const filter = page.getByRole('button', { name: 'Afficher uniquement les favoris', exact: true })
+  const dialog = page.getByRole('dialog')
+  const add = page.getByRole('button', { name: 'Ajouter aux favoris', exact: true })
+  const remove = page.getByRole('button', { name: 'Retirer des favoris', exact: true })
+  const favoriteCount = () => page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); return db.favorites.count() })
+  await filter.click()
+  await grid.locator('.card').first().click()
+  if (groupBy === 'card') await dialog.locator('.stack-grid .card[data-art="fullArt"]').click()
+  await remove.click()
+  await expect(add).toBeVisible()
+  await expect.poll(favoriteCount).toBe(1)
+  await expect(dialog).toBeVisible()
+  await expect(page.locator('.title-with-count > span')).toHaveText('2')
+  await add.click()
+  await expect(remove).toBeVisible()
+  await expect.poll(favoriteCount).toBe(2)
+  await remove.click()
+  await expect(add).toBeVisible()
+  if (groupBy === 'card') {
+    await page.getByRole('button', { name: 'Retour à la pile', exact: true }).click()
+    await expect(dialog.locator('.stack-grid .card')).toHaveCount(2)
+  }
+  await dialog.getByRole('button', { name: 'Fermer', exact: true }).click()
+  await expect(dialog).toHaveCount(0)
+  await expect(page.locator('.title-with-count > span')).toHaveText('1')
+  await filter.click()
+  await expect(dialog).toHaveCount(0)
+  await expect(page.locator('.title-with-count > span')).toHaveText('2')
+  await filter.click()
+  await grid.locator('.card').click()
+  await remove.click()
+  await expect(add).toBeVisible()
+  await expect.poll(favoriteCount).toBe(0)
+  await dialog.getByRole('button', { name: 'Fermer', exact: true }).click()
+  await expect(grid.locator('.card')).toHaveCount(0)
+  await filter.click()
+  await expect(dialog).toHaveCount(0)
+})
+
 test('favoris : variantes, filtre, piles et suppression de la dernière copie', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/collection')

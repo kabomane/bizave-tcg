@@ -468,5 +468,95 @@
       "boosterId": "epico-stellari",
       "quantity": 2
     }
+  },
+  {
+    "codeHash": "4a999fa9c137aec1714abb4428b7116af6f97af6d4846ffea3f72e5252c497d8",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "14f078dbe22cad0b43c4902b0af1eba35f16ca52580a3922b747a8f1988660d1",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "73516c82a01cb4ddfaea366fc0254869b8fe1fd4843547b5e504cbaecbcc0cf2",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "7a4a436f6ebd36f0d25398a065d31819f7c40bb4e4b8b08adc56fb86a8a7e274",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "8211858356d4735946875bb692f4674494f1430c9670b8c6d136e4952d49d86b",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "7f0e143cfcd350ecac031451b590fa6a3220af4c170e5c06a90b31193983158b",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "6bda445a0be8f4fb984406eaca81d1388ed934297cf24262be07a62af681e0c4",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "cd82187574cdbbb0415e0b4d3a4d870ed88a1b3a9d9a6aa87050da41294ba474",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "91da865e444660b49b4a39a5c0b501a51bd672556ebeeb9b74f7cb7a174c7c8e",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
+  },
+  {
+    "codeHash": "6a9869a04a0d213259eb8d1624161af1aaa92767a80a5650caaf6c99760457af",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2,
+      "fragments": 100
+    }
   }
 ]

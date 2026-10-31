@@ -1,4 +1,4 @@
-import { Check, Copy, Download, FileUp, Monitor, Moon, Sun, Trash2 } from 'lucide-react'
+import { Check, Download, FileUp, Trash2 } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { DEV_CATALOG_ENABLED } from '../dev/catalogPreview'
@@ -12,6 +12,7 @@ import { PLAYER_UUID_PATTERN } from '../exchanges/crypto'
 import { deleteAccount, exportSave, importSave, readSaveFile } from '../storage/saveTransfer'
 import type { PreparedSave } from '../storage/saveTransfer'
 import { GiftCodeForm } from '../components/GiftCodeForm'
+import { PileCoverSelect } from '../components/PileCoverSelect'
 import { acknowledgeUpdate, resetUpdateNotice, UPDATED_KEY } from '../settings/updateNotice'
 
 export function SettingsPage() {
@@ -36,17 +37,21 @@ export function SettingsPage() {
   }
   return <section className="settings-page" aria-label="Options">
     <div className="page-heading settings-heading"><h1 className="page-title">Options</h1><span className="settings-player-id" data-testid="player-id" aria-label={`ID joueur : ${identity?.playerUuid ?? 'Chargement…'}`}>{identity?.playerUuid ?? 'Chargement…'}</span></div>
-    <section className="settings-section" aria-labelledby="theme-heading">
+    <section className="settings-section settings-preferences-section" aria-labelledby="theme-heading">
       <h2 id="theme-heading">Apparence</h2>
-      <div className="settings-choices theme-choices" role="group" aria-label="Thème">
-        {([{ id: 'system', label: 'Système', icon: Monitor }, { id: 'light', label: 'Clair', icon: Sun }, { id: 'dark', label: 'Sombre', icon: Moon }] as const).map(({ id, label, icon: Icon }) => <button type="button" key={id} className="setting-choice" aria-pressed={settings.theme === id} onClick={() => change({ theme: id })}><Icon size={21} /><span>{label}</span><span className="setting-check" aria-hidden="true">{settings.theme === id && <Check size={12} />}</span></button>)}
-      </div>
+      <div className="settings-preference-row"><span className="settings-preference-label">Thème</span><div className="settings-segmented" role="group" aria-label="Thème">
+        {([{ id: 'system', label: 'Système' }, { id: 'light', label: 'Clair' }, { id: 'dark', label: 'Sombre' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.theme === id} onClick={() => change({ theme: id })}><span>{label}</span><span className="settings-inline-check" aria-hidden="true">{settings.theme === id && <Check size={12} />}</span></button>)}
+      </div></div>
     </section>
-    <section className="settings-section" aria-labelledby="transfer-heading">
+    <section className="settings-section settings-preferences-section" aria-labelledby="pile-cover-heading">
+      <h2 id="pile-cover-heading">Collection</h2>
+      <div className="settings-preference-row"><label className="settings-preference-label" htmlFor="pile-cover">Carte sur les piles</label><PileCoverSelect value={settings.collectionDisplay.pileCover} onChange={pileCover => change({ collectionDisplay: { ...settings.collectionDisplay, pileCover } })} /></div>
+    </section>
+    <section className="settings-section settings-preferences-section" aria-labelledby="transfer-heading">
       <h2 id="transfer-heading">Envoi des cartes</h2>
-      <div className="settings-choices transfer-choices" role="group" aria-label="Mode d’envoi">
-        {([{ id: 'code', label: 'Copier le code', icon: Copy }, { id: 'file', label: 'Télécharger le fichier', icon: Download }] as const).map(({ id, label, icon: Icon }) => <button type="button" key={id} className="setting-choice" aria-pressed={settings.transferMode === id} onClick={() => change({ transferMode: id })}><Icon size={21} /><span>{label}</span><span className="setting-check" aria-hidden="true">{settings.transferMode === id && <Check size={12} />}</span></button>)}
-      </div>
+      <div className="settings-preference-row"><span className="settings-preference-label">Format d’envoi</span><div className="settings-segmented" role="group" aria-label="Mode d’envoi">
+        {([{ id: 'code', label: 'Code' }, { id: 'file', label: 'Fichier' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.transferMode === id} onClick={() => change({ transferMode: id })}><span>{label}</span><span className="settings-inline-check" aria-hidden="true">{settings.transferMode === id && <Check size={12} />}</span></button>)}
+      </div></div>
       <p className="settings-note">Votre ami peut recevoir un code ou un fichier .btcg dans Amis.</p>
     </section>
     <GiftCodeForm />

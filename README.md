@@ -1,6 +1,6 @@
-# bizave-tcg.v1.3.0
+# bizave-tcg.v1.3.1
 
-Version **bizave-tcg.v1.3.0** de **Bizave TCG**. Trois boosters : **Memory Frame**, 158 cartes, **Anima Isekai**, 59 cartes, et **epico stellari**, 46 cartes partagées avec les autres éditions. Le catalogue compte 217 modèles, tous illustrés.
+Version **bizave-tcg.v1.3.1** de **Bizave TCG**. Trois boosters : **Memory Frame**, 158 cartes, **Anima Isekai**, 59 cartes, et **epico stellari**, 46 cartes partagées avec les autres éditions. Le catalogue compte 217 modèles, tous illustrés.
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
@@ -206,7 +206,7 @@ npx firebase-tools login
 npx firebase-tools deploy --only hosting --project bizave-tcg
 ```
 
-`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement de `bizave-tcg.v1.3.0` cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
+`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement de `bizave-tcg.v1.3.1` cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
 
 ## Organisation
 

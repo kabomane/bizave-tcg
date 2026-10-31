@@ -62,11 +62,22 @@ export function collectionView(variants: readonly CollectionVariant[], display: 
   for (const item of items.values()) {
     item.variantCount = new Set(item.entries.map(entry => variantKey(entry.card))).size
     item.entries.sort(compare)
-    // A pile represents its best visible variant for the selected criterion.
-    if (display.sort === 'value' || display.sort === 'rarity') item.card = item.entries.reduce((best, entry) => {
-      const difference = display.sort === 'rarity' ? compareRarity(entry.card, best.card) : cardFragmentValue(entry.card) - cardFragmentValue(best.card)
-      return difference > 0 || difference === 0 && canonical(entry.card, best.card) < 0 ? entry : best
+    // The cover is independent from the list's sorting direction and criterion.
+    item.card = item.entries.reduce((best, entry) => {
+      const difference = display.pileCover === 'latest' ? entry.acquiredAt - best.acquiredAt
+        : compareRarity(entry.card, best.card) * (display.pileCover === 'leastRare' ? -1 : 1)
+      return difference > 0 || difference === 0 && (canonical(entry.card, best.card) < 0 || canonical(entry.card, best.card) === 0 && entry.key < best.key) ? entry : best
     }).card
   }
-  return [...items.values()].sort(compare)
+  // Keep piles ranked by their best variant even when a different cover is chosen.
+  const sortEntry = (item: CollectionItem) => {
+    if (display.sort !== 'value' && display.sort !== 'rarity') return item
+    const best = item.entries.reduce((best, entry) => {
+      const difference = display.sort === 'rarity' ? compareRarity(entry.card, best.card) : cardFragmentValue(entry.card) - cardFragmentValue(best.card)
+      return difference > 0 || difference === 0 && canonical(entry.card, best.card) < 0 ? entry : best
+    })
+    return { ...item, card: best.card }
+  }
+  const ranked = [...items.values()].map(item => ({ item, sortEntry: sortEntry(item) }))
+  return ranked.sort((a, b) => compare(a.sortEntry, b.sortEntry)).map(({ item }) => item)
 }

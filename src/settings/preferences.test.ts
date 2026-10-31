@@ -19,7 +19,7 @@ describe('options locales', () => {
     expect(resolveTheme('dark', false)).toBe('dark')
   })
   it('mémorise l’affichage sans perdre les options de thème, de transfert ou de développement', () => {
-    const saved = { ...DEFAULT_PREFERENCES, theme: 'dark', transferMode: 'file', devCatalog: true, collectionDisplay: { sort: 'name', direction: 'asc', groupBy: 'format', duplicates: 'show' } }
+    const saved = { ...DEFAULT_PREFERENCES, theme: 'dark', transferMode: 'file', devCatalog: true, collectionDisplay: { pileCover: 'leastRare', sort: 'name', direction: 'asc', groupBy: 'format', duplicates: 'show' } }
     expect(parsePreferences(JSON.stringify(saved))).toEqual(saved)
     expect(parsePreferences('{"theme":"dark"}')).toEqual({ ...DEFAULT_PREFERENCES, theme: 'dark' })
   })

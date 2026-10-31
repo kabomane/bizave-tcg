@@ -52,13 +52,16 @@ export function CollectionPage() {
   const [recycleConfirm, setRecycleConfirm] = useState(false), [error, setError] = useState(''), [busy, setBusy] = useState(false)
   const [displayAnchor, setDisplayAnchor] = useState<DOMRect | null>(null), [displayError, setDisplayError] = useState('')
   const [stackKey, setStackKey] = useState<string | null>(null)
+  // Keep favorite-filter membership stable until the whole preview (including its pile) closes.
+  const [previewFavoriteKeys, setPreviewFavoriteKeys] = useState<ReadonlySet<string> | null>(null)
+  const filterFavoriteKeys = previewFavoriteKeys ?? favoriteKeys
   const savedVariants = useMemo(() => ownedVariants(drops), [drops])
   const variants = preview ? catalogPreview : savedVariants
   const showValue = collectionDisplay.sort === 'value'
   const filtered = useMemo(() => variants.filter(group => {
     const card = cardById.get(group.card.cardId)!
-    return (!favoritesOnly || favoriteKeys.has(variantKey(group.card))) && matchesCardFilters(group.card, filters) && matchesCardSearch(card, search)
-  }), [variants, search, filters, favoritesOnly, favoriteKeys])
+    return (!favoritesOnly || filterFavoriteKeys.has(variantKey(group.card))) && matchesCardFilters(group.card, filters) && matchesCardSearch(card, search)
+  }), [variants, search, filters, favoritesOnly, filterFavoriteKeys])
   const filteredQuantity = filtered.reduce((sum, variant) => sum + variant.copies.length, 0)
   const allItems = useMemo(() => collectionView(variants, collectionDisplay), [variants, collectionDisplay])
   const visible = useMemo(() => {
@@ -70,14 +73,14 @@ export function CollectionPage() {
       return { ...item, entries: item.entries.map(entry => entries.get(entry.key) || entry) }
     })
   }, [filtered, variants, collectionDisplay, allItems])
-  const detail = visible.flatMap(item => item.entries).find(entry => entry.key === detailKey)
+  const detail = allItems.flatMap(item => item.entries).find(entry => entry.key === detailKey)
   const definition = detail ? cardById.get(detail.card.cardId)! : undefined
   const obtainedDate = detail && !preview && Number.isFinite(detail.acquiredAt) && detail.acquiredAt > 0 ? new Date(detail.acquiredAt) : undefined
   const stack = visible.find(item => item.key === stackKey)
   const variantQuantity = detail ? savedVariants.find(variant => variantKey(variant.card) === variantKey(detail.card))?.copies.length || 0 : 0
-  function close(all = true) { setDetailKey(null); if (all) setStackKey(null); setRecycleConfirm(false); setError('') }
-  const openEntry = useCallback((entry: CollectionEntry) => { setDetailKey(entry.key); setRecycleConfirm(false); setError('') }, [])
-  const openPile = useCallback((key: string) => { setStackKey(key); setDetailKey(null); setError('') }, [])
+  function close(all = true) { setDetailKey(null); if (all) setStackKey(null); if (all || !stackKey) setPreviewFavoriteKeys(null); setRecycleConfirm(false); setError('') }
+  const openEntry = useCallback((entry: CollectionEntry) => { setPreviewFavoriteKeys(current => current ?? favoriteKeys); setDetailKey(entry.key); setRecycleConfirm(false); setError('') }, [favoriteKeys])
+  const openPile = useCallback((key: string) => { setPreviewFavoriteKeys(favoriteKeys); setStackKey(key); setDetailKey(null); setError('') }, [favoriteKeys])
   function changeDisplay(value: CollectionDisplay) {
     try { updateSettings({ collectionDisplay: value }); setDisplayError('') } catch (e) { setDisplayError(errorText(e)) }
   }

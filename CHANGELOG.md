@@ -1,5 +1,16 @@
 # Historique des versions
 
+## bizave-tcg.v1.3.1 — 31 octobre 2026
+
+- Nouvelle illustration de Soirée film #3 et retrait des scores des deux cartes Bizarre Aventure.
+- Illustrations fixes à 100 %, inclinaison et reflets conservés. Full Art : titre compact en bas, pictogrammes remontés, encarts clairs à 65 %, flou à 2 px, liserés à 2 px et typographie des Classiques.
+- Options compactes avec sélecteur personnalisé ; couverture des piles au choix, mémorisée localement.
+- Retrait d’un favori : aperçu conservé, filtre actualisé à la fermeture et suppression de la réouverture involontaire.
+- Dix cadeaux combinant chacun deux boosters Memory Frame et 100 fragments. Mise à jour 3 et note fournie par le propriétaire.
+- Laboratoire `/test` conservé uniquement en local, exclu de Git et de Firebase.
+
+Note de publication : [bizave-tcg.v1.3.1](docs/releases/bizave-tcg.v1.3.1.md).
+
 ## bizave-tcg.v1.3.0 — 29 octobre 2026
 
 - Recharge du stock gratuit portée à un booster toutes les 15 minutes ; cadrage des illustrations aligné en haut via le paramètre existant, en Classique et Full Art.

@@ -18,7 +18,7 @@ export function GiftCodeForm() {
     try {
       const reward = await redeemGiftCode(code)
       setCode('')
-      setSuccess(reward.type === 'fragments' ? `${reward.amount} fragments ajoutés.` : `${reward.quantity} boosters ${boosters.find(booster => booster.id === reward.boosterId)!.title} ajoutés à vos boosters.`)
+      setSuccess(reward.type === 'fragments' ? `${reward.amount} fragments ajoutés.` : `${reward.quantity} boosters ${boosters.find(booster => booster.id === reward.boosterId)!.title} ajoutés à vos boosters.${reward.fragments ? ` ${reward.fragments} fragments ajoutés.` : ''}`)
     } catch (e) { setError(errorText(e)) }
     finally { inFlight.current = false; setBusy(false) }
   }

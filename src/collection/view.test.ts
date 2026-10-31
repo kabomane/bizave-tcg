@@ -12,6 +12,25 @@ function drop(id: string, time = 1, patch: Partial<CardDropRow> = {}): CardDropR
 const sixVariants = (['standard', 'fullArt'] as const).flatMap(artVariant => (['normal', 'glossy', 'alternative'] as const).map((finish, index) => drop(`${artVariant}-${finish}`, index + 1, { artVariant, finish })))
 
 describe('affichage de la collection', () => {
+  it('choisit la couverture indépendamment du tri, des doublons et des filtres', () => {
+    const variants = ownedVariants([...sixVariants, drop('latest', 50)])
+    for (const groupBy of ['card', 'format'] as const) for (const duplicates of ['hide', 'show'] as const) for (const sort of ['name', 'obtained', 'rarity', 'value'] as const) for (const direction of ['asc', 'desc'] as const) {
+      const display = { ...DEFAULT_COLLECTION_DISPLAY, groupBy, duplicates, sort, direction }
+      const rarest = collectionView(variants, { ...display, pileCover: 'rarest' })
+      const least = collectionView(variants, { ...display, pileCover: 'leastRare' })
+      const latest = collectionView(variants, { ...display, pileCover: 'latest' })
+      expect(least.map(item => item.key)).toEqual(rarest.map(item => item.key))
+      expect(latest.map(item => item.key)).toEqual(rarest.map(item => item.key))
+      expect(rarest.every(item => item.card.finish === 'alternative')).toBe(true)
+      expect(least.every(item => item.card.finish === 'normal')).toBe(true)
+      expect(latest.find(item => item.entries.some(entry => entry.ids.includes('latest')))!.card.dropId).toBe('latest')
+      expect(rarest.map(item => item.entries)).toEqual(latest.map(item => item.entries))
+    }
+    const filtered = collectionView(variants.filter(v => v.card.finish === 'glossy'), { ...DEFAULT_COLLECTION_DISPLAY, groupBy: 'card', pileCover: 'latest' })
+    expect(filtered[0].card.finish).toBe('glossy')
+    expect(parseCollectionDisplay({ pileCover: 'unknown' }).pileCover).toBe('rarest')
+    expect(parseCollectionDisplay({ sort: 'name' }).pileCover).toBe('rarest')
+  })
   it('conserve un ordre fixe couvrant chaque carte une seule fois', () => {
     expect(new Set(order).size).toBe(cards.length + archivedCards.length)
     expect([...order].sort()).toEqual([...cards, ...archivedCards].map(card => card.id).sort())
@@ -102,13 +121,13 @@ describe('affichage de la collection', () => {
     expect(first.entries).toHaveLength(2)
     expect(first.entries.every(entry => entry.card.finish === 'glossy')).toBe(true)
     expect(variantKey(first.card)).toBe(variantKey(reversed.card))
-    expect(first.card.artVariant).toBe('standard')
+    expect(first.card.artVariant).toBe('fullArt')
   })
   it('ne modifie ni les exemplaires sources ni les aperçus sans possession', () => {
     const drops = [...sixVariants, drop('duplicate')]
     const before = JSON.stringify(drops)
     const variants = ownedVariants(drops), variantsBefore = JSON.stringify(variants)
-    collectionView(variants, { sort: 'name', direction: 'asc', groupBy: 'format', duplicates: 'show' })
+    collectionView(variants, { ...DEFAULT_COLLECTION_DISPLAY, sort: 'name', direction: 'asc', groupBy: 'format', duplicates: 'show' })
     expect(JSON.stringify(drops)).toBe(before)
     expect(JSON.stringify(variants)).toBe(variantsBefore)
     const preview = collectionView([{ card: { ...sixVariants[0], dropId: '' }, copies: [] }], { ...DEFAULT_COLLECTION_DISPLAY, duplicates: 'show' })
@@ -117,7 +136,7 @@ describe('affichage de la collection', () => {
   })
   it('répare des réglages inconnus et restaure les choix valides', () => {
     expect(parseCollectionDisplay({ sort: 'unknown', direction: 1, groupBy: 'title', duplicates: true })).toEqual(DEFAULT_COLLECTION_DISPLAY)
-    const saved = { sort: 'rarity', direction: 'asc', groupBy: 'format', duplicates: 'show' }
+    const saved = { sort: 'rarity', direction: 'asc', groupBy: 'format', duplicates: 'show', pileCover: 'latest' }
     expect(parseCollectionDisplay(JSON.parse(JSON.stringify(saved)))).toEqual(saved)
     expect(parseCollectionDisplay({ ...saved, sort: 'value' })).toEqual({ ...saved, sort: 'value' })
     expect(parseCollectionDisplay({ ...saved, sort: 'number' })).toEqual(saved)
@@ -126,7 +145,7 @@ describe('affichage de la collection', () => {
     const source = [...sixVariants, drop('duplicate'), drop('other-model', 40, { cardId: 'm-classique' })]
     const variants = ownedVariants(source)
     for (const groupBy of ['none', 'card', 'format'] as const) for (const duplicates of ['hide', 'show'] as const) for (const sort of ['name', 'rarity', 'obtained', 'value'] as const) for (const direction of ['asc', 'desc'] as const) {
-      const view = collectionView(variants, { groupBy, duplicates, sort, direction })
+      const view = collectionView(variants, { ...DEFAULT_COLLECTION_DISPLAY, groupBy, duplicates, sort, direction })
       const ids = view.flatMap(item => item.entries.flatMap(entry => entry.ids))
       expect(ids.sort()).toEqual(source.map(drop => drop.dropId).sort())
       expect(new Set(view.map(item => item.key)).size).toBe(view.length)

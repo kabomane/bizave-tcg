@@ -27,7 +27,7 @@ export function useCardTilt(enabled: boolean, onActivate?: () => void) {
       const tilt = clamp(Math.hypot(x, y) * 2.2, 0, 1)
       const vars: Record<string, string> = {
         '--rx': `${-y * MAX_CARD_TILT_DEGREES * 2}deg`, '--ry': `${x * MAX_CARD_TILT_DEGREES * 2}deg`,
-        '--px': `${-x * 16}px`, '--py': `${-y * 16}px`, '--hx': `${50 + x * 110}%`, '--hy': `${50 + y * 110}%`,
+        '--hx': `${50 + x * 110}%`, '--hy': `${50 + y * 110}%`,
         '--hx2': `${50 - x * 80}%`, '--hy2': `${50 - y * 80}%`, '--tilt': `${tilt}`, '--angle': `${Math.atan2(x, -y)}rad`,
         '--sx': `${-x * 34}`, '--sy': `${-y * 34}`, '--s1': `${clamp(x * 2.6, 0, 1)}`, '--s2': `${clamp(-x * 2.6, 0, 1)}`, '--s3': `${clamp(Math.abs(y) * 2.6 - Math.abs(x), 0, 1)}`,
       }

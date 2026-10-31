@@ -15,6 +15,7 @@ vi.mock('./catalogue', async () => {
     { code: 'AAAAAAAAAAAAAAAA', reward: { type: 'booster', boosterId: 'phantom-blood', quantity: 10 } },
     { code: 'BBBBBBBBBBBBBBBB', reward: { type: 'booster', boosterId: 'anima-isekai', quantity: 10 } },
     { code: 'CCCCCCCCCCCCCCCC', reward: { type: 'fragments', amount: 500 } },
+    { code: 'DDDDDDDDDDDDDDDD', reward: { type: 'booster', boosterId: 'phantom-blood', quantity: 2, fragments: 100 } },
   ]
   return { giftCodeByHash: new Map(await Promise.all(rewards.map(async gift => { const codeHash = await hashGiftCode(gift.code); return [codeHash, { codeHash, reward: gift.reward }] as const }))) }
 })
@@ -24,6 +25,15 @@ beforeEach(async () => { db = new BizaveDatabase('gifts-' + uuid()); await initi
 afterEach(async () => { vi.restoreAllMocks(); await db.delete() })
 
 describe('codes cadeaux hors ligne', () => {
+  it('crédite ensemble deux Memory Frame et cent fragments une seule fois', async () => {
+    await db.player.update('local', { fragments: 42 })
+    await redeemGiftCode('DDDD-DDDD-DDDD-DDDD', db, 200)
+    expect((await db.player.get('local'))?.fragments).toBe(142)
+    expect((await db.boosterStock.get('phantom-blood'))?.quantity).toBe(2)
+    await expect(redeemGiftCode('DDDD-DDDD-DDDD-DDDD', db, 201)).rejects.toThrow(/déjà été utilisé/)
+    expect((await db.player.get('local'))?.fragments).toBe(142)
+    expect((await db.boosterStock.get('phantom-blood'))?.quantity).toBe(2)
+  })
   it('accepte minuscules, espaces et tirets avec une empreinte canonique unique', async () => {
     expect(normalizeGiftCode(' aaaa-aaaa aaaa-aaaa\n')).toBe('AAAAAAAAAAAAAAAA')
     expect(await hashGiftCode('aaaa-aaaa-aaaa-aaaa')).toBe(await hashGiftCode('AAAAAAAAAAAAAAAA'))
@@ -79,7 +89,7 @@ describe('codes cadeaux hors ligne', () => {
     } finally { second.close() }
   })
 
-  it.each(['AAAAAAAAAAAAAAAA', 'CCCCCCCCCCCCCCCC'])('annule la récompense si l’écriture du registre échoue (%s)', async code => {
+  it.each(['AAAAAAAAAAAAAAAA', 'CCCCCCCCCCCCCCCC', 'DDDDDDDDDDDDDDDD'])('annule la récompense si l’écriture du registre échoue (%s)', async code => {
     const before = await db.player.get('local')
     const fail = () => { throw new Error('Stockage plein') }
     db.usedGiftCodes.hook('creating', fail)
@@ -116,7 +126,7 @@ describe('codes cadeaux hors ligne', () => {
     } finally { await target.delete() }
   })
 
-  it.each(['AAAAAAAAAAAAAAAA', 'CCCCCCCCCCCCCCCC'])('refuse un dépassement numérique sans consommer le code (%s)', async code => {
+  it.each(['AAAAAAAAAAAAAAAA', 'CCCCCCCCCCCCCCCC', 'DDDDDDDDDDDDDDDD'])('refuse un dépassement numérique sans consommer le code (%s)', async code => {
     await db.player.update('local', { fragments: Number.MAX_SAFE_INTEGER })
     await db.boosterStock.put({ boosterId: 'phantom-blood', quantity: Number.MAX_SAFE_INTEGER, updatedAt: 100 })
     await expect(redeemGiftCode(code, db)).rejects.toThrow(/incohérent/)

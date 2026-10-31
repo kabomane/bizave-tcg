@@ -1,4 +1,13 @@
-# Validation — bizave-tcg.v1.3.0
+# Validation — bizave-tcg.v1.3.1
+
+## Version 1.3.1 — 31 octobre 2026, mise à jour 3
+
+- `npm run check` réussi : lint, 193 tests unitaires/intégration, TypeScript et build de production.
+- Neuf parcours Chromium ciblés validés : retrait des favoris avec et sans pile, favoris existants, cadeaux, concurrence de deux onglets, couverture des piles et persistance, contrôles personnalisés et notification de mise à jour. Le scénario de pile recharge désormais les préférences de préparation avant de commencer, pour éviter une course lors de l’initialisation.
+- Build testé dans un navigateur vierge : version 1.3.1, note de mise à jour 3 et confirmation, sélecteur personnalisé, mode dev masqué, cadeau annoncé créditant deux Memory Frame et 100 fragments ; aucune erreur JavaScript.
+- Audit du build : 232 fichiers ; aucune page de laboratoire, source originale, configuration privée ou liste de codes. Les 120 entrées des lots privés locaux sont contrôlées ; seul le code explicitement annoncé dans la note de mise à jour est publié en clair.
+- `/test` et `.local/vite.config.ts` conservés sur le poste et ignorés par Git. Le middleware du laboratoire reste exclusivement dans cette configuration locale ; Firebase ignore explicitement les dossiers `test`.
+- Déploiement Firebase Hosting réussi sur `bizave-tcg`. HTML, ressources d’entrée et nouvelle illustration comparés au build local par SHA-256, identiques sur `https://bizave-tcg.web.app` et `https://bizave-tcg.kabomane.me`.
 
 ## Publication — 30 octobre 2026, mise à jour 2
 

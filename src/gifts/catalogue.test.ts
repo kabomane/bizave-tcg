@@ -17,6 +17,7 @@ describe('catalogue public des cadeaux', () => {
       if (gift.reward.type === 'booster') {
         expect(available.has(gift.reward.boosterId)).toBe(true)
         expect(Number.isSafeInteger(gift.reward.quantity) && gift.reward.quantity > 0).toBe(true)
+        if (gift.reward.fragments !== undefined) expect(Number.isSafeInteger(gift.reward.fragments) && gift.reward.fragments > 0).toBe(true)
       } else {
         expect(gift.reward.type).toBe('fragments')
         expect(Number.isSafeInteger(gift.reward.amount) && gift.reward.amount > 0).toBe(true)

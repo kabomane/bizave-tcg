@@ -13,6 +13,8 @@ export async function redeemGiftCode(code: string, database = db, now = Date.now
   const booster = reward.type === 'booster' ? boosters.find(item => item.id === reward.boosterId && item.enabled) : undefined
   if (reward.type === 'booster' && !booster) throw new Error('Le booster de ce cadeau est indisponible.')
   const amount = reward.type === 'booster' ? reward.quantity : reward.amount
+  const fragments = reward.type === 'booster' ? reward.fragments ?? 0 : reward.amount
+  if (!Number.isSafeInteger(fragments) || fragments < 0) throw new Error('Ce cadeau est indisponible.')
   if (!Number.isSafeInteger(amount) || amount <= 0 || !Number.isSafeInteger(now) || now < 0) throw new Error('Ce cadeau est indisponible.')
   return database.transaction('rw', [database.player, database.boosterStock, database.usedGiftCodes, database.accountState], async () => {
     await assertAccountActive(database)
@@ -25,10 +27,9 @@ export async function redeemGiftCode(code: string, database = db, now = Date.now
       if (!Number.isSafeInteger(quantity) || quantity < 0 || !Number.isSafeInteger(quantity + amount)) throw new Error('Le stock de ce booster est incohérent.')
       // Gifts use the purchased reserve, independently of the free recharge stock.
       await database.boosterStock.put({ boosterId: reward.boosterId, quantity: quantity + amount, updatedAt: time })
-    } else {
-      if (!Number.isSafeInteger(player.fragments) || player.fragments < 0 || !Number.isSafeInteger(player.fragments + amount)) throw new Error('Le solde de fragments est incohérent.')
     }
-    await database.player.put({ ...player, fragments: player.fragments + (reward.type === 'fragments' ? amount : 0), maxObservedClockAt: time })
+    if (!Number.isSafeInteger(player.fragments) || player.fragments < 0 || !Number.isSafeInteger(player.fragments + fragments)) throw new Error('Le solde de fragments est incohérent.')
+    await database.player.put({ ...player, fragments: player.fragments + fragments, maxObservedClockAt: time })
     await database.usedGiftCodes.add({ codeHash, redeemedAt: time })
     return reward
   })
