@@ -2536,7 +2536,7 @@
   },
   {
     "id": "kis-arashi",
-    "title": "Arashi Shinichi",
+    "title": "Matthieu Izumi",
     "rarity": "rare",
     "collectionId": "seinen",
     "description": "Shinichi Izumi\nKiseijū",
@@ -3019,7 +3019,7 @@
     "title": "Dorian motard",
     "rarity": "common",
     "collectionId": "dorian",
-    "description": "Celle-là, c'est la meilleure des A2, mais elle sera limitée sur l'autoroute… ou alors je pars sur une A1 ?",
+    "description": "Celle-là, c'est la meilleure des A1, mais elle sera limitée sur l'autoroute… ou alors je pars sur une A2 ?",
     "artwork": {
       "standard": "/assets/cards/d-motard/illustration.93f8e93339.webp",
       "fullArt": "/assets/cards/d-motard/illustration.93f8e93339.webp"
@@ -3094,7 +3094,7 @@
     "title": "Thomas motard",
     "rarity": "common",
     "collectionId": "thomas",
-    "description": "Une A2, ça coûte moins cher pour le permis et la moto, puis l'assurance nous fera un peu plus confiance…",
+    "description": "Une A1, ça coûte moins cher pour le permis et la moto, puis l'assurance nous fera un peu plus confiance…",
     "artwork": {
       "standard": "/assets/cards/t-motard/illustration.b8ee284d95.webp",
       "fullArt": "/assets/cards/t-motard/illustration.b8ee284d95.webp"
@@ -3248,6 +3248,1281 @@
     "artwork": {
       "standard": "/assets/cards/statue-nana/illustration.9611981968.webp",
       "fullArt": "/assets/cards/statue-nana/illustration.9611981968.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-bizave",
+    "title": "Thomas BIZAVE",
+    "rarity": "legendary",
+    "collectionId": "thomas",
+    "description": "PDG de la BIZAVE Corp.",
+    "artwork": {
+      "standard": "/assets/cards/t-bizave/illustration.1686671b2a.webp",
+      "fullArt": "/assets/cards/t-bizave/illustration.1686671b2a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "kag-thomas",
+    "title": "Thomas Shirogane",
+    "rarity": "rare",
+    "collectionId": "shojo",
+    "description": "Miyuki Shirogane\nKaguya-sama: Love is War",
+    "artwork": {
+      "standard": "/assets/cards/kag-thomas/illustration.af7756a5d5.webp",
+      "fullArt": "/assets/cards/kag-thomas/illustration.af7756a5d5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "kag-nana",
+    "title": "Nana Shinomiya",
+    "rarity": "rare",
+    "collectionId": "shojo",
+    "description": "Kaguya Shinomiya\nKaguya-sama: Love is War",
+    "artwork": {
+      "standard": "/assets/cards/kag-nana/illustration.aa56a9ae95.webp",
+      "fullArt": "/assets/cards/kag-nana/illustration.aa56a9ae95.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "kag-matthieu",
+    "title": "Matthieu Ishigami",
+    "rarity": "uncommon",
+    "collectionId": "shojo",
+    "description": "Yū Ishigami\nKaguya-sama: Love is War",
+    "artwork": {
+      "standard": "/assets/cards/kag-matthieu/illustration.e4fb0a8ca0.webp",
+      "fullArt": "/assets/cards/kag-matthieu/illustration.e4fb0a8ca0.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "kag-eli",
+    "title": "Eli Iino",
+    "rarity": "uncommon",
+    "collectionId": "shojo",
+    "description": "Miko Iino\nKaguya-sama: Love is War",
+    "artwork": {
+      "standard": "/assets/cards/kag-eli/illustration.b1c16c96c3.webp",
+      "fullArt": "/assets/cards/kag-eli/illustration.b1c16c96c3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hor-thomas",
+    "title": "Thomas Miyamura",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Izumi Miyamura\nHorimiya",
+    "artwork": {
+      "standard": "/assets/cards/hor-thomas/illustration.9efe38e6fd.webp",
+      "fullArt": "/assets/cards/hor-thomas/illustration.9efe38e6fd.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hor-nana",
+    "title": "Nana Hori",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Kyōko Hori\nHorimiya",
+    "artwork": {
+      "standard": "/assets/cards/hor-nana/illustration.ef7b597d25.webp",
+      "fullArt": "/assets/cards/hor-nana/illustration.ef7b597d25.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hor-matthieu",
+    "title": "Matthieu Ishikawa",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Tōru Ishikawa\nHorimiya",
+    "artwork": {
+      "standard": "/assets/cards/hor-matthieu/illustration.470c07644d.webp",
+      "fullArt": "/assets/cards/hor-matthieu/illustration.470c07644d.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hor-eli",
+    "title": "Eli Yoshikawa",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Yuki Yoshikawa\nHorimiya",
+    "artwork": {
+      "standard": "/assets/cards/hor-eli/illustration.d996c101a6.webp",
+      "fullArt": "/assets/cards/hor-eli/illustration.d996c101a6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "fb-thomas",
+    "title": "Thomas Sohma",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Yuki Sohma\nFruits Basket",
+    "artwork": {
+      "standard": "/assets/cards/fb-thomas/illustration.0fa408d1c1.webp",
+      "fullArt": "/assets/cards/fb-thomas/illustration.0fa408d1c1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "fb-nana",
+    "title": "Nana Kuragi",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Machi Kuragi\nFruits Basket",
+    "artwork": {
+      "standard": "/assets/cards/fb-nana/illustration.0a9cd8acd7.webp",
+      "fullArt": "/assets/cards/fb-nana/illustration.0a9cd8acd7.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "fb-matthieu",
+    "title": "Matthieu Sohma",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Kyō Sohma\nFruits Basket",
+    "artwork": {
+      "standard": "/assets/cards/fb-matthieu/illustration.04c26700c9.webp",
+      "fullArt": "/assets/cards/fb-matthieu/illustration.04c26700c9.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "fb-eli",
+    "title": "Eli Honda",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Tohru Honda\nFruits Basket",
+    "artwork": {
+      "standard": "/assets/cards/fb-eli/illustration.44104e8d71.webp",
+      "fullArt": "/assets/cards/fb-eli/illustration.44104e8d71.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "nanas-thomas",
+    "title": "Thomas Honjō",
+    "rarity": "uncommon",
+    "collectionId": "shojo",
+    "description": "Ren Honjō\nNana",
+    "artwork": {
+      "standard": "/assets/cards/nanas-thomas/illustration.cba46d8971.webp",
+      "fullArt": "/assets/cards/nanas-thomas/illustration.cba46d8971.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "nanas-nana",
+    "title": "Nana Osaki",
+    "rarity": "rare",
+    "collectionId": "shojo",
+    "description": "Nana Osaki\nNana",
+    "artwork": {
+      "standard": "/assets/cards/nanas-nana/illustration.790bf16eab.webp",
+      "fullArt": "/assets/cards/nanas-nana/illustration.790bf16eab.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "nanas-matthieu",
+    "title": "Matthieu Terashima",
+    "rarity": "uncommon",
+    "collectionId": "shojo",
+    "description": "Nobuo Terashima\nNana",
+    "artwork": {
+      "standard": "/assets/cards/nanas-matthieu/illustration.4ce7639dbc.webp",
+      "fullArt": "/assets/cards/nanas-matthieu/illustration.4ce7639dbc.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "nanas-eli",
+    "title": "Eli Komatsu",
+    "rarity": "uncommon",
+    "collectionId": "shojo",
+    "description": "Nana Komatsu\nNana",
+    "artwork": {
+      "standard": "/assets/cards/nanas-eli/illustration.ef9fbafff4.webp",
+      "fullArt": "/assets/cards/nanas-eli/illustration.ef9fbafff4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mdd-thomas",
+    "title": "Thomas Gojo",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Wakana Gojo\nMy Dress-Up Darling",
+    "artwork": {
+      "standard": "/assets/cards/mdd-thomas/illustration.32a9d87bef.webp",
+      "fullArt": "/assets/cards/mdd-thomas/illustration.32a9d87bef.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mdd-nana",
+    "title": "Nana Kitagawa",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Marin Kitagawa\nMy Dress-Up Darling",
+    "artwork": {
+      "standard": "/assets/cards/mdd-nana/illustration.f9cc9165c6.webp",
+      "fullArt": "/assets/cards/mdd-nana/illustration.f9cc9165c6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mdd-matthieu",
+    "title": "Matthieu Inui",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Shinju Inui\nMy Dress-Up Darling",
+    "artwork": {
+      "standard": "/assets/cards/mdd-matthieu/illustration.eae75486b1.webp",
+      "fullArt": "/assets/cards/mdd-matthieu/illustration.eae75486b1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mdd-eli",
+    "title": "Eli Inui",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Sajuna Inui\nMy Dress-Up Darling",
+    "artwork": {
+      "standard": "/assets/cards/mdd-eli/illustration.3762ed38c1.webp",
+      "fullArt": "/assets/cards/mdd-eli/illustration.3762ed38c1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hq-thomas",
+    "title": "Thomas Hinata",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Shōyō Hinata\nHaikyū!!",
+    "artwork": {
+      "standard": "/assets/cards/hq-thomas/illustration.7c685cacdf.webp",
+      "fullArt": "/assets/cards/hq-thomas/illustration.7c685cacdf.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hq-nana",
+    "title": "Nana Shimizu",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Kiyoko Shimizu\nHaikyū!!",
+    "artwork": {
+      "standard": "/assets/cards/hq-nana/illustration.858e99cafc.webp",
+      "fullArt": "/assets/cards/hq-nana/illustration.858e99cafc.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hq-matthieu",
+    "title": "Matthieu Tsukishima",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Kei Tsukishima\nHaikyū!!",
+    "artwork": {
+      "standard": "/assets/cards/hq-matthieu/illustration.3bc6ffa2d6.webp",
+      "fullArt": "/assets/cards/hq-matthieu/illustration.3bc6ffa2d6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hq-eli",
+    "title": "Eli Yachi",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Hitoka Yachi\nHaikyū!!",
+    "artwork": {
+      "standard": "/assets/cards/hq-eli/illustration.fdfc29ddca.webp",
+      "fullArt": "/assets/cards/hq-eli/illustration.fdfc29ddca.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hxh-thomas",
+    "title": "Thomas Kurapika",
+    "rarity": "uncommon",
+    "collectionId": "shonen",
+    "description": "Kurapika\nHunter × Hunter",
+    "artwork": {
+      "standard": "/assets/cards/hxh-thomas/illustration.9671e40e5e.webp",
+      "fullArt": "/assets/cards/hxh-thomas/illustration.9671e40e5e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hxh-nana",
+    "title": "Nana Freecss",
+    "rarity": "uncommon",
+    "collectionId": "shonen",
+    "description": "Gon Freecss\nHunter × Hunter",
+    "artwork": {
+      "standard": "/assets/cards/hxh-nana/illustration.66ae41e855.webp",
+      "fullArt": "/assets/cards/hxh-nana/illustration.66ae41e855.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hxh-matthieu",
+    "title": "Matthieu Paradinight",
+    "rarity": "uncommon",
+    "collectionId": "shonen",
+    "description": "Leorio Paradinight\nHunter × Hunter",
+    "artwork": {
+      "standard": "/assets/cards/hxh-matthieu/illustration.51b1d8c039.webp",
+      "fullArt": "/assets/cards/hxh-matthieu/illustration.51b1d8c039.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "hxh-eli",
+    "title": "Eli Zoldyck",
+    "rarity": "epic",
+    "collectionId": "shonen",
+    "description": "Killua Zoldyck\nHunter × Hunter",
+    "artwork": {
+      "standard": "/assets/cards/hxh-eli/illustration.d64135d070.webp",
+      "fullArt": "/assets/cards/hxh-eli/illustration.d64135d070.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mha-thomas",
+    "title": "Thomas Iida",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Tenya Iida\nMy Hero Academia",
+    "artwork": {
+      "standard": "/assets/cards/mha-thomas/illustration.179eee70b3.webp",
+      "fullArt": "/assets/cards/mha-thomas/illustration.179eee70b3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mha-nana",
+    "title": "Nana Uraraka",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Ochaco Uraraka\nMy Hero Academia",
+    "artwork": {
+      "standard": "/assets/cards/mha-nana/illustration.057f1a68ab.webp",
+      "fullArt": "/assets/cards/mha-nana/illustration.057f1a68ab.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mha-matthieu",
+    "title": "Matthieu Kaminari",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Denki Kaminari\nMy Hero Academia",
+    "artwork": {
+      "standard": "/assets/cards/mha-matthieu/illustration.0a3854174c.webp",
+      "fullArt": "/assets/cards/mha-matthieu/illustration.0a3854174c.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mha-eli",
+    "title": "Eli Jirō",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Kyōka Jirō\nMy Hero Academia",
+    "artwork": {
+      "standard": "/assets/cards/mha-eli/illustration.8cb191294f.webp",
+      "fullArt": "/assets/cards/mha-eli/illustration.8cb191294f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "k8-thomas",
+    "title": "Thomas Hoshina",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Soshiro Hoshina\nKaiju No. 8",
+    "artwork": {
+      "standard": "/assets/cards/k8-thomas/illustration.fb16011e59.webp",
+      "fullArt": "/assets/cards/k8-thomas/illustration.fb16011e59.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "k8-nana",
+    "title": "Nana Okonogi",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Konomi Okonogi\nKaiju No. 8",
+    "artwork": {
+      "standard": "/assets/cards/k8-nana/illustration.9267f38b12.webp",
+      "fullArt": "/assets/cards/k8-nana/illustration.9267f38b12.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "k8-matthieu",
+    "title": "Matthieu Hibino",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Kafka Hibino\nKaiju No. 8",
+    "artwork": {
+      "standard": "/assets/cards/k8-matthieu/illustration.3338048ea8.webp",
+      "fullArt": "/assets/cards/k8-matthieu/illustration.3338048ea8.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "k8-eli",
+    "title": "Eli Ashiro",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Mina Ashiro\nKaiju No. 8",
+    "artwork": {
+      "standard": "/assets/cards/k8-eli/illustration.507e25a9b1.webp",
+      "fullArt": "/assets/cards/k8-eli/illustration.507e25a9b1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "bl-thomas",
+    "title": "Thomas Itoshi",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Rin Itoshi\nBlue Lock",
+    "artwork": {
+      "standard": "/assets/cards/bl-thomas/illustration.915f0c85ee.webp",
+      "fullArt": "/assets/cards/bl-thomas/illustration.915f0c85ee.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "bl-nana",
+    "title": "Nana Teieri",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Anri Teieri\nBlue Lock",
+    "artwork": {
+      "standard": "/assets/cards/bl-nana/illustration.a1cea877f0.webp",
+      "fullArt": "/assets/cards/bl-nana/illustration.a1cea877f0.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "bl-matthieu",
+    "title": "Matthieu Nagi",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Seishirō Nagi\nBlue Lock",
+    "artwork": {
+      "standard": "/assets/cards/bl-matthieu/illustration.1495186a28.webp",
+      "fullArt": "/assets/cards/bl-matthieu/illustration.1495186a28.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "bl-eli",
+    "title": "Eli Mikage",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Reo Mikage\nBlue Lock",
+    "artwork": {
+      "standard": "/assets/cards/bl-eli/illustration.3515489695.webp",
+      "fullArt": "/assets/cards/bl-eli/illustration.3515489695.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "opm-thomas",
+    "title": "Thomas Saitama",
+    "rarity": "legendary",
+    "collectionId": "shonen",
+    "description": "Saitama\nOne Punch Man",
+    "artwork": {
+      "standard": "/assets/cards/opm-thomas/illustration.5197e2bd22.webp",
+      "fullArt": "/assets/cards/opm-thomas/illustration.5197e2bd22.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "opm-nana",
+    "title": "Nana Tatsumaki",
+    "rarity": "uncommon",
+    "collectionId": "shonen",
+    "description": "Tatsumaki\nOne Punch Man",
+    "artwork": {
+      "standard": "/assets/cards/opm-nana/illustration.1b005f17cb.webp",
+      "fullArt": "/assets/cards/opm-nana/illustration.1b005f17cb.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "opm-matthieu",
+    "title": "Matthieu King",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "King\nOne Punch Man",
+    "artwork": {
+      "standard": "/assets/cards/opm-matthieu/illustration.ec5b8953a6.webp",
+      "fullArt": "/assets/cards/opm-matthieu/illustration.ec5b8953a6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "opm-eli",
+    "title": "Eli Fubuki",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Fubuki\nOne Punch Man",
+    "artwork": {
+      "standard": "/assets/cards/opm-eli/illustration.181d458bee.webp",
+      "fullArt": "/assets/cards/opm-eli/illustration.181d458bee.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dst-thomas",
+    "title": "Thomas Ishigami",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Senku Ishigami\nDr. Stone",
+    "artwork": {
+      "standard": "/assets/cards/dst-thomas/illustration.ca3f7b03f8.webp",
+      "fullArt": "/assets/cards/dst-thomas/illustration.ca3f7b03f8.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dst-nana",
+    "title": "Nana Kohaku",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Kohaku\nDr. Stone",
+    "artwork": {
+      "standard": "/assets/cards/dst-nana/illustration.991d5b2496.webp",
+      "fullArt": "/assets/cards/dst-nana/illustration.991d5b2496.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dst-matthieu",
+    "title": "Matthieu Ōki",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Taiju Ōki\nDr. Stone",
+    "artwork": {
+      "standard": "/assets/cards/dst-matthieu/illustration.94d2e4ab43.webp",
+      "fullArt": "/assets/cards/dst-matthieu/illustration.94d2e4ab43.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dst-eli",
+    "title": "Eli Ogawa",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Yuzuriha Ogawa\nDr. Stone",
+    "artwork": {
+      "standard": "/assets/cards/dst-eli/illustration.028b26f652.webp",
+      "fullArt": "/assets/cards/dst-eli/illustration.028b26f652.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "onk-thomas",
+    "title": "Thomas Hoshino",
+    "rarity": "rare",
+    "collectionId": "seinen",
+    "description": "Aqua Hoshino\nOshi no Ko",
+    "artwork": {
+      "standard": "/assets/cards/onk-thomas/illustration.9b3132858e.webp",
+      "fullArt": "/assets/cards/onk-thomas/illustration.9b3132858e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "onk-nana",
+    "title": "Nana Kurokawa",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Akane Kurokawa\nOshi no Ko",
+    "artwork": {
+      "standard": "/assets/cards/onk-nana/illustration.5e90e12089.webp",
+      "fullArt": "/assets/cards/onk-nana/illustration.5e90e12089.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "onk-matthieu",
+    "title": "Matthieu Hoshino",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Ruby Hoshino\nOshi no Ko",
+    "artwork": {
+      "standard": "/assets/cards/onk-matthieu/illustration.7272809aca.webp",
+      "fullArt": "/assets/cards/onk-matthieu/illustration.7272809aca.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "onk-eli",
+    "title": "Eli Arima",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Kana Arima\nOshi no Ko",
+    "artwork": {
+      "standard": "/assets/cards/onk-eli/illustration.10547b2b0a.webp",
+      "fullArt": "/assets/cards/onk-eli/illustration.10547b2b0a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dm-thomas",
+    "title": "Thomas Tims",
+    "rarity": "common",
+    "collectionId": "seinen",
+    "description": "Chilchuck Tims\nDungeon Meshi",
+    "artwork": {
+      "standard": "/assets/cards/dm-thomas/illustration.9712036d3d.webp",
+      "fullArt": "/assets/cards/dm-thomas/illustration.9712036d3d.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dm-nana",
+    "title": "Nana Donato",
+    "rarity": "common",
+    "collectionId": "seinen",
+    "description": "Marcille Donato\nDungeon Meshi",
+    "artwork": {
+      "standard": "/assets/cards/dm-nana/illustration.446001fede.webp",
+      "fullArt": "/assets/cards/dm-nana/illustration.446001fede.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dm-matthieu",
+    "title": "Matthieu Touden",
+    "rarity": "common",
+    "collectionId": "seinen",
+    "description": "Laios Touden\nDungeon Meshi",
+    "artwork": {
+      "standard": "/assets/cards/dm-matthieu/illustration.1824b2122e.webp",
+      "fullArt": "/assets/cards/dm-matthieu/illustration.1824b2122e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dm-eli",
+    "title": "Eli Touden",
+    "rarity": "common",
+    "collectionId": "seinen",
+    "description": "Falin Touden\nDungeon Meshi",
+    "artwork": {
+      "standard": "/assets/cards/dm-eli/illustration.58be8b9e15.webp",
+      "fullArt": "/assets/cards/dm-eli/illustration.58be8b9e15.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "tg-thomas",
+    "title": "Thomas Arima",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Kishō Arima\nTokyo Ghoul",
+    "artwork": {
+      "standard": "/assets/cards/tg-thomas/illustration.224f5fa085.webp",
+      "fullArt": "/assets/cards/tg-thomas/illustration.224f5fa085.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "tg-nana",
+    "title": "Nana Kamishiro",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Rize Kamishiro\nTokyo Ghoul",
+    "artwork": {
+      "standard": "/assets/cards/tg-nana/illustration.1c3ad1d51d.webp",
+      "fullArt": "/assets/cards/tg-nana/illustration.1c3ad1d51d.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "tg-matthieu",
+    "title": "Matthieu Kaneki",
+    "rarity": "rare",
+    "collectionId": "seinen",
+    "description": "Ken Kaneki\nTokyo Ghoul",
+    "artwork": {
+      "standard": "/assets/cards/tg-matthieu/illustration.567c6ec954.webp",
+      "fullArt": "/assets/cards/tg-matthieu/illustration.567c6ec954.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "tg-eli",
+    "title": "Eli Kirishima",
+    "rarity": "rare",
+    "collectionId": "seinen",
+    "description": "Touka Kirishima\nTokyo Ghoul",
+    "artwork": {
+      "standard": "/assets/cards/tg-eli/illustration.dc3fa6e08b.webp",
+      "fullArt": "/assets/cards/tg-eli/illustration.dc3fa6e08b.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dn-thomas",
+    "title": "Thomas Yagami",
+    "rarity": "epic",
+    "collectionId": "seinen",
+    "description": "Light Yagami\nDeath Note",
+    "artwork": {
+      "standard": "/assets/cards/dn-thomas/illustration.6beee56b7b.webp",
+      "fullArt": "/assets/cards/dn-thomas/illustration.6beee56b7b.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dn-nana",
+    "title": "Nana Amane",
+    "rarity": "rare",
+    "collectionId": "seinen",
+    "description": "Misa Amane\nDeath Note",
+    "artwork": {
+      "standard": "/assets/cards/dn-nana/illustration.2d4c1e56ed.webp",
+      "fullArt": "/assets/cards/dn-nana/illustration.2d4c1e56ed.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dn-matthieu",
+    "title": "Matthieu Lawliet",
+    "rarity": "legendary",
+    "collectionId": "seinen",
+    "description": "L Lawliet\nDeath Note",
+    "artwork": {
+      "standard": "/assets/cards/dn-matthieu/illustration.631fa3e48e.webp",
+      "fullArt": "/assets/cards/dn-matthieu/illustration.631fa3e48e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "dn-eli",
+    "title": "Eli Misora",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Naomi Misora\nDeath Note",
+    "artwork": {
+      "standard": "/assets/cards/dn-eli/illustration.49240c61cf.webp",
+      "fullArt": "/assets/cards/dn-eli/illustration.49240c61cf.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "cb-thomas",
+    "title": "Thomas Black",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Jet Black\nCowboy Bebop",
+    "artwork": {
+      "standard": "/assets/cards/cb-thomas/illustration.fe15edfa6e.webp",
+      "fullArt": "/assets/cards/cb-thomas/illustration.fe15edfa6e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "cb-nana",
+    "title": "Nana Ed",
+    "rarity": "uncommon",
+    "collectionId": "seinen",
+    "description": "Ed\nCowboy Bebop",
+    "artwork": {
+      "standard": "/assets/cards/cb-nana/illustration.b5ae662978.webp",
+      "fullArt": "/assets/cards/cb-nana/illustration.b5ae662978.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "cb-matthieu",
+    "title": "Matthieu Spiegel",
+    "rarity": "epic",
+    "collectionId": "seinen",
+    "description": "Spike Spiegel\nCowboy Bebop",
+    "artwork": {
+      "standard": "/assets/cards/cb-matthieu/illustration.7693075c04.webp",
+      "fullArt": "/assets/cards/cb-matthieu/illustration.7693075c04.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "cb-eli",
+    "title": "Eli Valentine",
+    "rarity": "rare",
+    "collectionId": "seinen",
+    "description": "Faye Valentine\nCowboy Bebop",
+    "artwork": {
+      "standard": "/assets/cards/cb-eli/illustration.64baa0d705.webp",
+      "fullArt": "/assets/cards/cb-eli/illustration.64baa0d705.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "ag-thomas",
+    "title": "Thomas Minami",
+    "rarity": "uncommon",
+    "collectionId": "shonen",
+    "description": "Itsuki Minami\nAir Gear",
+    "artwork": {
+      "standard": "/assets/cards/ag-thomas/illustration.97fe0888aa.webp",
+      "fullArt": "/assets/cards/ag-thomas/illustration.97fe0888aa.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "ag-nana",
+    "title": "Nana Noyamano",
+    "rarity": "uncommon",
+    "collectionId": "shonen",
+    "description": "Ringo Noyamano\nAir Gear",
+    "artwork": {
+      "standard": "/assets/cards/ag-nana/illustration.dc7fa76d86.webp",
+      "fullArt": "/assets/cards/ag-nana/illustration.dc7fa76d86.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "skr-matthieu",
+    "title": "Matthieu Kitano",
+    "rarity": "rare",
+    "collectionId": "seinen",
+    "description": "Ken Kitano\nSun-Ken Rock",
+    "artwork": {
+      "standard": "/assets/cards/skr-matthieu/illustration.e810536ef4.webp",
+      "fullArt": "/assets/cards/skr-matthieu/illustration.e810536ef4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "skr-eli",
+    "title": "Eli Yoshizawa",
+    "rarity": "rare",
+    "collectionId": "seinen",
+    "description": "Yumi Yoshizawa\nSun-Ken Rock",
+    "artwork": {
+      "standard": "/assets/cards/skr-eli/illustration.881bd5c624.webp",
+      "fullArt": "/assets/cards/skr-eli/illustration.881bd5c624.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "db-thomas",
+    "title": "Thomas Sōryūin",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Akemi Sōryūin\nDumbbell",
+    "artwork": {
+      "standard": "/assets/cards/db-thomas/illustration.3a2cec08bf.webp",
+      "fullArt": "/assets/cards/db-thomas/illustration.3a2cec08bf.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "db-matthieu",
+    "title": "Matthieu Sakura",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Hibiki Sakura\nDumbbell",
+    "artwork": {
+      "standard": "/assets/cards/db-matthieu/illustration.887f042f68.webp",
+      "fullArt": "/assets/cards/db-matthieu/illustration.887f042f68.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "db-eli",
+    "title": "Eli Uehara",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Ayaka Uehara\nDumbbell",
+    "artwork": {
+      "standard": "/assets/cards/db-eli/illustration.6bcd67ca72.webp",
+      "fullArt": "/assets/cards/db-eli/illustration.6bcd67ca72.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "db-nana",
+    "title": "Nana Boyd",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Gina Boyd\nDumbbell",
+    "artwork": {
+      "standard": "/assets/cards/db-nana/illustration.5212a61683.webp",
+      "fullArt": "/assets/cards/db-nana/illustration.5212a61683.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "uq-matthieu",
+    "title": "Matthieu Konoe",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Tōta Konoe\nUQ Holder!",
+    "artwork": {
+      "standard": "/assets/cards/uq-matthieu/illustration.c4dfcebcc8.webp",
+      "fullArt": "/assets/cards/uq-matthieu/illustration.c4dfcebcc8.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "uq-eli",
+    "title": "Eli Sakurame",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Kirie Sakurame\nUQ Holder!",
+    "artwork": {
+      "standard": "/assets/cards/uq-eli/illustration.205db57b4a.webp",
+      "fullArt": "/assets/cards/uq-eli/illustration.205db57b4a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "uq-thomas",
+    "title": "Thomas Tokisaka",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Kuromaru Tokisaka\nUQ Holder!",
+    "artwork": {
+      "standard": "/assets/cards/uq-thomas/illustration.27f3a940c3.webp",
+      "fullArt": "/assets/cards/uq-thomas/illustration.27f3a940c3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "uq-nana",
+    "title": "Nana Yukihime",
+    "rarity": "common",
+    "collectionId": "shonen",
+    "description": "Yukihime\nUQ Holder!",
+    "artwork": {
+      "standard": "/assets/cards/uq-nana/illustration.ce845268bf.webp",
+      "fullArt": "/assets/cards/uq-nana/illustration.ce845268bf.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "ss-nana",
+    "title": "Nana Fujigaya",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Saku Fujigaya\nSakura, Saku",
+    "artwork": {
+      "standard": "/assets/cards/ss-nana/illustration.827fa584d5.webp",
+      "fullArt": "/assets/cards/ss-nana/illustration.827fa584d5.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "ss-thomas",
+    "title": "Thomas Haruki",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Haruki\nSakura, Saku",
+    "artwork": {
+      "standard": "/assets/cards/ss-thomas/illustration.f98f2f606c.webp",
+      "fullArt": "/assets/cards/ss-thomas/illustration.f98f2f606c.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "soa-matthieu",
+    "title": "Matthieu Itsuomi",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Itsuomi Nagi\nA Sign of Affection",
+    "artwork": {
+      "standard": "/assets/cards/soa-matthieu/illustration.58a39099cb.webp",
+      "fullArt": "/assets/cards/soa-matthieu/illustration.58a39099cb.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "soa-eli",
+    "title": "Eli Itose",
+    "rarity": "common",
+    "collectionId": "shojo",
+    "description": "Yuki Itose\nA Sign of Affection",
+    "artwork": {
+      "standard": "/assets/cards/soa-eli/illustration.0f38c453e1.webp",
+      "fullArt": "/assets/cards/soa-eli/illustration.0f38c453e1.webp"
     },
     "artworkPosition": {
       "standard": "center top",

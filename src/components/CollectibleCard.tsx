@@ -24,19 +24,21 @@ export function CardSvgDefinitions() {
 }
 // Reference layouts are shared. Thumbnails use baked foil; details retain the full finish layers.
 type CardPresentation = 'thumbnail' | 'detail'
-type CardProps = { card: Card; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean; presentation?: CardPresentation }
-type CardFaceProps = Omit<CardProps, 'deferred' | 'presentation'> & { presentation: CardPresentation }
+type CardProps = { card: Card; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean; suspended?: boolean; presentation?: CardPresentation }
+type CardFaceProps = Omit<CardProps, 'deferred' | 'suspended' | 'presentation'> & { presentation: CardPresentation }
 
 /** Distant faces are unmounted; the presentation is independent from lazy loading. */
-export function CollectibleCard({ deferred = false, presentation = 'detail', ...props }: CardProps) {
+export function CollectibleCard({ deferred = false, suspended = false, presentation = 'detail', ...props }: CardProps) {
   const slot = useRef<HTMLDivElement>(null)
   const [nearby, setNearby] = useState(!deferred)
-  useEffect(() => {
-    if (!deferred || !slot.current) return
+  useLayoutEffect(() => {
+    // A hidden pile retains its mounted faces until the detail closes.
+    // Disconnect before paint so hiding it cannot enqueue an eviction.
+    if (!deferred || suspended || !slot.current) return
     const observer = new IntersectionObserver(([entry]) => setNearby(entry.isIntersecting), { root: slot.current.closest('dialog'), rootMargin: '240px 0px' })
     observer.observe(slot.current)
     return () => observer.disconnect()
-  }, [deferred])
+  }, [deferred, suspended])
   return <div ref={slot} className={`card-slot ${presentation === 'thumbnail' ? 'card-thumbnail' : ''}`}>
     {!deferred || nearby ? <CardFace {...props} presentation={presentation} /> : <button className="card-placeholder" onClick={props.onActivate} aria-label={`${props.definition.title}${props.activationLabel ? `. ${props.activationLabel}` : ''}`} />}
   </div>
@@ -49,7 +51,11 @@ function CardFace({ card, definition, onActivate, activationLabel, presentation 
   const pointerOrigin = useRef<{ x: number; y: number } | null>(null)
   useLayoutEffect(() => {
     setScale(wrapperRef.current!.getBoundingClientRect().width / 326)
-    const observer = new ResizeObserver(entries => setScale(entries[0].contentRect.width / 326))
+    const observer = new ResizeObserver(entries => {
+      const width = entries[0].contentRect.width
+      // Keep the last scale while an ancestor is hidden.
+      if (width > 0) setScale(width / 326)
+    })
     if (wrapperRef.current) observer.observe(wrapperRef.current)
     return () => observer.disconnect()
   }, [wrapperRef])

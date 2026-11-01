@@ -18,6 +18,13 @@ describe('catalogue public des cadeaux', () => {
         expect(available.has(gift.reward.boosterId)).toBe(true)
         expect(Number.isSafeInteger(gift.reward.quantity) && gift.reward.quantity > 0).toBe(true)
         if (gift.reward.fragments !== undefined) expect(Number.isSafeInteger(gift.reward.fragments) && gift.reward.fragments > 0).toBe(true)
+      } else if (gift.reward.type === 'boosters') {
+        expect(gift.reward.boosters.length).toBeGreaterThan(0)
+        expect(new Set(gift.reward.boosters.map(item => item.boosterId)).size).toBe(gift.reward.boosters.length)
+        for (const item of gift.reward.boosters) {
+          expect(available.has(item.boosterId)).toBe(true)
+          expect(Number.isSafeInteger(item.quantity) && item.quantity > 0).toBe(true)
+        }
       } else {
         expect(gift.reward.type).toBe('fragments')
         expect(Number.isSafeInteger(gift.reward.amount) && gift.reward.amount > 0).toBe(true)

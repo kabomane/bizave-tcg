@@ -1,8 +1,7 @@
 // Increment this counter and replace the note before each announced deployment.
-export const UPDATE_VERSION = 3
-export const UPDATE_NOTE = `changement d'illustration pour la carte "soirée film #3"
-ajouts d'options et changement de disposition
-suppression de la parallaxe sur les cartes
-modification de l'affichage des full art
+export const UPDATE_VERSION = 4
+export const UPDATE_NOTE = `ajout de nouvelles cartes dans anima isekai et memory frame
+correction de bug d'affichage
+modification du système de mise à jour
 
-cadeau : HHQ6-7CHY-82B8-99QA`
+JF4B-SHUC-4VKN-KYDY`

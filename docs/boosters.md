@@ -1,12 +1,12 @@
 # Paquets, boutique et stocks
 
-Quatre paquets sont configurés : **Memory Frame** (158 cartes, gratuit ou 70 fragments), **Anima Isekai** (59 cartes, gratuit ou 50 fragments), **epico stellari** (46 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (40 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
+Quatre paquets sont configurés : **Memory Frame** (159 cartes, gratuit ou 70 fragments), **Anima Isekai** (143 cartes, gratuit ou 50 fragments), **epico stellari** (52 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (50 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
 
 ## Contenus
 
 - `src/data/boosters.ts` contient les définitions des paquets.
-- `src/data/pools/memory-frame.json` contient les 126 cartes de Memory Frame, anciennement Phantom Blood. Son ID technique `phantom-blood` est conservé pour les stocks achetés, préférences et ouvertures en cours. Les 110 anciens modèles gardent leurs numéros ; les 16 nouveaux sont ajoutés à la fin de l’ordre global.
-- `src/data/pools/anima-isekai.json` contient les 59 cartes d’Anima Isekai, toutes illustrées en WebP. Les pools Memory Frame et Anima Isekai sont distincts. Les 55 identifiants initiaux suivent les cartes de Memory Frame ; les quatre cartes Chainsaw Man sont ajoutées à la fin de l’ordre global pour conserver les numéros existants.
+- `src/data/pools/memory-frame.json` contient les 159 cartes de Memory Frame, anciennement Phantom Blood. Son ID technique `phantom-blood` conserve les stocks, préférences et ouvertures en cours. Thomas BIZAVE rejoint le pool ; les numéros existants restent inchangés.
+- `src/data/pools/anima-isekai.json` contient les 143 cartes d’Anima Isekai, toutes illustrées en WebP. Les pools Memory Frame et Anima Isekai sont distincts. Les 84 ajouts sont placés en fin d’ordre global ; Matthieu Izumi conserve l’ID `kis-arashi` et son numéro.
 - **epico stellari** utilise `sources: [{ type: 'rarities', rarities: ['epic', 'legendary'] }]` : toutes les cartes épiques et légendaires du catalogue, y compris les futurs ajouts, sans nouvelle liste à entretenir. Le sous-titre est calculé depuis le catalogue. Les cartes partagées gardent leur identité et leur numéro ; ce booster de regroupement est masqué dans les filtres par `showInFilters: false`.
 - Les listes ne dépendent ni des groupes éditoriaux ni du catalogue global. Ajouter une carte à un groupe ne change pas automatiquement un paquet.
 - Les nouveaux paquets peuvent référencer les mêmes identifiants et des identifiants exclusifs dans leur propre liste. Une carte partagée garde une seule définition et la même identité dans la collection, les échanges et les doublons.

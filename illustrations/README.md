@@ -15,7 +15,17 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **217 cartes**, toutes illustrées avec un WebP versionné. Les 217 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **302 cartes**, toutes **illustrées en WebP versionné**. Les 302 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 1er novembre 2026
+
+Les carnets du 1er novembre ajoutent **Thomas BIZAVE** à Memory Frame (159 cartes) et **84 cartes** à Anima Isekai (143 cartes). **Arashi Shinichi** devient **Matthieu Izumi** ; l’ID `kis-arashi`, le numéro, la rareté et l’image restent inchangés. Les 85 nouveaux IDs sont ajoutés en fin d’ordre global.
+
+**85 nouvelles illustrations** sont importées : 82 du ZIP et trois images fournies séparément (`thomas_bizave.png`, `thomas_soryuin.png` et `nana_boyd.png`). Les 59 fichiers du ZIP correspondant aux cartes existantes sont identiques aux originaux (SHA-256) et ignorés. Le fichier `matthieu_uzumaki.png` est identique à l’original de Thomas Uzumaki (`nar-thomas`). Les autres correspondances de noms sont consignées dans `imports/2026-11-01/manifest.json`.
+
+**Catalogue complet : aucune illustration manquante.** Thomas Sōryūin (`db-thomas`) et Nana Boyd (`db-nana`), absents du ZIP, ont été fournis séparément et intégrés aux deux formats ; les SVG provisoires sont retirés. Les descriptions proviennent uniquement de `FICHES.description` ; les consignes de création ne sont pas exécutées. Aucun autre champ d’une carte existante n’est modifié. Les fichiers de travail et la planche de contrôle sont dans `.local/import-2026-11-01/`.
+
+Validation de l’import : lint, 195 tests Vitest, TypeScript et build réussis. Parcours Chromium d’ouverture, reprise et collection persistante réussi. Les 217 anciennes définitions et leurs images sont vérifiées inchangées, sauf le titre annoncé ; numéros conservés. Les 85 nouvelles illustrations ont leurs empreintes et métadonnées contrôlées ; planche de contrôle inspectée.
 
 ## Import du 30 octobre 2026
 

@@ -1,4 +1,4 @@
-# Transfert de sauvegarde et suppression du compte — bizave-tcg.v1.3.0
+# Transfert de sauvegarde et suppression du compte — bizave-tcg.v1.3.2
 
 Les options affichent l’**ID joueur** en petit à droite du titre et les actions discrètes **Transfert de sauvegarde** et **Supprimer le compte** en bas de page. Le menu de transfert affiche l’**ID d’installation** de cet appareil. Les deux utilisent le format `1234-56-78`, mais ont des rôles distincts : le joueur suit sa partie, l’installation désigne la destination. Ces opérations nécessitent Web Crypto, donc HTTPS ou localhost.
 

@@ -23,6 +23,7 @@ npm run gifts:generate -- --fragments 500 --count 10
 npm run gifts:generate -- --booster epico-stellari --quantity 2 --count 10
 npm run gifts:generate -- --booster phantom-blood --quantity 2 --fragments 100 --count 10
 npm run gifts:generate -- --booster rarity-only --quantity 5 --count 10
+npm run gifts:generate -- --boosters phantom-blood,anima-isekai,epico-stellari,rarity-only --quantity 1 --count 5
 ```
 
 Chaque commande **ajoute un nouveau lot** au catalogue existant. Ne pas la relancer pour simplement consulter les codes déjà créés. Le générateur écrit d’abord leur liste en clair dans `.local/gift-codes/<lot>.json`, puis ajoute les seules empreintes au catalogue public. Les fichiers privés sont ignorés par Git et restent hors de `public/` et du build. Les conserver ailleurs dans un emplacement privé : ils ne sont pas sauvegardés sur GitHub. La liste Markdown locale du premier lot regroupe les 50 codes pour leur distribution.
@@ -36,3 +37,7 @@ Un code est utilisable une fois **par sauvegarde**, et peut donc être distribu�
 Le schéma IndexedDB 6 ajoute le registre sans toucher à la collection, aux stocks, au solde ou à la recharge. Le fichier `.btcg` inclut le registre et l’import réunit les historiques des deux appareils. Les fichiers du schéma 5 restent importables et ne suppriment pas les codes déjà utilisés par le destinataire. La suppression du compte efface ce registre avec toutes les autres données.
 
 Le registre est local : il ne garantit ni usage unique mondial ni résistance à la copie ou à l’altération des données du jeu. Une nouvelle partie peut réutiliser les codes. Ces limites sont celles d’un jeu sans backend ; le catalogue empêche la fabrication de nouveaux codes acceptés par le client officiel, sans rendre le client lui-même inviolable.
+
+## Lot du 1er novembre 2026
+
+Cinq codes donnent chacun un exemplaire de Memory Frame, Anima Isekai, epico stellari et rarity only. Les quatre crédits et le registre sont écrits dans une seule transaction ; un échec annule tout. Le premier code est diffusé volontairement dans la note de mise à jour 4 ; les cinq codes sont conservés dans le lot privé local. Les codes restent utilisables une seule fois par sauvegarde. Le format boosters est compatible avec les cadeaux existants et ne nécessite aucun changement du schéma de sauvegarde.

@@ -1,5 +1,20 @@
 # Historique des versions
 
+## bizave-tcg.v1.3.2 — 1er novembre 2026
+
+- Thomas BIZAVE ajouté à Memory Frame (159 cartes) ; 84 cartes ajoutées à Anima Isekai (143 cartes).
+- Arashi Shinichi renommé Matthieu Izumi avec ID et numéro conservés.
+- 85 nouvelles illustrations WebP ; Thomas Sōryūin et Nana Boyd (Dumbbell), absents du ZIP, ont été fournis séparément.
+- Catalogue de 302 modèles, tous illustrés. epico stellari contient désormais 52 modèles ; rarity only, 50. Les numéros, illustrations, raretés et descriptions des cartes existantes sont conservés.
+- Inversion des mentions A1 et A2 sur Dorian motard et Thomas motard ; titre du sachet rarity only sur deux lignes.
+- Typographie des cartes : Fraunces 700 et 500 italique, Barlow Condensed 500, polices locales.
+- Piles conservées pendant l’aperçu : retour sans reconstruction des images, défilement restauré et libération à la fermeture directe.
+- Détection automatique des publications et actualisation protégée au retour dans l’onglet ; cache des pages et manifeste adapté.
+- Cinq cadeaux donnant chacun les quatre boosters, crédités atomiquement. Notification 4 avec la note du propriétaire et un code annoncé.
+- Essais de partage de carte abandonnés : aucun bouton, exporteur ou dépendance conservé.
+
+Note de publication : [bizave-tcg.v1.3.2](docs/releases/bizave-tcg.v1.3.2.md).
+
 ## bizave-tcg.v1.3.1 — 31 octobre 2026
 
 - Nouvelle illustration de Soirée film #3 et retrait des scores des deux cartes Bizarre Aventure.

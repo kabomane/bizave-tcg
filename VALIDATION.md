@@ -1,4 +1,16 @@
-# Validation — bizave-tcg.v1.3.1
+# Validation — bizave-tcg.v1.3.2
+
+## Publication — 1er novembre 2026, version 1.3.2 et mise à jour 4
+
+- Documents Markdown courants, historique et note de publication revus ; liens locaux valides. Les chiffres actuels sont 302 modèles illustrés, Memory Frame 159, Anima Isekai 143, epico stellari 52 et rarity only 50. Les documents historiques restent datés.
+- Lint et 207 tests unitaires/intégration réussis. Le contrôle TypeScript a révélé un paramètre non typé dans le nouveau test cadeau ; il est corrigé et le build final réussit.
+- 18 parcours Chromium réussis : ouvertures et reprise, collection et filtres, responsive/clavier, échanges signés, favoris, piles et sorties directes, cadeau groupé, notification et actualisation des builds.
+- Build de production contrôlé dans un navigateur vierge : métadonnée 1.3.2, note exacte de mise à jour 4, confirmation, absence de mode dev, crédit persistant d’un exemplaire des quatre boosters et aucune erreur JavaScript.
+- Audit : 324 fichiers, 63036787 octets, 85 empreintes de cadeaux et 85 codes privés contrôlés. Seul le code explicitement annoncé dans la note apparaît en clair ; aucun original, certificat, sauvegarde, archive, source de laboratoire ou liste privée n’est publié.
+- Build technique : ee70371b-85dd-4fd5-b15a-189f0d609a4b. Le manifeste version.json correspond au code compilé.
+- Déploiement Firebase Hosting réussi sur bizave-tcg. Vingt ressources vérifiées par SHA-256 sur les deux domaines : HTML racine et route Collection, manifeste, ressources d’entrée et trois nouvelles illustrations. Toutes correspondent au build local.
+- Cache vérifié en production : pages no-cache, version.json no-store et assets immutable. Parcours navigateur réussi sur https://bizave-tcg.web.app et https://bizave-tcg.kabomane.me : version, note, cadeau, persistance et absence d’erreur JS.
+- Les premiers onglets sans moniteur doivent être actualisés manuellement une fois. Les tests automatisés ne remplacent pas les vérifications sur un iPhone réel.
 
 ## Correctif silencieux — 31 octobre 2026
 

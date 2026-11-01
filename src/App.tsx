@@ -13,6 +13,7 @@ import { AtelierPage } from './pages/AtelierPage'
 import { pruneOutbox } from './exchanges/outbox'
 import { AccountGate } from './components/AccountGate'
 import { UpdatePage } from './pages/UpdatePage'
+import { BuildUpdateNotice } from './components/BuildUpdateNotice'
 const SendCardPage = lazy(() => import('./pages/SendCardPage').then(m => ({ default: m.SendCardPage })))
 const SettingsPage = lazy(() => import('./pages/SettingsPage').then(m => ({ default: m.SettingsPage })))
 const ExchangesPage = lazy(() => import('./pages/ExchangesPage').then(m => ({ default: m.ExchangesPage })))
@@ -22,7 +23,7 @@ const ChangelogPage = lazy(() => import('./pages/ChangelogPage').then(m => ({ de
 export default function App({ updateRequired = false }: { updateRequired?: boolean }) {
   const [pendingUpdate, setPendingUpdate] = useState(updateRequired)
   const navigate = useNavigate()
-  return <AccountGate>{pendingUpdate ? <Routes><Route path="/mise-a-jour" element={<UpdatePage onContinue={() => { setPendingUpdate(false); navigate('/', { replace: true }) }} />} /><Route path="*" element={<Navigate to="/mise-a-jour" replace />} /></Routes> : <ActiveApp />}</AccountGate>
+  return <><BuildUpdateNotice /><AccountGate>{pendingUpdate ? <Routes><Route path="/mise-a-jour" element={<UpdatePage onContinue={() => { setPendingUpdate(false); navigate('/', { replace: true }) }} />} /><Route path="*" element={<Navigate to="/mise-a-jour" replace />} /></Routes> : <ActiveApp />}</AccountGate></>
 }
 
 function ActiveApp() {

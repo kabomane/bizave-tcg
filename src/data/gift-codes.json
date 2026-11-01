@@ -638,5 +638,125 @@
       "boosterId": "rarity-only",
       "quantity": 5
     }
+  },
+  {
+    "codeHash": "443693c09b2789857a25454f8bec1a9194beeb880587d5cdac720a253d8dfc67",
+    "reward": {
+      "type": "boosters",
+      "boosters": [
+        {
+          "boosterId": "phantom-blood",
+          "quantity": 1
+        },
+        {
+          "boosterId": "anima-isekai",
+          "quantity": 1
+        },
+        {
+          "boosterId": "epico-stellari",
+          "quantity": 1
+        },
+        {
+          "boosterId": "rarity-only",
+          "quantity": 1
+        }
+      ]
+    }
+  },
+  {
+    "codeHash": "a88730b727b027e8d1310bc31d373136d9e5510ffcc04728c6b94dc8ec255b98",
+    "reward": {
+      "type": "boosters",
+      "boosters": [
+        {
+          "boosterId": "phantom-blood",
+          "quantity": 1
+        },
+        {
+          "boosterId": "anima-isekai",
+          "quantity": 1
+        },
+        {
+          "boosterId": "epico-stellari",
+          "quantity": 1
+        },
+        {
+          "boosterId": "rarity-only",
+          "quantity": 1
+        }
+      ]
+    }
+  },
+  {
+    "codeHash": "bda0732aed9f2822936518ece244eedf01af88dce3a1cb28aec9816a66ce1dde",
+    "reward": {
+      "type": "boosters",
+      "boosters": [
+        {
+          "boosterId": "phantom-blood",
+          "quantity": 1
+        },
+        {
+          "boosterId": "anima-isekai",
+          "quantity": 1
+        },
+        {
+          "boosterId": "epico-stellari",
+          "quantity": 1
+        },
+        {
+          "boosterId": "rarity-only",
+          "quantity": 1
+        }
+      ]
+    }
+  },
+  {
+    "codeHash": "8f22c7ee3100cd9a4b49f6981f248a3211f5a05b910cc4130d837e84cf79c10b",
+    "reward": {
+      "type": "boosters",
+      "boosters": [
+        {
+          "boosterId": "phantom-blood",
+          "quantity": 1
+        },
+        {
+          "boosterId": "anima-isekai",
+          "quantity": 1
+        },
+        {
+          "boosterId": "epico-stellari",
+          "quantity": 1
+        },
+        {
+          "boosterId": "rarity-only",
+          "quantity": 1
+        }
+      ]
+    }
+  },
+  {
+    "codeHash": "a403a97d81deadfe6401d5d5b8d1bb09301b5d833ab140bfd5f5d90ae318ef0e",
+    "reward": {
+      "type": "boosters",
+      "boosters": [
+        {
+          "boosterId": "phantom-blood",
+          "quantity": 1
+        },
+        {
+          "boosterId": "anima-isekai",
+          "quantity": 1
+        },
+        {
+          "boosterId": "epico-stellari",
+          "quantity": 1
+        },
+        {
+          "boosterId": "rarity-only",
+          "quantity": 1
+        }
+      ]
+    }
   }
 ]

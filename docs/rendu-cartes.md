@@ -35,3 +35,11 @@ Le générateur utilise une graine fixe. Une régénération identique ne rééc
 `tests/holographics.spec.ts` couvre les deux formats, le rendu statique et animé, la texture partagée, l'absence de filtres/masques dans les miniatures, la suspension de l'arrière-plan, le détail complet et sa limite d'inclinaison. Le parcours de 111 cartes utilise un écran de densité 3, des défilements lents et rapides et plusieurs piles holo, sans modifier leurs possessions.
 
 Ces essais s'exécutent sur Chromium, Firefox et WebKit. Le WebKit automatisé sur PC ne reproduit pas les limites et pilotes graphiques d'un iPhone : le parcours réel doit aussi être vérifié sur l'appareil concerné, avec ses animations réactivées.
+
+## Typographie des cartes
+
+Les titres utilisent Fraunces Bold 700 ; les descriptions, Fraunces Medium 500 italique. La mention « rareté · finition » utilise Barlow Condensed Medium 500, retenue pour sa lisibilité en miniature. Ces règles s’appliquent aux deux formats et aux trois finitions dans `src/styles/card-typography.css`. Les polices WOFF2 Latin et Latin étendu sont hébergées dans `src/assets/fonts/`, avec leurs licences OFL ; aucun appel à Google Fonts n’est nécessaire au chargement du jeu.
+
+## Retour à une pile
+
+La pile reste montée et masquée pendant la consultation d’une de ses cartes. Son observation de visibilité est suspendue pour conserver les images déjà affichées ; les cartes éloignées restent différées. Le retour restaure sa position de défilement. La croix, Échap, le clic à l’extérieur ou le départ vers Envoyer ferment toute la consultation et libèrent la pile. Les favoris restent actualisés à la fermeture complète. `tests/stack-return.spec.ts` vérifie la continuité des images, le défilement et ces sorties sur mobile et ordinateur.

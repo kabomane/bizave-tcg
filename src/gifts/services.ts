@@ -10,23 +10,26 @@ export async function redeemGiftCode(code: string, database = db, now = Date.now
   const gift = giftCodeByHash.get(codeHash)
   if (!gift) throw new Error('Ce code cadeau est invalide.')
   const reward = gift.reward
-  const booster = reward.type === 'booster' ? boosters.find(item => item.id === reward.boosterId && item.enabled) : undefined
-  if (reward.type === 'booster' && !booster) throw new Error('Le booster de ce cadeau est indisponible.')
-  const amount = reward.type === 'booster' ? reward.quantity : reward.amount
-  const fragments = reward.type === 'booster' ? reward.fragments ?? 0 : reward.amount
+  const grants = reward.type === 'booster' ? [reward] : reward.type === 'boosters' ? reward.boosters : []
+  if (!Array.isArray(grants) || reward.type === 'boosters' && !grants.length || new Set(grants.map(item => item.boosterId)).size !== grants.length) throw new Error('Ce cadeau est indisponible.')
+  for (const grant of grants) {
+    if (!boosters.some(item => item.id === grant.boosterId && item.enabled)) throw new Error('Le booster de ce cadeau est indisponible.')
+    if (!Number.isSafeInteger(grant.quantity) || grant.quantity <= 0) throw new Error('Ce cadeau est indisponible.')
+  }
+  const fragments = reward.type === 'fragments' ? reward.amount : reward.type === 'booster' ? reward.fragments ?? 0 : 0
   if (!Number.isSafeInteger(fragments) || fragments < 0) throw new Error('Ce cadeau est indisponible.')
-  if (!Number.isSafeInteger(amount) || amount <= 0 || !Number.isSafeInteger(now) || now < 0) throw new Error('Ce cadeau est indisponible.')
+  if (reward.type === 'fragments' && fragments <= 0 || !Number.isSafeInteger(now) || now < 0) throw new Error('Ce cadeau est indisponible.')
   return database.transaction('rw', [database.player, database.boosterStock, database.usedGiftCodes, database.accountState], async () => {
     await assertAccountActive(database)
     if (await database.usedGiftCodes.get(codeHash)) throw new Error('Ce code cadeau a déjà été utilisé.')
     const player = await database.player.get('local')
     if (!player) throw new Error('La sauvegarde locale est indisponible.')
     const time = Math.max(now, player.maxObservedClockAt)
-    if (reward.type === 'booster') {
-      const quantity = (await database.boosterStock.get(reward.boosterId))?.quantity ?? 0
-      if (!Number.isSafeInteger(quantity) || quantity < 0 || !Number.isSafeInteger(quantity + amount)) throw new Error('Le stock de ce booster est incohérent.')
+    for (const grant of grants) {
+      const quantity = (await database.boosterStock.get(grant.boosterId))?.quantity ?? 0
+      if (!Number.isSafeInteger(quantity) || quantity < 0 || !Number.isSafeInteger(quantity + grant.quantity)) throw new Error('Le stock de ce booster est incohérent.')
       // Gifts use the purchased reserve, independently of the free recharge stock.
-      await database.boosterStock.put({ boosterId: reward.boosterId, quantity: quantity + amount, updatedAt: time })
+      await database.boosterStock.put({ boosterId: grant.boosterId, quantity: quantity + grant.quantity, updatedAt: time })
     }
     if (!Number.isSafeInteger(player.fragments) || player.fragments < 0 || !Number.isSafeInteger(player.fragments + fragments)) throw new Error('Le solde de fragments est incohérent.')
     await database.player.put({ ...player, fragments: player.fragments + fragments, maxObservedClockAt: time })

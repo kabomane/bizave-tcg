@@ -10,6 +10,7 @@ import { migrateLegacyDatabase } from './storage/patches/legacyDatabase'
 import './styles/index.css'
 import './styles/cards-reference.css'
 import './styles/application.css'
+import './styles/card-typography.css'
 
 const root = createRoot(document.getElementById('root')!)
 async function boot() {
