@@ -1,5 +1,18 @@
 # Historique des versions
 
+## bizave-tcg.v1.4.0 — 2 novembre 2026
+
+- Partage : attendre le décodage des images avant le dessin Canvas pour éviter une illustration absente au premier export à froid, en pile comme sur une carte seule.
+- Aperçu : skeleton neutre animé pendant le chargement, puis fondu sans changement de dimensions. Les cartes chargées restent visibles lors des swipes et des retours. Navigation mobile plus opaque (94 %) et flou réduit à 8 px.
+- Titres des Classiques : centrage vertical corrigé dans les exports Carte/Story des trois finitions ; dorure rendue dans un calque limité au bandeau, second titre masqué retiré du composant.
+- Story exporté en PNG avec les mêmes halos et le thème actif, actualisé aussi en mode système. Réserve des boosters regroupée dans le compteur ; invitation à toucher retirée. Faces et légendes de Collection alignées, fragments toujours à droite.
+- Ajustements : halos de rareté diffus et décentrés sur le fond du thème dans D et les révélations ; orbes corrigés en mode sombre ; options en rubriques dépliantes avec en-tête option TCG et ID joueur.
+- Eli veilleuse de nuit et Nana Office Lady : deux rares illustrées ajoutées à Memory Frame (161 modèles), catalogue total 304, rarity only 52. IDs et numéros existants conservés.
+- Aperçu D : pile et détail fusionnés, carrousel natif responsive, points de finition, favoris, dons et feuille de recyclage.
+- Partage Canvas prégénéré, Story ou carte transparente, feuille native et téléchargement de secours.
+- Options 4/2 actions et format de partage ; navigation flottante, ouverture et récapitulatif harmonisés. Libellé Donner retenu par le propriétaire.
+- Version 1.4.0, notification 5 et nouveau code cadeau donnant un paquet Memory Frame. Publication Firebase Hosting.
+
 ## bizave-tcg.v1.3.2 — 1er novembre 2026
 
 - Thomas BIZAVE ajouté à Memory Frame (159 cartes) ; 84 cartes ajoutées à Anima Isekai (143 cartes).

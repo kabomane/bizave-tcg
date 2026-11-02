@@ -32,8 +32,8 @@ export function CollectibleCard({ deferred = false, suspended = false, presentat
   const slot = useRef<HTMLDivElement>(null)
   const [nearby, setNearby] = useState(!deferred)
   useLayoutEffect(() => {
-    // A hidden pile retains its mounted faces until the detail closes.
-    // Disconnect before paint so hiding it cannot enqueue an eviction.
+    // Keep the background tile mounted while a viewer is open, including its focus target.
+    // Disconnect before the page lock can enqueue an eviction.
     if (!deferred || suspended || !slot.current) return
     const observer = new IntersectionObserver(([entry]) => setNearby(entry.isIntersecting), { root: slot.current.closest('dialog'), rootMargin: '240px 0px' })
     observer.observe(slot.current)
@@ -71,7 +71,6 @@ function CardFace({ card, definition, onActivate, activationLabel, presentation 
   }, [card.finish, elementRef, wrapperRef])
   const f = card.finish, micro = f === 'normal' ? 'Mate' : f === 'glossy' ? 'Holographique' : 'Alternative'
   const rarity = RARITY_LABELS[definition.rarity]
-  const title = f === 'alternative' ? <h2 className="foil-text" data-text={definition.title}>{definition.title}</h2> : <h2 className="card-title">{definition.title}</h2>
   return <div ref={wrapperRef} className={`card-scene layout-${card.artVariant === 'fullArt' ? 'gundam' : 'fusion'}`} style={{ borderRadius: 20 * scale }}>
     <div className="card-scale" style={{ transform: `scale(${scale})` }}>
       <article ref={elementRef} className={`card has-custom ${f === 'normal' ? 'standard' : f}`} data-presentation={presentation} data-rarity={definition.rarity} data-art={card.artVariant} tabIndex={0} role="button" aria-label={`${definition.title}, ${rarity}, ${FINISH_LABELS[f]}, ${ART_LABELS[card.artVariant]}${activationLabel ? `. ${activationLabel}` : ''}`} onClick={() => { if (!draggedRef.current) onActivate?.(); draggedRef.current = false }} onKeyDown={thumbnail ? event => {
@@ -84,7 +83,7 @@ function CardFace({ card, definition, onActivate, activationLabel, presentation 
         <div className="art"><img className="custom-art" src={definition.artwork[card.artVariant]} style={{ objectPosition: definition.artworkPosition?.[card.artVariant] }} alt={definition.artwork[card.artVariant].endsWith('.svg') ? 'Illustration à venir' : `Illustration de ${definition.title}`} loading="lazy" draggable={false} /></div>
         {f === 'glossy' && (thumbnail ? <div className="holo-preview" style={{ backgroundImage: `url("${holoPreviewTexture}")` }} aria-hidden="true"><div className="holo-preview-reflection" /></div> : <><div className="holo" /><div className="sparkle s1" /><div className="sparkle s2" /><div className="sparkle s3" /></>)}
         <div className="type-line"><span className="tl-rarity"><span className="rarity-text">{rarity}</span></span><span className="tl-sep"> — </span><span className="tl-fin">{micro}</span></div>
-        <div className="card-info">{title}<p className="description">{definition.description}</p><div className="finish-name"><span className="rarity-text">{rarity}</span> · {micro}</div></div>
+        <div className="card-info"><p className="description">{definition.description}</p><div className="finish-name"><span className="rarity-text">{rarity}</span> · {micro}</div></div>
         {f === 'glossy' ? <div className={thumbnail ? 'holo-preview-frame' : 'foil-frame'} aria-hidden="true" /> : f === 'alternative' ? <><div className="gold-frame" /><div className="gold-inner" /></> : <div className="matte-frame" />}
         <div className="shade" />
       </article>

@@ -1,4 +1,59 @@
-# Validation — bizave-tcg.v1.3.2
+# Validation — bizave-tcg.v1.4.0
+
+## Publication 1.4.0 — 2 novembre 2026
+
+- `package.json` et lockfile en 1.4.0 ; notification 5. Note du propriétaire avec une ligne vide avant le code cadeau DEE5-AVCY-8L4W-JL7A, récompense d’un paquet Memory Frame.
+- Lint, TypeScript, 209 tests et build de production réussis. Deux parcours de notification et un parcours avec le vrai code cadeau réussis sur Chromium : crédit d’un paquet, deuxième utilisation refusée, stock inchangé.
+- Firebase Hosting déployé sur https://bizave-tcg.web.app. Build ID `8d83bde6-7e5f-4460-a5c3-0d935a4df11c`, identique au build local. Vérification navigateur du site publié : notification 4 → 5, note et code visibles, crédit et anti-réutilisation confirmés, options de développement absentes.
+- Les sections locales ci-dessous retracent les contrôles effectués avant cette publication ; leurs mentions « Aucun déploiement » se rapportent à ces étapes antérieures.
+
+## Correctif local — illustration du premier partage
+
+- Les images de partage attendent leur décodage et des dimensions valides avant le dessin Canvas. Une erreur retire la ressource du cache ; aucun PNG incomplet n’est proposé.
+- Quatre parcours réussis sur Chromium/WebKit : première carte seule et première carte de pile avec décodage export volontairement retardé. Le bouton reste désactivé pendant cette attente ; les pixels du PNG téléchargable confirment la présence de l’illustration.
+- Lint, TypeScript, 209 tests et build réussis. Aucun déploiement ; appareil iPhone réel non testé.
+
+## Ajustement local — chargement de l’aperçu et navigation
+
+- Skeleton neutre sans logo, avec balayage animé à la taille de la carte, conservé jusqu’au décodage de l’image et au chargement des polices. Apparition par fondu, sans frames d’attente supplémentaires ; effets désactivés en mouvement réduit. Une image en erreur ne bloque pas la vue.
+- Mémoire des illustrations prêtes limitée à la consultation : un passage de miniature à détail, un changement de finition ou le remontage d’une carte distante ne relance pas le placeholder. Les voisines sont chargées sans attendre leur entrée dans l’écran.
+- Fond de navigation mobile renforcé de 80 à 94 %, flou réduit de 24 à 8 px dans les deux thèmes.
+- Lint, TypeScript, 209 tests métier et build réussis. Décodage retardé, skeleton immédiat et animé, dimensions stables, fin du chargement, focus restitué, image en erreur, mouvement réduit et styles de navigation vérifiés sur Chromium et WebKit. Le parcours des six variantes contrôle chaque frame et les appels de décodage, y compris au retour sur une carte démontée. Glissé tactile natif Chromium également validé après chargement.
+- Captures : `artifacts/apercu-placeholder-chromium.png` et `artifacts/navigation-opaque-light-chromium.png`. Aucun déploiement.
+
+## Correctif local — bandeaux des Classiques
+
+- Alignement Canvas normalisé avant les mesures : la signature Story laissait textBaseline à middle, ce qui décalait les titres et la typographie. Le titre est centré selon ses limites de glyphes.
+- Titre Fusion rendu une seule fois dans un calque aux dimensions du bandeau ; aucune peinture de dorure ne peut atteindre l’illustration. Le second titre caché de card-info est retiré du composant. Hauteur et interligne des bandeaux affichés uniformisés pour les trois finitions.
+- Lint, TypeScript, 209 tests métier et build réussis. Quatre parcours ciblés réussis sur Chromium et WebKit : six exports par moteur (Mate/Holographique/Alternative × Carte/Story), comparaison des pixels avec une carte sans titre, centrage à moins de 1,5 unité CSS et aucune différence sur le haut de l’illustration. Un seul titre vérifié dans les miniatures et l’aperçu.
+- Captures dans `artifacts/titre-corrige-*.png` et `artifacts/titres-classiques-*.png`. Aucun déploiement.
+
+## Ajustements locaux — Story, réserve et alignement
+
+- Story passe en PNG 1080 × 1920 avec halos de rareté sur le fond du thème actif. Génération portable sans Canvas filter. Cache sensible au thème résolu ; un changement d’apparence système prégénère le nouveau fichier avant le clic. La carte seule reste transparente.
+- Invitation « Toucher pour ouvrir » retirée. Réserve achetée placée dans le compteur « 0 / 5 + n », sans changement de priorité de consommation ni de recharge.
+- Piles et cartes seules utilisent les mêmes dimensions de face ; légendes alignées et fragments à droite. Géométrie vérifiée à 320, 390, 820 et 1440 px.
+- Lint, TypeScript, 209 tests unitaires/intégration et build réussis. Dix parcours ciblés réussis : quatre Chromium (dont partage natif simulé sans attente avant le geste), trois Firefox et trois WebKit. Vérification des PNG téléchargés, des dimensions, des pixels de fond clair/sombre et du changement de thème système.
+- Revue visuelle : `artifacts/collection-alignee-chromium.png`, `artifacts/stock-reserve-chromium.png`, `artifacts/story-halos-light-chromium.png` et `artifacts/story-halos-dark-chromium.png`. Aucun déploiement.
+
+## Ajustements locaux — options, orbes et halos
+
+- Options regroupées en rubriques natives dépliantes : une ouverte à la fois, état des contrôles conservé. En-tête dédié option TCG et ID joueur ; fragments et marque habituelle retrouvés en quittant la page. Contrôlé de 320 à 1440 px.
+- Anciennes règles grises des indicateurs retirées : finitions holo/dorées et forme Full Art préservées en mode sombre, seule la carte courante est agrandie.
+- Le fond suit le thème clair, sombre ou système. Le radial central a été remplacé à la demande du propriétaire par des halos statiques diffus vers les bords, sans illustration en arrière-plan.
+- Lint, TypeScript et 209 tests unitaires/intégration réussis lors de cette refonte. Parcours de sauvegarde, suppression, cadeaux, préférences, catalogue et partage réussis sur Chromium ; nouvelles options et orbes également contrôlés sur Firefox/WebKit.
+- Revue visuelle : `artifacts/options-nouveau-mobile.png`, `artifacts/options-nouveau-desktop.png`, `artifacts/halos-dark-mobile.png` et `artifacts/halos-light-desktop.png`.
+
+## Travail local — 2 novembre 2026, aperçu D et partage
+
+- Deux rares importées : Eli veilleuse de nuit et Nana Office Lady. Catalogue 304, Memory Frame 161, Anima Isekai 143, epico stellari 52, rarity only 52. Le manifeste du 2 novembre conserve les dimensions et SHA-256 des originaux et WebP. Les numéros existants sont conservés.
+- `npm run check` réussi : lint, 209 tests unitaires/intégration et build de production. `git diff --check` réussi.
+- 32 parcours Chromium réussis lors des exécutions ciblées : Collection, filtres, favoris, Atelier, dons, boosters, reprise, récapitulatif, options, miniatures et nouveau visualiseur. Le glissé tactile injecté par CDP change de carte et déclenche pointercancel sans capture du pointeur.
+- 12 parcours D réussis sur Firefox et 12 sur WebKit : quatre tailles (390 × 844, 820 × 1180, 1180 × 820, 1440 × 900), deux modes de barre, absence de défilement vertical, flèches centrées, feuilles alignées, focus, doublons séparés, favoris et recyclage jusqu’à pile vide.
+- Partage simulé avec activation utilisateur conservée : JPEG Story 1080 × 1920 et PNG Carte 978 × 1620. Téléchargement, six variantes, coins transparents, AbortError silencieux et révocation des URL contrôlés. Réduction des animations vérifiée.
+- Revue visuelle des six exports, du Story, de D sur mobile/ordinateur et de l’ouverture. Correctifs vérifiés : miniature vide au retour, suspension des reflets de fond, points de révélation et lisibilité de l’en-tête sur fond flouté.
+- Captures : `artifacts/viewer-D-eli-mobile.png`, `artifacts/viewer-D-eli-desktop.png`, `artifacts/share/gallery.png`, `artifacts/share/eli-story.jpg`. Sources et procédure dans `docs/apercu-partage.md`.
+- Aucun déploiement ni changement de notification. Le partage natif vers Photos, LINE et Messages reste à valider sur un iPhone réel en HTTPS.
 
 ## Publication — 1er novembre 2026, version 1.3.2 et mise à jour 4
 

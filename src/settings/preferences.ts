@@ -2,10 +2,12 @@ import { parseCollectionDisplay } from '../collection/preferences'
 import type { CollectionDisplay } from '../collection/preferences'
 
 export type ThemePreference = 'system' | 'light' | 'dark'
+export type ActionBarMode = 'four' | 'two'
+export type ShareFormat = 'story' | 'card'
 type TransferMode = 'code' | 'file'
-export type Preferences = { theme: ThemePreference; transferMode: TransferMode; devCatalog: boolean; collectionDisplay: CollectionDisplay; selectedBoosterId: string }
+export type Preferences = { theme: ThemePreference; transferMode: TransferMode; devCatalog: boolean; collectionDisplay: CollectionDisplay; selectedBoosterId: string; actionBar: ActionBarMode; shareFormat: ShareFormat }
 export const SETTINGS_KEY = 'bizave.preferences.v1'
-export const DEFAULT_PREFERENCES: Preferences = { theme: 'system', transferMode: 'code', devCatalog: false, collectionDisplay: parseCollectionDisplay(null), selectedBoosterId: '' }
+export const DEFAULT_PREFERENCES: Preferences = { theme: 'system', transferMode: 'code', devCatalog: false, collectionDisplay: parseCollectionDisplay(null), selectedBoosterId: '', actionBar: 'four', shareFormat: 'story' }
 
 export function parsePreferences(value: string | null): Preferences {
   try {
@@ -16,6 +18,8 @@ export function parsePreferences(value: string | null): Preferences {
       theme: data.theme === 'light' || data.theme === 'dark' ? data.theme : 'system',
       transferMode: data.transferMode === 'file' ? 'file' : 'code',
       devCatalog: data.devCatalog === true,
+      actionBar: data.actionBar === 'two' ? 'two' : 'four',
+      shareFormat: data.shareFormat === 'card' ? 'card' : 'story',
       collectionDisplay: parseCollectionDisplay(data.collectionDisplay),
       selectedBoosterId: typeof data.selectedBoosterId === 'string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(data.selectedBoosterId) ? data.selectedBoosterId : '',
     }

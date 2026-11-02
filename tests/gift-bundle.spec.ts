@@ -1,9 +1,10 @@
+import { expandSettings } from './settings-helpers'
 import { expect, test } from '@playwright/test'
 import { UPDATE_NOTE } from '../src/data/update'
 
 test('le code de la note crédite une fois chacun des quatre boosters', async ({ page }) => {
   const code = UPDATE_NOTE.match(/[A-Z2-9]{4}(?:-[A-Z2-9]{4}){3}/)![0]
-  await page.goto('/parametres')
+  await page.goto('/parametres'); await expandSettings(page, 'gifts')
   const input = page.getByRole('textbox', { name: 'Code cadeau', exact: true })
   await input.fill(code)
   await page.getByRole('button', { name: 'Utiliser', exact: true }).click()

@@ -2,6 +2,12 @@ import { describe, expect, it } from 'vitest'
 import { DEFAULT_PREFERENCES, parsePreferences, resolveTheme } from './preferences'
 
 describe('options locales', () => {
+  it('valide les modes de barre et les formats de partage avec repli défensif', () => {
+    expect(parsePreferences('{"actionBar":"two","shareFormat":"card"}')).toMatchObject({ actionBar: 'two', shareFormat: 'card' })
+    for (const data of [{}, { actionBar: 'other', shareFormat: 'gif' }, { actionBar: 2, shareFormat: null }]) {
+      expect(parsePreferences(JSON.stringify(data))).toMatchObject({ actionBar: 'four', shareFormat: 'story' })
+    }
+  })
   it('utilise le système et les codes par défaut, même avec un stockage invalide', () => {
     for (const value of [null, '', '{', 'null', 'true', '[]', '{"theme":"unknown","transferMode":"other","devCatalog":"true"}']) {
       expect(parsePreferences(value)).toEqual(DEFAULT_PREFERENCES)

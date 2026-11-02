@@ -67,3 +67,5 @@
   font-weight: 500;
   font-style: normal;
 }
+.layout-fusion .name-bar { flex: 0 0 34.5px; height: 34.5px; overflow: hidden; }
+.layout-fusion .name-bar .nb-title { line-height: 22.5px; }

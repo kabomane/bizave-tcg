@@ -1,17 +1,14 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../storage/database'
-import { setFavorite } from '../collection/favorites'
 import { memo, useCallback, useMemo, useState } from 'react'
-import { ArrowLeft, Gem, Layers3, Search, Send, SlidersHorizontal, Star, X } from 'lucide-react'
-import { useNavigate } from 'react-router-dom'
+import { Gem, Layers3, Search, SlidersHorizontal, Star, X } from 'lucide-react'
 import { useGame } from '../components/useGame'
 import { cardById } from '../data/cards'
 import { matchesCardSearch } from '../game/cardSearch'
-import { getRecycleFragments, variantKey } from '../game/engine'
+import { variantKey } from '../game/engine'
 import type { Card } from '../game/types'
-import { recycleDrops } from '../storage/services'
 import { CollectibleCard } from '../components/CollectibleCard'
-import { EmptyState, ErrorNotice, Modal } from '../components/ui'
+import { EmptyState, ErrorNotice } from '../components/ui'
 import { CardFilters } from '../components/CardFilters'
 import { EMPTY_CARD_FILTERS, matchesCardFilters } from '../collection/filters'
 import { errorText } from '../components/format'
@@ -23,7 +20,8 @@ import type { CollectionEntry, CollectionVariant } from '../collection/view'
 import type { CollectionDisplay } from '../collection/preferences'
 import { CollectionDisplayOptions } from '../components/CollectionDisplayOptions'
 
-const obtainedDateFormat = new Intl.DateTimeFormat('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' })
+import { CardViewer } from '../components/CardViewer'
+import { FinishDot } from '../components/FinishDot'
 const catalogPreview: CollectionVariant[] = DEV_CATALOG_ENABLED ? createCatalogPreview().map(group => ({ card: group.card, copies: [] })) : []
 
 function FragmentValue({ card }: { card: Card }) {
@@ -32,14 +30,13 @@ function FragmentValue({ card }: { card: Card }) {
 }
 
 const CollectionEntryItem = memo(function CollectionEntryItem({ entry, showValue, onOpen, suspended = false }: { entry: CollectionEntry; showValue: boolean; suspended?: boolean; onOpen: (entry: CollectionEntry) => void }) {
-  return <div className="collection-item"><CollectibleCard deferred suspended={suspended} presentation="thumbnail" card={entry.card} definition={cardById.get(entry.card.cardId)!} onActivate={() => onOpen(entry)} /><div className={`card-caption card-caption-single${showValue ? ' card-caption-valued' : ''}`}>{showValue && <FragmentValue card={entry.card} />}{entry.ids.length > 1 && <b>×{entry.ids.length}</b>}</div></div>
+  return <div className="collection-item"><div className="collection-face"><CollectibleCard deferred suspended={suspended} presentation="thumbnail" card={entry.card} definition={cardById.get(entry.card.cardId)!} onActivate={() => onOpen(entry)} /></div><div className={`card-caption card-caption-single${showValue ? ' card-caption-valued' : ''}`}>{entry.ids.length > 1 && <b>×{entry.ids.length}</b>}{showValue && <FragmentValue card={entry.card} />}</div></div>
 })
-const CollectionPileItem = memo(function CollectionPileItem({ item, label, showValue, onOpen }: { item: ReturnType<typeof collectionView>[number]; label: string; showValue: boolean; onOpen: (key: string) => void }) {
-  return <div className="collection-item"><div className="collection-pile"><CollectibleCard deferred presentation="thumbnail" card={item.card} definition={cardById.get(item.card.cardId)!} activationLabel={`Ouvrir la pile, ${label}`} onActivate={() => onOpen(item.key)} /></div><div className="card-caption"><span>{label}</span>{showValue ? <FragmentValue card={item.card} /> : <Layers3 size={12} aria-hidden="true" />}</div></div>
+const CollectionPileItem = memo(function CollectionPileItem({ item, label, showValue, onOpen, suspended }: { item: ReturnType<typeof collectionView>[number]; label: string; showValue: boolean; suspended: boolean; onOpen: (key: string) => void }) {
+  return <div className="collection-item"><div className="collection-face"><div className="collection-pile"><CollectibleCard deferred suspended={suspended} presentation="thumbnail" card={item.card} definition={cardById.get(item.card.cardId)!} activationLabel={`Ouvrir la pile, ${label}`} onActivate={() => onOpen(item.key)} /></div></div><div className="card-caption"><span className="collection-finish-dots" aria-label={label}>{item.entries.map(entry => <FinishDot key={entry.key} card={entry.card} />)}</span>{showValue ? <FragmentValue card={item.card} /> : <Layers3 size={12} aria-hidden="true" />}</div></div>
 })
 
 export function CollectionPage() {
-  const navigate = useNavigate()
   const { devCatalog, collectionDisplay } = useSettings()
   const preview = DEV_CATALOG_ENABLED && devCatalog
   const { drops } = useGame()
@@ -48,10 +45,8 @@ export function CollectionPage() {
   const favoriteKeys = useMemo(() => new Set(favoriteRows.map(row => row.key)), [favoriteRows])
   const [favoritesOnly, setFavoritesOnly] = useState(false)
   const [search, setSearch] = useState('')
-  const [detailKey, setDetailKey] = useState<string | null>(null)
-  const [recycleConfirm, setRecycleConfirm] = useState(false), [error, setError] = useState(''), [busy, setBusy] = useState(false)
   const [displayAnchor, setDisplayAnchor] = useState<DOMRect | null>(null), [displayError, setDisplayError] = useState('')
-  const [stackKey, setStackKey] = useState<string | null>(null)
+  const [viewerKey, setViewerKey] = useState<string | null>(null)
   // Keep favorite-filter membership stable until the whole preview (including its pile) closes.
   const [previewFavoriteKeys, setPreviewFavoriteKeys] = useState<ReadonlySet<string> | null>(null)
   const filterFavoriteKeys = previewFavoriteKeys ?? favoriteKeys
@@ -73,29 +68,16 @@ export function CollectionPage() {
       return { ...item, entries: item.entries.map(entry => entries.get(entry.key) || entry) }
     })
   }, [filtered, variants, collectionDisplay, allItems])
-  const detail = allItems.flatMap(item => item.entries).find(entry => entry.key === detailKey)
-  const definition = detail ? cardById.get(detail.card.cardId)! : undefined
-  const obtainedDate = detail && !preview && Number.isFinite(detail.acquiredAt) && detail.acquiredAt > 0 ? new Date(detail.acquiredAt) : undefined
-  const stack = visible.find(item => item.key === stackKey)
-  const variantQuantity = detail ? savedVariants.find(variant => variantKey(variant.card) === variantKey(detail.card))?.copies.length || 0 : 0
-  function close(all = true) { setDetailKey(null); if (all) setStackKey(null); if (all || !stackKey) setPreviewFavoriteKeys(null); setRecycleConfirm(false); setError('') }
-  const openEntry = useCallback((entry: CollectionEntry) => { setPreviewFavoriteKeys(current => current ?? favoriteKeys); setDetailKey(entry.key); setRecycleConfirm(false); setError('') }, [favoriteKeys])
-  const openPile = useCallback((key: string) => { setPreviewFavoriteKeys(favoriteKeys); setStackKey(key); setDetailKey(null); setError('') }, [favoriteKeys])
+  const viewerItem = visible.find(item => item.key === viewerKey)
+  const close = useCallback(() => { setViewerKey(null); setPreviewFavoriteKeys(null) }, [])
+  if (viewerKey && !viewerItem) { setViewerKey(null); setPreviewFavoriteKeys(null) }
+  const openEntry = useCallback((entry: CollectionEntry) => { setPreviewFavoriteKeys(favoriteKeys); setViewerKey(allItems.find(item => item.entries.some(candidate => candidate.key === entry.key))?.key ?? entry.key) }, [favoriteKeys, allItems])
+  const openPile = useCallback((key: string) => { setPreviewFavoriteKeys(favoriteKeys); setViewerKey(key) }, [favoriteKeys])
   function changeDisplay(value: CollectionDisplay) {
     try { updateSettings({ collectionDisplay: value }); setDisplayError('') } catch (e) { setDisplayError(errorText(e)) }
   }
   function renderEntry(entry: CollectionEntry) {
-    return <CollectionEntryItem key={entry.key} entry={entry} showValue={showValue} onOpen={openEntry} />
-  }
-  async function toggleFavorite() {
-    if (!detail || preview || busy) return
-    setBusy(true); setError('')
-    try { await setFavorite(detail.card, !favoriteKeys.has(variantKey(detail.card))) } catch (e) { setError(errorText(e)) } finally { setBusy(false) }
-  }
-  async function recycle() {
-    if (preview || !detail?.ids.length || busy) return
-    setBusy(true); setError('')
-    try { await recycleDrops([detail.ids[detail.ids.length - 1]], true); close(false) } catch (e) { setError(errorText(e)) } finally { setBusy(false) }
+    return <CollectionEntryItem key={entry.key} entry={entry} showValue={showValue} onOpen={openEntry} suspended={!!viewerKey} />
   }
   return <>
     <div className="page-heading collection-heading"><div className="title-with-count"><h1 className="page-title">Collection</h1><span>{preview ? 'Mode dev' : filteredQuantity}</span></div><button type="button" className="text-button collection-display-trigger" aria-haspopup="dialog" aria-expanded={!!displayAnchor} onClick={event => { setDisplayError(''); setDisplayAnchor(event.currentTarget.getBoundingClientRect()) }}><SlidersHorizontal size={16} /> Affichage</button></div>
@@ -106,13 +88,8 @@ export function CollectionPage() {
     {variants.length ? <><div className="collection-grid">{visible.map(item => {
       if (item.entries.length === 1) return renderEntry(item.entries[0])
       const label = collectionDisplay.duplicates === 'show' ? `${item.entries.length} cartes` : `${item.variantCount} variantes`
-      return <CollectionPileItem key={item.key} item={item} label={label} showValue={showValue} onOpen={openPile} />
+      return <CollectionPileItem key={item.key} item={item} label={label} showValue={showValue} onOpen={openPile} suspended={!!viewerKey} />
     })}</div>{!visible.length && <EmptyState icon={<Layers3 size={24} />} title="Aucune carte">Essayez une autre sélection.</EmptyState>}</> : <EmptyState icon={<Layers3 size={25} />} title="La première vous attend.">Ouvrez votre premier booster.</EmptyState>}
-    {(detail && definition || stack) && <Modal preserveViewScroll={!!stack} headerEnd={detail && !preview && detail.ids.length > 0 ? <button type="button" className="icon-button favorite-toggle" disabled={busy} aria-label={favoriteKeys.has(variantKey(detail.card)) ? 'Retirer des favoris' : 'Ajouter aux favoris'} aria-pressed={favoriteKeys.has(variantKey(detail.card))} onClick={toggleFavorite}><Star size={18} fill={favoriteKeys.has(variantKey(detail.card)) ? 'currentColor' : 'none'} /></button> : undefined} headerCenter={obtainedDate && <time dateTime={obtainedDate.toISOString()}>obtenu le {obtainedDateFormat.format(obtainedDate)}</time>} viewKey={detail?.key || stack?.key} title={detail && definition ? definition.title : cardById.get(stack!.card.cardId)!.title + (collectionDisplay.groupBy === 'format' ? stack!.card.artVariant === 'fullArt' ? ' · Full Art' : ' · Classique' : '')} showTitle={!detail} onClose={() => { if (!busy) close() }} wide={!!detail} className={detail ? '' : 'collection-stack-modal'} headerStart={detail && stack ? <button type="button" className="text-button pile-back" aria-label="Retour à la pile" disabled={busy} onClick={() => close(false)}><ArrowLeft size={16} /> La pile</button> : undefined}>
-      {stack && <div className="collection-stack-content" hidden={!!detail}><div className="collection-grid stack-grid">{stack.entries.map(entry => <CollectionEntryItem key={entry.key} entry={entry} showValue={showValue} onOpen={openEntry} suspended={!!detail} />)}</div></div>}
-      {detail && definition && <><div className="card-detail-layout"><div className="detail-card"><CollectibleCard card={detail.card} definition={definition} /></div><div className="detail-info">{preview && <p className="muted">Aperçu · Mode dev</p>}
-      {!preview && detail.ids.length > 0 && !recycleConfirm && <div className="detail-actions"><button className="secondary-button" onClick={() => { const id = detail.ids[detail.ids.length - 1]; close(); navigate('/envoyer/' + id) }}><Send size={15} /> Envoyer</button><button className="secondary-button" onClick={() => setRecycleConfirm(true)}><Gem size={15} /> Recycler · +{getRecycleFragments(definition.rarity, detail.card.finish, detail.card.artVariant)}</button></div>}
-      {!preview && recycleConfirm && <div className="confirmation-panel"><h4>Recycler cet exemplaire ?</h4><p>{variantQuantity === 1 && 'C’est votre dernière copie de cette variante. '}La carte sera détruite pour <strong>{getRecycleFragments(definition.rarity, detail.card.finish, detail.card.artVariant)} fragments</strong>.</p><div className="save-split-actions"><button className="secondary-button" onClick={() => setRecycleConfirm(false)} disabled={busy}>Annuler</button><button className="primary-button" onClick={recycle} disabled={busy}>Recycler</button></div></div>}
-      <ErrorNotice error={error} /></div></div></>}</Modal>}
+    {viewerItem && <CardViewer entries={viewerItem.entries} preview={preview} onClose={close} />}
   </>
 }

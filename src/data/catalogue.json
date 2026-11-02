@@ -4528,5 +4528,27 @@
       "standard": "center top",
       "fullArt": "center top"
     }
+  },
+  {
+    "id": "eli-veilleuse",
+    "title": "Eli veilleuse de nuit",
+    "rarity": "rare",
+    "collectionId": "eli",
+    "description": "22 h – 6 h. Il reste des enfants à recoucher… et des épisodes à regarder.",
+    "artwork": {
+      "standard": "/assets/cards/eli-veilleuse/illustration.4c6ed601fa.webp",
+      "fullArt": "/assets/cards/eli-veilleuse/illustration.4c6ed601fa.webp"
+    }
+  },
+  {
+    "id": "nana-office-lady",
+    "title": "Nana Office Lady",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "9 h – 17 h. Il reste des dossiers à tamponner.",
+    "artwork": {
+      "standard": "/assets/cards/nana-office-lady/illustration.3db9e34061.webp",
+      "fullArt": "/assets/cards/nana-office-lady/illustration.3db9e34061.webp"
+    }
   }
 ]

@@ -1,0 +1,41 @@
+.header-player-id { display: flex; align-items: center; gap: 9px; padding: 10px 13px; border: 1px solid var(--line); border-radius: 30px; white-space: nowrap; }
+.header-player-id small { font-size: 9px; color: var(--muted); letter-spacing: .08em; }
+.header-player-id strong { font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; letter-spacing: .025em; }
+.settings-page { max-width: 640px; display: grid; gap: 12px; }
+.settings-group { min-width: 0; border: 1px solid var(--line); border-radius: 16px; background: color-mix(in srgb,var(--paper-raised) 48%,transparent); }
+.settings-group > summary { display: flex; align-items: center; gap: 15px; padding: 21px 22px; cursor: pointer; list-style: none; border-radius: 16px; }
+.settings-group > summary::-webkit-details-marker { display: none; }
+.settings-group > summary::marker { content: ''; }
+.settings-group > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+.settings-group-icon { display: grid; place-items: center; flex: 0 0 38px; height: 38px; border-radius: 12px; color: var(--accent); background: color-mix(in srgb,var(--accent) 7%,transparent); }
+.settings-group-label { flex: 1; min-width: 0; }
+.settings-group-label h2 { margin: 0 0 4px; font-size: 14px; font-weight: 550; letter-spacing: -.015em; }
+.settings-group-label > span { display: block; font-size: 11px; line-height: 1.5; color: var(--muted); }
+.settings-group-chevron { color: var(--muted); transition: transform .2s; }
+.settings-group[open] > summary { border-bottom: 1px solid var(--line); border-radius: 16px 16px 0 0; }
+.settings-group[open] .settings-group-chevron { transform: rotate(180deg); }
+.settings-group-body { padding: 20px 22px 23px; }
+.settings-group-body .settings-section { padding: 0; margin: 0; border: 0; }
+.settings-group-body .settings-section > h2 { display: none; }
+.settings-group-body .settings-note { margin-top: 9px; }
+.settings-preference-block { border-top: 1px solid var(--line); padding-top: 17px; margin-top: 17px; }
+.settings-group .settings-preference-row { flex-wrap: wrap; }
+.settings-group .settings-preference-label { flex: 1 1 115px; font-size: 12px; }
+.settings-group .settings-custom-select { max-width: 100%; }
+.settings-group .settings-segmented { flex-shrink: 0; }
+.settings-group .settings-account-actions { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
+.settings-group .settings-account-actions .text-button { justify-content: flex-start; gap: 12px; padding: 10px 2px; font-size: 12px; }
+.settings-group .settings-account-actions .settings-delete { color: var(--error); }
+.settings-group .settings-dev + .settings-dev { margin-top: 22px; padding-top: 22px; border-top: 1px solid var(--line); }
+.settings-group .settings-dev h3 { font-size: 12px; font-weight: 500; margin: 0 0 6px; }
+.settings-group .settings-dev .settings-note { margin: 0; }
+@media (max-width: 599px) {
+  .header-player-id { gap: 6px; padding: 9px 11px; }
+  .header-player-id strong { font-size: 11px; }
+  .settings-page { gap: 10px; }
+  .settings-group > summary { padding: 18px 16px; gap: 12px; }
+  .settings-group-body { padding: 18px 16px; }
+  .settings-group-label h2 { font-size: 13px; }
+  .settings-group-label > span { font-size: 10px; }
+  .settings-group .settings-preference-row { gap: 10px; }
+}

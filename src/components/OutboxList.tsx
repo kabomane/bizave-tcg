@@ -18,5 +18,5 @@ export function OutboxList({ friends }: { friends: FriendContactRow[] }) {
         const drop = drops.find(item => item.dropId === row.dropId), definition = drop && cardById.get(drop.cardId)
         const friendName = friends.find(friend => friend.playerUuid === row.recipientId)?.label || row.recipientLabel || row.recipientId
         return <article className="transfer-row" key={row.transferId}><div className="transfer-thumb">{definition && drop ? <img src={definition.artwork[drop.artVariant]} alt="" /> : <Send size={19} />}</div><div className="transfer-info"><strong>{definition?.title || 'Carte envoyée'}</strong><span>À {friendName}</span><small title="Suppression de cette entrée après 24 h"><Clock3 size={11} />{formatDuration(row.createdAt + OUTBOX_RETENTION_MS - now, { hours: true })}</small></div><TransferDeliveryButton transfer={row} onError={notify} /></article>
-      })}</div> : <EmptyState icon={<Send size={25} />} title="Aucun envoi en cours.">Les transferts restent disponibles ici pendant 24 h.</EmptyState>
+      })}</div> : <EmptyState icon={<Send size={25} />} title="Aucun don en cours.">Les transferts restent disponibles ici pendant 24 h.</EmptyState>
 }

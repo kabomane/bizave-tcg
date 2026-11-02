@@ -1,0 +1,46 @@
+{
+  "date": "2026-11-02",
+  "references": [
+    "references/carnet-memory-frame-2026-11-02.jsx"
+  ],
+  "illustrations": [
+    {
+      "cardId": "eli-veilleuse",
+      "title": "Eli veilleuse de nuit",
+      "sourceEntry": "eli_veilleuse_de_nuit.png",
+      "original": {
+        "path": "illustrations/originals/eli-veilleuse.png",
+        "sha256": "c9bb23e48af3c7b120df817557d371ce9a8c42b1628d304021cead3898e91179",
+        "bytes": 2943756,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-veilleuse/illustration.4c6ed601fa.webp",
+        "sha256": "4c6ed601fa83e67f42150de03d3b94655a99e94bce4c856f2624b06115f5a684",
+        "bytes": 211232,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nana-office-lady",
+      "title": "Nana Office Lady",
+      "sourceEntry": "nana_office_lady.png",
+      "original": {
+        "path": "illustrations/originals/nana-office-lady.png",
+        "sha256": "aaf742757b44b32d3633e02a74e55a7ac8b832f7c5d60d77ee9c812cb972a0ca",
+        "bytes": 3154214,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nana-office-lady/illustration.3db9e34061.webp",
+        "sha256": "3db9e34061489a9c8a1a56d7a6a6007dc6e8a607684f4fe915ca5b179e411cce",
+        "bytes": 220730,
+        "width": 900,
+        "height": 1200
+      }
+    }
+  ]
+}

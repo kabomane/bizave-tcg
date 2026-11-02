@@ -12,6 +12,7 @@ export function useCardTilt(enabled: boolean, onActivate?: () => void) {
   useEffect(() => {
     if (!enabled) return
     const el = elementRef.current!
+    const carousel = !!el.closest('.card-viewer')
     const reduced = matchMedia('(prefers-reduced-motion: reduce)')
     const state = { x: 0, y: 0, vx: 0, vy: 0, tx: 0, ty: 0 }
     let raf = 0, last = 0, pointerActive = false
@@ -23,6 +24,7 @@ export function useCardTilt(enabled: boolean, onActivate?: () => void) {
       const magnitude = Math.hypot(x, y)
       if (magnitude > .5) { x *= .5 / magnitude; y *= .5 / magnitude }
       if (reduced.matches) { x = 0; y = 0 }
+      if (carousel) { x = clamp(x, -.225, .225); y = clamp(y, -.225, .225) }
       el.dataset.interacting = String(pointerActive || Math.abs(state.x - state.tx) + Math.abs(state.y - state.ty) + Math.abs(state.vx) + Math.abs(state.vy) > .002)
       const tilt = clamp(Math.hypot(x, y) * 2.2, 0, 1)
       const vars: Record<string, string> = {
@@ -40,19 +42,20 @@ export function useCardTilt(enabled: boolean, onActivate?: () => void) {
       apply()
       raf = Math.abs(state.x - state.tx) + Math.abs(state.y - state.ty) + Math.abs(state.vx) + Math.abs(state.vy) > .001 ? requestAnimationFrame(tick) : 0
     }
-    const wake = () => { if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick) } }
+    const wake = () => { if (reduced.matches) { state.x = state.y = state.vx = state.vy = state.tx = state.ty = 0; apply(); return }; if (!raf) { last = performance.now(); raf = requestAnimationFrame(tick) } }
     const releaseIdle = () => {
       window.clearTimeout(pointerIdleTimer)
       pointerIdleTimer = window.setTimeout(() => { pointerActive = false; wake() }, 650)
     }
     let touchStart: { x: number; y: number } | null = null
     const aim = (e: PointerEvent) => {
-      if (e.pointerType !== 'mouse' && touchStart && !el.hasPointerCapture(e.pointerId)) {
+      if (carousel && touchStart && Math.hypot(e.clientX - touchStart.x, e.clientY - touchStart.y) > 8) draggedRef.current = true
+      if (!carousel && e.pointerType !== 'mouse' && touchStart && !el.hasPointerCapture(e.pointerId)) {
         const dx = Math.abs(e.clientX - touchStart.x), dy = Math.abs(e.clientY - touchStart.y)
         if (dy > 8 && dy >= dx) touchStart = null
         else if (dx > 8 && dx > dy) { el.setPointerCapture(e.pointerId); draggedRef.current = true }
       }
-      if (e.pointerType !== 'mouse' && !el.hasPointerCapture(e.pointerId)) return
+      if (e.pointerType !== 'mouse' && (carousel ? !touchStart : !el.hasPointerCapture(e.pointerId))) return
       pointerActive = true
       el.dataset.interacting = 'true'
       const rect = wrapperRef.current!.getBoundingClientRect()
@@ -60,7 +63,7 @@ export function useCardTilt(enabled: boolean, onActivate?: () => void) {
       state.ty = clamp((e.clientY - rect.top) / rect.height - .5, -.5, .5); wake()
       if (e.pointerType === 'mouse') releaseIdle()
     }
-    const reset = () => { window.clearTimeout(pointerIdleTimer); pointerActive = false; state.tx = state.ty = 0; wake() }
+    const reset = () => { touchStart = null; window.clearTimeout(pointerIdleTimer); pointerActive = false; state.tx = state.ty = 0; wake() }
     // Wait for a horizontal gesture before capturing touch; vertical gestures scroll natively.
     const down = (e: PointerEvent) => { window.clearTimeout(pointerIdleTimer); pointerActive = true; el.dataset.interacting = 'true'; draggedRef.current = false; if (e.pointerType !== 'mouse') touchStart = { x: e.clientX, y: e.clientY } }
     const up = (e: PointerEvent) => { touchStart = null; if (e.pointerType !== 'mouse') reset(); else releaseIdle() }
@@ -73,7 +76,7 @@ export function useCardTilt(enabled: boolean, onActivate?: () => void) {
     }
     el.addEventListener('pointermove', aim); el.addEventListener('pointerleave', reset)
     el.addEventListener('pointerdown', down); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', reset); el.addEventListener('keydown', key)
-    return () => { window.clearTimeout(pointerIdleTimer); cancelAnimationFrame(raf); el.removeEventListener('pointermove', aim); el.removeEventListener('pointerleave', reset); el.removeEventListener('pointerdown', down); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', reset); el.removeEventListener('keydown', key) }
+    return () => { window.clearTimeout(pointerIdleTimer); cancelAnimationFrame(raf); pointerActive = false; state.x = state.y = state.vx = state.vy = state.tx = state.ty = 0; apply(); el.removeEventListener('pointermove', aim); el.removeEventListener('pointerleave', reset); el.removeEventListener('pointerdown', down); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', reset); el.removeEventListener('keydown', key) }
   }, [enabled])
   return { wrapperRef, elementRef, draggedRef }
 }

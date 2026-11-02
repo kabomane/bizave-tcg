@@ -1,3 +1,4 @@
+import { expandSettings } from './settings-helpers'
 import { expect, test } from '@playwright/test'
 
 test('la couverture des piles se choisit et reste mémorisée après rechargement', async ({ page }) => {
@@ -16,17 +17,18 @@ test('la couverture des piles se choisit et reste mémorisée après rechargemen
   await expect(page.getByRole('group', { name: 'Carte affichée sur les piles', exact: true })).toHaveCount(0)
   await page.getByRole('button', { name: 'Fermer', exact: true }).click()
   await page.goto('/parametres')
+  await expandSettings(page, 'collection')
   const covers = page.getByRole('combobox', { name: 'Carte sur les piles', exact: true })
   const card = page.locator('.collection-pile .card')
   for (const [label, finish] of [['Dernière obtenue', 'glossy'], ['Plus rare', 'alternative'], ['Moins rare', 'standard']] as const) {
-    await covers.click()
+    await expandSettings(page, 'collection'); await covers.click()
     await page.getByRole('option', { name: label, exact: true }).click()
     await page.goto('/collection')
     await expect(card).toHaveClass(new RegExp(`\\b${finish}\\b`))
     await page.reload()
     await expect(card).toHaveClass(new RegExp(`\\b${finish}\\b`))
     await page.goto('/parametres')
-    await expect(covers).toHaveText(label)
+    await expandSettings(page, 'collection'); await expect(covers).toHaveText(label)
   }
   await page.screenshot({ path: `artifacts/pile-cover-${test.info().project.name}.png`, fullPage: true })
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -35,12 +37,18 @@ test('la couverture des piles se choisit et reste mémorisée après rechargemen
 test('les options compactes conservent le thème et le format d’envoi', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/parametres')
+  await expandSettings(page, 'appearance')
   await page.getByRole('button', { name: 'Sombre', exact: true }).click()
+  await expandSettings(page, 'giving')
   await page.getByRole('button', { name: 'Fichier', exact: true }).click()
   await page.reload()
+  await expandSettings(page, 'appearance')
   await expect(page.getByRole('button', { name: 'Sombre', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expandSettings(page, 'giving')
   await expect(page.getByRole('button', { name: 'Fichier', exact: true })).toHaveAttribute('aria-pressed', 'true')
+  await expandSettings(page, 'appearance')
   await page.getByRole('button', { name: 'Système', exact: true }).click()
+  await expandSettings(page, 'collection')
   const cover = page.getByRole('combobox', { name: 'Carte sur les piles', exact: true })
   await cover.focus()
   await page.keyboard.press('ArrowDown')
@@ -52,10 +60,10 @@ test('les options compactes conservent le thème et le format d’envoi', async 
   await page.keyboard.press('Escape')
   await expect(cover).toHaveAttribute('aria-expanded', 'false')
   await cover.click()
-  await page.getByRole('heading', { name: 'Options', exact: true }).click()
+  await page.getByTestId('player-id').click()
   await expect(cover).toHaveAttribute('aria-expanded', 'false')
   await expect(page.getByTestId('player-id')).toBeVisible()
-  await expect(page.getByRole('heading', { name: 'Code cadeau', exact: true })).toBeVisible()
+  await expect(page.locator('[data-settings-group="gifts"] summary')).toBeVisible()
   for (const width of [360, 390, 900]) {
     await page.setViewportSize({ width, height: 1000 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)

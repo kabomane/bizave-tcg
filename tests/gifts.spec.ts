@@ -1,3 +1,4 @@
+import { expandSettings } from './settings-helpers'
 import { expect, test } from '@playwright/test'
 import { createHash } from 'node:crypto'
 import { GIFT_CODE_DOMAIN } from '../src/gifts/format'
@@ -16,7 +17,7 @@ test.beforeEach(async ({ context }) => {
 
 test('options : cadeaux, casse, erreurs et stock acheté, sans débordement mobile', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
-  await page.goto('/parametres')
+  await page.goto('/parametres'); await expandSettings(page, 'gifts')
   const input = page.getByRole('textbox', { name: 'Code cadeau', exact: true })
   const button = page.getByRole('button', { name: 'Utiliser', exact: true })
   const note = page.locator('#gift-note')
@@ -50,9 +51,6 @@ test('options : cadeaux, casse, erreurs et stock acheté, sans débordement mobi
   await input.evaluate(element => (element as HTMLInputElement).setSelectionRange(0, 4))
   expect(await paste(' A A A A ')).toBe(true)
   await expect(input).toHaveValue('AAAA-AAAA-AAAA-AAAA')
-  const sending = await page.getByRole('heading', { name: 'Envoi des cartes' }).boundingBox()
-  const gift = await page.getByRole('heading', { name: 'Code cadeau' }).boundingBox()
-  expect(gift!.y).toBeGreaterThan(sending!.y + sending!.height)
   await input.fill('invalide'); await button.click()
   await expect(page.getByRole('alert')).toHaveText('Saisissez un code cadeau de 16 caractères.')
   await expect(note).toHaveAttribute('role', 'alert')
@@ -70,7 +68,7 @@ test('options : cadeaux, casse, erreurs et stock acheté, sans débordement mobi
     await expect(note).toHaveText(message)
     await expect(input).toHaveValue('')
   }
-  await expect(page.getByLabel('500 fragments', { exact: true })).toBeVisible()
+  await expect(page.locator('.fragment-wallet')).toHaveCount(0)
   const state = await page.evaluate(async () => {
     const path = '/src/storage/database.ts', { db } = await import(path)
     return { player: await db.player.get('local'), stock: await db.boosterStock.toArray(), used: await db.usedGiftCodes.count(), purchases: await db.boosterPurchases.count() }
@@ -80,6 +78,7 @@ test('options : cadeaux, casse, erreurs et stock acheté, sans débordement mobi
   expect(state.stock).toEqual(expect.arrayContaining([expect.objectContaining({ boosterId: 'phantom-blood', quantity: 10 }), expect.objectContaining({ boosterId: 'anima-isekai', quantity: 10 })]))
   expect(state.used).toBe(3); expect(state.purchases).toBe(0)
   await page.reload()
+  await expandSettings(page, 'gifts')
   await input.fill('AAAA-AAAA-AAAA-AAAA'); await button.click()
   await expect(page.getByRole('alert')).toHaveText('Ce code cadeau a déjà été utilisé.')
   for (const width of [320, 390, 768, 1440]) {
@@ -103,7 +102,7 @@ test('options : cadeaux, casse, erreurs et stock acheté, sans débordement mobi
 
 test('deux onglets utilisent le même code sans doubler les fragments', async ({ page, context }) => {
   const other = await context.newPage()
-  await page.goto('/parametres'); await other.goto('/parametres')
+  await page.goto('/parametres'); await expandSettings(page, 'gifts'); await other.goto('/parametres'); await expandSettings(other, 'gifts')
   await expect(page.getByRole('textbox', { name: 'Code cadeau' })).toBeVisible()
   await expect(other.getByRole('textbox', { name: 'Code cadeau' })).toBeVisible()
   const useCode = async (target: typeof page) => target.evaluate(async () => {
@@ -111,6 +110,5 @@ test('deux onglets utilisent le même code sans doubler les fragments', async ({
     try { await redeemGiftCode('CCCC-CCCC-CCCC-CCCC'); return 'ok' } catch { return 'refusé' }
   })
   expect((await Promise.all([useCode(page), useCode(other)])).sort()).toEqual(['ok', 'refusé'])
-  await expect(page.getByLabel('500 fragments', { exact: true })).toBeVisible()
-  await expect(other.getByLabel('500 fragments', { exact: true })).toBeVisible()
+  for (const tab of [page, other]) await expect.poll(() => tab.evaluate(async () => { const path = '/src/storage/database.ts'; return (await (await import(path)).db.player.get('local')).fragments })).toBe(500)
 })

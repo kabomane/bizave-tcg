@@ -1,7 +1,9 @@
+import { expandSettings } from './settings-helpers'
 import { expect, test, type Page } from '@playwright/test'
 
 async function previewCatalogue(page: Page) {
   await page.goto('/parametres')
+  await expandSettings(page, 'development')
   await page.getByRole('switch', { name: 'Mode dev' }).click()
   await page.getByRole('link', { name: 'Collection', exact: true }).click()
   await expect(page.getByRole('searchbox', { name: 'Rechercher une carte' })).toBeVisible()
@@ -102,7 +104,7 @@ test('valeur par exemplaire, piles, préférences et panneau mobile', async ({ p
   await expect(cover).toHaveAttribute('data-art', 'fullArt')
   await expect(cover).toHaveClass(/alternative/)
   await cover.click()
-  await expect(page.locator('.stack-grid .card-fragment-value')).toHaveText(['1', '1', '2', '3', '4', '6'])
+  await expect(page.locator('.viewer-dots button')).toHaveCount(6)
   await page.getByRole('button', { name: 'Fermer' }).click()
   await page.reload()
   await page.getByRole('button', { name: 'Affichage', exact: true }).click()
@@ -138,11 +140,11 @@ test('filtre multi-booster avec cartes partagées et menus mobiles', async ({ pa
   await page.getByRole('button', { name: /^Boosters/ }).click()
   await page.getByRole('menuitemcheckbox', { name: 'Memory Frame', exact: true }).click()
   await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
-  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(948)
+  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(966)
   await page.getByRole('button', { name: /^Finitions/ }).click()
   await page.getByRole('menuitemcheckbox', { name: 'Full Art', exact: true }).click()
   await page.getByRole('menu').getByRole('menuitemcheckbox').first().press('Escape')
-  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(474)
+  await expect(page.locator('.collection-grid > .collection-item')).toHaveCount(483)
   for (const width of [320, 390]) {
     await page.setViewportSize({ width, height: 844 })
     for (const name of ['Boosters', 'Rareté', 'Finitions']) {

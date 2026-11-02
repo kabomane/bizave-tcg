@@ -1,4 +1,4 @@
-import { Check, Download, FileUp, Trash2 } from 'lucide-react'
+import { Check, Download, FileUp, Trash2, Palette, Layers3, Send, Gift, Shield, Wrench } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { DEV_CATALOG_ENABLED } from '../dev/catalogPreview'
@@ -12,6 +12,7 @@ import { PLAYER_UUID_PATTERN } from '../exchanges/crypto'
 import { deleteAccount, exportSave, importSave, readSaveFile } from '../storage/saveTransfer'
 import type { PreparedSave } from '../storage/saveTransfer'
 import { GiftCodeForm } from '../components/GiftCodeForm'
+import { SettingsGroup } from '../components/SettingsGroup'
 import { PileCoverSelect } from '../components/PileCoverSelect'
 import { acknowledgeUpdate, resetUpdateNotice, UPDATED_KEY } from '../settings/updateNotice'
 
@@ -36,28 +37,27 @@ export function SettingsPage() {
     try { updateSettings(patch); setError('') } catch (e) { setError(errorText(e)) }
   }
   return <section className="settings-page" aria-label="Options">
-    <div className="page-heading settings-heading"><h1 className="page-title">Options</h1><span className="settings-player-id" data-testid="player-id" aria-label={`ID joueur : ${identity?.playerUuid ?? 'Chargement…'}`}>{identity?.playerUuid ?? 'Chargement…'}</span></div>
-    <section className="settings-section settings-preferences-section" aria-labelledby="theme-heading">
-      <h2 id="theme-heading">Apparence</h2>
+    <SettingsGroup id="appearance" title="Apparence" description={settings.theme === 'system' ? 'Thème du système' : settings.theme === 'dark' ? 'Thème sombre' : 'Thème clair'} icon={<Palette size={20} />}>
       <div className="settings-preference-row"><span className="settings-preference-label">Thème</span><div className="settings-segmented" role="group" aria-label="Thème">
-        {([{ id: 'system', label: 'Système' }, { id: 'light', label: 'Clair' }, { id: 'dark', label: 'Sombre' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.theme === id} onClick={() => change({ theme: id })}><span>{label}</span><span className="settings-inline-check" aria-hidden="true">{settings.theme === id && <Check size={12} />}</span></button>)}
+        {([{ id: 'system', label: 'Système' }, { id: 'light', label: 'Clair' }, { id: 'dark', label: 'Sombre' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.theme === id} onClick={() => change({ theme: id })}>{label}<span className="settings-inline-check" aria-hidden="true">{settings.theme === id && <Check size={12} />}</span></button>)}
       </div></div>
-    </section>
-    <section className="settings-section settings-preferences-section" aria-labelledby="pile-cover-heading">
-      <h2 id="pile-cover-heading">Collection</h2>
+    </SettingsGroup>
+    <SettingsGroup id="collection" title="Collection" description="Piles, aperçu et partage" icon={<Layers3 size={20} />}>
       <div className="settings-preference-row"><label className="settings-preference-label" htmlFor="pile-cover">Carte sur les piles</label><PileCoverSelect value={settings.collectionDisplay.pileCover} onChange={pileCover => change({ collectionDisplay: { ...settings.collectionDisplay, pileCover } })} /></div>
-    </section>
-    <section className="settings-section settings-preferences-section" aria-labelledby="transfer-heading">
-      <h2 id="transfer-heading">Envoi des cartes</h2>
-      <div className="settings-preference-row"><span className="settings-preference-label">Format d’envoi</span><div className="settings-segmented" role="group" aria-label="Mode d’envoi">
-        {([{ id: 'code', label: 'Code' }, { id: 'file', label: 'Fichier' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.transferMode === id} onClick={() => change({ transferMode: id })}><span>{label}</span><span className="settings-inline-check" aria-hidden="true">{settings.transferMode === id && <Check size={12} />}</span></button>)}
-      </div></div>
-      <p className="settings-note">Votre ami peut recevoir un code ou un fichier .btcg dans Amis.</p>
-    </section>
-    <GiftCodeForm />
-    {DEV_CATALOG_ENABLED && <section className="settings-section settings-dev" aria-labelledby="dev-heading"><div><h2 id="dev-heading">Mode dev</h2><p className="settings-note" id="dev-description">Afficher toutes les cartes dans la collection. Votre sauvegarde reste intacte.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={settings.devCatalog} aria-label="Mode dev" aria-describedby="dev-description" onClick={() => change({ devCatalog: !settings.devCatalog })}><span /></button></section>}
-    {DEV_CATALOG_ENABLED && <section className="settings-section settings-dev" aria-labelledby="update-test-heading"><div><h2 id="update-test-heading">Page de mise à jour</h2><p className="settings-note" id="update-test-description">Afficher la page de mise à jour au prochain rechargement.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={updateReset} aria-label="Page de mise à jour" aria-describedby="update-test-description" onClick={() => { try { if (updateReset) acknowledgeUpdate(); else resetUpdateNotice(); setUpdateReset(value => !value); setError('') } catch { setError('Impossible de modifier cette option.') } }}><span /></button></section>}
-    <div className="settings-account-actions"><button className="text-button" disabled={!identity || !installation} onClick={() => openDialog('transfer')}>Transfert de sauvegarde</button><button className="text-button" onClick={() => openDialog('delete')}>Supprimer le compte</button></div>
+      <div className="settings-preference-block"><div className="settings-preference-row"><span className="settings-preference-label">Barre d’actions</span><div className="settings-segmented" role="group" aria-label="Barre d’actions">{([{ id: 'four', label: '4 actions' }, { id: 'two', label: '2 actions' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.actionBar === id} onClick={() => change({ actionBar: id })}>{label}</button>)}</div></div><p className="settings-note">2 actions : Favori et Partager passent en haut de l’aperçu.</p></div>
+      <div className="settings-preference-block"><div className="settings-preference-row"><span className="settings-preference-label">Image de partage</span><div className="settings-segmented" role="group" aria-label="Image de partage">{([{ id: 'story', label: 'Story' }, { id: 'card', label: 'Carte' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.shareFormat === id} onClick={() => change({ shareFormat: id })}>{label}</button>)}</div></div><p className="settings-note">Story : format vertical pour les réseaux. Carte : la carte seule, fond transparent.</p></div>
+    </SettingsGroup>
+    <SettingsGroup id="gifts" title="Code cadeau" description="Recevoir un cadeau" icon={<Gift size={20} />}><GiftCodeForm /></SettingsGroup>
+    <SettingsGroup id="giving" title="Don des cartes" description={settings.transferMode === 'file' ? 'Envoi par fichier' : 'Envoi par code'} icon={<Send size={20} />}>
+      <div className="settings-preference-row"><span className="settings-preference-label">Format du don</span><div className="settings-segmented" role="group" aria-label="Mode du don">{([{ id: 'code', label: 'Code' }, { id: 'file', label: 'Fichier' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.transferMode === id} onClick={() => change({ transferMode: id })}>{label}<span className="settings-inline-check" aria-hidden="true">{settings.transferMode === id && <Check size={12} />}</span></button>)}</div></div><p className="settings-note">Votre ami peut recevoir un code ou un fichier .btcg dans Amis.</p>
+    </SettingsGroup>
+    <SettingsGroup id="account" title="Compte et sauvegarde" description="Transférer votre partie, gérer votre compte" icon={<Shield size={20} />}>
+      <div className="settings-account-actions"><button className="text-button" disabled={!identity || !installation} onClick={() => openDialog('transfer')}><Download size={16} />Transfert de sauvegarde</button><button className="text-button settings-delete" onClick={() => openDialog('delete')}><Trash2 size={16} />Supprimer le compte</button></div>
+    </SettingsGroup>
+    {DEV_CATALOG_ENABLED && <SettingsGroup id="development" title="Développement" description="Catalogue et page de mise à jour" icon={<Wrench size={20} />}>
+      <div className="settings-dev"><div><h3>Mode dev</h3><p className="settings-note" id="dev-description">Afficher toutes les cartes dans la collection. Votre sauvegarde reste intacte.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={settings.devCatalog} aria-label="Mode dev" aria-describedby="dev-description" onClick={() => change({ devCatalog: !settings.devCatalog })}><span /></button></div>
+      <div className="settings-dev"><div><h3>Page de mise à jour</h3><p className="settings-note" id="update-test-description">Afficher la page de mise à jour au prochain rechargement.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={updateReset} aria-label="Page de mise à jour" aria-describedby="update-test-description" onClick={() => { try { if (updateReset) acknowledgeUpdate(); else resetUpdateNotice(); setUpdateReset(value => !value); setError('') } catch { setError('Impossible de modifier cette option.') } }}><span /></button></div>
+    </SettingsGroup>}
     <ErrorNotice error={error} />
     <input ref={fileInput} className="visually-hidden" type="file" accept=".btcg" aria-label="Fichier de sauvegarde .btcg" tabIndex={-1} disabled={busy} onChange={event => {
       const file = event.target.files?.[0]; event.target.value = ''; if (!file) return

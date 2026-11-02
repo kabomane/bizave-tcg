@@ -1,3 +1,4 @@
+import { expandSettings } from './settings-helpers'
 import { expect, test } from '@playwright/test'
 import { UPDATE_VERSION, UPDATE_NOTE } from '../src/data/update'
 
@@ -27,7 +28,9 @@ test('nouveau joueur, contrôle au rechargement, continuer et bouton de test', a
   await page.reload()
   await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeVisible()
   await page.goto('/parametres')
+  await expandSettings(page, 'development')
   await page.getByRole('switch', { name: 'Page de mise à jour', exact: true }).check()
+  await expandSettings(page, 'development')
   await expect(page.getByRole('switch', { name: 'Page de mise à jour', exact: true })).toBeChecked()
   expect(await page.evaluate(() => localStorage.getItem('updated'))).toBe('0')
   await page.reload()

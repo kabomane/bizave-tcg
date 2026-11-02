@@ -11,6 +11,8 @@ import './styles/index.css'
 import './styles/cards-reference.css'
 import './styles/application.css'
 import './styles/card-typography.css'
+import './styles/card-viewer.css'
+import './styles/settings.css'
 
 const root = createRoot(document.getElementById('root')!)
 async function boot() {

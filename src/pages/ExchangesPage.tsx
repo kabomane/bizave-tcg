@@ -73,7 +73,7 @@ export function ExchangesPage() {
       setEditing(null); setDeleting(false)
     } catch (e) { setEditError(errorText(e)) } finally { setBusy(false) }
   }
-  const tabs = [{ id: 'contacts', label: 'Contacts' }, { id: 'receive', label: 'Recevoir' }, { id: 'outbox', label: 'Envois' }]
+  const tabs = [{ id: 'contacts', label: 'Contacts' }, { id: 'receive', label: 'Recevoir' }, { id: 'outbox', label: 'Dons' }]
   return <>
     
     <ErrorNotice error={identityError} />

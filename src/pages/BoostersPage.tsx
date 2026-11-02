@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
-import { ArrowRight, Check, Clock3, MousePointer2, PackageOpen } from 'lucide-react'
+import { ArrowRight, Check, Clock3, PackageOpen } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { boosters } from '../data/boosters'
 import { cardById } from '../data/cards'
-import { FINISH_LABELS, FREE_PACK_CAPACITY } from '../game/config'
+import { FREE_PACK_CAPACITY } from '../game/config'
 import { settleFreePackRecharge } from '../game/engine'
 import type { BoosterDefinition, OpenRecord } from '../game/types'
 import { availableBoosters, purchasedQuantity } from '../game/boosterAvailability'
@@ -17,15 +17,19 @@ import { EmptyState, ErrorNotice, Modal } from '../components/ui'
 import { errorText, formatDuration } from '../components/format'
 import { updateSettings, useSettings } from '../settings/useSettings'
 import { preloadImages } from '../components/preloadImages'
+import { CardViewer } from '../components/CardViewer'
+import { CardBackdrop } from '../components/CardBackdrop'
+import { FinishDot } from '../components/FinishDot'
 import { useNow } from '../components/useNow'
 
 function RechargeClock({ at }: { at: number }) { const now = useNow(); return <span className="recharge-clock"><Clock3 size={12} />{formatDuration(at - now, { hours: false })}</span> }
 
 export function BoostersPage() {
-  const { player, pendingOpening, boosterStock } = useGame()
+  const { player, pendingOpening, boosterStock, drops } = useGame()
   const { selectedBoosterId } = useSettings()
   const [busy, setBusy] = useState(false), [tearing, setTearing] = useState(false), [error, setError] = useState('')
   const [showRates, setShowRates] = useState(false)
+  const [recapIndex, setRecapIndex] = useState<number | null>(null)
   const [recap, setRecap] = useState<OpenRecord | null>(null)
   const inFlight = useRef(false), revealRoot = useRef<HTMLElement>(null), preloadedOpening = useRef<string | null>(null)
   const choices = useMemo(() => availableBoosters(boosters, boosterStock), [boosterStock])
@@ -76,15 +80,15 @@ export function BoostersPage() {
   if (pending && !tearing) {
     const count = pending.revealedCount, card = pending.results[Math.max(0, count - 1)]
     return <section ref={revealRoot} className="opening-view" aria-label="Ouverture du booster">
-      <div className="opening-spacer" aria-hidden="true" />
+      <CardBackdrop className="opening-backdrop" rarity={count > 0 ? cardById.get(card.cardId)!.rarity : undefined} /><div className="opening-spacer" aria-hidden="true" />
       <div className="opening-card-area" key={count}>{count === 0 ? <button className="card-back" onClick={next} disabled={busy} aria-label="Révéler la première carte"><span className="back-ornament" /><span className="back-monogram">B</span><span className="back-wordmark">BIZAVE</span><span className="back-star">✦</span></button> : <CollectibleCard card={card} definition={cardById.get(card.cardId)!} onActivate={next} activationLabel={count < pending.results.length ? 'Carte suivante' : 'Voir les cartes obtenues'} />}</div>
-      <div className="opening-bottom"><div className="reveal-progress" aria-label={`${count} cartes révélées sur ${pending.results.length}`}>{pending.results.map((_, i) => <span key={i} className={i < count ? 'complete' : ''} />)}</div><div className="opening-meta"><span>{pending.boosterTitle || boosters.find(choice => choice.id === pending.boosterId)?.title || 'Booster'}</span><span className="opening-counter">{String(count).padStart(2, '0')}<i> / {String(pending.results.length).padStart(2, '0')}</i></span></div></div><ErrorNotice error={error} />
+      <div className="opening-bottom"><div className="reveal-progress" aria-label={`${count} cartes révélées sur ${pending.results.length}`}>{pending.results.map((result, i) => i < count ? <FinishDot key={i} card={result} revealed active={i === count - 1} /> : <span key={i} className="finish-dot" />)}</div><div className="opening-meta"><span>{pending.boosterTitle || boosters.find(choice => choice.id === pending.boosterId)?.title || 'Booster'}</span></div></div><ErrorNotice error={error} />
     </section>
   }
-  if (recap) return <section className="opening-recap"><div className="page-heading"><h1 className="page-title">Dans votre collection.</h1><span className="recap-check"><Check size={15} /> {recap.results.length} carte{recap.results.length > 1 ? 's' : ''}</span></div><div className="recap-grid">{recap.results.map(card => <div key={card.dropId}><CollectibleCard card={card} definition={cardById.get(card.cardId)!} /><span className="recap-caption">{FINISH_LABELS[card.finish]}{card.artVariant === 'fullArt' ? ' · Full Art' : ''}</span></div>)}</div><div className="recap-actions"><button className="primary-button recap-confirm" onClick={() => { setRecap(null); window.scrollTo({ top: 0, behavior: 'instant' }) }}>Valider</button></div></section>
+  if (recap) return <section className="opening-recap"><div className="page-heading"><h1 className="page-title">Dans votre collection.</h1><span className="recap-check"><Check size={15} /> {recap.results.length} carte{recap.results.length > 1 ? 's' : ''}</span></div><div className="recap-grid">{recap.results.map((card, index) => <div key={card.dropId}><CollectibleCard card={card} definition={cardById.get(card.cardId)!} presentation="thumbnail" onActivate={() => setRecapIndex(index)} /><span className="recap-caption"><FinishDot card={card} active /></span></div>)}</div><div className="recap-actions"><button className="primary-button recap-confirm" onClick={() => { setRecap(null); window.scrollTo({ top: 0, behavior: 'instant' }) }}>Valider</button></div>{recapIndex !== null && <CardViewer initialIndex={recapIndex} onClose={() => setRecapIndex(null)} entries={recap.results.map(card => ({ key: card.dropId, card, ids: drops.some(drop => drop.dropId === card.dropId && drop.status === 'owned') ? [card.dropId] : [], acquiredAt: recap.openedAt })).filter(entry => !drops.some(drop => drop.dropId === entry.card.dropId && drop.status === 'recycled'))} />}</section>
   return <section className="phantom-home">
     <BoosterSectionHeading title={<>Vos <em>boosters</em></>} linkTo="/boutique" linkLabel="Boutique" onShowRates={() => setShowRates(true)} />
-    {stageBooster ? <div className="phantom-stage"><div className="phantom-shadow" /><BoosterCarousel choices={stageChoices} selectedId={stageBooster.id} onSelect={select} onOpen={open} disabled={busy} canOpen={canOpen} tearing={tearing} /><div className="pack-status">{canOpen && !tearing && <div className="pack-hint-row"><div className="pack-touch-hint"><MousePointer2 size={12} /><span>Toucher pour ouvrir</span></div>{reserve > 0 && <span className="purchased-pack-reserve">{reserve} acheté{reserve > 1 ? 's' : ''}</span>}</div>}{stageBooster.access.type === 'free' && <div className="phantom-stock" aria-label={`${stock.freePackStock} boosters disponibles sur ${FREE_PACK_CAPACITY}`}><div className="stock-meter">{Array.from({ length: FREE_PACK_CAPACITY }, (_, i) => <span key={i} className={i < stock.freePackStock ? 'charged' : ''} />)}</div><span><strong>{stock.freePackStock}</strong> / {FREE_PACK_CAPACITY}</span>{stock.nextFreePackAt !== null && <RechargeClock at={stock.nextFreePackAt} />}</div>}</div></div> : <EmptyState icon={<PackageOpen size={25} />} title="Aucun booster disponible." action={<Link to="/boutique" className="secondary-button">Boutique <ArrowRight size={14} /></Link>}>Vos prochains paquets apparaîtront ici.</EmptyState>}
+    {stageBooster ? <div className="phantom-stage"><div className="phantom-shadow" /><BoosterCarousel choices={stageChoices} selectedId={stageBooster.id} onSelect={select} onOpen={open} disabled={busy} canOpen={canOpen} tearing={tearing} /><div className="pack-status"><div className="phantom-stock" aria-label={stageBooster.access.type === 'free' ? `${stock.freePackStock} boosters disponibles sur ${FREE_PACK_CAPACITY}` : `${reserve} boosters achetés`}>{stageBooster.access.type === 'free' && <div className="stock-meter">{Array.from({ length: FREE_PACK_CAPACITY }, (_, i) => <span key={i} className={i < stock.freePackStock ? 'charged' : ''} />)}</div>}<span className="booster-stock-count">{stageBooster.access.type === 'free' && <><strong>{stock.freePackStock}</strong> / {FREE_PACK_CAPACITY}</>}{reserve > 0 && <span className="purchased-pack-reserve" aria-label={`${reserve} boosters achetés`}>+ {reserve}</span>}</span>{stageBooster.access.type === 'free' && stock.nextFreePackAt !== null && <RechargeClock at={stock.nextFreePackAt} />}</div></div></div> : <EmptyState icon={<PackageOpen size={25} />} title="Aucun booster disponible." action={<Link to="/boutique" className="secondary-button">Boutique <ArrowRight size={14} /></Link>}>Vos prochains paquets apparaîtront ici.</EmptyState>}
     <ErrorNotice error={error} />
     {showRates && stageBooster && <Modal title="Taux de drop" onClose={() => setShowRates(false)}><DropRates booster={stageBooster} /></Modal>}
   </section>

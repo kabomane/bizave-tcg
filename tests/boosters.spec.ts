@@ -146,10 +146,10 @@ test('Anima Isekai : gratuit, boutique à 50 fragments et réserve', async ({ pa
   await page.getByRole('link', { name: 'Vos boosters', exact: true }).click()
   await page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
-  await expect(page.locator('.opening-counter')).toHaveText('01 / 05')
+  await expect(page.locator('.reveal-progress')).toHaveAttribute('aria-label', '1 cartes révélées sur 5')
   for (let i = 1; i < 5; i++) {
     await page.locator('.opening-card-area .card').click()
-    await expect(page.locator('.opening-counter')).toHaveText(`${String(i + 1).padStart(2, '0')} / 05`)
+    await expect(page.locator('.reveal-progress')).toHaveAttribute('aria-label', `${i + 1} cartes révélées sur 5`)
   }
   await page.locator('.opening-card-area .card').click()
   await expect(page.locator('.recap-grid .card')).toHaveCount(5)

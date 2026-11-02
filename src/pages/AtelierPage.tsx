@@ -6,10 +6,11 @@ import { useGame } from '../components/useGame'
 import { cardById } from '../data/cards'
 import { getRecycleFragments, variantKey } from '../game/engine'
 import { duplicateDrops, recycleDrops } from '../storage/services'
-import { EmptyState, ErrorNotice, Modal } from '../components/ui'
+import { EmptyState, ErrorNotice } from '../components/ui'
 import { CardFilters } from '../components/CardFilters'
 import { EMPTY_CARD_FILTERS, matchesCardFilters } from '../collection/filters'
 import type { CardFilterValue } from '../collection/filters'
+import { ActionSheet } from '../components/ActionSheet'
 import { errorText } from '../components/format'
 
 export function AtelierPage() {
@@ -46,6 +47,6 @@ export function AtelierPage() {
       return <label key={variantKey(first)} className={`duplicate-row ${checked ? 'is-selected' : ''}`}><input type="checkbox" checked={checked} disabled={busy} onChange={event => setSelected(current => event.target.checked ? [...new Set([...current, ...group.map(drop => drop.dropId)])] : current.filter(id => !group.some(drop => drop.dropId === id)))} /><img src={card.artwork[first.artVariant]} alt="" /><div><strong>{card.title}</strong><span>{group.length} carte{group.length > 1 ? 's' : ''}</span></div><b><Gem size={13} /> {value * group.length}</b></label>
     })}</div><div className="recycle-summary"><span>{safeSelection.length} sélectionné{safeSelection.length > 1 ? 's' : ''}</span><button className="primary-button" disabled={!safeSelection.length || busy} onClick={() => setConfirm(true)}><Recycle size={15} /> Recycler <span className="button-value">+{gain} <Gem size={12} /></span></button></div></section> : <EmptyState icon={<Layers3 size={25} />} title={candidates.length ? 'Aucune carte ne correspond.' : includeLast ? owned.length ? 'Aucune carte à recycler.' : 'Votre collection est vide.' : 'Aucun doublon.'}>{candidates.length ? 'Essayez une autre sélection.' : includeLast ? owned.length ? 'Les cartes favorites sont exclues de l’Atelier.' : 'Ouvrez un booster pour obtenir des cartes.' : 'Ils apparaîtront ici.'}</EmptyState>}
     <ErrorNotice error={error} />
-    {confirm && <Modal title={includeLast ? 'Recycler les cartes sélectionnées' : 'Recycler les doublons'} onClose={() => { if (!busy) setConfirm(false) }}><div className="confirm-content"><div className="confirm-icon"><Recycle size={28} /></div><h3>{safeSelection.length} cartes → {gain} fragments</h3><p>Les cartes sélectionnées seront détruites. {lastCopies ? `Vous recyclez la dernière copie de ${lastCopies} variante${lastCopies > 1 ? 's' : ''}.` : 'Vos dernières copies sont conservées.'}</p><ErrorNotice error={error} /><button className="primary-button" disabled={busy || !safeSelection.length} onClick={recycle}>Recycler</button><button className="text-button" disabled={busy} onClick={() => setConfirm(false)}>Annuler</button></div></Modal>}
+    {confirm && <ActionSheet title={includeLast ? 'Recycler les cartes sélectionnées' : 'Recycler les doublons'} onClose={() => { if (!busy) setConfirm(false) }}><div className="action-sheet-group"><p><strong>{safeSelection.length} cartes → {gain} fragments</strong>Les cartes sélectionnées seront détruites. {lastCopies ? `Vous recyclez la dernière copie de ${lastCopies} variante${lastCopies > 1 ? 's' : ''}.` : 'Vos dernières copies sont conservées.'}</p><ErrorNotice error={error} /><button className="action-sheet-danger" disabled={busy || !safeSelection.length} onClick={recycle}>Recycler</button></div><button className="action-sheet-group action-sheet-cancel" disabled={busy} onClick={() => setConfirm(false)}>Annuler</button></ActionSheet>}
   </>
 }

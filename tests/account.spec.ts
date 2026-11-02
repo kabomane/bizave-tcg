@@ -1,3 +1,4 @@
+import { expandSettings } from './settings-helpers'
 import { expect, test, type Page } from '@playwright/test'
 import { readFile } from 'node:fs/promises'
 
@@ -19,10 +20,12 @@ test('transfert par fichier, source verrouillée après rechargement, identité 
     await expect(accountId(page)).toHaveText(/^\d{4}-\d{2}-\d{2}$/)
     await expect(accountId(target)).toHaveText(/^\d{4}-\d{2}-\d{2}$/)
     const sourceId = await accountId(page).innerText()
+    await expandSettings(target, 'account')
     await target.getByRole('button', { name: 'Transfert de sauvegarde', exact: true }).click()
     const targetId = await target.getByTestId('installation-id').innerText()
     await target.getByRole('button', { name: 'Fermer', exact: true }).click()
     await seedCollection(page)
+    await expandSettings(page, 'account')
     await page.getByRole('button', { name: 'Transfert de sauvegarde', exact: true }).click()
     await page.getByRole('button', { name: 'Exporter', exact: true }).click()
     await page.getByLabel('ID de l’appareil destinataire').fill(targetId)
@@ -44,6 +47,7 @@ test('transfert par fichier, source verrouillée après rechargement, identité 
     const bytes = await readFile((await download.path())!)
     await page.screenshot({ path: `artifacts/save-download-${test.info().project.name}.png`, fullPage: true })
     const file = { name: download.suggestedFilename(), mimeType: 'application/octet-stream', buffer: bytes }
+    await expandSettings(target, 'account')
     await target.getByRole('button', { name: 'Transfert de sauvegarde', exact: true }).click()
     await target.getByLabel('Fichier de sauvegarde .btcg', { exact: true }).setInputFiles(file)
     await expect(target.getByRole('dialog')).toContainText(sourceId)
@@ -52,7 +56,7 @@ test('transfert par fichier, source verrouillée après rechargement, identité 
       await expect(target.getByRole('button', { name: 'Importer et remplacer la partie' })).toBeEnabled()
     }
     await target.getByRole('button', { name: 'Importer et remplacer la partie' }).click()
-    await expect(target.getByRole('heading', { name: 'Options', exact: true })).toBeVisible()
+    await expect(target.locator('.brand')).toHaveText('optionTCG')
     await expect(target.getByRole('dialog')).toHaveCount(0)
     await expect(accountId(target)).toHaveText(sourceId)
     const state = await target.evaluate(async () => {
@@ -61,6 +65,7 @@ test('transfert par fichier, source verrouillée après rechargement, identité 
       return { drops: await db.drops.count(), imports: await db.usedSaveTransfers.count(), stock: (await db.player.get('local')).freePackStock }
     })
     expect(state).toEqual({ drops: 5, imports: 1, stock: 4 })
+    await expandSettings(target, 'account')
     await target.getByRole('button', { name: 'Transfert de sauvegarde', exact: true }).click()
     await expect(target.getByTestId('installation-id')).toHaveText(targetId)
     await target.getByLabel('Fichier de sauvegarde .btcg', { exact: true }).setInputFiles(file)
@@ -77,12 +82,15 @@ test('supprimer le compte exige confirmation et renouvelle toute la partie ainsi
   await page.goto('/parametres')
   await expect(accountId(page)).toHaveText(/^\d{4}-\d{2}-\d{2}$/)
   const before = await accountId(page).innerText()
+  await expandSettings(page, 'appearance')
   await page.getByRole('button', { name: 'Sombre', exact: true }).click()
   await seedCollection(page)
+  await expandSettings(page, 'account')
   await page.getByRole('button', { name: 'Supprimer le compte', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Supprimer', exact: true })).toBeDisabled()
   await page.getByRole('button', { name: 'Annuler', exact: true }).click()
   await expect(accountId(page)).toHaveText(before)
+  await expandSettings(page, 'account')
   await page.getByRole('button', { name: 'Supprimer le compte', exact: true }).click()
   for (const confirmation of ['supprimer', 'SUPPRIMER', 'sUpPrImEr']) {
     await page.getByLabel('Pour confirmer, saisissez SUPPRIMER').fill(confirmation)
@@ -92,6 +100,7 @@ test('supprimer le compte exige confirmation et renouvelle toute la partie ainsi
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await expect(accountId(page)).toHaveText(/^\d{4}-\d{2}-\d{2}$/)
   await expect(accountId(page)).not.toHaveText(before)
+  await expandSettings(page, 'appearance')
   await expect(page.getByRole('button', { name: 'Système', exact: true })).toHaveAttribute('aria-pressed', 'true')
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
   await page.screenshot({ path: `artifacts/account-settings-mobile-${test.info().project.name}.png`, fullPage: true })

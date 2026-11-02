@@ -758,5 +758,13 @@
         }
       ]
     }
+  },
+  {
+    "codeHash": "f51a8eb829e533805aa3ff6581273fe0ea2870b90b8ce3d59e55a30c1d6d5ab7",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 1
+    }
   }
 ]

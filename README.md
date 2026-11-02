@@ -1,12 +1,16 @@
-# bizave-tcg.v1.3.2
+# bizave-tcg.v1.4.0
 
-Version **bizave-tcg.v1.3.2** de **Bizave TCG**. Quatre boosters : **Memory Frame**, 159 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 52 cartes partagées, et **rarity only**, les 50 rares du catalogue. Le catalogue compte 302 modèles, tous illustrés.
+Version **bizave-tcg.v1.4.0** de **Bizave TCG**. Quatre boosters : **Memory Frame**, 161 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 52 cartes partagées, et **rarity only**, les 52 rares du catalogue. Le catalogue compte 304 modèles, tous illustrés.
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
+## Version 1.4.0 — 2 novembre 2026
+
+Deux cartes ajoutées : Eli veilleuse de nuit et Nana Office Lady. Refonte D, partage Canvas et harmonisation « Donner » intégrés. Version 1.4.0, notification 5 et code cadeau pour un paquet Memory Frame. Références et contrôles : [docs/apercu-partage.md](docs/apercu-partage.md).
+
 ## Éditions actuelles
 
-**Memory Frame** remplace le nom Phantom Blood et réunit désormais 159 cartes, toutes illustrées. Son pool est défini explicitement dans `src/data/pools/memory-frame.json` ; son identifiant technique `phantom-blood` conserve les stocks et ouvertures existants. Il utilise les crédits gratuits et reste achetable à 70 fragments.
+**Memory Frame** remplace le nom Phantom Blood et réunit désormais 161 cartes, toutes illustrées. Son pool est défini explicitement dans `src/data/pools/memory-frame.json` ; son identifiant technique `phantom-blood` conserve les stocks et ouvertures existants. Il utilise les crédits gratuits et reste achetable à 70 fragments.
 
 **Anima Isekai** propose les 143 cartes de son carnet, dans `src/data/pools/anima-isekai.json`. Il utilise le stock gratuit commun et reste disponible en boutique à **50 fragments** pour cinq cartes. Ses 143 illustrations sont intégrées. Les pools Memory Frame et Anima Isekai sont distincts et utilisent les mêmes taux de tirage par défaut.
 
@@ -64,19 +68,19 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 
 ## Ce qui est livré
 
-- Memory Frame : **159 modèles** (57 communs, 40 peu communs, 29 rares, 20 épiques, 13 légendaires), gratuits ou achetables à 70 fragments.
+- Memory Frame : **161 modèles** (57 communs, 40 peu communs, 31 rares, 20 épiques, 13 légendaires), gratuits ou achetables à 70 fragments.
 - Anima Isekai : **143 modèles** (69 communs, 34 peu communs, 21 rares, 13 épiques, 6 légendaires), gratuits ou en boutique à 50 fragments.
-- **302 illustrations WebP versionnées**, pour 302 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
+- **304 illustrations WebP versionnées**, pour 304 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
 - Stock gratuit global **5**, recharge **1/15 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
 - Ouvertures persistées avant leur animation, reprise après fermeture/refresh, inventaire par exemplaire, découvertes par variante.
 - Collection détenue uniquement, trois filtres custom, atelier, protection de la dernière copie, confirmation de recyclage et historique économique. Les découvertes historiques restent conservées en base.
-- Fiche d’une carte : Envoyer et Recycler encadrés sur une même ligne, chacun sur la moitié de la largeur. La confirmation de recyclage conserve Annuler sur un tiers et Recycler sur deux tiers.
+- Aperçu D en plein écran : carrousel natif, voisines visibles dès 700 px, flèches, clavier, points de finition, date et doublons regroupés/séparés. Favori, Partager, Donner et Recycler dans un îlot vitré ; mode 2 actions dans Options. Confirmation de recyclage alignée sur cet îlot.
 - Identité locale, carnet d’amis, codes FR2, transferts TR2 signés et lisibles, boîte d’envoi et registre antirejeu.
 - Codes cadeaux courts dans les options, vérifiés hors ligne par empreinte, avec récompenses et registre transférable.
 - Titres Fraunces 700, descriptions Fraunces 500 italique et mentions Barlow Condensed 500, polices hébergées localement.
-- Retour aux piles sans reconstruire les images, avec défilement conservé ; fermeture directe libérant la pile.
+- Pile et grande carte réunies en une seule vue, accessible en un toucher. Partage Canvas prégénéré : Story PNG 1080 × 1920 avec les halos du thème actif, ou carte PNG transparente 978 × 1620 ; téléchargement de secours.
 - Détection des builds publiés, bandeau d’actualisation et retour après absence avec protection des opérations en cours.
 - Navigation clavier, dialogues natifs avec focus piégé, responsive et reduced-motion.
 
@@ -116,7 +120,7 @@ Les originaux restent dans `illustrations/originals/`, hors de `public/`, ignor�
 
 Le script refuse les originaux inconnus avant toute écriture, avertit en cas de ratio différent ou d’agrandissement, conserve les cadrages `artworkPosition` et retire les anciens fichiers générés de la carte. Les cartes sans original gardent leurs SVG. Une seconde exécution sans changement ne réécrit aucun fichier.
 
-Les carnets actuels sont `references/carnet-memory-frame-2026-11-01.jsx` et `references/carnet-anima-isekai-2026-11-01.jsx`. Le manifeste `illustrations/imports/2026-11-01/manifest.json` détaille les 85 ajouts, les 85 nouvelles illustrations et le renommage Arashi Shinichi → Matthieu Izumi (`kis-arashi` conservé). Les numéros et les illustrations précédentes sont conservés. Les carnets et manifestes précédents restent des références historiques.
+Les carnets actuels sont `references/carnet-memory-frame-2026-11-02.jsx` et `references/carnet-anima-isekai-2026-11-01.jsx`. Le manifeste `illustrations/imports/2026-11-01/manifest.json` détaille les 85 ajouts, les 85 nouvelles illustrations et le renommage Arashi Shinichi → Matthieu Izumi (`kis-arashi` conservé). Les numéros et les illustrations précédentes sont conservés. Les carnets et manifestes précédents restent des références historiques.
 
 ## Créer une collection
 
@@ -132,9 +136,9 @@ Le fonctionnement complet est documenté dans [docs/boosters.md](docs/boosters.m
 
 Les définitions sont dans `src/data/boosters.ts`. Chaque paquet possède son pool, son habillage, son ordre et son accès. Un paquet gratuit consomme le stock commun. Un paquet `access: { type: 'shop', price: 60 }` s’achète en boutique avant d’être ouvert depuis un stock séparé. Les trois profils `rates.rarity`, `rates.finish` et `rates.illustration` valent `default` ou une distribution complète personnalisée ; une propriété absente hérite des valeurs par défaut. Le moteur et les panneaux « Taux de drop » utilisent le même résolveur pour le booster sélectionné, sans ajouter son nom au panneau.
 
-Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement si plusieurs paquets sont disponibles ; Memory Frame et Anima Isekai sont toujours sélectionnables. Ils utilisent d’abord les crédits gratuits, puis leur réserve achetée lorsque le gratuit est vide. epico stellari apparaît dans Vos boosters lorsqu’un exemplaire est détenu et consomme uniquement sa réserve achetée.
+Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement si plusieurs paquets sont disponibles ; Memory Frame et Anima Isekai sont toujours sélectionnables. Ils utilisent d’abord les crédits gratuits, puis leur réserve achetée lorsque le gratuit est vide. Le compteur réunit les deux stocks sous la forme « 0 / 5 + n » ; l’invitation « Toucher pour ouvrir » est retirée. epico stellari apparaît dans Vos boosters lorsqu’un exemplaire est détenu et consomme uniquement sa réserve achetée.
 
-Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 159 et 143 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
+Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 161 et 143 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
 
 La boutique reprend le carrousel tactile et clavier de Vos boosters, avec les mêmes dimensions de sachets. Seul le paquet défile ; le bouton d’achat reste fixe et adapte son prix, sa disponibilité et son action au paquet sélectionné. Pendant le déplacement horizontal, il est désactivé et affiche une flèche tournante jusqu’à l’alignement du nouveau paquet et de son offre. Le défilement vertical de la page ne déclenche pas ce verrou.
 
@@ -213,7 +217,7 @@ npx firebase-tools login
 npx firebase-tools deploy --only hosting --project bizave-tcg
 ```
 
-`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement de `bizave-tcg.v1.3.2` cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
+`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement de `bizave-tcg.v1.4.0` cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
 
 **rarity only** est exclusif à la boutique : **400 fragments**, cinq cartes garanties rares, parmi toutes les rares actuelles et futures du catalogue. Les finitions et Full Art gardent leurs taux habituels. Comme epico stellari, il apparaît dans Vos boosters uniquement si un exemplaire est détenu et reste masqué dans les filtres de collection.
 
@@ -230,7 +234,7 @@ src/pages/          pages du jeu et options
 src/styles/        thème UI et CSS de carte de référence
 tests/             parcours navigateur Playwright
 references/        carnets actuels du 1er novembre, références historiques et démo des finitions
-public/assets/     302 WebP versionnés
+public/assets/     304 WebP versionnés
 ```
 
 Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs/installation/using-vite), [Dexie useLiveQuery](https://dexie.org/docs/dexie-react-hooks/useLiveQuery()), [Vite réseau](https://vite.dev/config/server-options).
@@ -245,7 +249,7 @@ Les entrées d’Envois disparaissent au bout de 24 h et sont nettoyées au dém
 
 Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les choix Clair et Sombre sont mémorisés. En mode Système, un changement du thème de l’appareil s’applique immédiatement. Les cartes Fusion/Gundam gardent leurs palettes propres.
 
-Le mode dev affiche les 302 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
+Le mode dev affiche les 304 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
 Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 exact, sans clé privée. Le fichier de transfert d’une carte est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
 
@@ -269,7 +273,7 @@ Regroupement : Aucun, Par carte (six variantes possibles), ou Par carte et forma
 
 Doublons : Cacher conserve une entrée par variante et son compteur ×N ; Afficher présente chaque exemplaire séparément, dans la pile ou directement dans la collection si le regroupement est désactivé. Le détail d’un exemplaire séparé transmet son identifiant propre aux actions Envoyer et Recycler. La protection de dernière copie se base sur les possessions réelles, indépendamment du nombre d’entrées affichées.
 
-Une pile ouvre une grille, puis le détail d’une carte, dans un seul dialogue natif. Le retour La pile conserve ce parcours. Les cartes hors écran restent différées pour limiter les surfaces graphiques. Aucun tri ni regroupement ne modifie les cartes, les découvertes ou les historiques. Les choix sont mémorisés dans les préférences locales existantes ; Réinitialiser ne réinitialise que l’affichage.
+Une pile ouvre directement la grande carte dans le dialogue D. Glissé, flèches, points et clavier parcourent les entrées ; les cartes voisines sont visibles sur tablette et ordinateur. Seules la carte active et ses voisines sont montées. Aucun tri ni regroupement ne modifie les cartes, les découvertes ou les historiques. Les choix sont mémorisés dans les préférences locales existantes ; Réinitialiser ne réinitialise que l’affichage.
 
 Les holos de la collection et des piles utilisent une texture irisée partagée, un cadre nacré et un seul reflet animé par déplacement. Elles restent distinctes des mates avec « Réduire les animations ». Les miniatures n'utilisent ni les filtres et masques dynamiques de paillettes, ni le contrôleur d'inclinaison ; la carte agrandie conserve le rendu détaillé et sa limite de 20°. Les reflets de l'arrière-plan sont arrêtés pendant l'ouverture d'une fenêtre. Architecture et vérifications : [rendu des cartes](docs/rendu-cartes.md).
 

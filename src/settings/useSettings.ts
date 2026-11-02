@@ -14,7 +14,7 @@ function emit() { applyTheme(); listeners.forEach(listener => listener()) }
 
 // Runs before React and database initialization, avoiding a light flash on startup.
 applyTheme()
-system.addEventListener('change', applyTheme)
+system.addEventListener('change', emit)
 window.addEventListener('storage', event => {
   if (event.key === SETTINGS_KEY || event.key === null) { preferences = read(); emit() }
 })
@@ -33,3 +33,4 @@ export function resetSettings() {
 }
 const subscribe = (listener: () => void) => { listeners.add(listener); return () => { listeners.delete(listener) } }
 export function useSettings() { return useSyncExternalStore(subscribe, () => preferences) }
+export function useResolvedTheme() { return useSyncExternalStore(subscribe, () => resolveTheme(preferences.theme, system.matches)) }
