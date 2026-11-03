@@ -1,9 +1,14 @@
 import { expandSettings } from './settings-helpers'
 import { expect, test } from '@playwright/test'
-import { UPDATE_NOTE } from '../src/data/update'
+import { createHash } from 'node:crypto'
+import { GIFT_CODE_DOMAIN } from '../src/gifts/format'
 
-test('le code de la note crédite une fois chacun des quatre boosters', async ({ page }) => {
-  const code = UPDATE_NOTE.match(/[A-Z2-9]{4}(?:-[A-Z2-9]{4}){3}/)![0]
+test('un code de lot crédite une fois chacun des quatre boosters', async ({ page }) => {
+  // Keep this bundle fixture independent of the changing release gift.
+  const code = 'EEEE-EEEE-EEEE-EEEE'
+  const codeHash = createHash('sha256').update(GIFT_CODE_DOMAIN + code.replaceAll('-', '')).digest('hex')
+  const reward = { type: 'boosters', boosters: ['phantom-blood', 'anima-isekai', 'epico-stellari', 'rarity-only'].map(boosterId => ({ boosterId, quantity: 1 })) }
+  await page.route(/\/src\/data\/gift-codes\.json(?:\?.*)?$/, route => route.fulfill({ contentType: 'application/javascript', body: `export default ${JSON.stringify([{ codeHash, reward, issuedAt: 0, expiresAt: 8_000_000_000_000_000 }])}` }))
   await page.goto('/parametres'); await expandSettings(page, 'gifts')
   const input = page.getByRole('textbox', { name: 'Code cadeau', exact: true })
   await input.fill(code)

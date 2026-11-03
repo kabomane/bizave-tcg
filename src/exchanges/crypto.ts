@@ -1,7 +1,8 @@
 import { cardById } from '../data/cards'
 import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES } from '../game/config'
 import { secureRandom, uuid } from '../game/engine'
-import type { FriendContactRow, LocalIdentityRow, TransferPayload } from '../game/types'
+import type { FragmentTransferPayload, FriendContactRow, LocalIdentityRow, TransferPayload } from '../game/types'
+import { assertTransferNotExpired } from './expiry'
 
 const encoder = new TextEncoder()
 const decoder = new TextDecoder('utf-8', { fatal: true })
@@ -96,5 +97,34 @@ export async function verifyTransfer(code: string, identity: LocalIdentityRow, f
   const key = await subtle().importKey('jwk', signingPublicKey(friend.signingPublicJwk), signingAlgorithm, false, ['verify'])
   const signature = unbase64url(signed.signature)
   if (signature.length !== 64 || !await subtle().verify(signatureAlgorithm, key, signature, canonicalPayload(payload))) throw new Error('La signature du transfert est invalide.')
+  assertTransferNotExpired(payload.issuedAt)
+  return payload
+}
+
+export const MAX_FRAGMENT_TRANSFER = 1_000_000
+export function canonicalFragmentPayload(payload: FragmentTransferPayload) {
+  return encoder.encode('BizaveTCG/FragmentTransfer/v1\n' + JSON.stringify({ version: payload.version, transferId: payload.transferId, senderId: payload.senderId, recipientId: payload.recipientId, issuedAt: payload.issuedAt, amount: payload.amount }))
+}
+export function validateFragmentPayload(data: unknown): FragmentTransferPayload {
+  if (!record(data) || Object.keys(data).sort().join(',') !== 'amount,issuedAt,recipientId,senderId,transferId,version' || data.version !== 1 || typeof data.transferId !== 'string' || !uuidPattern.test(data.transferId) || typeof data.senderId !== 'string' || !PLAYER_UUID_PATTERN.test(data.senderId) || typeof data.recipientId !== 'string' || !PLAYER_UUID_PATTERN.test(data.recipientId) || typeof data.issuedAt !== 'number' || !Number.isSafeInteger(data.issuedAt) || data.issuedAt < 0 || typeof data.amount !== 'number' || !Number.isSafeInteger(data.amount) || data.amount < 1 || data.amount > MAX_FRAGMENT_TRANSFER) throw new Error('Le montant du transfert est invalide.')
+  return data as FragmentTransferPayload
+}
+export async function signFragmentTransfer(identity: LocalIdentityRow, friend: FriendContactRow, amount: number) {
+  if (identity.playerUuid === friend.playerUuid) throw new Error('Impossible de transférer des fragments à vous-même.')
+  const payload = validateFragmentPayload({ version: 1, transferId: uuid(), senderId: identity.playerUuid, recipientId: friend.playerUuid, issuedAt: Date.now(), amount })
+  const signature = base64url(new Uint8Array(await subtle().sign(signatureAlgorithm, identity.signingPrivateKey, canonicalFragmentPayload(payload))))
+  return { payload, code: pack('TF1', { payload, signature }) }
+}
+export async function verifyFragmentTransfer(code: string, identity: LocalIdentityRow, friends: FriendContactRow[]): Promise<FragmentTransferPayload> {
+  const signed = unpack(code, 'TF1')
+  if (!record(signed) || typeof signed.signature !== 'string' || Object.keys(signed).sort().join(',') !== 'payload,signature') throw new Error('Signature absente ou invalide.')
+  const payload = validateFragmentPayload(signed.payload)
+  const friend = friends.find(contact => contact.playerUuid === payload.senderId)
+  if (!friend) throw new Error('Ajoutez le contact de l’expéditeur avant de recevoir ses fragments.')
+  if (payload.recipientId !== identity.playerUuid || payload.senderId === payload.recipientId) throw new Error('Ce code est destiné à un autre joueur.')
+  const key = await subtle().importKey('jwk', signingPublicKey(friend.signingPublicJwk), signingAlgorithm, false, ['verify'])
+  const signature = unbase64url(signed.signature)
+  if (signature.length !== 64 || !await subtle().verify(signatureAlgorithm, key, signature, canonicalFragmentPayload(payload))) throw new Error('La signature du transfert est invalide.')
+  assertTransferNotExpired(payload.issuedAt)
   return payload
 }

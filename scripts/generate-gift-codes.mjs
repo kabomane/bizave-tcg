@@ -6,7 +6,11 @@ import process from 'node:process'
 import { GIFT_CODE_ALPHABET, hashGiftCode } from '../src/gifts/format.ts'
 
 const root = new URL('../', import.meta.url)
-const { values } = parseArgs({ options: { booster: { type: 'string' }, boosters: { type: 'string' }, quantity: { type: 'string' }, fragments: { type: 'string' }, count: { type: 'string' } } })
+const { values } = parseArgs({ options: { booster: { type: 'string' }, boosters: { type: 'string' }, quantity: { type: 'string' }, fragments: { type: 'string' }, count: { type: 'string' }, 'expires-at': { type: 'string' } } })
+const issuedAt = Date.now()
+if (values['expires-at'] && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2})$/.test(values['expires-at'])) throw new Error('Utilisez --expires-at avec une date ISO et son fuseau, par exemple 2026-12-01T22:00:00+01:00.')
+const expiresAt = values['expires-at'] ? Date.parse(values['expires-at']) : issuedAt + 24 * 60 * 60 * 1000
+if (!Number.isSafeInteger(expiresAt) || expiresAt <= issuedAt) throw new Error('La date d’expiration doit être dans le futur.')
 function positive(value, label) {
   if (!value || !/^\d+$/.test(value) || !Number.isSafeInteger(Number(value)) || Number(value) < 1) throw new Error(`${label} doit être un entier positif.`)
   return Number(value)
@@ -34,7 +38,7 @@ while (entries.length < count) {
   const codeHash = await hashGiftCode(raw)
   if (hashes.has(codeHash)) continue
   hashes.add(codeHash)
-  entries.push({ code: raw.match(/.{4}/g).join('-'), codeHash, reward })
+  entries.push({ code: raw.match(/.{4}/g).join('-'), codeHash, reward, issuedAt, expiresAt })
 }
 
 const directory = new URL('.local/gift-codes/', root)
@@ -42,8 +46,8 @@ await mkdir(directory, { recursive: true })
 const batchId = `${new Date().toISOString().replace(/[:.]/g, '-')}-${randomBytes(4).toString('hex')}`
 const privatePath = new URL(`${batchId}.json`, directory)
 // Persist the only cleartext copy before making any of its hashes redeemable.
-await writeFile(privatePath, JSON.stringify({ batchId, createdAt: new Date().toISOString(), expiresAt: null, codes: entries }, null, 2) + '\n', { flag: 'wx', mode: 0o600 })
+await writeFile(privatePath, JSON.stringify({ batchId, createdAt: new Date(issuedAt).toISOString(), expiresAt: new Date(expiresAt).toISOString(), codes: entries }, null, 2) + '\n', { flag: 'wx', mode: 0o600 })
 const temporary = new URL(`src/data/.gift-codes-${batchId}.tmp`, root)
-await writeFile(temporary, JSON.stringify([...catalogue, ...entries.map(({ codeHash, reward }) => ({ codeHash, reward }))], null, 2) + '\n', { flag: 'wx' })
+await writeFile(temporary, JSON.stringify([...catalogue.filter(gift => Number.isSafeInteger(gift.expiresAt) && gift.expiresAt > issuedAt), ...entries.map(({ codeHash, reward, issuedAt, expiresAt }) => ({ codeHash, reward, issuedAt, expiresAt }))], null, 2) + '\n', { flag: 'wx' })
 await rename(temporary, cataloguePath)
 process.stdout.write(`${count} codes créés. Liste privée : ${fileURLToPath(privatePath)}\n`)

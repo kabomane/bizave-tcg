@@ -39,3 +39,8 @@
   .settings-group-label > span { font-size: 10px; }
   .settings-group .settings-preference-row { gap: 10px; }
 }
+
+.settings-group .theme-preference-row { flex-wrap:nowrap; align-items:center; }
+.settings-group .theme-preference-row .settings-preference-label { flex:0 0 auto; }
+.settings-group .theme-preference-row .settings-segmented { min-width:0; }
+@media (max-width:359px) { .theme-preference-row .settings-segmented button { padding-inline:5px; font-size:10px; gap:2px; } }

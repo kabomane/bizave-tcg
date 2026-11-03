@@ -21,7 +21,10 @@ export default defineConfig(({ mode }) => {
       })
     },
   }],
-  server: { host: '0.0.0.0', port: mode === 'https' ? 5174 : 5173, strictPort: true, ...(mode === 'https' ? { https: { key: readFileSync('.local/certificates/lan-key.pem'), cert: readFileSync('.local/certificates/lan-cert.pem') } } : {}) },
+  server: { host: '0.0.0.0', port: mode === 'https' ? 5174 : 5173, strictPort: true,
+    // Playwright saves HTML resources in traces; watching them reloads active test pages.
+    watch: { ignored: [/[\\/](?:test-results[^\\/]*|playwright-report|artifacts)(?:[\\/]|$)/] },
+    ...(mode === 'https' ? { https: { key: readFileSync('.local/certificates/lan-key.pem'), cert: readFileSync('.local/certificates/lan-cert.pem') } } : {}) },
   preview: { host: '0.0.0.0', port: 4173, strictPort: true },
   test: { environment: 'node', pool: 'threads', maxWorkers: 2, include: ['src/**/*.test.ts'], setupFiles: ['src/test-setup.ts'] },
 }})

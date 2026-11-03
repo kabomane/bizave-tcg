@@ -3,7 +3,7 @@ import type { OutgoingTransferRow } from '../game/types'
 export const MAX_TRANSFER_FILE_BYTES = 16_384
 const FORMAT = 'bizave-tcg-transfer'
 function validateCode(code: unknown): asserts code is string {
-  if (typeof code !== 'string' || code.length > 12_000 || !/^TR2\.[A-Za-z0-9_-]+$/.test(code)) throw new Error('Ce fichier ne contient pas de code de transfert valide.')
+  if (typeof code !== 'string' || code.length > 12_000 || !/^(TR2|TF1)\.[A-Za-z0-9_-]+$/.test(code)) throw new Error('Ce fichier ne contient pas de code de transfert valide.')
 }
 export function serializeTransferFile(code: string): string {
   validateCode(code)
@@ -17,7 +17,7 @@ export function parseTransferFile(contents: string): string {
   const value = data as Record<string, unknown>
   if (value.format !== FORMAT || value.version !== 2 || Object.keys(value).sort().join(',') !== 'code,format,version') throw new Error('Format de fichier de transfert non pris en charge.')
   validateCode(value.code)
-  // Authentication, recipient and replay checks remain in receiveTransfer.
+  // Authentication, recipient and replay checks remain in receiveCode.
   return value.code
 }
 export async function readTransferFile(file: File): Promise<string> {

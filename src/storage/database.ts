@@ -5,7 +5,7 @@ import type { FavoriteRow } from '../game/types'
 import type { RecycledCardRow } from '../game/types'
 import type { BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, LocalIdentityRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
 
-export const DATABASE_SCHEMA_VERSION = 9
+export const DATABASE_SCHEMA_VERSION = 10
 export const DATABASE_NAME = 'bizave-tcg'
 export type DatabaseVersionRow = { id: 'local'; schemaVersion: number; ready: boolean }
 export class BizaveDatabase extends Dexie {
@@ -78,6 +78,11 @@ export class BizaveDatabase extends Dexie {
     })
     this.version(9).stores({ version: '&id' }).upgrade(async tx => {
       await tx.table('player').toCollection().modify(row => { row.schemaVersion = 9 })
+    })
+    this.version(10).stores({}).upgrade(async tx => {
+      await tx.table('outbox').toCollection().modify(row => { row.kind ??= 'card' })
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 10 })
+      await tx.table('version').put({ id: 'local', schemaVersion: 10, ready: true })
     })
     this.versionInfo = this.table('version')
   }

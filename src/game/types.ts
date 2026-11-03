@@ -47,5 +47,9 @@ export type FriendContactRow = {
   fingerprint: string; label?: string; addedAt: number
 }
 export type TransferPayload = Card & { version: 2; transferId: string; senderId: string; recipientId: string; issuedAt: number }
-export type OutgoingTransferRow = { transferId: string; dropId: string; recipientId: string; recipientLabel?: string; code: string; createdAt: number; status: 'generated' }
+export type FragmentTransferPayload = { version: 1; transferId: string; senderId: string; recipientId: string; issuedAt: number; amount: number }
+type OutgoingBase = { transferId: string; recipientId: string; recipientLabel?: string; code: string; createdAt: number; status: 'generated' }
+export type OutgoingTransferRow =
+  | OutgoingBase & { kind: 'card'; dropId: string }
+  | OutgoingBase & { kind: 'fragments'; amount: number }
 export type UsedTransferRow = { transferId: string; receivedAt: number }

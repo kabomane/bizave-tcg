@@ -30,7 +30,7 @@ type Snapshot = {
   favorites?: FavoriteRow[]
   usedGiftCodes?: UsedGiftCodeRow[] // Schema 5 files predate gift codes.
 }
-export type SavePayload = { version: 2; schemaVersion: 5 | 6 | 7 | 8 | 9; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
+export type SavePayload = { version: 2; schemaVersion: 5 | 6 | 7 | 8 | 9 | 10; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
 export type PreparedSave = { contents: string; payload: SavePayload }
 export const canonicalSavePayload = (serialized: string) => encoder.encode('BizaveTCG/SaveTransfer/v2\n' + serialized)
 function requireCrypto() {
@@ -45,7 +45,7 @@ const playerId = (value: unknown): value is string => typeof value === 'string' 
 const transferId = (value: unknown): value is string => typeof value === 'string' && uuidPattern.test(value)
 function assert(condition: unknown): asserts condition { if (!condition) throw new Error('Le contenu de cette sauvegarde est invalide ou incompatible.') }
 function validatePayload(value: unknown): asserts value is SavePayload {
-  assert(record(value) && value.version === 2 && (value.schemaVersion === 5 || value.schemaVersion === 6 || value.schemaVersion === 7 || value.schemaVersion === 8 || value.schemaVersion === DATABASE_SCHEMA_VERSION) && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
+  assert(record(value) && value.version === 2 && (value.schemaVersion === 5 || value.schemaVersion === 6 || value.schemaVersion === 7 || value.schemaVersion === 8 || value.schemaVersion === 9 || value.schemaVersion === DATABASE_SCHEMA_VERSION) && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
   assert(Object.keys(value).sort().join(',') === 'identity,issuedAt,preferences,recipientId,schemaVersion,sourceId,sourceInstallationId,tables,transferId,version')
   const tables = value.tables
   const tableNames = SAVE_TABLES.filter(name => (value.schemaVersion !== 5 || name !== 'usedGiftCodes') && ((Number(value.schemaVersion) >= 7) || name !== 'favorites') && (Number(value.schemaVersion) >= 8 || name !== 'recycledCards'))
@@ -78,7 +78,10 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   assert((s.favorites ?? []).every(f => card(f) && f.key === variantKey(f) && ownedVariants.has(f.key)))
   assert(s.recycling.every(r => transferId(r.id) && integer(r.createdAt) && integer(r.fragmentsGained) && Array.isArray(r.dropIds) && r.dropIds.every(transferId)))
   assert(s.friends.every(f => playerId(f.playerUuid) && f.playerUuid !== value.sourceId && record(f.signingPublicJwk) && text(f.fingerprint) && integer(f.addedAt) && (f.label === undefined || (text(f.label) && f.label.length <= 80)) && !('encryptionPublicJwk' in f)))
-  assert(s.outbox.every(o => transferId(o.transferId) && transferId(o.dropId) && playerId(o.recipientId) && text(o.code) && /^TR2\.[A-Za-z0-9_-]+$/.test(o.code) && o.code.length <= 12_000 && integer(o.createdAt) && o.status === 'generated' && (o.recipientLabel === undefined || text(o.recipientLabel))))
+  assert((tables.outbox as Record<string, unknown>[]).every(o => transferId(o.transferId) && playerId(o.recipientId) && text(o.code) && o.code.length <= 12_000 && integer(o.createdAt) && o.status === 'generated' && (o.recipientLabel === undefined || text(o.recipientLabel)) && (
+    ((o.kind === 'card' || (Number(value.schemaVersion) < 10 && o.kind === undefined)) && transferId(o.dropId) && !('amount' in o) && /^TR2\.[A-Za-z0-9_-]+$/.test(o.code)) ||
+    (o.kind === 'fragments' && integer(o.amount) && o.amount >= 1 && o.amount <= 1_000_000 && !('dropId' in o) && /^TF1\.[A-Za-z0-9_-]+$/.test(o.code))
+  )))
   assert([...s.usedTransfers, ...s.usedSaveTransfers].every(r => transferId(r.transferId) && integer(r.receivedAt)))
   assert(s.boosterStock.every(r => id(r.boosterId) && integer(r.quantity) && integer(r.updatedAt)))
   assert(s.boosterPurchases.every(r => transferId(r.id) && id(r.boosterId) && text(r.boosterTitle) && integer(r.unitPrice) && r.unitPrice > 0 && integer(r.fragmentsSpent) && integer(r.createdAt)))
@@ -157,6 +160,7 @@ export async function importSave(contents: string, database = db) {
       await database.table(name).clear(); await database.table(name).bulkPut(rows)
     }
     if (payload.schemaVersion < 8) await database.drops.toCollection().modify(row => { delete row.circulation })
+    await database.outbox.toCollection().modify(row => { row.kind ??= 'card' })
     await compactRecycledData(database)
     await database.recycledCards.bulkPut(previousRecycled)
     const destroyed = new Set((await database.recycledCards.toArray()).map(row => row.dropId))

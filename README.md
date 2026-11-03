@@ -77,7 +77,7 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 - Ouvertures persistées avant leur animation, reprise après fermeture/refresh, inventaire par exemplaire, découvertes par variante.
 - Collection détenue uniquement, trois filtres custom, atelier, protection de la dernière copie, confirmation de recyclage et historique économique. Les découvertes historiques restent conservées en base.
 - Aperçu D en plein écran : carrousel natif, voisines visibles dès 700 px, flèches, clavier, points de finition, date et doublons regroupés/séparés. Favori, Partager, Donner et Recycler dans un îlot vitré ; mode 2 actions dans Options. Confirmation de recyclage alignée sur cet îlot.
-- Identité locale, carnet d’amis, codes FR2, transferts TR2 signés et lisibles, boîte d’envoi et registre antirejeu.
+- Identité locale, carnet d’amis, codes FR2, transferts TR2 (cartes) et TF1 (fragments) signés et lisibles, boîte d’envoi et registre antirejeu.
 - Codes cadeaux courts dans les options, vérifiés hors ligne par empreinte, avec récompenses et registre transférable.
 - Titres Fraunces 700, descriptions Fraunces 500 italique et mentions Barlow Condensed 500, polices hébergées localement.
 - Pile et grande carte réunies en une seule vue, accessible en un toucher. Partage Canvas prégénéré : Story PNG 1080 × 1920 avec les halos du thème actif, ou carte PNG transparente 978 × 1620 ; téléchargement de secours.
@@ -174,7 +174,7 @@ La clé `updated` reste hors d’IndexedDB et des transferts de sauvegarde. Aucu
 
 Quand les outils de développement sont disponibles (`VITE_DEV_CATALOG`), Options propose un interrupteur **Page de mise à jour**, identique au Mode dev : activé, il remet `updated` à 0 ; désactivé, il mémorise le compteur actuel. Aucune navigation immédiate : recharger permet de tester la page. Comme le Mode dev, cet interrupteur est masqué dans le build de production actuel.
 
-Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 9 : base canonique unique bizave-tcg et table version, après le recyclage compact du schéma 8. Les cartes détenues, fragments et ouvertures en cours sont conservés. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
+Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 10 : les codes envoyés distinguent cartes et fragments ; les envois existants sont migrés en cartes, sans changer leurs codes. La base canonique reste bizave-tcg. Les cartes détenues, fragments et ouvertures en cours sont conservés. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
 
 Une variante est `(cardId, finish, artVariant)`. Un exemplaire possède un `dropId` UUID v4 permanent. Les découvertes restent enregistrées après recyclage ou envoi. Les statuts `outgoing` et `recycled` empêchent les réutilisations incohérentes.
 
@@ -188,7 +188,7 @@ Le stockage est lié au **navigateur et à l’origine**. Dans les options, les 
 
 ## Codes cadeaux
 
-Dans les options, **Code cadeau** se trouve sous **Envoi des cartes**. Les codes acceptent les minuscules et majuscules, avec 16 caractères utiles et trois tirets facultatifs. Les espaces sont ignorés au clavier et retirés au collage avant la limite de longueur. L’aide, la récompense et les erreurs partagent le même texte sous le champ. Le lot initial contient 20 codes de 10 Memory Frame, 20 codes de 10 Anima Isekai et 10 codes de 500 fragments, sans expiration. Les boosters rejoignent le stock acheté sans dépenser de fragments ni modifier les crédits gratuits.
+Dans les options, **Code cadeau** se trouve sous **Envoi des cartes**. Les codes acceptent les minuscules et majuscules, avec 16 caractères utiles et trois tirets facultatifs. Les espaces sont ignorés au clavier et retirés au collage avant la limite de longueur. L’aide, la récompense et les erreurs partagent le même texte sous le champ. Les anciens codes cadeaux sont retirés. Les nouveaux expirent 24 h après génération, sauf échéance explicite fournie avec --expires-at. Les boosters rejoignent le stock acheté sans dépenser de fragments ni modifier les crédits gratuits.
 
 Le jeu publie seulement les empreintes SHA-256 et les récompenses. Les codes en clair restent dans `.local/gift-codes/`, hors Git et build. Chaque code s’utilise une fois par sauvegarde ; son registre suit les transferts et fusionne avec celui du destinataire. Une nouvelle partie peut réutiliser les codes : aucun usage unique mondial n’est garanti hors ligne. La génération de nouveaux lots et leur publication sont décrites dans [docs/codes-cadeaux.md](docs/codes-cadeaux.md).
 
@@ -199,6 +199,7 @@ Le jeu publie seulement les empreintes SHA-256 et les récompenses. Les codes en
 - `FR2.` est une fiche publique : version 2, identifiant joueur et clé publique de signature. Import immédiat et unilatéral. Le jeu mémorise la clé de chaque ami : un ID déjà lié à une autre clé est refusé.
 - Avant le premier transfert, les deux joueurs importent le contact de l’autre. L’interface ne prétend pas savoir si l’autre joueur a effectué cet import.
 - `TR2.` contient la charge utile lisible et sa signature. Les neuf champs, dont expéditeur, destinataire, date, identifiants du transfert et de l’exemplaire, carte, finition et format, sont signés avec le domaine `BizaveTCG/CardTransfer/v2`. Aucun chiffrement ni clé jointe au transfert.
+- `TF1.` transporte six champs signés avec le domaine distinct `BizaveTCG/FragmentTransfer/v1` : version, transferId, senderId, recipientId, issuedAt et amount. Le montant est un entier de 1 à 1 000 000 ; les fragments sont débités dans la même transaction que la création du code, puis crédités une seule fois chez le destinataire.
 - Le destinataire sélectionne le contact déjà enregistré pour l’expéditeur, vérifie sa signature avec cette clé mémorisée et contrôle le destinataire. Il ajoute ensuite le drop et le `transferId` dans une transaction unique.
 - Un envoi devient `outgoing` avec sa boîte d’envoi **avant** d’afficher le code. Il est définitif ; aucune annulation locale et aucun faux accusé de réception.
 - `usedTransfers` conserve uniquement `transferId` et date. Une carte peut revenir avec le même `dropId` et les mêmes propriétés, mais un **nouveau** `transferId`. Un ancien code reste refusé après renvoi ou recyclage.
@@ -241,9 +242,9 @@ Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs
 
 ### Envois et amis
 
-L’envoi passe par une page dédiée avec recherche du destinataire. Un clic crée le transfert et demande sa copie dans le geste utilisateur, y compris avec la transaction asynchrone sur Safari. En cas de refus du presse-papiers, le code reste accessible par un bouton animé dans Envois. Aucun code brut n’est affiché dans ce parcours.
+L’envoi passe par une page dédiée avec recherche du destinataire. Un clic crée le transfert et demande sa copie dans le geste utilisateur, y compris avec la transaction asynchrone sur Safari. En cas de refus du presse-papiers, le code reste accessible par un bouton animé dans Codes envoyés. Aucun code brut n’est affiché dans ce parcours.
 
-Les entrées d’Envois disparaissent au bout de 24 h et sont nettoyées au démarrage, au retour sur la page et chaque minute. Ce délai porte sur les copies locales : un code déjà transmis reste recevable. Les exemplaires sortants et le registre antirejeu sont conservés. Renommer ou supprimer un ami ne modifie pas ses clés, les cartes ou les envois existants.
+Les entrées de Codes envoyés disparaissent au bout de 24 h et sont nettoyées au démarrage, au retour sur la page et chaque minute. Ce délai porte sur les copies locales : un code déjà transmis expire également après 24 h. Les exemplaires sortants et le registre antirejeu sont conservés. Renommer ou supprimer un ami ne modifie pas ses clés, les cartes ou les envois existants.
 
 ## Options
 
@@ -251,9 +252,13 @@ Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les c
 
 Le mode dev affiche les 304 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
-Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 exact, sans clé privée. Le fichier de transfert d’une carte est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
+La page `/fragments` s’ouvre depuis le compteur de l’en-tête. Le choix du destinataire partage `FriendPicker` avec le don de carte. Le montant se règle à l’unité, par boutons accélérés, curseur quadratique ou clavier ; un clic sur Envoyer confirme. Aucun remboursement automatique si le code reste inutilisé.
 
-La boîte d’envoi garde les entrées 24 h ; un fichier déjà téléchargé reste recevable ensuite, comme un code déjà copié.
+Amis réunit Recevoir, Ajouter un ami, Codes de cartes envoyés, puis Vos amis, sans onglets. Une fiche ami permet de renommer ou retirer le contact. `ReceiveSheet` reçoit cartes et fragments depuis Amis ou Fragments. Les confirmations de copie restent dans les boutons pendant 3 s, sans notification. Les codes restent accessibles après retrait du dernier ami.
+
+Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 ou TF1 exact, sans clé privée. Le fichier de transfert de carte ou fragments est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes et fragments accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
+
+La boîte d’envoi garde les entrées 24 h ; un fichier déjà téléchargé expire après 24 h, comme un code déjà copié.
 
 ## Affichage de la collection
 
@@ -295,8 +300,10 @@ Le journal détaillé recycling n’est plus alimenté ; sa table reste vide pou
 
 ## Base canonique unique (issue GitHub #1)
 
-Le nom de base reste désormais `bizave-tcg` ; les évolutions passent par les migrations Dexie, jamais par un nouveau nom. La table `version` contient `{ id: local, schemaVersion: 9, ready: true }` après initialisation ou copie validée. Elle est également initialisée pour les nouveaux joueurs et conservée pour les comptes exportés. Cette métadonnée technique est locale à la base, hors du fichier de sauvegarde ; les imports la remettent à jour.
+Le nom de base reste désormais `bizave-tcg` ; les évolutions passent par les migrations Dexie, jamais par un nouveau nom. La table `version` contient `{ id: local, schemaVersion: 10, ready: true }` après initialisation ou copie validée. Elle est également initialisée pour les nouveaux joueurs et conservée pour les comptes exportés. Cette métadonnée technique est locale à la base, hors du fichier de sauvegarde ; les imports la remettent à jour.
 
 Le patch temporaire `src/storage/patches/legacyDatabase.ts` est appelé une fois au boot, avant toute lecture de la partie et le test de mise à jour. Si bizave-tcg-v2 existe, il conserve cette source pendant la copie, remplace l’ancienne base canonique obsolète, copie toutes les tables et vérifie les données, y compris la clé privée par signature. Le marqueur ready est écrit dans la même transaction que la copie. La source v2 est supprimée seulement après validation et commit. Une copie interrompue est reprise au prochain chargement depuis la source intacte. Une base canonique déjà validée reste prioritaire si un ancien client recrée une v2 obsolète. Les copies sont sérialisées entre onglets via Web Locks et verrou transactionnel.
 
 Pour retirer ce correctif après la période de compatibilité : supprimer le module, ses tests et son unique import/appel dans main.tsx. Garder DATABASE_NAME, la table version et les migrations permanentes. Aucun nettoyage ne cible les bases d’autres applications.
+
+Les transferts de cartes TR2 et de fragments TF1 expirent 24 h après la date signée issuedAt, que le destinataire utilise le code ou le fichier .btcg. À l’échéance, aucun crédit n’est effectué.

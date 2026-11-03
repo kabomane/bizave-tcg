@@ -13,6 +13,7 @@ async function seedCollection(page: Page) {
 }
 
 test('transfert par fichier, source verrouillée après rechargement, identité source conservée et import unique', async ({ page, context, browser }) => {
+  test.setTimeout(90_000) // Multiple windows, signed files and repeated full navigations on WebKit.
   const recipientContext = await browser.newContext(), target = await recipientContext.newPage()
   const otherSourceTab = await context.newPage()
   try {

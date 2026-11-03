@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="light">
+<head>
+<!--
+  Bizave TCG — maquette de la page Fragments, piste E (synthèse des retours sur A, B, C, D).
+  Démo autonome : aucune donnée réelle, aucun appel réseau.
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bizave TCG — page Fragments (piste E)</title>
+<style>
+/* Tokens repris de src/styles/application.css */
+:root{--page:#f3f1eb;--surface:#f8f6f0;--raised:#faf9f5;--field:#ffffff3d;--quiet:#ffffff40;--ink:#242523;--muted:#85857f;--accent:#8e3040;--on-ink:#faf8f2;--ink-hover:#42443d;--positive:#3e6a52;--error:#a84044;
+  --line:color-mix(in srgb,var(--ink) 10%,transparent);--soft:color-mix(in srgb,var(--ink) 5%,transparent);
+  --ui:'Segoe UI',Inter,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;--serif:Georgia,'Times New Roman',serif;--bar-h:92px;--gut:22px}
+:root[data-theme=dark]{--page:#191a1c;--surface:#222326;--raised:#242527;--field:#ffffff06;--quiet:#ffffff05;--ink:#efede6;--muted:#aca89f;--accent:#d68c9a;--on-ink:#191a1c;--ink-hover:#d5d0c6;--positive:#8fc7a5;--error:#ed9a9e}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:#121315;font-family:var(--ui);color:#e9e6df}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+button:disabled{cursor:not-allowed}
+button:focus-visible,input:focus-visible,[role=slider]:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.ic{width:18px;height:18px;flex:none;display:block}
+
+/* ───── Coque de démo ───── */
+.switch{min-height:var(--bar-h);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 12px 6px;padding-top:max(8px,env(safe-area-inset-top));max-width:720px;margin:0 auto}
+.switch-row{display:flex;gap:8px;align-items:center}
+.seg{flex:1;display:flex;background:#1e1f22;border:1px solid #2e3034;border-radius:11px;padding:3px;gap:3px}
+.seg button{flex:1;height:32px;border-radius:8px;font-size:12.5px;color:#9a978f;white-space:nowrap;padding:0 4px}
+.seg button[aria-pressed=true]{background:#34363b;color:#f1eee7}
+.theme{width:40px;height:40px;border-radius:11px;border:1px solid #2e3034;display:grid;place-items:center;color:#c9c5bc;flex:none}
+.switch p{margin:0;font-size:12px;color:#8f8c85;text-align:center}
+.stage{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;padding:14px 24px 40px;align-items:flex-start}
+.device{position:relative;flex:none}
+.phone{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;border-radius:44px;box-shadow:0 0 0 10px #050506,0 40px 80px -20px #000;
+  background:var(--page);color:var(--ink);container:device / size;font-size:13px;line-height:1.45;isolation:isolate}
+.phone[data-device=tabP],.phone[data-device=tabL]{border-radius:30px;box-shadow:0 0 0 14px #050506,0 40px 80px -20px #000}
+.phone[data-device=pc]{border-radius:12px;box-shadow:0 0 0 1px #34363b,0 40px 80px -20px #000}
+.notes{width:320px;font-size:14px;line-height:1.6;color:#b9b5ad}
+.stage.below .notes{flex-basis:100%;max-width:820px;columns:2 320px;column-gap:44px}
+.stage.below .notes h2,.stage.below .notes .tag{column-span:all}
+.notes h2{font-family:var(--serif);font-weight:400;font-size:26px;color:#f1eee7;margin:0 0 4px;letter-spacing:-.03em}
+.notes .tag{color:#8f8c85;margin:0 0 18px}
+.notes h3{font-size:13px;font-weight:600;color:#e9e6df;margin:20px 0 6px;break-after:avoid}
+.notes ul{margin:0;padding-left:18px}.notes li{margin:5px 0}
+.notes b{color:#e9e6df;font-weight:600}
+body.native .stage{display:block;padding:0}
+body.native .device{width:auto!important;height:auto!important;margin:0!important}
+body.native .phone{position:relative;width:100%!important;height:calc(100svh - var(--bar-h))!important;transform:none!important;border-radius:0;box-shadow:none}
+@media (max-width:760px){ .notes{width:auto;padding:24px 20px calc(40px + env(safe-area-inset-bottom))} .stage.below .notes{columns:auto} .seg button{font-size:11.5px} }
+
+/* ───── Application ───── */
+.app{height:100%;display:flex;flex-direction:column;background:var(--page);color:var(--ink);font-family:var(--ui)}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;display:flex;flex-direction:column}
+.hd{flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;height:74px;padding:14px var(--gut) 0}
+.brand{display:inline-flex;align-items:baseline;font-size:27px;font-weight:800;letter-spacing:-.07em;line-height:1}
+.brand span{margin-left:7px;font-size:7px;letter-spacing:.1em;font-weight:700;align-self:center;padding-top:3px}
+.brand i{width:4px;height:4px;border-radius:50%;background:var(--accent);margin-left:3px;align-self:flex-start;margin-top:4px}
+.topnav{display:none}
+.wallet{justify-self:end;display:flex;align-items:center;gap:8px;font-size:12px;padding:8px 12px;border:1px solid var(--line);border-radius:30px;color:var(--muted);min-width:54px;justify-content:center}
+.wallet b{font-weight:600;color:var(--ink);font-variant-numeric:tabular-nums}
+.wallet .ic{width:14px;height:14px}
+.wallet.on{color:var(--accent);border-color:color-mix(in srgb,var(--accent) 32%,transparent);background:color-mix(in srgb,var(--accent) 6%,transparent)}
+.wallet.on b{color:var(--accent)}
+.main{flex:1;width:100%;max-width:1512px;margin:0 auto;padding:18px var(--gut) 24px;display:flex;flex-direction:column}
+.tabbar{flex:none;user-select:none;-webkit-user-select:none;display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);padding:9px 6px 24px;background:var(--page)}
+.tabbar span{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:9px;color:#ada597}
+.tabbar .ic{width:18px;height:18px;stroke-width:1.6}
+@container device (min-width:600px){
+  .app{--gut:30px}
+  .hd{display:grid;grid-template-columns:1fr auto 1fr;height:90px;padding:0;margin:0 var(--gut);border-bottom:1px solid var(--line)}
+  .brand{font-size:31px}.brand span{font-size:8px}.brand i{width:5px;height:5px}
+  .topnav{display:flex;height:100%;gap:28px;align-items:center}
+  .topnav span{font-size:12px;color:var(--muted);font-weight:500}
+  .tabbar{display:none}
+  .main{padding-top:40px;padding-bottom:40px}
+}
+@container device (min-width:1100px){ .app{--gut:64px} .hd{height:104px} .topnav{gap:35px} .brand{font-size:33px} .main{padding-top:52px} }
+
+/* Contrôles communs */
+.btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:12px 18px;border-radius:5px;font-size:12px;font-weight:500;border:1px solid transparent;line-height:1.3;position:relative;transition:background .2s,border-color .2s,opacity .2s,color .2s}
+.btn.primary{background:var(--ink);color:var(--on-ink)}
+.btn.primary:hover:not(:disabled){background:var(--ink-hover)}
+.btn.secondary{border-color:color-mix(in srgb,var(--ink) 16%,transparent)}
+.btn.secondary:hover:not(:disabled){border-color:color-mix(in srgb,var(--ink) 38%,transparent)}
+.btn.text{padding:10px 0;color:var(--muted)}
+.btn.text:hover{color:var(--accent)}
+.btn.sm{min-height:36px;padding:8px 12px;font-size:11px;gap:7px}
+.btn:disabled{opacity:.38}
+.btn .ic{width:16px;height:16px}
+.wide{width:100%}
+.icon-btn{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;color:var(--muted);flex:none}
+.icon-btn:hover{color:var(--ink);background:var(--soft)}
+.muted{color:var(--muted)}
+.ptitle{margin:0;font-weight:450;font-size:33px;letter-spacing:-.05em;line-height:1.15}
+@container device (min-width:600px){ .ptitle{font-size:40px} }
+@container device (min-width:1100px){ .ptitle{font-size:46px} }
+.phead{margin-bottom:24px}
+.phead p{margin:6px 0 0;font-size:12px;color:var(--muted)}
+.count{font-size:9px;color:var(--muted);border:1px solid var(--line);border-radius:20px;min-width:18px;height:18px;display:inline-grid;place-items:center;padding:0 5px;font-weight:400}
+.av{width:42px;height:42px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 11%,transparent);display:grid;place-items:center;font-family:var(--serif);font-style:italic;font-size:18px;color:var(--ink);background:var(--quiet);flex:none;line-height:1}
+.search{display:flex;align-items:center;gap:10px;min-height:44px;border:1px solid var(--line);border-radius:5px;padding:0 14px;color:var(--muted);background:var(--field)}
+.search input{flex:1;min-width:0;border:0;background:none;outline:none;font:inherit;font-size:12px;color:var(--ink)}
+.search input::placeholder{color:var(--muted)}
+.search .ic{width:16px;height:16px}
+.num{font-family:var(--serif);letter-spacing:-.04em;font-variant-numeric:tabular-nums lining-nums;line-height:1}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;letter-spacing:.04em}
+svg.g{display:block;color:var(--accent)}
+
+/* ───── Page : solde (affichage D) + actions (A) ───── */
+.pe{display:flex;flex-direction:column;flex:1;width:100%;max-width:560px;margin:0 auto}
+.solde{display:flex;align-items:center;gap:18px;padding:26px 22px;border:1px solid var(--line);border-radius:14px;background:var(--quiet)}
+.solde svg.g{width:38px;height:38px}
+.solde .num{font-size:52px}
+.solde small{display:block;font-size:10px;color:var(--muted);letter-spacing:.24em;text-transform:uppercase;margin-top:8px}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.acts .btn{min-height:52px;font-size:13px}
+.codes-link{margin-top:auto;padding-top:28px;display:flex;justify-content:center}
+.codes-link .btn{gap:9px}
+.inline-codes{display:none}
+
+/* Liste des codes (une seule catégorie, sans date) */
+.sh{display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:11px;color:var(--muted);padding:0 0 12px;border-bottom:1px solid var(--line);margin:0}
+.sh h3{margin:0;font-size:11px;font-weight:500;color:var(--ink);display:flex;align-items:center;gap:9px}
+.code-row{display:flex;align-items:center;gap:14px;padding:14px 2px;border-bottom:1px solid var(--line);animation:rise .3s ease both}
+.code-row .tok{width:33px;height:44px;margin:0 5.5px;border-radius:4px;border:1.5px solid color-mix(in srgb,var(--accent) 45%,transparent);display:grid;place-items:center;flex:none;background:color-mix(in srgb,var(--accent) 7%,transparent);box-shadow:0 4px 10px -4px #0005}
+.code-row .tok svg.g{width:18px;height:18px}
+.code-row .t{flex:1;min-width:0}
+.code-row strong{display:flex;align-items:baseline;gap:.3em;font-size:12.5px;font-weight:500}
+.code-row strong .num{font:inherit;letter-spacing:inherit}
+.code-row small{display:flex;align-items:center;gap:5px;font-size:10.5px;color:var(--muted);margin-top:5px}
+.code-row small .ic{width:11px;height:11px}
+.code-row .bar24{height:2px;border-radius:2px;background:var(--line);margin-top:8px;overflow:hidden;max-width:160px}
+.code-row .bar24 i{display:block;height:100%;background:color-mix(in srgb,var(--accent) 60%,transparent)}
+.codes-empty{text-align:center;color:var(--muted);font-size:12px;padding:34px 10px 20px;line-height:1.7}
+.codes-empty h4{font-family:var(--serif);font-weight:400;font-size:22px;letter-spacing:-.04em;color:var(--ink);margin:0 0 6px}
+.codes-note{font-size:10.5px;color:var(--muted);margin:14px 2px 0;display:flex;gap:6px;align-items:center}
+.codes-note .ic{width:12px;height:12px}
+
+@container device (min-width:600px){
+  .solde{padding:34px 30px}.solde .num{font-size:64px}.solde svg.g{width:46px;height:46px}
+}
+@container device (min-width:1100px){
+  .pe{max-width:none;display:grid;grid-template-columns:440px minmax(0,1fr);gap:80px;align-items:start}
+  .codes-link{display:none}
+  .inline-codes{display:block}
+}
+
+/* ───── Feuille d'envoi ───── */
+.layer{position:absolute;inset:0;z-index:50;display:flex;align-items:flex-end;justify-content:center;background:#25231f80;backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px);animation:fade .2s}
+:root[data-theme=dark] .layer{background:#090a0db3}
+.sheet{width:100%;max-height:94%;overflow-y:auto;background:var(--surface);color:var(--ink);border-radius:18px 18px 0 0;padding:10px 22px 30px;animation:up .34s cubic-bezier(.2,.8,.2,1);scrollbar-width:none}
+.grab{width:36px;height:4px;border-radius:2px;background:color-mix(in srgb,var(--ink) 16%,transparent);margin:0 auto 8px}
+.sheet-h{display:flex;align-items:center;gap:6px;min-height:44px;margin:0 -10px 12px}
+.sheet-h h2{margin:0;font-size:14px;font-weight:550;flex:1}
+.sheet-h .step{font-size:10px;color:var(--muted);font-weight:400}
+@container device (min-width:600px){
+  .layer{align-items:center}
+  .sheet{width:min(480px,calc(100% - 40px));border-radius:12px;padding:24px 28px 28px;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);box-shadow:0 25px 90px #24221f26;animation:pop .26s cubic-bezier(.2,.8,.2,1)}
+  .grab{display:none}
+}
+.friend-pick{display:flex;flex-direction:column}
+.friend-pick button{display:flex;align-items:center;gap:13px;padding:11px 2px;border-bottom:1px solid var(--line);text-align:left}
+.friend-pick button:hover strong{color:var(--accent)}
+.friend-pick strong{display:block;font-size:13px;font-weight:500}
+.friend-pick small{display:block;font-size:10.5px;color:var(--muted);margin-top:3px}
+.friend-pick .t{flex:1}
+.friend-pick > button > .ic{color:var(--muted)}
+.to-chip{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border:1px solid var(--line);border-radius:30px;font-size:11.5px}
+.to-chip .av{width:26px;height:26px;font-size:12px}
+.to-chip b{font-weight:550}
+.to-chip u{text-decoration:none;color:var(--muted);margin-left:4px}
+
+/* Montant : grand chiffre + réglage fin ±1 + curseur gradué (B), précis à l’unité */
+.amount{text-align:center;padding:12px 0 0}
+.fine{display:flex;align-items:center;justify-content:center;gap:14px;margin:26px 0 6px}
+.fine .num{font-size:66px;min-width:2.6ch;text-align:center;transition:color .2s}
+.fine button{width:48px;height:48px;border-radius:50%;border:1px solid color-mix(in srgb,var(--ink) 14%,transparent);display:grid;place-items:center;color:var(--ink);flex:none;user-select:none;-webkit-user-select:none;touch-action:none;transition:background .15s,border-color .15s}
+.fine button:active,.fine button.rep{background:var(--soft);border-color:color-mix(in srgb,var(--ink) 34%,transparent)}
+.fine button:disabled{opacity:.3}
+.amount .meta{font-size:11px;color:var(--muted);display:flex;align-items:center;justify-content:center;gap:6px}
+.amount .meta svg.g{width:12px;height:12px;color:var(--muted)}
+.ruler{position:relative;height:66px;touch-action:none;cursor:ew-resize;margin:22px 8px 0;--p:0%}
+.ruler .ticks{position:absolute;left:0;right:0;top:16px;height:20px;background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--ink) 18%,transparent) 0 1px,transparent 1px 2.5%)}
+.ruler .ticks::after{content:'';position:absolute;inset:-6px 0 0;background:repeating-linear-gradient(90deg,color-mix(in srgb,var(--ink) 34%,transparent) 0 1px,transparent 1px 25%)}
+.ruler .fill{position:absolute;left:0;top:16px;height:20px;width:var(--p);background:linear-gradient(90deg,transparent,color-mix(in srgb,var(--accent) 16%,transparent))}
+.ruler .th{position:absolute;left:var(--p);top:4px;width:2px;height:40px;background:var(--accent);transform:translateX(-1px);border-radius:2px}
+.ruler .th::after{content:'';position:absolute;left:50%;bottom:-11px;width:18px;height:18px;border-radius:50%;background:var(--page);border:2px solid var(--accent);transform:translateX(-50%);box-shadow:0 3px 8px #0002}
+.ruler.drag .th::after{transform:translateX(-50%) scale(1.2)}
+.ruler .ends{position:absolute;left:0;right:0;bottom:-4px;display:flex;justify-content:space-between;font-size:10px;color:var(--muted);font-variant-numeric:tabular-nums}
+.ruler .ends button{font-size:10px;color:var(--muted);padding:6px 0}
+.ruler .ends button:hover{color:var(--accent)}
+.err{min-height:16px;font-size:11px;color:var(--error);text-align:center;margin:12px 0 8px}
+.hold{overflow:hidden;width:100%;user-select:none;-webkit-user-select:none;touch-action:none;min-height:52px!important;font-size:13px!important}
+.hold .fill{position:absolute;inset:0;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .25s ease}
+.hold.holding .fill{transform:scaleX(1);transition:transform .9s linear}
+.hold .lbl{position:relative;display:inline-flex;align-items:center;gap:9px}
+.hint{font-size:10.5px;text-align:center;margin:10px 0 0;color:var(--muted)}
+
+/* Succès */
+.done{text-align:center;padding:14px 0 0}
+.done .mark{width:66px;height:66px;margin:0 auto 22px;border-radius:50%;display:grid;place-items:center;color:var(--positive);border:1px solid color-mix(in srgb,var(--positive) 35%,transparent);animation:popmark .5s cubic-bezier(.3,1.5,.5,1) both}
+.done .mark .ic{width:28px;height:28px;stroke-width:2;stroke-dasharray:30;stroke-dashoffset:30;animation:draw .45s .2s ease forwards}
+.done h2{font-family:var(--serif);font-weight:400;font-size:26px;letter-spacing:-.04em;margin:0}
+.done .what{display:flex;align-items:center;justify-content:center;gap:8px;margin:12px 0 0;font-size:13px}
+.done .what svg.g{width:15px;height:15px}
+.codebox{display:flex;align-items:center;gap:10px;margin:24px 0 10px;padding:6px 6px 6px 14px;border:1px dashed color-mix(in srgb,var(--ink) 22%,transparent);border-radius:7px;text-align:left;background:var(--field)}
+.codebox span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:var(--muted)}
+.done p.muted{font-size:11.5px;line-height:1.7;margin:4px 6px 22px}
+.toast{position:absolute;z-index:60;left:50%;top:84px;transform:translateX(-50%);background:#2b2d28;color:#ece9df;border:1px solid #ffffff15;box-shadow:0 8px 35px #24221f1f;border-radius:7px;display:flex;gap:10px;align-items:center;padding:11px 16px;font-size:12px;white-space:nowrap;animation:toast 2.6s ease both}
+.toast .ic{width:15px;height:15px;color:#8fc7a5}
+@container device (min-width:600px){ .toast{top:auto;bottom:28px} }
+
+.is-confirmed{color:var(--positive)!important;border-color:color-mix(in srgb,var(--positive) 40%,transparent)!important;background:color-mix(in srgb,var(--positive) 4%,transparent)}
+.clipboard-confirm{display:inline-flex;animation:clipboardConfirmed .36s ease-out both}
+.clipboard-confirm svg{stroke-dasharray:40;stroke-dashoffset:0;animation:clipboardCheck .36s ease-out both}
+@keyframes clipboardConfirmed{from{opacity:0;transform:scale(.65)}65%{transform:scale(1.18)}to{opacity:1;transform:scale(1)}}
+@keyframes clipboardCheck{from{stroke-dashoffset:40}to{stroke-dashoffset:0}}
+.btn.sm[data-act=copy]{white-space:nowrap;min-width:106px;padding-inline:10px;flex:none}
+.code-row{gap:12px}
+.code-row small{white-space:nowrap}
+@keyframes fade{from{opacity:0}}
+@keyframes up{from{transform:translateY(100%)}}
+@keyframes pop{from{opacity:0;transform:translateY(8px) scale(.97)}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,8px)}10%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+@keyframes popmark{from{transform:scale(.5);opacity:0}}
+@keyframes draw{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+</style>
+</head>
+<body>
+<div class="switch">
+  <div class="switch-row">
+    <div class="seg" id="dev">
+      <button data-dev="phone" aria-pressed="true">Téléphone</button>
+      <button data-dev="tabP">Tablette</button>
+      <button data-dev="tabL">Paysage</button>
+      <button data-dev="pc">Ordinateur</button>
+    </div>
+    <button class="theme" id="theme" aria-label="Changer de thème"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor"/></svg></button>
+    <button class="theme" id="reset" aria-label="Réinitialiser la démo" title="Réinitialiser la démo"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+  </div>
+  <p>Piste E · Envoyer, Recevoir, et les codes des dernières 24 h</p>
+</div>
+<div class="stage" id="stage">
+  <div class="device" id="device"><div class="phone" id="phone" data-device="phone"><div class="app" id="app"></div></div></div>
+  <aside class="notes" id="notes">
+    <h2>E · Synthèse</h2>
+    <p class="tag">La page simple de A, l’affichage du solde de D, le curseur de B, le bouton du bas de C.</p>
+    <h3>La page</h3>
+    <ul>
+      <li>Le solde seul, dans le cadre de D, puis deux actions : <b>Envoyer</b> et <b>Recevoir</b>.</li>
+      <li>Aucun ami sur la page : on le choisit dans la feuille d’envoi, comme dans A.</li>
+      <li>Plus d’équivalence en boosters.</li>
+    </ul>
+    <h3>Codes envoyés (une seule liste)</h3>
+    <ul>
+      <li>« En attente » et « Historique » fusionnés : sans serveur, seuls les codes des dernières 24 h existent, comme pour les dons de cartes.</li>
+      <li>Pas de date ni de regroupement : montant, ami, temps restant (avec une jauge), Copier.</li>
+      <li>Téléphone et tablette : un bouton en bas de page ouvre la liste (idée de C) pour garder l’écran dégagé. Paysage et ordinateur : la place existe, la liste est affichée à droite.</li>
+    </ul>
+    <h3>Le montant</h3>
+    <ul>
+      <li>Plus de pavé numérique. Le <b>curseur gradué</b> de B règle le gros du montant, <b>à l’unité</b> (plus de pas de 5) ; il est plus fin dans les petits montants.</li>
+      <li>Les boutons <b>− / +</b> ajustent d’une unité ; en les maintenant, ça défile et accélère.</li>
+      <li>« Max » au bout du curseur pour tout envoyer.</li>
+      <li>Ordinateur : flèches ← → (±1), Maj + flèches (±10), et saisie directe au clavier.</li>
+      <li>Confirmation : <b>maintenir pour envoyer</b>, conservé de A.</li>
+    </ul>
+    <h3>Après l’envoi</h3>
+    <ul><li>Le code est copié tout seul (ou le fichier <span class="mono">.btcg</span> est téléchargé, selon l’option), puis il apparaît en tête des codes envoyés.</li></ul>
+  </aside>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString('fr-FR');
+const ICON = {
+  gem: '<path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>',
+  back: '<path d="m15 18-6-6 6-6"/>', next: '<path d="m9 18 6-6-6-6"/>', x: '<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  send: '<path d="M14.5 21.7a.5.5 0 0 0 .9 0L22 3.5a.5.5 0 0 0-.6-.6L3.3 9.5a.5.5 0 0 0 0 .9l7.6 3.2a2 2 0 0 1 1.1 1.1Z"/><path d="m21.9 2.1-10.9 10.9"/>',
+  in: '<path d="M17 7 7 17"/><path d="M17 17H7V7"/>',
+  clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  copy: '<rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>',
+  check: '<path d="M20 6 9 17l-5-5"/>', search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>',
+  plus: '<path d="M12 5v14"/><path d="M5 12h14"/>', minus: '<path d="M5 12h14"/>',
+  paste: '<rect x="8" y="2" width="8" height="4" rx="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>',
+  file: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M12 18v-6"/><path d="m9 15 3-3 3 3"/>',
+  list: '<path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/>',
+  info: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
+  box: '<path d="M21 8 12 3 3 8v8l9 5 9-5Z"/><path d="m3 8 9 5 9-5"/><path d="M12 13v8"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5Z"/><path d="m3 13 9 5 9-5"/>',
+  recycle: '<path d="M7 19H4.8a1.8 1.8 0 0 1-1.6-2.7L5.1 13"/><path d="M11 19h8.2a1.8 1.8 0 0 0 1.6-2.7l-1.2-2"/><path d="m14 16-3 3 3 3"/><path d="M8.3 13.1 5.1 13 3.6 16"/><path d="m9.3 5.6 1.1-1.8a1.8 1.8 0 0 1 3.1 0l3.9 6.7"/><path d="m13.4 9.7 3.6.8.9-3.5"/>',
+  users: '<path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.9"/><path d="M16 3.1a4 4 0 0 1 0 7.8"/>',
+};
+const ic = n => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
+const GEM = `<svg class="g" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON.gem}</svg>`;
+
+const FRIENDS = [ { id:'arashi', name:'Arashi' }, { id:'eli', name:'Eli' }, { id:'nana', name:'Nana' }, { id:'dorian', name:'Dorian' }, { id:'lucas', name:'Lucas' } ];
+const fname = id => FRIENDS.find(f => f.id === id)?.name || id;
+let S;
+function seed() {
+  S = { device: S?.device || 'phone', bal: 1240, amount: 0, to: null, ov: null, step: 'friend', search: '', last: null,
+    codes: [ { id:'c2', who:'nana', amt:80, mins: 22 * 60 + 14 }, { id:'c1', who:'eli', amt:100, mins: 3 * 60 + 40 } ] };
+}
+seed();
+const left = m => m >= 60 ? `${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')}` : `${m} min`;
+const code = () => 'btcg1·' + Array.from({ length: 6 }, () => Math.random().toString(36).slice(2, 6).toUpperCase()).join('·');
+
+/* ───── Rendu ───── */
+function codesHTML() {
+  if (!S.codes.length) return `<div class="codes-empty"><h4>Aucun code en cours.</h4>Les codes de vos envois restent ici 24 h,<br>le temps que vos amis les reçoivent.</div>`;
+  return S.codes.map(c => `<div class="code-row"><span class="tok">${GEM}</span><div class="t"><strong><span class="num">${fmt(c.amt)}</span>fragments</strong><small>${ic('clock')}${left(c.mins)} restantes · pour ${fname(c.who)}</small><div class="bar24"><i style="width:${c.mins / 1440 * 100}%"></i></div></div><button class="btn secondary sm" data-act="copy">${ic('copy')}Copier</button></div>`).join('')
+    + `<p class="codes-note">${ic('info')}Effacés automatiquement après 24 h, comme les dons de cartes.</p>`;
+}
+function page() {
+  return `<div class="pe">
+    <div class="lefty">
+      <div class="phead"><h1 class="ptitle">Fragments</h1><p>Gagnés en recyclant vos cartes, à partager avec vos amis.</p></div>
+      <section class="solde" aria-label="Votre solde">${GEM}<div><span class="num" data-bind="bal">${fmt(S.bal)}</span><small>fragments</small></div></section>
+      <div class="acts"><button class="btn primary" data-act="openSend" ${S.bal ? '' : 'disabled'}>${ic('send')}Envoyer</button><button class="btn secondary" data-act="receive">${ic('in')}Recevoir</button></div>
+    </div>
+    <section class="inline-codes"><div class="sh"><h3>Codes envoyés <span class="count">${S.codes.length}</span></h3><span>24 h pour les transmettre</span></div>${codesHTML()}</section>
+    <div class="codes-link"><button class="btn text" data-act="codes">${ic('list')}Codes envoyés${S.codes.length ? ` · ${S.codes.length}` : ''}</button></div>
+  </div>`;
+}
+function shell() {
+  const nav = ['Boosters', 'Collection', 'Atelier', 'Amis'], icons = ['box', 'layers', 'recycle', 'users'];
+  return `<div class="scroll" id="scroll">
+    <header class="hd"><span class="brand">bizave<span>TCG</span><i></i></span>
+      <nav class="topnav">${nav.map(n => `<span>${n}</span>`).join('')}</nav>
+      <button class="wallet on" aria-current="page" aria-label="${S.bal} fragments">${ic('gem')}<b data-bind="bal">${fmt(S.bal)}</b></button></header>
+    <main class="main">${page()}</main></div>
+    <nav class="tabbar">${nav.map((n, i) => `<span>${ic(icons[i])}${n}</span>`).join('')}</nav>
+    <div id="layer"></div><div id="toastw"></div>`;
+}
+function friendRows() {
+  const q = S.search.trim().toLowerCase(), list = FRIENDS.filter(f => f.name.toLowerCase().includes(q));
+  return list.map(f => `<button data-act="pick" data-id="${f.id}"><span class="av">${f.name[0]}</span><span class="t"><strong>${f.name}</strong></span>${ic('next')}</button>`).join('') || `<p class="muted" style="font-size:12px">Aucun ami trouvé.</p>`;
+}
+function sheetSend() {
+  if (S.step === 'friend') return `<div class="grab"></div>
+    <div class="sheet-h"><button class="icon-btn" data-act="close" aria-label="Fermer">${ic('x')}</button><h2>Envoyer des fragments <span class="step">· 1 sur 2</span></h2></div>
+    <label class="search">${ic('search')}<input data-search placeholder="Rechercher un ami…" value="${S.search}" aria-label="Rechercher un ami"></label>
+    <p class="muted" style="font-size:11px;margin:16px 0 4px">À qui ?</p>
+    <div class="friend-pick" id="flist">${friendRows()}</div>`;
+  return `<div class="grab"></div>
+    <div class="sheet-h"><button class="icon-btn" data-act="stepBack" aria-label="Retour">${ic('back')}</button><h2>Montant <span class="step">· 2 sur 2</span></h2><button class="icon-btn" data-act="close" aria-label="Fermer">${ic('x')}</button></div>
+    <div class="amount">
+      <button class="to-chip" data-act="stepBack"><span class="av">${fname(S.to)[0]}</span>À <b>${fname(S.to)}</b><u>Changer</u></button>
+      <div class="fine"><button data-rep="-1" aria-label="Retirer 1">${ic('minus')}</button><span class="num" data-bind="amt" aria-live="polite">${fmt(S.amount)}</span><button data-rep="1" aria-label="Ajouter 1">${ic('plus')}</button></div>
+      <div class="meta" data-bind="rest"></div>
+    </div>
+    <div class="ruler" data-drag="ruler" role="slider" tabindex="0" aria-label="Montant" aria-valuemin="0" aria-valuemax="${S.bal}"><div class="ticks"></div><div class="fill"></div><div class="th"></div><div class="ends"><span>0</span><button data-act="max">Max · ${fmt(S.bal)}</button></div></div>
+    <div class="err" data-bind="err"></div>
+    <button class="btn primary hold" data-hold data-need><span class="fill"></span><span class="lbl">${ic('send')}<span data-bind="holdLbl"></span></span></button>
+    <p class="hint">Maintenez pour envoyer · un code de transfert sera copié.</p>`;
+}
+function sheetSuccess() {
+  const L = S.last;
+  return `<div class="grab"></div><div class="done"><div class="mark">${ic('check')}</div>
+    <h2>Code de transfert copié !</h2>
+    <p class="what">${GEM}<b>${fmt(L.amt)} fragments</b> pour ${fname(L.who)}</p>
+    <div class="codebox"><span class="mono">${L.code}</span><button class="btn secondary sm" data-act="copy">${ic('copy')}Copier</button></div>
+    <p class="muted">Transmettez-le à ${fname(L.who)}. Il reste dans « Codes envoyés » pendant 24 h.</p>
+    <button class="btn primary wide" data-act="close">Terminé</button></div>`;
+}
+function sheetCodes() {
+  return `<div class="grab"></div><div class="sheet-h"><button class="icon-btn" data-act="close" aria-label="Fermer">${ic('x')}</button><h2>Codes envoyés <span class="step">· ${S.codes.length}</span></h2></div>${codesHTML()}`;
+}
+function sheetReceive() {
+  return `<div class="grab"></div><div class="sheet-h"><button class="icon-btn" data-act="close" aria-label="Fermer">${ic('x')}</button><h2>Recevoir</h2></div>
+    <p class="muted" style="font-size:12px;line-height:1.7;margin:0 0 20px">Collez le code reçu ou importez le fichier <span class="mono">.btcg</span>. Cartes et fragments passent par le même code.</p>
+    <div style="display:grid;gap:10px"><button class="btn secondary wide" data-act="doReceive">${ic('paste')}Coller le code</button><button class="btn secondary wide" data-act="doReceive">${ic('file')}Importer un fichier</button></div>`;
+}
+function sheetReceived() {
+  return `<div class="grab"></div><div class="done"><div class="mark">${ic('check')}</div><h2>+150 fragments</h2>
+    <p class="what">Reçus d’Arashi · ajoutés à votre solde</p>
+    <p class="muted" style="margin-top:14px">Solde : <b style="color:var(--ink)" data-bind="bal">${fmt(S.bal)}</b></p>
+    <button class="btn primary wide" data-act="close">Parfait</button></div>`;
+}
+function renderLayer() {
+  const body = { send: sheetSend, success: sheetSuccess, codes: sheetCodes, receive: sheetReceive, received: sheetReceived }[S.ov];
+  $('layer').innerHTML = body ? `<div class="layer" data-act="bg"><div class="sheet" role="dialog" aria-modal="true">${body()}</div></div>` : '';
+  paint();
+}
+function render() { const st = $('scroll')?.scrollTop; $('app').innerHTML = shell(); renderLayer(); if ($('scroll')) $('scroll').scrollTop = st || 0; }
+const BIND = {
+  bal: () => fmt(S.bal), amt: () => fmt(S.amount),
+  rest: () => `${GEM}Solde ${fmt(S.bal)} · après envoi ${fmt(Math.max(0, S.bal - S.amount))}`,
+  err: () => S.amount > S.bal ? `Solde insuffisant · maximum ${fmt(S.bal)}` : '',
+  holdLbl: () => S.amount > 0 ? `Maintenir pour envoyer ${fmt(S.amount)}` : 'Choisissez un montant',
+};
+function paint() {
+  document.querySelectorAll('#phone [data-bind]').forEach(el => { const v = BIND[el.dataset.bind](); if (v.includes('<')) el.innerHTML = v; else el.textContent = v; });
+  document.querySelectorAll('#phone [data-need]').forEach(b => b.disabled = !(S.amount > 0 && S.amount <= S.bal));
+  document.querySelectorAll('#phone [data-rep="-1"]').forEach(b => b.disabled = S.amount <= 0);
+  document.querySelectorAll('#phone [data-rep="1"]').forEach(b => b.disabled = S.amount >= S.bal);
+  const ru = document.querySelector('#phone .ruler');
+  if (ru) { ru.style.setProperty('--p', Math.sqrt(Math.min(1, S.amount / S.bal || 0)) * 100 + '%'); ru.setAttribute('aria-valuenow', S.amount); ru.setAttribute('aria-valuetext', `${S.amount} fragments`); }
+}
+const setAmount = n => { S.amount = Math.max(0, Math.min(S.bal, Math.round(n))); paint(); };
+function toast(msg) { $('toastw').innerHTML = `<div class="toast" role="status">${ic('check')}${msg}</div>`; clearTimeout(toast.t); toast.t = setTimeout(() => $('toastw') && ($('toastw').innerHTML = ''), 2700); }
+function doSend() {
+  if (!(S.amount > 0 && S.amount <= S.bal && S.to)) return;
+  const amt = S.amount, who = S.to;
+  S.bal -= amt; S.codes.unshift({ id: 'c' + Date.now(), who, amt, mins: 24 * 60 });
+  S.last = { amt, who, code: code() };
+  navigator.clipboard?.writeText(S.last.code).catch(() => {}); navigator.vibrate?.(12);
+  S.amount = 0; S.to = null; S.ov = 'success'; render();
+}
+function animateBal(from, to) {
+  const t0 = performance.now();
+  const step = t => { const k = Math.min(1, (t - t0) / 900), v = Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)));
+    document.querySelectorAll('#phone [data-bind=bal]').forEach(el => el.textContent = fmt(v)); if (k < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+
+/* Copie : confirmation dans le bouton (comme CopyButton / ConfirmationButton de l’app), pas de notification */
+function confirmCopy(btn) {
+  navigator.clipboard?.writeText(S.last?.code || 'btcg1').catch(() => {});
+  if (btn.classList.contains('is-confirmed')) return;
+  const html = btn.innerHTML, label = btn.getAttribute('aria-label');
+  btn.classList.add('is-confirmed'); btn.setAttribute('aria-label', 'Code copié !');
+  btn.innerHTML = `<span class="clipboard-confirm">${ic('check')}</span><span role="status" aria-live="polite">Code copié !</span>`;
+  setTimeout(() => { if (!btn.isConnected) return; btn.classList.remove('is-confirmed'); btn.innerHTML = html; label ? btn.setAttribute('aria-label', label) : btn.removeAttribute('aria-label'); }, 3000);
+}
+/* ───── Actions ───── */
+function act(a, d) {
+  switch (a) {
+    case 'bg': case 'close': S.ov = null; S.step = 'friend'; S.search = ''; render(); break;
+    case 'openSend': S.ov = 'send'; S.step = 'friend'; S.amount = 0; S.to = null; S.search = ''; renderLayer(); break;
+    case 'stepBack': S.step = 'friend'; renderLayer(); break;
+    case 'pick': S.to = d.id; S.step = 'amount'; renderLayer(); break;
+    case 'max': setAmount(S.bal); break;
+    case 'codes': S.ov = 'codes'; renderLayer(); break;
+    case 'receive': S.ov = 'receive'; renderLayer(); break;
+    case 'doReceive': { const from = S.bal; S.bal += 150; S.ov = 'received'; render(); animateBal(from, S.bal); break; }
+  }
+}
+const phone = $('phone');
+phone.addEventListener('click', e => {
+  const t = e.target.closest('[data-act]'); if (!t || !phone.contains(t) || t.disabled) return;
+  if (t.dataset.act === 'bg' && e.target !== t) return;
+  if (t.dataset.act === 'copy') { confirmCopy(t); return; }
+  act(t.dataset.act, t.dataset);
+});
+phone.addEventListener('input', e => { if (e.target.matches('[data-search]')) { S.search = e.target.value; $('flist').innerHTML = friendRows(); } });
+
+/* Maintenir pour envoyer · −/+ qui défilent en accélérant · curseur */
+let holdT, repT;
+phone.addEventListener('pointerdown', e => {
+  const h = e.target.closest('[data-hold]');
+  if (h && !h.disabled) { h.classList.add('holding'); navigator.vibrate?.(5); holdT = setTimeout(() => { h.classList.remove('holding'); doSend(); }, 900); return; }
+  const r = e.target.closest('[data-rep]');
+  if (r && !r.disabled) {
+    e.preventDefault(); const dir = +r.dataset.rep; let n = 0; r.classList.add('rep');
+    const tick = () => { setAmount(S.amount + dir * (n > 28 ? 10 : n > 12 ? 5 : 1)); n++; repT = setTimeout(tick, n === 1 ? 380 : n > 12 ? 50 : 90); };
+    tick(); return;
+  }
+  const g = e.target.closest('[data-drag]'); if (g && !e.target.closest('button')) startDrag(g, e);
+});
+const endPress = () => { clearTimeout(holdT); clearTimeout(repT); document.querySelectorAll('.holding,.rep').forEach(h => h.classList.remove('holding', 'rep')); };
+['pointerup', 'pointercancel'].forEach(t => phone.addEventListener(t, endPress, true));
+phone.addEventListener('pointerleave', e => { if (e.target.closest?.('[data-hold],[data-rep]')) endPress(); }, true);
+phone.addEventListener('contextmenu', e => { if (e.target.closest('[data-hold],[data-rep]')) e.preventDefault(); });
+
+function startDrag(el, e) {
+  el.setPointerCapture(e.pointerId); e.preventDefault(); el.classList.add('drag');
+  const move = ev => {
+    const r = el.getBoundingClientRect(), x = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width));
+    setAmount(x >= .997 ? S.bal : S.bal * x * x);   // précision à l’unité, plus fine dans les petits montants
+  };
+  const up = () => { el.classList.remove('drag'); el.removeEventListener('pointermove', move); el.removeEventListener('pointerup', up); el.removeEventListener('pointercancel', up); };
+  move(e); el.addEventListener('pointermove', move); el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+}
+
+/* Clavier (ordinateur) : flèches ±1, Maj ±10, chiffres pour saisir */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && S.ov) { act('close', {}); return; }
+  const h = e.target.closest?.('[data-hold]');
+  if (h && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); if (!h.disabled) doSend(); return; }
+  if (!(S.ov === 'send' && S.step === 'amount') || e.target.matches('input')) return;
+  if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) { e.preventDefault(); setAmount(S.amount + (/Right|Up/.test(e.key) ? 1 : -1) * (e.shiftKey ? 10 : 1)); }
+  else if (/^[0-9]$/.test(e.key)) { e.preventDefault(); const n = +(String(S.amount || '') + e.key); if (n <= 99999) { S.amount = n; paint(); } }
+  else if (e.key === 'Backspace') { e.preventDefault(); S.amount = Math.floor(S.amount / 10); paint(); }
+});
+
+/* ───── Coque : formats, thème ───── */
+const DEVICES = { phone: [390, 844], tabP: [820, 1180], tabL: [1180, 820], pc: [1440, 900] };
+let scaleK = 1;
+function fit() {
+  const [w, h] = DEVICES[S.device], ph = $('phone'), wrap = $('device');
+  ph.dataset.device = S.device;
+  const native = S.device === 'phone' && innerWidth <= 760;
+  document.body.classList.toggle('native', native);
+  const side = S.device === 'phone' && innerWidth > 820;
+  $('stage').classList.toggle('below', !side);
+  if (native) { scaleK = 1; ph.style.cssText = ''; wrap.style.cssText = ''; return; }
+  const pad = S.device === 'pc' ? 8 : 32;
+  const availW = innerWidth - 48 - pad - (side ? 380 : 0), availH = innerHeight - $('stage').getBoundingClientRect().top - 40 - pad;
+  scaleK = Math.min(1, availW / w, Math.max(.3, availH / h));
+  Object.assign(ph.style, { width: w + 'px', height: h + 'px', transform: `scale(${scaleK})` });
+  Object.assign(wrap.style, { width: w * scaleK + 'px', height: h * scaleK + 'px', margin: pad / 2 + 'px' });
+}
+function setDevice(d) { S.device = d; document.querySelectorAll('#dev button').forEach(b => b.setAttribute('aria-pressed', b.dataset.dev === d)); fit(); render(); }
+$('dev').addEventListener('click', e => { const b = e.target.closest('button'); if (b) setDevice(b.dataset.dev); });
+$('theme').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark'; };
+$('reset').onclick = () => { seed(); render(); };
+let rz; addEventListener('resize', () => { clearTimeout(rz); rz = setTimeout(() => { fit(); render(); }, 120); });
+const qs = new URLSearchParams(location.search);
+if (qs.get('theme')) document.documentElement.dataset.theme = qs.get('theme');
+setDevice(qs.get('dev') || 'phone');
+</script>
+</body>
+</html>

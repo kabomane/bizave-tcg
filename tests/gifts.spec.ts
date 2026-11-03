@@ -9,7 +9,7 @@ const codes = [
   { code: 'BBBBBBBBBBBBBBBB', reward: { type: 'booster', boosterId: 'anima-isekai', quantity: 10 } },
   { code: 'CCCCCCCCCCCCCCCC', reward: { type: 'fragments', amount: 500 } },
 ]
-const catalogue = codes.map(({ code, reward }) => ({ codeHash: createHash('sha256').update(GIFT_CODE_DOMAIN + code).digest('hex'), reward }))
+const catalogue = codes.map(({ code, reward }) => ({ codeHash: createHash('sha256').update(GIFT_CODE_DOMAIN + code).digest('hex'), reward, issuedAt: 0, expiresAt: 8_000_000_000_000_000 }))
 
 test.beforeEach(async ({ context }) => {
   await context.route(/\/src\/data\/gift-codes\.json(?:\?.*)?$/, route => route.fulfill({ contentType: 'application/javascript', body: `export default ${JSON.stringify(catalogue)}` }))

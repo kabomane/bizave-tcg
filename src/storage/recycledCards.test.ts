@@ -131,6 +131,6 @@ it('compacte une sauvegarde du schéma 7 sans toucher aux cartes possédées ni 
     expect(await upgraded.recycledCards.toArray()).toEqual([{ dropId: recycled.dropId }])
     expect(await upgraded.recycling.count()).toBe(0)
     expect(await upgraded.usedTransfers.get(transfer.transferId)).toEqual(transfer)
-    expect(await upgraded.player.get('local')).toMatchObject({ fragments: 123, schemaVersion: 9 })
+    expect(await upgraded.player.get('local')).toMatchObject({ fragments: 123, schemaVersion: 10 })
   } finally { await upgraded.delete() }
 })

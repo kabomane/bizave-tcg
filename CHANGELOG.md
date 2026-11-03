@@ -1,5 +1,14 @@
 # Historique des versions
 
+## bizave-tcg.v1.4.1 — 3 novembre 2026
+
+- Page Fragments depuis le compteur : envoi signé TF1, montant précis, confirmation par clic et réception commune avec Amis.
+- Amis sans onglets : codes de cartes envoyés, fiches de contact limitées au renommage et au retrait.
+- Sélecteur d’amis partagé avec le don de carte, confirmations de copie dans les boutons et conservation locale des codes pendant 24 h.
+- Schéma Dexie 10 et sauvegardes compatibles avec les envois de fragments et les anciens envois de cartes.
+
+Note : [Version 1.4.1](docs/releases/bizave-tcg.v1.4.1.md).
+
 ## bizave-tcg.v1.4.0 — 2 novembre 2026
 
 - Partage : attendre le décodage des images avant le dessin Canvas pour éviter une illustration absente au premier export à froid, en pile comme sur une carte seule.

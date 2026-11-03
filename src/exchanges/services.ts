@@ -1,8 +1,10 @@
 import { db, type BizaveDatabase } from '../storage/database'
 import { discover } from '../storage/services'
-import { createContactCode, verifyTransfer, signTransfer, generateIdentity, parseContactCode } from './crypto'
+import { createContactCode, verifyTransfer, signTransfer, generateIdentity, parseContactCode, signFragmentTransfer, verifyFragmentTransfer, MAX_FRAGMENT_TRANSFER } from './crypto'
+import type { Card, LocalIdentityRow } from '../game/types'
 import { assertAccountActive } from '../storage/accountGuard'
 import { pruneFavorites } from '../collection/favorites'
+import { assertTransferNotExpired } from './expiry'
 
 export async function ensureIdentity(database = db) {
   await assertAccountActive(database)
@@ -40,7 +42,7 @@ export async function sendTransfer(dropId: string, friendId: string, database = 
   if (!friend) throw new Error('Le contact du destinataire est introuvable.')
   if (!drop || drop.status !== 'owned') throw new Error('Cette carte n’est plus disponible.')
   const { payload, code } = await signTransfer(identity, friend, drop)
-  const row = { transferId: payload.transferId, dropId, recipientId: friendId, code, recipientLabel: friend.label, createdAt: Date.now(), status: 'generated' as const }
+  const row = { kind: 'card' as const, transferId: payload.transferId, dropId, recipientId: friendId, code, recipientLabel: friend.label, createdAt: Date.now(), status: 'generated' as const }
   await database.transaction('rw', [database.drops, database.outbox, database.identity, database.friends, database.accountState, database.favorites], async () => {
     await assertAccountActive(database)
     const current = await database.drops.get(dropId)
@@ -57,7 +59,7 @@ export async function sendTransfer(dropId: string, friendId: string, database = 
 export async function receiveTransfer(code: string, database: BizaveDatabase = db) {
   const identity = await ensureIdentity(database)
   const payload = await verifyTransfer(code, identity, await database.friends.toArray())
-  return database.transaction('rw', [database.drops, database.recycledCards, database.discoveries, database.usedTransfers, database.identity, database.accountState], async () => {
+  return database.transaction('rw', [database.player, database.drops, database.recycledCards, database.discoveries, database.usedTransfers, database.identity, database.accountState], async () => {
     await assertAccountActive(database)
     if ((await database.identity.get('local'))?.playerUuid !== identity.playerUuid) throw new Error('L’identité locale a changé.')
     if (await database.usedTransfers.get(payload.transferId)) throw new Error('Ce code a déjà été utilisé.')
@@ -66,13 +68,63 @@ export async function receiveTransfer(code: string, database: BizaveDatabase = d
     if (existing?.status === 'owned') throw new Error('Cet exemplaire est déjà dans votre collection.')
     if (existing?.status === 'recycled') throw new Error('Cet exemplaire a été recyclé et ne peut pas revenir.')
     if (existing && (existing.cardId !== payload.cardId || existing.finish !== payload.finish || existing.artVariant !== payload.artVariant)) throw new Error('Les caractéristiques de la carte ont été altérées.')
-    const now = Date.now()
+    const player = await database.player.get('local')
+    const now = Math.max(Date.now(), player?.maxObservedClockAt ?? 0)
+    assertTransferNotExpired(payload.issuedAt, now)
     const card = { dropId: payload.dropId, cardId: payload.cardId, finish: payload.finish, artVariant: payload.artVariant }
     await database.drops.put({ ...card, status: 'owned', acquiredAt: existing?.acquiredAt ?? now, updatedAt: now, circulation: 'exchanged' })
     await discover(database, card, now)
     await database.usedTransfers.add({ transferId: payload.transferId, receivedAt: now })
+    if (player) await database.player.update('local', { maxObservedClockAt: now })
     return card
   })
+}
+
+export async function sendFragments(amount: number, friendId: string, database = db) {
+  if (!Number.isSafeInteger(amount) || amount < 1 || amount > MAX_FRAGMENT_TRANSFER) throw new Error('Le montant du transfert est invalide.')
+  const identity = await ensureIdentity(database), friend = await database.friends.get(friendId)
+  if (!friend) throw new Error('Le contact du destinataire est introuvable.')
+  const { payload, code } = await signFragmentTransfer(identity, friend, amount)
+  const row = { kind: 'fragments' as const, transferId: payload.transferId, amount, recipientId: friendId, recipientLabel: friend.label, code, createdAt: Date.now(), status: 'generated' as const }
+  await database.transaction('rw', [database.player, database.outbox, database.identity, database.friends, database.accountState], async () => {
+    await assertAccountActive(database)
+    const currentFriend = await database.friends.get(friendId), currentIdentity = await database.identity.get('local')
+    if (currentFriend?.fingerprint !== friend.fingerprint || !sameSigningIdentity(currentIdentity, identity)) throw new Error('Le contact ou l’identité a changé pendant le transfert.')
+    const player = await database.player.get('local')
+    if (!player || amount > player.fragments) throw new Error('Solde insuffisant.')
+    await database.player.update('local', { fragments: player.fragments - amount })
+    await database.outbox.add(row)
+  })
+  return row
+}
+
+export async function receiveFragments(code: string, database = db) {
+  const identity = await ensureIdentity(database)
+  const payload = await verifyFragmentTransfer(code, identity, await database.friends.toArray())
+  return database.transaction('rw', [database.player, database.usedTransfers, database.identity, database.accountState], async () => {
+    await assertAccountActive(database)
+    if (!sameSigningIdentity(await database.identity.get('local'), identity)) throw new Error('L’identité locale a changé.')
+    if (await database.usedTransfers.get(payload.transferId)) throw new Error('Ce code a déjà été utilisé.')
+    const player = await database.player.get('local')
+    if (!player || !Number.isSafeInteger(player.fragments + payload.amount)) throw new Error('Le solde de fragments est invalide.')
+    const now = Math.max(Date.now(), player.maxObservedClockAt)
+    assertTransferNotExpired(payload.issuedAt, now)
+    await database.player.update('local', { fragments: player.fragments + payload.amount, maxObservedClockAt: now })
+    await database.usedTransfers.add({ transferId: payload.transferId, receivedAt: now })
+    return { amount: payload.amount, senderId: payload.senderId }
+  })
+}
+
+function sameSigningIdentity(current: LocalIdentityRow | undefined, expected: LocalIdentityRow) {
+  return current?.playerUuid === expected.playerUuid && current.signingPublicJwk.x === expected.signingPublicJwk.x && current.signingPublicJwk.y === expected.signingPublicJwk.y
+}
+
+export type Received = { kind: 'card'; card: Card } | { kind: 'fragments'; amount: number; senderId: string }
+export async function receiveCode(code: string, database = db): Promise<Received> {
+  const text = code.trim()
+  if (text.startsWith('TR2.')) return { kind: 'card', card: await receiveTransfer(text, database) }
+  if (text.startsWith('TF1.')) return { kind: 'fragments', ...await receiveFragments(text, database) }
+  throw new Error('Code de transfert non reconnu.')
 }
 
 export async function renameFriend(playerUuid: string, label: string, database = db) {

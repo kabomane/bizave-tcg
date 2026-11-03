@@ -3,7 +3,7 @@ import Dexie from 'dexie'
 import { BizaveDatabase } from './database'
 import { initializeDatabase, openBooster, refreshRecharge, recycleDrops } from './services'
 import { canonicalSavePayload, deleteAccount, exportSave, importSave, parseSaveFile, readSaveFile, SAVE_TABLES, MAX_SAVE_FILE_BYTES } from './saveTransfer'
-import { addContact, ensureIdentity, ownContact, removeFriend, renameFriend, receiveTransfer, sendTransfer } from '../exchanges/services'
+import { addContact, ensureIdentity, ownContact, removeFriend, renameFriend, receiveTransfer, sendTransfer, sendFragments } from '../exchanges/services'
 import { generateIdentity, base64url, createContactCode, parseContactCode } from '../exchanges/crypto'
 import { pruneOutbox } from '../exchanges/outbox'
 import { DEFAULT_PREFERENCES } from '../settings/preferences'
@@ -27,7 +27,7 @@ async function seed() {
   await source.recycling.add({ id: uuid(), dropIds: [drops[2].dropId], createdAt: now, fragmentsGained: 7 })
   await source.boosterStock.add({ boosterId: 'phantom-blood', quantity: 3, updatedAt: now })
   await source.boosterPurchases.add({ id: uuid(), boosterId: 'phantom-blood', boosterTitle: 'Phantom Blood', unitPrice: 70, fragmentsSpent: 70, createdAt: now })
-  await source.outbox.add({ transferId: uuid(), dropId: drops[1].dropId, recipientId: (await ensureIdentity(target)).playerUuid, code: 'TR2.YWJj', status: 'generated', createdAt: now })
+  await source.outbox.add({ kind: 'card', transferId: uuid(), dropId: drops[1].dropId, recipientId: (await ensureIdentity(target)).playerUuid, code: 'TR2.YWJj', status: 'generated', createdAt: now })
   await source.usedTransfers.add({ transferId: uuid(), receivedAt: now })
   await source.usedSaveTransfers.add({ transferId: uuid(), receivedAt: now })
   await source.usedGiftCodes.add({ codeHash: 'a'.repeat(64), redeemedAt: now })
@@ -39,6 +39,45 @@ async function seed() {
 const exportToTarget = async () => exportSave((await ensureInstallation(target)).installationId, DEFAULT_PREFERENCES, source)
 
 describe('migration de sauvegarde', () => {
+  it('exporte et importe les codes de fragments avec le solde débité et les deux registres antirejeu', async () => {
+    await seed()
+    const row = await sendFragments(80, (await ensureIdentity(target)).playerUuid, source)
+    const previous = { transferId: uuid(), receivedAt: 2 }
+    await target.usedTransfers.add(previous)
+    const used = await source.usedTransfers.toArray()
+    const contents = await exportToTarget()
+    expect((await parseSaveFile(contents)).payload.tables.outbox).toContainEqual(row)
+    await importSave(contents, target)
+    expect(await target.outbox.get(row.transferId)).toEqual(row)
+    expect((await target.player.get('local'))?.fragments).toBe(193)
+    expect(await target.usedTransfers.toArray()).toEqual(expect.arrayContaining([...used, previous]))
+  })
+  it('importe une sauvegarde v9 dont les envois ne portent pas encore de kind', async () => {
+    await seed()
+    const identity = await ensureIdentity(source)
+    const envelope = JSON.parse(await exportToTarget()), payload = JSON.parse(envelope.payload)
+    payload.schemaVersion = 9; payload.tables.player[0].schemaVersion = 9
+    for (const row of payload.tables.outbox) delete row.kind
+    envelope.payload = JSON.stringify(payload)
+    envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
+    await importSave(JSON.stringify(envelope), target)
+    expect((await target.outbox.toArray())[0]).toMatchObject({ kind: 'card', code: 'TR2.YWJj' })
+    expect((await target.player.get('local'))?.schemaVersion).toBe(10)
+  })
+  it('refuse les incohérences de type, montant et préfixe dans les envois sauvegardés', async () => {
+    await seed()
+    await sendFragments(80, (await ensureIdentity(target)).playerUuid, source)
+    const identity = await ensureIdentity(source), envelope = JSON.parse(await exportToTarget())
+    for (const patch of [{ amount: 0 }, { amount: 1.5 }, { amount: 1_000_001 }, { kind: 'unknown' }, { code: 'TR2.YWJj' }, { dropId: uuid() }]) {
+      const payload = JSON.parse(envelope.payload)
+      const row = payload.tables.outbox.find((row: { kind: string }) => row.kind === 'fragments')
+      Object.assign(row, patch)
+      const serialized = JSON.stringify(payload)
+      const signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(serialized))))
+      await expect(importSave(JSON.stringify({ ...envelope, payload: serialized, signature }), target)).rejects.toThrow(/invalide ou incompatible/)
+    }
+    expect(await target.outbox.count()).toBe(0)
+  })
   it('B continue à envoyer des cartes à A avant et après sa migration, sans refaire le contact', async () => {
     const friend = new BizaveDatabase('friend-' + uuid())
     try {
@@ -215,7 +254,7 @@ describe('migration de sauvegarde', () => {
     const gift = { codeHash: 'c'.repeat(64), redeemedAt: 1 }
     await target.usedGiftCodes.add(gift)
     await importSave(JSON.stringify(envelope), target)
-    expect((await target.player.get('local'))?.schemaVersion).toBe(9)
+    expect((await target.player.get('local'))?.schemaVersion).toBe(10)
     expect(await target.usedGiftCodes.toArray()).toEqual([gift])
     await expect(exportSave('1234-56-78', DEFAULT_PREFERENCES, target)).resolves.toBeTypeOf('string')
   })
@@ -229,7 +268,7 @@ describe('migration de sauvegarde', () => {
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     await importSave(JSON.stringify(envelope), target)
-    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 9, ready: true })
+    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 10, ready: true })
   })
 
   it('rejette un registre de cadeaux mal formé, dupliqué ou manquant dans un fichier récent', async () => {
@@ -274,7 +313,7 @@ describe('suppression du compte', () => {
     const after = await ensureIdentity(source)
     expect(after.playerUuid).not.toBe(before.playerUuid)
     expect(after.signingPublicJwk).not.toEqual(before.signingPublicJwk)
-    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 9 })
+    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 10 })
     for (const table of source.tables.filter(t => !['player', 'identity', 'definitions', 'accountState', 'installation', 'version'].includes(t.name))) expect(await table.count(), table.name).toBe(0)
     expect(await source.accountState.get('local')).toEqual({ id: 'local', status: 'active', preferences: DEFAULT_PREFERENCES })
   })

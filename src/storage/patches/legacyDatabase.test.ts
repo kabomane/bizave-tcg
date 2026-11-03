@@ -100,8 +100,8 @@ it('migre une vraie base du schéma 8 et initialise sa version explicite', async
   await migrateLegacyDatabase(sourceName, targetName)
   const target = new BizaveDatabase(targetName)
   try {
-    expect(await target.player.get('local')).toMatchObject({ fragments: 543, schemaVersion: 9 })
-    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 9, ready: true })
+    expect(await target.player.get('local')).toMatchObject({ fragments: 543, schemaVersion: 10 })
+    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 10, ready: true })
   } finally { target.close() }
   expect(await Dexie.exists(sourceName)).toBe(false)
 })

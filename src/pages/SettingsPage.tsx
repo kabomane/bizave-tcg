@@ -38,7 +38,7 @@ export function SettingsPage() {
   }
   return <section className="settings-page" aria-label="Options">
     <SettingsGroup id="appearance" title="Apparence" description={settings.theme === 'system' ? 'Thème du système' : settings.theme === 'dark' ? 'Thème sombre' : 'Thème clair'} icon={<Palette size={20} />}>
-      <div className="settings-preference-row"><span className="settings-preference-label">Thème</span><div className="settings-segmented" role="group" aria-label="Thème">
+      <div className="settings-preference-row theme-preference-row"><span className="settings-preference-label">Thème</span><div className="settings-segmented" role="group" aria-label="Thème">
         {([{ id: 'system', label: 'Système' }, { id: 'light', label: 'Clair' }, { id: 'dark', label: 'Sombre' }] as const).map(({ id, label }) => <button type="button" key={id} aria-pressed={settings.theme === id} onClick={() => change({ theme: id })}>{label}<span className="settings-inline-check" aria-hidden="true">{settings.theme === id && <Check size={12} />}</span></button>)}
       </div></div>
     </SettingsGroup>

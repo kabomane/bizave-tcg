@@ -1,10 +1,10 @@
 # Codes cadeaux hors ligne
 
-Dans **Options**, la section **Code cadeau** suit le bloc **Envoi des cartes**. Un code contient 16 caractères aléatoires, présentés en quatre groupes. La saisie accepte uniquement les lettres ASCII minuscules et majuscules, les chiffres et le tiret du milieu (-). Tous les autres caractères sont retirés à la saisie et au collage avant d’appliquer la limite de 16 caractères utiles et 19 caractères affichés (les trois séparateurs compris). Le texte sous le champ affiche l’aide au départ, puis la récompense ou l’erreur à la même place ; modifier la saisie réaffiche l’aide. Les codes actuels n’expirent pas.
+Dans **Options**, la section **Code cadeau** suit le bloc **Envoi des cartes**. Un code contient 16 caractères aléatoires, présentés en quatre groupes. La saisie accepte uniquement les lettres ASCII minuscules et majuscules, les chiffres et le tiret du milieu (-). Tous les autres caractères sont retirés à la saisie et au collage avant d’appliquer la limite de 16 caractères utiles et 19 caractères affichés (les trois séparateurs compris). Le texte sous le champ affiche l’aide au départ, puis la récompense ou l’erreur à la même place ; modifier la saisie réaffiche l’aide. Les codes expirent par défaut 24 h après leur génération. Une date explicite peut remplacer cette durée. Les anciens codes sans expiration ont été retirés du catalogue actif.
 
-Le catalogue public `src/data/gift-codes.json` contient uniquement des empreintes SHA-256 et les récompenses correspondantes. L’empreinte porte sur le domaine `BizaveTCG/GiftCode/v1\n` suivi du code canonique, sans séparateurs et en majuscules. L’alphabet de 32 caractères exclut I, O, 0 et 1 ; les 16 symboles sont tirés uniformément par le générateur cryptographique de Node, soit 80 bits d’entropie. Il n’y a ni clé secrète dans le navigateur, ni serveur applicatif, ni signature à transporter dans chaque code.
+Le catalogue public `src/data/gift-codes.json` contient les empreintes SHA-256, les récompenses et les horodatages issuedAt / expiresAt. L’empreinte porte sur le domaine `BizaveTCG/GiftCode/v1\n` suivi du code canonique, sans séparateurs et en majuscules. L’alphabet de 32 caractères exclut I, O, 0 et 1 ; les 16 symboles sont tirés uniformément par le générateur cryptographique de Node, soit 80 bits d’entropie. Il n’y a ni clé secrète dans le navigateur, ni serveur applicatif, ni signature à transporter dans chaque code.
 
-Le lot initial comprend **50 codes** sans expiration :
+Les anciens lots suivants sont désormais invalides (historique) :
 
 - 20 codes donnant chacun 10 boosters **Memory Frame** ;
 - 20 codes donnant chacun 10 boosters **Anima Isekai** ;
@@ -41,3 +41,13 @@ Le registre est local : il ne garantit ni usage unique mondial ni résistance à
 ## Lot du 1er novembre 2026
 
 Cinq codes donnent chacun un exemplaire de Memory Frame, Anima Isekai, epico stellari et rarity only. Les quatre crédits et le registre sont écrits dans une seule transaction ; un échec annule tout. Le premier code est diffusé volontairement dans la note de mise à jour 4 ; les cinq codes sont conservés dans le lot privé local. Les codes restent utilisables une seule fois par sauvegarde. Le format boosters est compatible avec les cadeaux existants et ne nécessite aucun changement du schéma de sauvegarde.
+
+## Expiration
+
+Sans option, les nouveaux codes expirent 24 h après leur génération, pas 24 h après leur première saisie. Pour une échéance explicite, fournir une date ISO avec fuseau :
+
+```sh
+npm run gifts:generate -- --fragments 100 --count 1 --expires-at "2026-12-01T22:00:00+01:00"
+```
+
+La liste privée et le catalogue public enregistrent la même échéance. La réception vérifie cette échéance avant tout crédit. Les registres des cadeaux déjà utilisés restent conservés.

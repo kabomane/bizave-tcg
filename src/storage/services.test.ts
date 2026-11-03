@@ -209,7 +209,7 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 9 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 10 })
       expect(await upgraded.boosterStock.get(stock.boosterId)).toEqual(stock)
       expect(await upgraded.usedGiftCodes.count()).toBe(0)
     } finally { await upgraded.delete() }
@@ -228,9 +228,9 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 9 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 10 })
       expect(await upgraded.drops.get(owned.dropId)).toEqual(owned)
-      expect(await upgraded.outbox.get(outgoing.transferId)).toEqual(outgoing)
+      expect(await upgraded.outbox.get(outgoing.transferId)).toEqual({ ...outgoing, kind: 'card' })
       expect(await upgraded.openings.get(legacyOpening.id)).toEqual(legacyOpening)
       expect(await upgraded.boosterStock.count()).toBe(0)
       expect(await upgraded.boosterPurchases.count()).toBe(0)

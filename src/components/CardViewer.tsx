@@ -23,12 +23,13 @@ import { useGame } from './useGame'
 const dateFormat = new Intl.DateTimeFormat('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
 const obtained = (entry: CollectionEntry) => entry.acquiredAt > 0 ? `Obtenue le ${dateFormat.format(entry.acquiredAt)}` : 'Aperçu · Mode dev'
 
-export function CardViewer({ entries, initialIndex = 0, onClose, preview = false }: { entries: CollectionEntry[]; initialIndex?: number; onClose: () => void; preview?: boolean }) {
-  return entries.length ? <Viewer entries={entries} initialIndex={initialIndex} onClose={onClose} preview={preview} /> : null
+export function CardViewer({ entries, initialIndex = 0, onClose, preview = false, receivedFrom }: { receivedFrom?: string; entries: CollectionEntry[]; initialIndex?: number; onClose: () => void; preview?: boolean }) {
+  return entries.length ? <Viewer entries={entries} initialIndex={initialIndex} onClose={onClose} preview={preview} receivedFrom={receivedFrom} /> : null
 }
 
-function Viewer({ entries, initialIndex, onClose, preview }: { entries: CollectionEntry[]; initialIndex: number; onClose: () => void; preview: boolean }) {
-  const { actionBar, collectionDisplay } = useSettings()
+function Viewer({ entries, initialIndex, onClose, preview, receivedFrom }: { receivedFrom?: string; entries: CollectionEntry[]; initialIndex: number; onClose: () => void; preview: boolean }) {
+  const { actionBar: preferredActionBar, collectionDisplay } = useSettings()
+  const actionBar = receivedFrom ? 'four' : preferredActionBar
   const { drops, notify } = useGame()
   const navigate = useNavigate()
   const [position, setPosition] = useState({ key: entries[initialIndex]?.key, index: initialIndex })
@@ -120,11 +121,11 @@ function Viewer({ entries, initialIndex, onClose, preview }: { entries: Collecti
   }
   const favoriteButton = <button className={`viewer-favorite${favorite ? ' fav-on' : ''}`} disabled={!actionable || busy} aria-label={favorite ? 'Retirer des favoris' : 'Ajouter aux favoris'} aria-pressed={favorite} onClick={toggleFavorite}><Star size={21} fill={favorite ? 'currentColor' : 'none'} /><span>Favori</span></button>
   const shareButton = <button onClick={share} disabled={!image} aria-label="Partager" aria-busy={!image && !shareError}>{image || shareError ? <Share2 size={21} /> : <LoaderCircle size={21} className="share-loading" />}<span>{shareError ? 'Indisponible' : image ? 'Partager' : 'Préparation…'}</span></button>
-  return <dialog ref={dialog} className={`card-viewer dock-${actionBar}`} tabIndex={-1} aria-label={definition.title} onCancel={event => { event.preventDefault(); if (!busy) onClose() }} onKeyDownCapture={event => {
+  return <dialog ref={dialog} className={`card-viewer dock-${actionBar}${receivedFrom ? ' is-received' : ''}`} tabIndex={-1} aria-label={definition.title} onCancel={event => { event.preventDefault(); if (!busy) onClose() }} onKeyDownCapture={event => {
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); move(index + (event.key === 'ArrowRight' ? 1 : -1)) }
   }}>
     <CardBackdrop className="viewer-backdrop" rarity={definition.rarity} />
-    <div className="viewer-top"><button className="viewer-glass" aria-label="Fermer" disabled={busy} onClick={onClose}><X size={20} /></button>{actionBar === 'two' && <div className="viewer-top-actions">{favoriteButton}{shareButton}</div>}</div>
+    <div className="viewer-top"><button className="viewer-glass" aria-label="Fermer" disabled={busy} onClick={onClose}><X size={20} /></button>{!receivedFrom && actionBar === 'two' && <div className="viewer-top-actions">{favoriteButton}{shareButton}</div>}</div>
     <div className="viewer-main"><div className="viewer-stage">
       <div ref={track} className="viewer-track" style={busy ? { overflowX: 'hidden' } : undefined} onScroll={event => {
         const el = event.currentTarget
@@ -136,9 +137,9 @@ function Viewer({ entries, initialIndex, onClose, preview }: { entries: Collecti
         }, 120)
       }}>{entries.map((item, i) => <div key={item.key} className={`viewer-slide${i === index ? ' is-current' : ''}`} aria-label={`${i + 1} sur ${entries.length}`}><div className="viewer-card">{Math.abs(i - index) <= 1 && <ViewerCard card={item.card} definition={cardById.get(item.card.cardId)!} presentation={i === index ? 'detail' : 'thumbnail'} ready={readyArtwork.has(cardById.get(item.card.cardId)!.artwork[item.card.artVariant])} onReady={markArtworkReady} onActivate={i === index ? undefined : () => move(i)} />}</div></div>)}</div>
       {entries.length > 1 && <><button className="viewer-glass viewer-previous" aria-label="Carte précédente" disabled={index === 0 || busy} onClick={() => move(index - 1)}><ArrowLeft size={18} /></button><button className="viewer-glass viewer-next" aria-label="Carte suivante" disabled={index === entries.length - 1 || busy} onClick={() => move(index + 1)}><ArrowRight size={18} /></button></>}
-    </div><div className="viewer-meta" aria-live="polite"><span>{obtained(entry)}</span>{collectionDisplay.duplicates === 'hide' && entry.ids.length > 1 && <b>×{entry.ids.length}</b>}</div>
+    </div><div className="viewer-meta" aria-live="polite"><span>{receivedFrom ? `Carte reçue de ${receivedFrom} · ajoutée à votre collection` : obtained(entry)}</span>{collectionDisplay.duplicates === 'hide' && entry.ids.length > 1 && <b>×{entry.ids.length}</b>}</div>
     <div className="viewer-dots">{entries.length > 1 && entries.map((item, i) => <button key={item.key} aria-current={i === index ? 'true' : undefined} aria-label={`${FINISH_LABELS[item.card.finish]}, ${ART_LABELS[item.card.artVariant]}, ${obtained(item).toLowerCase()}`} onClick={() => move(i)}><FinishDot card={item.card} active={i === index} /></button>)}</div></div>
-    <div ref={dock} className="viewer-dock">{actionBar === 'four' && <>{favoriteButton}{shareButton}</>}<button className="viewer-give" disabled={!actionable || busy} onClick={() => { onClose(); navigate('/envoyer/' + entry.ids[entry.ids.length - 1]) }}><Send size={21} /><span>Donner</span></button><button aria-label="Recycler" disabled={!actionable || busy} onClick={() => openSheet('recycle')}><span className="viewer-recycle-icon"><Gem size={21} /><small>+{value}</small></span><span>Recycler{actionBar === 'two' && ` · +${value}`}</span></button></div>
+    <div ref={dock} className="viewer-dock">{actionBar === 'four' && <>{favoriteButton}{shareButton}</>}{!receivedFrom && <><button className="viewer-give" disabled={!actionable || busy} onClick={() => { onClose(); navigate('/envoyer/' + entry.ids[entry.ids.length - 1]) }}><Send size={21} /><span>Donner</span></button><button aria-label="Recycler" disabled={!actionable || busy} onClick={() => openSheet('recycle')}><span className="viewer-recycle-icon"><Gem size={21} /><small>+{value}</small></span><span>Recycler{actionBar === 'two' && ` · +${value}`}</span></button></>}</div>
     {(error || shareError) && <div className="viewer-error"><ErrorNotice error={error || shareError || ''} /></div>}
     {message && <div className="viewer-message" role="status">{message}</div>}
     {sheet && <ActionSheet title={sheet === 'recycle' ? 'Recycler cet exemplaire ?' : 'Image de partage'} className="viewer-sheet" style={bounds} onClose={() => { if (!busy) setSheet(null) }}>

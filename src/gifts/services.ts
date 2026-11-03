@@ -3,12 +3,21 @@ import { db } from '../storage/database'
 import { assertAccountActive } from '../storage/accountGuard'
 import { giftCodeByHash } from './catalogue'
 import { hashGiftCode } from './format'
+import type { GiftCodeDefinition } from './types'
 
-export async function redeemGiftCode(code: string, database = db, now = Date.now()) {
+function assertGiftActive(gift: GiftCodeDefinition, now: number) {
+  if (!Number.isSafeInteger(gift.issuedAt) || !Number.isSafeInteger(gift.expiresAt) || gift.issuedAt < 0 || gift.expiresAt <= gift.issuedAt) throw new Error('Ce code cadeau est invalide.')
+  if (now >= gift.expiresAt) throw new Error('Ce code cadeau a expiré.')
+  if (now < gift.issuedAt) throw new Error('Ce code cadeau n’est pas encore valide. Vérifiez l’heure de votre appareil.')
+}
+
+export async function redeemGiftCode(code: string, database = db, now?: number) {
+  const requestedAt = now ?? Date.now()
   // Web Crypto runs before the transaction so IndexedDB cannot auto-close it.
   const codeHash = await hashGiftCode(code)
   const gift = giftCodeByHash.get(codeHash)
   if (!gift) throw new Error('Ce code cadeau est invalide.')
+  assertGiftActive(gift, requestedAt)
   const reward = gift.reward
   const grants = reward.type === 'booster' ? [reward] : reward.type === 'boosters' ? reward.boosters : []
   if (!Array.isArray(grants) || reward.type === 'boosters' && !grants.length || new Set(grants.map(item => item.boosterId)).size !== grants.length) throw new Error('Ce cadeau est indisponible.')
@@ -18,13 +27,14 @@ export async function redeemGiftCode(code: string, database = db, now = Date.now
   }
   const fragments = reward.type === 'fragments' ? reward.amount : reward.type === 'booster' ? reward.fragments ?? 0 : 0
   if (!Number.isSafeInteger(fragments) || fragments < 0) throw new Error('Ce cadeau est indisponible.')
-  if (reward.type === 'fragments' && fragments <= 0 || !Number.isSafeInteger(now) || now < 0) throw new Error('Ce cadeau est indisponible.')
+  if (reward.type === 'fragments' && fragments <= 0 || !Number.isSafeInteger(requestedAt) || requestedAt < 0) throw new Error('Ce cadeau est indisponible.')
   return database.transaction('rw', [database.player, database.boosterStock, database.usedGiftCodes, database.accountState], async () => {
     await assertAccountActive(database)
     if (await database.usedGiftCodes.get(codeHash)) throw new Error('Ce code cadeau a déjà été utilisé.')
     const player = await database.player.get('local')
     if (!player) throw new Error('La sauvegarde locale est indisponible.')
-    const time = Math.max(now, player.maxObservedClockAt)
+    const time = Math.max(now ?? Date.now(), player.maxObservedClockAt)
+    assertGiftActive(gift, time)
     for (const grant of grants) {
       const quantity = (await database.boosterStock.get(grant.boosterId))?.quantity ?? 0
       if (!Number.isSafeInteger(quantity) || quantity < 0 || !Number.isSafeInteger(quantity + grant.quantity)) throw new Error('Le stock de ce booster est incohérent.')

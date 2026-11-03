@@ -7,6 +7,7 @@ import { DEFAULT_PREFERENCES } from '../settings/preferences'
 import { uuid } from '../game/engine'
 import { hashGiftCode, normalizeGiftCode } from './format'
 import { redeemGiftCode } from './services'
+import { giftCodeByHash } from './catalogue'
 
 // Fictional test codes: none of these are present in the published catalogue.
 vi.mock('./catalogue', async () => {
@@ -18,7 +19,7 @@ vi.mock('./catalogue', async () => {
     { code: 'DDDDDDDDDDDDDDDD', reward: { type: 'booster', boosterId: 'phantom-blood', quantity: 2, fragments: 100 } },
     { code: 'EEEEEEEEEEEEEEEE', reward: { type: 'boosters', boosters: ['phantom-blood', 'anima-isekai', 'epico-stellari', 'rarity-only'].map(boosterId => ({ boosterId, quantity: 1 })) } },
   ]
-  return { giftCodeByHash: new Map(await Promise.all(rewards.map(async gift => { const codeHash = await hashGiftCode(gift.code); return [codeHash, { codeHash, reward: gift.reward }] as const }))) }
+  return { giftCodeByHash: new Map(await Promise.all(rewards.map(async gift => { const codeHash = await hashGiftCode(gift.code); return [codeHash, { codeHash, reward: gift.reward, issuedAt: 0, expiresAt: 8_000_000_000_000_000 }] as const }))) }
 })
 
 let db: BizaveDatabase
@@ -26,6 +27,19 @@ beforeEach(async () => { db = new BizaveDatabase('gifts-' + uuid()); await initi
 afterEach(async () => { vi.restoreAllMocks(); await db.delete() })
 
 describe('codes cadeaux hors ligne', () => {
+  it('respecte l’expiration à la milliseconde près, sans crédit pour un code expiré', async () => {
+    const hash = await hashGiftCode('CCCC-CCCC-CCCC-CCCC'), previous = giftCodeByHash.get(hash)!
+    const issuedAt = 100, expiresAt = issuedAt + 24 * 60 * 60 * 1000
+    giftCodeByHash.set(hash, { ...previous, issuedAt, expiresAt })
+    try {
+      await expect(redeemGiftCode('CCCC-CCCC-CCCC-CCCC', db, expiresAt)).rejects.toThrow(/expiré/)
+      await expect(redeemGiftCode('CCCC-CCCC-CCCC-CCCC', db, expiresAt + 60 * 60 * 1000)).rejects.toThrow(/expiré/)
+      expect((await db.player.get('local'))?.fragments).toBe(0)
+      expect(await db.usedGiftCodes.count()).toBe(0)
+      await redeemGiftCode('CCCC-CCCC-CCCC-CCCC', db, expiresAt - 1)
+      expect((await db.player.get('local'))?.fragments).toBe(500)
+    } finally { giftCodeByHash.set(hash, previous) }
+  })
   it('crédite les quatre paquets ensemble une seule fois, sans modifier le solde ni le gratuit', async () => {
     const before = await db.player.get('local')
     await db.boosterStock.put({ boosterId: 'anima-isekai', quantity: 3, updatedAt: 100 })

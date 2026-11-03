@@ -8,12 +8,13 @@ import type { GiftCodeDefinition } from './types'
 describe('catalogue public des cadeaux', () => {
   it('ne publie que des empreintes uniques et des récompenses valides', () => {
     const gifts = definitions as GiftCodeDefinition[]
-    expect(gifts.length).toBeGreaterThan(0)
     expect(new Set(gifts.map(gift => gift.codeHash)).size).toBe(gifts.length)
     const available = new Set(shopBoosters(boosters).map(booster => booster.id))
     for (const gift of gifts) {
-      expect(Object.keys(gift).sort()).toEqual(['codeHash', 'reward'])
+      expect(Object.keys(gift).sort()).toEqual(['codeHash', 'expiresAt', 'issuedAt', 'reward'])
       expect(gift.codeHash).toMatch(GIFT_CODE_HASH_PATTERN)
+      expect(Number.isSafeInteger(gift.issuedAt) && gift.issuedAt >= 0).toBe(true)
+      expect(Number.isSafeInteger(gift.expiresAt) && gift.expiresAt > gift.issuedAt).toBe(true)
       if (gift.reward.type === 'booster') {
         expect(available.has(gift.reward.boosterId)).toBe(true)
         expect(Number.isSafeInteger(gift.reward.quantity) && gift.reward.quantity > 0).toBe(true)

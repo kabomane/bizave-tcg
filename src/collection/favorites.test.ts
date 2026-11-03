@@ -129,6 +129,6 @@ it('migre le schéma 6 en gardant les exemplaires et l’ouverture inachevée', 
     expect(await upgraded.openings.toArray()).toEqual([pending])
     expect(await upgraded.drops.get(card.dropId)).toEqual(card)
     expect(await upgraded.favorites.count()).toBe(0)
-    expect((await upgraded.player.get('local'))?.schemaVersion).toBe(9)
+    expect((await upgraded.player.get('local'))?.schemaVersion).toBe(10)
   } finally { await upgraded.delete() }
 })

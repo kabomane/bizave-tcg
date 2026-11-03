@@ -1,6 +1,7 @@
 import { db } from '../storage/database'
+import { TRANSFER_LIFETIME_MS } from './expiry'
 
-export const OUTBOX_RETENTION_MS = 24 * 60 * 60 * 1000
+export const OUTBOX_RETENTION_MS = TRANSFER_LIFETIME_MS
 /** Removes local copies only. Signed transfers and ownership records remain intact. */
 export async function pruneOutbox(database = db, now = Date.now()) {
   return database.transaction('rw', [database.outbox, database.accountState], async () => {

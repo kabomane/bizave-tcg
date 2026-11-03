@@ -43,7 +43,7 @@
 .card-viewer .finish-dot.f-normal, .reveal-progress .finish-dot.f-normal { background: var(--ink); }
 .finish-dot.is-current { opacity: 1; --s: 1.45; }
 .finish-dot.f-glossy { background: conic-gradient(#ff8fa3,#ffe07a,#8dffb8,#8ad8ff,#c79bff,#ff8fa3); box-shadow: 0 0 7px #bfe6ffaa; animation: finishDotHolo 3s linear infinite; }
-.finish-dot.f-alternative { background: linear-gradient(135deg,#fcf6ba,#bf953f 45%,#fbf5b7 70%,#aa771c); box-shadow: 0 0 0 1.5px #0d0d0f,0 0 0 2.5px #bf953f; }
+.finish-dot.f-alternative { background: linear-gradient(135deg,#fcf6ba,#bf953f 45%,#fbf5b7 70%,#aa771c); box-shadow: none; }
 .finish-dot.a-fullArt { border-radius: 1.5px; --r: 45deg; width: 6.5px; height: 6.5px; }
 .viewer-dock { position: absolute; bottom: calc(14px + env(safe-area-inset-bottom)); left: 14px; right: 14px; display: grid; grid-template-columns: repeat(4,1fr); padding: 8px; border-radius: 24px; background: color-mix(in srgb,var(--page) 45%,transparent); border: 1px solid color-mix(in srgb,var(--ink) 12%,transparent); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px); }
 .viewer-dock > button { min-width: 0; height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; background: none; border: none; color: var(--ink); font-size: 11px; border-radius: 16px; }
@@ -107,3 +107,5 @@
 @keyframes favoriteBounce { 50% { transform: scale(1.2); } }
 @keyframes shareSpin { to { transform: rotate(360deg); } }
 @media (prefers-reduced-motion: reduce) { .card-viewer *, .finish-dot, .fav-on svg { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+
+.card-viewer.is-received .viewer-dock { grid-template-columns:repeat(2,minmax(0,1fr)); }

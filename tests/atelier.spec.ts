@@ -47,6 +47,7 @@ test('atelier : filtres combinés, sélection visible et mode dernières copies'
     await page.getByRole('button', { name: new RegExp('^' + menu) }).click()
     await page.getByRole('menuitemcheckbox', { name: option, exact: true }).click()
     await page.keyboard.press('Escape')
+    await expect(page.getByRole('menu')).toHaveCount(0)
   }
   await filter('Boosters', 'Anima Isekai')
   await filter('Rareté', 'Commune')

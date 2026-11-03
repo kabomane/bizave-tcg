@@ -1,4 +1,12 @@
-# Validation — bizave-tcg.v1.4.0
+# Validation — bizave-tcg.v1.4.1
+
+## Publication 1.4.1 — 3 novembre 2026
+
+- Version 1.4.1, notification 6 et note du propriétaire.
+- npm run check réussi : lint, TypeScript, 225 tests unitaires et build de production.
+- Sept tests ciblés de récupération après code ami invalide réussis, dont Safari mobile simulé ; fonctionnement confirmé ensuite par le propriétaire. La suite E2E complète n’a pas été relancée pour cette publication.
+- Production vérifiée : notification 6, navigation Fragments et catalogue de développement désactivé.
+- Firebase Hosting publié : manifeste public identique au build local 454d2929-bce1-40ec-b6e4-5ee27d5be662.
 
 ## Publication 1.4.0 — 2 novembre 2026
 
