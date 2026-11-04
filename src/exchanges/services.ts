@@ -111,7 +111,7 @@ export async function receiveFragments(code: string, database = db) {
     assertTransferNotExpired(payload.issuedAt, now)
     await database.player.update('local', { fragments: player.fragments + payload.amount, maxObservedClockAt: now })
     await database.usedTransfers.add({ transferId: payload.transferId, receivedAt: now })
-    return { amount: payload.amount, senderId: payload.senderId }
+    return { amount: payload.amount, senderId: payload.senderId, balance: player.fragments + payload.amount }
   })
 }
 
@@ -119,7 +119,7 @@ function sameSigningIdentity(current: LocalIdentityRow | undefined, expected: Lo
   return current?.playerUuid === expected.playerUuid && current.signingPublicJwk.x === expected.signingPublicJwk.x && current.signingPublicJwk.y === expected.signingPublicJwk.y
 }
 
-export type Received = { kind: 'card'; card: Card } | { kind: 'fragments'; amount: number; senderId: string }
+export type Received = { kind: 'card'; card: Card } | { kind: 'fragments'; amount: number; senderId: string; balance: number }
 export async function receiveCode(code: string, database = db): Promise<Received> {
   const text = code.trim()
   if (text.startsWith('TR2.')) return { kind: 'card', card: await receiveTransfer(text, database) }

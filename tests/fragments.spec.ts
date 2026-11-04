@@ -142,14 +142,16 @@ for (const route of ['/echanges', '/fragments']) test(`réception carte et fragm
     }
     await sheet.getByRole('button', { name: 'Recevoir', exact: true }).click()
     if (kind === 'card') {
-      await expect(sheet.getByRole('status')).toHaveText('Carte reçue de Nana · ajoutée à votre collection')
+      await expect(sheet.locator('.viewer-meta')).toHaveText('Carte reçue de Nana · ajoutée à votre collection')
       await expect(sheet.locator('.card')).toHaveCount(1)
+      await expect(sheet.locator('.viewer-dock button')).toHaveCount(2)
+      await sheet.getByRole('button', { name: 'Fermer', exact: true }).click()
     } else {
       await expect(sheet).toContainText('+137')
-      await expect(sheet.getByRole('status')).toHaveText('De Nana · ajoutés à votre solde')
+      await expect(sheet.getByRole('status')).toHaveText('137 fragments reçus de Nana. Nouveau solde : 1 134 fragments.')
       await expect(page.locator('.fragment-wallet')).toContainText('1134')
+      await sheet.getByRole('button', { name: route === '/fragments' ? 'Terminé' : 'Mes fragments', exact: true }).click()
     }
-    await sheet.getByRole('button', { name: 'Parfait' }).click()
   }
   await page.getByRole('button', { name: 'Recevoir', exact: true }).click()
   await page.evaluate(code => navigator.clipboard.writeText(code), codes.fragments)

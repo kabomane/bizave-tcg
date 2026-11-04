@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+<!--
+  Bizave TCG — proposition : écran « Fragments reçus » calqué sur l'écran « Carte reçue »
+  (CardViewer en mode receivedFrom, v1.4.1). Démo autonome.
+-->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bizave TCG — Fragments reçus (proposition)</title>
+<style>
+:root{--page:#f3f1eb;--paper-raised:#faf9f5;--ink:#242523;--muted:#85857f;--accent:#8e3040;--positive:#3e6a52;--line:color-mix(in srgb,var(--ink) 10%,transparent);
+  --ui:'Segoe UI',Inter,-apple-system,BlinkMacSystemFont,system-ui,sans-serif;--serif:Georgia,'Times New Roman',serif;--bar-h:92px}
+:root[data-theme=dark]{--page:#191a1c;--paper-raised:#242527;--ink:#efede6;--muted:#aca89f;--accent:#d68c9a;--positive:#8fc7a5}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%}
+body{background:#121315;font-family:var(--ui);color:#e9e6df}
+button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+.ic{width:20px;height:20px;flex:none;display:block}
+
+/* Coque de démo */
+.switch{min-height:var(--bar-h);display:flex;flex-direction:column;justify-content:center;gap:6px;padding:8px 12px 6px;padding-top:max(8px,env(safe-area-inset-top));max-width:720px;margin:0 auto}
+.switch-row{display:flex;gap:8px;align-items:center}
+.seg{flex:1;display:flex;background:#1e1f22;border:1px solid #2e3034;border-radius:11px;padding:3px;gap:3px}
+.seg button{flex:1;height:32px;border-radius:8px;font-size:12.5px;color:#9a978f;white-space:nowrap;padding:0 4px}
+.seg button[aria-pressed=true]{background:#34363b;color:#f1eee7}
+.theme{width:40px;height:40px;border-radius:11px;border:1px solid #2e3034;display:grid;place-items:center;color:#c9c5bc;flex:none}
+.stage{display:flex;flex-wrap:wrap;justify-content:center;gap:40px;padding:14px 24px 40px;align-items:flex-start}
+.device{position:relative;flex:none}
+.phone{position:absolute;left:0;top:0;transform-origin:0 0;overflow:hidden;border-radius:44px;box-shadow:0 0 0 10px #050506,0 40px 80px -20px #000;
+  background:var(--page);color:var(--ink);container:device / size;font-size:13px;line-height:1.45;isolation:isolate}
+.phone[data-device=tabP]{border-radius:30px;box-shadow:0 0 0 14px #050506,0 40px 80px -20px #000}
+.phone[data-device=pc]{border-radius:12px;box-shadow:0 0 0 1px #34363b,0 40px 80px -20px #000}
+.notes{width:320px;font-size:14px;line-height:1.6;color:#b9b5ad}
+.stage.below .notes{flex-basis:100%;max-width:820px;columns:2 320px;column-gap:44px}
+.notes h2{font-family:var(--serif);font-weight:400;font-size:26px;color:#f1eee7;margin:0 0 4px;letter-spacing:-.03em;column-span:all}
+.notes .tag{color:#8f8c85;margin:0 0 18px;column-span:all}
+.notes h3{font-size:13px;font-weight:600;color:#e9e6df;margin:20px 0 6px}
+.notes ul{margin:0;padding-left:18px}.notes li{margin:5px 0}
+.notes b{color:#e9e6df;font-weight:600}
+body.native .stage{display:block;padding:0}
+body.native .device{width:auto!important;height:auto!important;margin:0!important}
+body.native .phone{position:relative;width:100%!important;height:calc(100svh - var(--bar-h))!important;transform:none!important;border-radius:0;box-shadow:none}
+@media (max-width:760px){ .notes{width:auto;padding:24px 20px 40px} .stage.below .notes{columns:auto} }
+
+/* ───── Visionneuse (reprise de card-viewer.css) ───── */
+.viewer{position:absolute;inset:0;--cw:min(calc(100cqw - 124px),calc((100cqh - 290px) * .6037));overflow:hidden;background:var(--page);color:var(--ink);font-family:var(--ui)}
+@container device (min-width:700px){ .viewer{--cw:min(420px,calc((100cqh - 290px) * .6037))} }
+@container device (min-width:1100px){ .viewer{--cw:min(440px,calc((100cqh - 280px) * .6037))} }
+.rarity-backdrop{position:absolute;inset:0;overflow:hidden;background:var(--page);pointer-events:none}
+.rarity-backdrop::before,.rarity-backdrop::after{content:'';position:absolute;inset:-30%;filter:blur(90px)}
+.rarity-backdrop::before{background:radial-gradient(circle at 8% 22%,var(--rarity-color),transparent 48%),radial-gradient(circle at 92% 86%,var(--rarity-color),transparent 44%);opacity:.16}
+.rarity-backdrop::after{background:radial-gradient(circle at 72% -8%,var(--rarity-color),transparent 56%);opacity:.07}
+.viewer-top,.viewer-main,.viewer-dock{z-index:1;position:relative}
+.viewer-top{display:flex;align-items:center;justify-content:space-between;padding:22px 12px 0}
+.viewer-main{position:absolute;top:72px;bottom:118px;left:0;right:0;display:flex;flex-direction:column;justify-content:center;align-items:center}
+.viewer-card{width:var(--cw);perspective:1000px}
+.viewer-meta{min-height:20px;display:flex;align-items:center;justify-content:center;gap:8px;margin:18px 14px 6px;color:var(--muted);font-size:12px;text-align:center}
+.viewer-sub{margin-top:22px;min-height:30px;display:flex;align-items:center;justify-content:center;font-size:12px;color:var(--muted);gap:6px;font-variant-numeric:tabular-nums}
+.viewer-sub b{color:var(--ink);font-weight:600}
+.viewer-sub .ic{width:13px;height:13px;color:var(--accent)}
+.viewer-dock{position:absolute;bottom:26px;left:14px;right:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));padding:8px;border-radius:24px;background:color-mix(in srgb,var(--page) 45%,transparent);border:1px solid color-mix(in srgb,var(--ink) 12%,transparent);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px)}
+.viewer-dock > button{min-width:0;height:62px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;color:var(--ink);font-size:11px;border-radius:16px}
+.viewer-dock > button:active{background:#ffffff14}
+.viewer-dock .fav-on{color:var(--accent)}
+@container device (min-width:700px){ .viewer-dock{width:440px;left:calc(50% - 220px);right:auto} }
+
+.tilt{position:relative;aspect-ratio:326/540;border-radius:calc(var(--cw) * 20 / 326);transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));transition:transform .6s cubic-bezier(.2,.8,.2,1);touch-action:none;user-select:none;-webkit-user-select:none;box-shadow:0 34px 60px -24px #000c,0 10px 22px -10px #0007}
+.tilt.live{transition:transform .08s linear}
+.tilt::after{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:5;background:radial-gradient(circle at var(--gx,50%) var(--gy,20%),#ffffff80,transparent 65%);mix-blend-mode:soft-light;opacity:var(--go,0);transition:opacity .4s}
+.viewer-top{display:flex;align-items:center;justify-content:flex-end;padding:22px 12px 0;position:relative;z-index:2}
+.viewer-glass{display:grid;place-items:center;width:40px;height:40px;border-radius:50%;color:var(--ink);background:color-mix(in srgb,var(--page) 35%,transparent);border:1px solid color-mix(in srgb,var(--ink) 12%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+/* ───── Fragment « carte » : même format, même gestes ───── */
+.frag{position:absolute;inset:0;border-radius:inherit;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#ece2d2;
+  --u:calc(var(--cw) / 326);
+  background:repeating-linear-gradient(45deg,#d5bb8d05 0 1px,transparent 1px 9px),radial-gradient(ellipse at 50% 38%,#4b2733,#1e171b 76%);
+  box-shadow:inset 0 0 0 calc(var(--u) * 5) #241c20,inset 0 0 0 calc(var(--u) * 6.5) #d68c9a55}
+.frag::before{content:'';position:absolute;inset:calc(var(--u) * 20);border:1px solid #e5c68a26;border-radius:calc(var(--u) * 10)}
+.frag::after{content:'';position:absolute;inset:calc(var(--u) * 26);border:1px solid #e5c68a0d;border-radius:calc(var(--u) * 7)}
+.frag .orn{position:absolute;width:62%;aspect-ratio:1;border:1px solid #d68c9a30;transform:rotate(45deg);top:calc(50% - 31% * 326 / 540 - var(--u) * 26)}
+.frag .orn::after{content:'';position:absolute;inset:calc(var(--u) * 9);border:1px solid #d68c9a14}
+.frag .eb{position:absolute;top:calc(var(--u) * 44);font-size:calc(var(--u) * 9);letter-spacing:.32em;text-transform:uppercase;color:#c8b493}
+.frag .gem{width:calc(var(--u) * 86);height:calc(var(--u) * 86);color:#e7a3b1;filter:drop-shadow(0 calc(var(--u) * 10) calc(var(--u) * 24) #d68c9a66);margin-top:calc(var(--u) * -30);position:relative}
+.frag .gem svg{width:100%;height:100%;stroke-width:1.1}
+.frag .n{position:relative;font-family:var(--serif);font-variant-numeric:lining-nums tabular-nums;font-size:calc(var(--u) * 78);letter-spacing:-.04em;line-height:1;margin-top:calc(var(--u) * 30);
+  background:linear-gradient(120deg,#f3e6d0,#c9a98a 40%,#fff3dd 62%,#d8bfa0);-webkit-background-clip:text;background-clip:text;color:transparent}
+.frag .u{position:relative;font-size:calc(var(--u) * 10);letter-spacing:.32em;text-transform:uppercase;color:#c8b493;margin-top:calc(var(--u) * 12)}
+.frag .from{position:absolute;bottom:calc(var(--u) * 42);font-family:var(--serif);font-style:italic;font-size:calc(var(--u) * 13);color:#d9c8ac}
+.frag .sheen{position:absolute;inset:0;pointer-events:none;mix-blend-mode:color-dodge;opacity:.35;background:linear-gradient(112deg,transparent 30%,#ff8cbe44 42%,#fff09644 50%,#8cc8ff44 58%,transparent 70%);background-size:280% 280%;background-position:var(--hp,30%) 50%;transition:background-position .3s}
+.arrive{animation:arrive .9s cubic-bezier(.2,.8,.2,1) both}
+@keyframes arrive{0%{opacity:0;transform:translateY(40px) rotateY(-70deg) scale(.9)}100%{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.arrive{animation:none}}
+</style>
+</head>
+<body>
+<div class="switch">
+  <div class="switch-row">
+    <div class="seg" id="mode"><button data-m="fragments" aria-pressed="true">Reçu depuis Fragments</button><button data-m="amis">Reçu depuis Amis</button></div>
+    <button class="theme" id="theme" aria-label="Changer de thème"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 0 0 0 16Z" fill="currentColor"/></svg></button>
+    <button class="theme" id="replay" aria-label="Rejouer l’arrivée" title="Rejouer l’arrivée"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/></svg></button>
+  </div>
+  <div class="switch-row"><div class="seg" id="dev"><button data-dev="phone" aria-pressed="true">Téléphone</button><button data-dev="tabP">Tablette</button><button data-dev="pc">Ordinateur</button></div></div>
+</div>
+<div class="stage" id="stage">
+  <div class="device" id="device"><div class="phone" id="phone" data-device="phone"><div id="app" style="position:absolute;inset:0"></div></div></div>
+  <aside class="notes">
+    <h2>Fragments reçus</h2>
+    <p class="tag">Même écran que « Carte reçue » : plein écran, halo, objet au centre, barre en bas, croix en haut à droite.</p>
+    <h3>L’écran</h3>
+    <ul>
+      <li>Plein écran, halo flou bordeaux (là où la carte prend sa couleur de rareté), objet au format carte avec la même inclinaison et la même ombre.</li>
+      <li>Le dos de carte : « Bizave · TCG », losange de l’app, montant en serif doré, « Fragments », puis « de la part de Dorian ». C’est la seule mention de l’expéditeur.</li>
+      <li>Dessous : <b>Nouveau solde · 730</b>, qui défile depuis l’ancien solde.</li>
+    </ul>
+    <h3>Fermer et la barre du bas</h3>
+    <ul>
+      <li><b>Boutique</b> à gauche, toujours.</li>
+      <li>À droite, le bouton dépend de la page d’où l’on a reçu :
+        <ul><li>depuis <b>Fragments</b> : <b>Terminé</b>, qui ferme simplement (on est déjà sur la bonne page) ;</li>
+        <li>depuis <b>Amis</b> : <b>Mes fragments</b>, qui ouvre la page Fragments.</li></ul></li>
+      <li>La <b>croix en haut à droite</b> ferme toujours, par convention (à harmoniser dans toute l’app, visionneuse de carte comprise). Échap ferme aussi.</li>
+    </ul>
+    <h3>Implémentation</h3>
+    <ul><li>Un composant <span style="font-family:monospace">ReceivedFragmentsViewer</span> qui réutilise <span style="font-family:monospace">card-viewer</span>, <span style="font-family:monospace">CardBackdrop</span> et <span style="font-family:monospace">useCardTilt</span>, appelé par <span style="font-family:monospace">ReceiveSheet</span> avec une prop d’origine (<span style="font-family:monospace">'fragments' | 'friends'</span>).</li></ul>
+  </aside>
+</div>
+<script>
+const $ = id => document.getElementById(id);
+const fmt = n => Number(n).toLocaleString('fr-FR');
+const ICON = {
+  gem:'<path d="M6 3h12l4 6-10 13L2 9Z"/><path d="M11 3 8 9l4 13 4-13-3-6"/><path d="M2 9h20"/>',
+  x:'<path d="M18 6 6 18"/><path d="m6 6 12 12"/>',
+  bag:'<path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>',
+  star:'<path d="M11.48 3.5a.56.56 0 0 1 1.04 0l2.13 5.1 5.5.44a.56.56 0 0 1 .32.99l-4.2 3.6 1.28 5.38a.56.56 0 0 1-.84.61L12 16.73l-4.71 2.89a.56.56 0 0 1-.84-.61l1.28-5.38-4.2-3.6a.56.56 0 0 1 .32-.99l5.5-.44Z"/>',
+  check:'<path d="M20 6 9 17l-5-5"/>',
+  share:'<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4"/><path d="m15.4 6.5-6.8 4"/>',
+};
+const ic = (n, w = 1.7) => `<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${ICON[n]}</svg>`;
+const S = { mode: 'fragments', device: 'phone', amount: 40, before: 690, from: 'Dorian' };
+
+function render() {
+  const fromFragments = S.mode === 'fragments';
+  $('app').innerHTML = `<div class="viewer" style="--rarity-color:var(--accent)" tabindex="-1">
+    <div class="rarity-backdrop"></div>
+    <div class="viewer-top"><button class="viewer-glass" aria-label="Fermer">${ic('x')}</button></div>
+    <div class="viewer-main">
+      <div class="viewer-card"><div class="tilt arrive" id="tilt"><div class="frag"><i class="orn"></i><span class="eb">Bizave · TCG</span><span class="gem">${ic('gem', 1.1)}</span><span class="n" id="amt">+${fmt(S.amount)}</span><span class="u">fragments</span><span class="from">de la part de ${S.from}</span><i class="sheen"></i></div></div></div>
+      <div class="viewer-sub" aria-live="polite">${ic('gem')}Nouveau solde · <b id="bal">${fmt(S.before)}</b></div>
+    </div>
+    <div class="viewer-dock"><button>${ic('bag')}<span>Boutique</span></button>${fromFragments
+      ? `<button data-close>${ic('check')}<span>Terminé</span></button>`
+      : `<button>${ic('gem')}<span>Mes fragments</span></button>`}</div>
+  </div>`;
+  bindTilt(); countUp();
+}
+function countUp() {
+  const t0 = performance.now() + 450, a = $('amt'), b = $('bal');
+  const step = t => { const k = Math.max(0, Math.min(1, (t - t0) / 900)), e = 1 - Math.pow(1 - k, 3);
+    if (!a.isConnected) return;
+    a.textContent = '+' + fmt(Math.round(S.amount * e)); b.textContent = fmt(Math.round(S.before + S.amount * e));
+    if (k < 1) requestAnimationFrame(step); };
+  a.textContent = '+0'; requestAnimationFrame(step);
+}
+function bindTilt() {
+  const el = $('tilt');
+  const move = e => { const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+    el.classList.add('live'); el.style.setProperty('--ry', (x - .5) * 18 + 'deg'); el.style.setProperty('--rx', (.5 - y) * 18 + 'deg');
+    el.style.setProperty('--gx', x * 100 + '%'); el.style.setProperty('--gy', y * 100 + '%'); el.style.setProperty('--go', 1); el.style.setProperty('--hp', x * 100 + '%'); };
+  const out = () => { el.classList.remove('live'); ['--rx', '--ry'].forEach(k => el.style.setProperty(k, '0deg')); el.style.setProperty('--go', 0); };
+  el.addEventListener('pointermove', move); el.addEventListener('pointerleave', out); el.addEventListener('pointerup', out);
+  el.addEventListener('animationend', () => el.classList.remove('arrive'), { once: true });
+}
+const DEVICES = { phone: [390, 844], tabP: [820, 1180], pc: [1440, 900] };
+let k = 1;
+function fit() {
+  const [w, h] = DEVICES[S.device], ph = $('phone'), wrap = $('device');
+  ph.dataset.device = S.device;
+  const native = S.device === 'phone' && innerWidth <= 760;
+  document.body.classList.toggle('native', native);
+  const side = S.device === 'phone' && innerWidth > 820;
+  $('stage').classList.toggle('below', !side);
+  if (native) { ph.style.cssText = ''; wrap.style.cssText = ''; return; }
+  const pad = S.device === 'pc' ? 8 : 32;
+  const availW = innerWidth - 48 - pad - (side ? 380 : 0), availH = innerHeight - $('stage').getBoundingClientRect().top - 40 - pad;
+  k = Math.min(1, availW / w, Math.max(.3, availH / h));
+  Object.assign(ph.style, { width: w + 'px', height: h + 'px', transform: `scale(${k})` });
+  Object.assign(wrap.style, { width: w * k + 'px', height: h * k + 'px', margin: pad / 2 + 'px' });
+}
+const press = (id, attr, val) => document.querySelectorAll(`#${id} button`).forEach(b => b.setAttribute('aria-pressed', b.dataset[attr] === val));
+$('mode').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.mode = b.dataset.m; press('mode', 'm', S.mode); render(); };
+$('dev').onclick = e => { const b = e.target.closest('button'); if (!b) return; S.device = b.dataset.dev; press('dev', 'dev', S.device); fit(); render(); };
+$('theme').onclick = () => { const r = document.documentElement; r.dataset.theme = r.dataset.theme === 'dark' ? 'light' : 'dark'; };
+$('replay').onclick = render;
+addEventListener('resize', fit);
+const qs = new URLSearchParams(location.search);
+if (qs.get('theme')) document.documentElement.dataset.theme = qs.get('theme');
+if (qs.get('dev')) { S.device = qs.get('dev'); press('dev', 'dev', S.device); }
+if (qs.get('m')) { S.mode = qs.get('m'); press('mode', 'm', S.mode); }
+fit(); render();
+</script>
+</body>
+</html>

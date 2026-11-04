@@ -1,6 +1,6 @@
-# Transfert de sauvegarde et suppression du compte — bizave-tcg.v1.3.2
+# Transfert de sauvegarde et suppression du compte — bizave-tcg.v1.4.2
 
-Les options affichent l’**ID joueur** en petit à droite du titre et les actions discrètes **Transfert de sauvegarde** et **Supprimer le compte** en bas de page. Le menu de transfert affiche l’**ID d’installation** de cet appareil. Les deux utilisent le format `1234-56-78`, mais ont des rôles distincts : le joueur suit sa partie, l’installation désigne la destination. Ces opérations nécessitent Web Crypto, donc HTTPS ou localhost.
+Les options affichent l’**ID joueur** dans l’en-tête à la place des fragments et les actions **Transfert de sauvegarde** et **Supprimer le compte** dans Compte et sauvegarde. Le menu de transfert affiche l’**ID d’installation** de cet appareil. Les deux utilisent le format `1234-56-78`, mais ont des rôles distincts : le joueur suit sa partie, l’installation désigne la destination. Ces opérations nécessitent Web Crypto, donc HTTPS ou localhost. Les préférences d’interface, dont le mode Droitier / Gaucher, suivent la sauvegarde ; les anciens fichiers sans ce réglage utilisent Droitier.
 
 Le protocole avant publication est simplifié : une paire de signature ECDSA P-256/SHA-256 transférable, sans chiffrement des échanges. La base canonique est désormais `bizave-tcg`. Le patch isolé migre la partie active depuis `bizave-tcg-v2` avant de supprimer cette source vérifiée ; l’ancienne base de test portant déjà le nom canonique est remplacée par la partie active. Aucun ancien contact FR1, transfert TR1 ou fichier de sauvegarde version 1 n’est accepté ; aucune conversion des anciennes clés n’est proposée.
 

@@ -43,7 +43,7 @@ export function FragmentsPage() {
       </section>
       <div className="fragment-inline-codes"><SentCodesList kind="fragments" limit={2} /></div>
     </div>
-    {sheet === 'receive' && <ReceiveSheet onClose={() => setSheet(null)} />}
+    {sheet === 'receive' && <ReceiveSheet origin="fragments" onClose={() => setSheet(null)} />}
     {sheet === 'send' && <Modal title={created ? 'Transfert créé' : friend ? 'Quel montant ?' : 'À qui ?'} showTitle={!created} className="transfer-sheet" onClose={() => { if (!busy) setSheet(null) }}>
       {created ? <div className="fragment-success"><span className="transfer-success-mark clipboard-confirm"><Check size={28} /></span><h2>{delivery === 'file' ? 'Fichier de transfert prêt !' : copied ? 'Code de transfert copié !' : 'Transfert créé'}</h2><p><Gem size={15} />{created.kind === 'fragments' && created.amount.toLocaleString('fr-FR')} fragments · {created.recipientLabel || created.recipientId}</p><div className="transfer-codebox"><code>{created.code}</code><TransferDeliveryButton transfer={created} onError={setError} /></div><p className="muted">{delivery === 'file' ? 'Envoyez le fichier .btcg à votre ami.' : 'Transmettez ce code à votre ami.'}</p><ErrorNotice error={error} /><button className="primary-button" onClick={() => setSheet(null)}>Terminé</button></div> : friend ? <>
         <button type="button" className="recipient-chip" disabled={busy} onClick={() => setFriend(null)}><span className="friend-avatar">{(friend.label || friend.playerUuid).slice(0, 1)}</span><strong>À {friend.label || friend.playerUuid}</strong><span>Changer</span></button>

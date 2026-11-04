@@ -2,6 +2,10 @@ import { describe, expect, it } from 'vitest'
 import { DEFAULT_PREFERENCES, parsePreferences, resolveTheme } from './preferences'
 
 describe('options locales', () => {
+  it('place la fermeture à droite par défaut et conserve le mode gaucher', () => {
+    expect(parsePreferences('{"handedness":"left"}').handedness).toBe('left')
+    for (const handedness of ['right', 'unknown', null, 2]) expect(parsePreferences(JSON.stringify({ handedness })).handedness).toBe('right')
+  })
   it('valide les modes de barre et les formats de partage avec repli défensif', () => {
     expect(parsePreferences('{"actionBar":"two","shareFormat":"card"}')).toMatchObject({ actionBar: 'two', shareFormat: 'card' })
     for (const data of [{}, { actionBar: 'other', shareFormat: 'gif' }, { actionBar: 2, shareFormat: null }]) {

@@ -1,5 +1,7 @@
 # Envoi de fragments, page Fragments et refonte de la page Amis
 
+> Référence historique du 3 novembre 2026. Les demandes ultérieures ont modifié notamment les filtres de codes, la confirmation par maintien et la réception. Le comportement livré est décrit dans [la version 1.4.1](../docs/releases/bizave-tcg.v1.4.1.md) et [la version 1.4.2](../docs/releases/bizave-tcg.v1.4.2.md).
+
 Document de passation, rédigé le 3 novembre 2026. Il s'adresse au développeur, humain ou IA, qui implémentera ces écrans dans `kabomane/bizave-tcg`. Il décrit **ce qui a été décidé**, **ce qui existe déjà dans le code** et **ce qu'il faut changer, dans quel ordre**.
 
 Maquettes de référence (HTML autonomes, sans dépendance), à placer dans `references/` :

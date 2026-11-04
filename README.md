@@ -1,12 +1,12 @@
-# bizave-tcg.v1.4.0
+# bizave-tcg.v1.4.2
 
-Version **bizave-tcg.v1.4.0** de **Bizave TCG**. Quatre boosters : **Memory Frame**, 161 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 52 cartes partagées, et **rarity only**, les 52 rares du catalogue. Le catalogue compte 304 modèles, tous illustrés.
+Version **bizave-tcg.v1.4.2** de **Bizave TCG**. Quatre boosters : **Memory Frame**, 161 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 52 cartes partagées, et **rarity only**, les 52 rares du catalogue. Le catalogue compte 304 modèles, tous illustrés.
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
-## Version 1.4.0 — 2 novembre 2026
+## Version 1.4.2 — 4 novembre 2026
 
-Deux cartes ajoutées : Eli veilleuse de nuit et Nana Office Lady. Refonte D, partage Canvas et harmonisation « Donner » intégrés. Version 1.4.0, notification 5 et code cadeau pour un paquet Memory Frame. Références et contrôles : [docs/apercu-partage.md](docs/apercu-partage.md).
+Réception des fragments en plein écran avec carte inclinable et solde animé. Croix de fermeture à droite par défaut, option Droitier / Gaucher mémorisée localement. Chiffres du solde alignés. Le compteur de notification reste à 6 avec la note existante. Détails : [version 1.4.2](docs/releases/bizave-tcg.v1.4.2.md).
 
 ## Éditions actuelles
 
@@ -22,7 +22,7 @@ La navigation contient **Boosters / Collection / Atelier / Amis**. Collection et
 
 L’Atelier conserve une copie de chaque variante par défaut. Le bouton **Vos doublons** à droite du titre bascule vers **Toutes vos cartes** ; ce mode, désactivé à chaque arrivée sur la page, permet de recycler toute la collection détenue en lot. Les filtres limitent les résultats, les compteurs et **Tout sélectionner** ; changer un filtre ou le mode efface la sélection. La confirmation affiche le nombre de cartes, les fragments et le nombre de variantes dont la dernière copie sera recyclée. Annuler conserve les cartes ; les exemplaires déjà envoyés ou recyclés sont exclus. La transaction existante revalide les possessions et applique le crédit une seule fois.
 
-Dans Amis, une réception réussie par code ou fichier ouvre la carte reçue en vue détaillée avec sa finition et son illustration, puis le message **Vous avez reçu une carte**. Ce panneau ne propose ni envoi ni recyclage ; ces actions restent dans Collection. Un échec ou un code déjà utilisé n’ouvre pas de confirmation.
+Dans Amis ou Fragments, une réception réussie par code ou fichier ouvre la carte reçue en vue détaillée avec sa finition, son illustration et le nom de l’expéditeur. Seules les actions Favori et Partager sont proposées en bas, quel que soit le mode d’actions choisi. Les fragments reçus ont leur propre vue plein écran, avec montant, expéditeur et nouveau solde animé. Un échec ou un code déjà utilisé n’ouvre pas de confirmation.
 
 ## Démarrer
 
@@ -188,7 +188,7 @@ Le stockage est lié au **navigateur et à l’origine**. Dans les options, les 
 
 ## Codes cadeaux
 
-Dans les options, **Code cadeau** se trouve sous **Envoi des cartes**. Les codes acceptent les minuscules et majuscules, avec 16 caractères utiles et trois tirets facultatifs. Les espaces sont ignorés au clavier et retirés au collage avant la limite de longueur. L’aide, la récompense et les erreurs partagent le même texte sous le champ. Les anciens codes cadeaux sont retirés. Les nouveaux expirent 24 h après génération, sauf échéance explicite fournie avec --expires-at. Les boosters rejoignent le stock acheté sans dépenser de fragments ni modifier les crédits gratuits.
+Dans les options, **Code cadeau** suit **Collection** et précède **Don des cartes**. Les codes acceptent les minuscules et majuscules, avec 16 caractères utiles et trois tirets facultatifs. Les espaces sont ignorés au clavier et retirés au collage avant la limite de longueur. L’aide, la récompense et les erreurs partagent le même texte sous le champ. Les anciens codes cadeaux sont retirés. Les nouveaux expirent 24 h après génération, sauf échéance explicite fournie avec --expires-at. Les boosters rejoignent le stock acheté sans dépenser de fragments ni modifier les crédits gratuits.
 
 Le jeu publie seulement les empreintes SHA-256 et les récompenses. Les codes en clair restent dans `.local/gift-codes/`, hors Git et build. Chaque code s’utilise une fois par sauvegarde ; son registre suit les transferts et fusionne avec celui du destinataire. Une nouvelle partie peut réutiliser les codes : aucun usage unique mondial n’est garanti hors ligne. La génération de nouveaux lots et leur publication sont décrites dans [docs/codes-cadeaux.md](docs/codes-cadeaux.md).
 
@@ -218,7 +218,7 @@ npx firebase-tools login
 npx firebase-tools deploy --only hosting --project bizave-tcg
 ```
 
-`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement de `bizave-tcg.v1.4.0` cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
+`firebase.json` sert uniquement les fichiers statiques de `dist/`, réécrit les routes vers `index.html`, met les assets en cache immutable et le HTML en revalidation. Le déploiement cible exclusivement Hosting ; aucun service Auth, Firestore, Functions ou Storage n’est nécessaire. Les sauvegardes restent locales à chaque navigateur et à l’origine utilisée : conserver l’adresse `bizave-tcg.web.app` comme adresse de référence.
 
 **rarity only** est exclusif à la boutique : **400 fragments**, cinq cartes garanties rares, parmi toutes les rares actuelles et futures du catalogue. Les finitions et Full Art gardent leurs taux habituels. Comme epico stellari, il apparaît dans Vos boosters uniquement si un exemplaire est détenu et reste masqué dans les filtres de collection.
 
@@ -250,11 +250,15 @@ Les entrées de Codes envoyés disparaissent au bout de 24 h et sont nettoyées 
 
 Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les choix Clair et Sombre sont mémorisés. En mode Système, un changement du thème de l’appareil s’applique immédiatement. Les cartes Fusion/Gundam gardent leurs palettes propres.
 
+Apparence propose aussi **Main dominante** : Droitier par défaut place les croix de fermeture à droite dans toutes les fenêtres ; Gaucher les place à gauche. En aperçu à deux actions, Favori et Partager occupent le côté opposé. Ce choix est enregistré sous `bizave.preferences.v1`, comme le thème.
+
 Le mode dev affiche les 304 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
 La page `/fragments` s’ouvre depuis le compteur de l’en-tête. Le choix du destinataire partage `FriendPicker` avec le don de carte. Le montant se règle à l’unité, par boutons accélérés, curseur quadratique ou clavier ; un clic sur Envoyer confirme. Aucun remboursement automatique si le code reste inutilisé.
 
 Amis réunit Recevoir, Ajouter un ami, Codes de cartes envoyés, puis Vos amis, sans onglets. Une fiche ami permet de renommer ou retirer le contact. `ReceiveSheet` reçoit cartes et fragments depuis Amis ou Fragments. Les confirmations de copie restent dans les boutons pendant 3 s, sans notification. Les codes restent accessibles après retrait du dernier ami.
+
+La réception des fragments réutilise le fond et l’inclinaison de la visionneuse. La carte porte le montant et l’expéditeur ; le solde défile depuis sa valeur avant réception vers le solde réellement crédité dans la transaction. Boutique ouvre `/boutique`. Depuis Fragments, Terminé ferme la vue ; depuis Amis, Mes fragments ouvre `/fragments`. La croix et Échap ferment la vue. Les animations sont supprimées avec Réduire les animations.
 
 Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 ou TF1 exact, sans clé privée. Le fichier de transfert de carte ou fragments est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes et fragments accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
 
@@ -284,7 +288,7 @@ Les holos de la collection et des piles utilisent une texture irisée partagée,
 
 ## Favoris et ouvertures terminées
 
-Dans Collection, l’étoile près de la croix du détail ajoute ou retire un favori. L’étoile à droite de la recherche affiche uniquement les favoris et se combine aux trois filtres existants. Un favori identifie une variante (modèle, finition, illustration), partagée par toutes ses copies. Les piles filtrées ne montrent que leurs variantes favorites. Les aperçus du Mode dev ne permettent pas de modifier les favoris.
+Dans Collection, l’étoile de l’aperçu ajoute ou retire un favori : dans la barre du bas en mode quatre actions, en haut à l’opposé de la croix en mode deux actions. L’étoile à droite de la recherche affiche uniquement les favoris et se combine aux trois filtres existants. Un favori identifie une variante (modèle, finition, illustration), partagée par toutes ses copies. Les piles filtrées ne montrent que leurs variantes favorites. Les aperçus du Mode dev ne permettent pas de modifier les favoris.
 
 Les favoris sont stockés dans IndexedDB et suivent les transferts de sauvegarde. Recycler ou envoyer le dernier exemplaire possédé d’une variante efface son favori dans la même transaction ; un retour ou un nouveau tirage ne le recrée pas. Les variantes favorites sont exclues de l’Atelier dans ses deux modes, compteurs et sélection compris. Le recyclage Atelier revalide cette protection dans sa transaction, y compris si le favori vient d’être ajouté dans un autre onglet. Le recyclage individuel depuis Collection reste possible avec confirmation.
 

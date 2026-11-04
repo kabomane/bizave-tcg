@@ -1,5 +1,7 @@
 # Aperçu D et partage — 2 novembre 2026
 
+Actualisé pour la version 1.4.2, le 4 novembre 2026. Les croix des aperçus et fenêtres sont à droite par défaut ; Apparence → Main dominante propose le mode Gaucher, avec fermeture à gauche. En mode deux actions, Favori et Partager sont en haut à l’opposé de la croix. Pour une carte reçue, seules ces deux actions restent en bas, quel que soit le mode. La réception des fragments utilise la même structure plein écran : [version 1.4.2](releases/bizave-tcg.v1.4.2.md).
+
 La Collection ouvre directement `CardViewer` sur les `entries` de `collectionView`. La pile intermédiaire disparaît. Les filtres, le tri, le choix de couverture, les doublons et les favoris par variante conservent leur logique. Donner et Recycler ciblent toujours le dernier ID de l’entrée regroupée.
 
 La vue contient un fond presque uni suivant le thème, avec des halos diffus de la couleur de rareté décentrés vers les bords. Ces lumières statiques restent très légères ; aucun ovale central ni illustration n’est utilisé. Elle contient aussi un carrousel natif avec snap, des flèches relatives à la carte, la date, les points de finition et un îlot d’actions. Elle suit le thème clair, sombre ou système. À partir de 700 px, les voisines apparaissent à 86 % de taille et 38 % d’opacité. Les Options proposent quatre actions (défaut) ou deux, et Story (défaut) ou Carte. Le libellé Donner a été choisi par le propriétaire ; les URL existantes restent compatibles.

@@ -1,5 +1,15 @@
 # Historique des versions
 
+## bizave-tcg.v1.4.2 — 4 novembre 2026
+
+- Vue plein écran des fragments reçus, carte inclinable, arrivée animée et nouveau solde animé.
+- Boutique et Terminé / Mes fragments selon la page d’origine.
+- Fermeture à droite par défaut ; option Droitier / Gaucher locale et actions supérieures de l’aperçu placées à l’opposé de la croix.
+- Alignement des chiffres du solde et mise à jour de la documentation courante.
+- Notification 6 et note existante conservées.
+
+Note : [Version 1.4.2](docs/releases/bizave-tcg.v1.4.2.md).
+
 ## bizave-tcg.v1.4.1 — 3 novembre 2026
 
 - Page Fragments depuis le compteur : envoi signé TF1, montant précis, confirmation par clic et réception commune avec Amis.

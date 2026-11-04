@@ -5,9 +5,9 @@ export type ThemePreference = 'system' | 'light' | 'dark'
 export type ActionBarMode = 'four' | 'two'
 export type ShareFormat = 'story' | 'card'
 type TransferMode = 'code' | 'file'
-export type Preferences = { theme: ThemePreference; transferMode: TransferMode; devCatalog: boolean; collectionDisplay: CollectionDisplay; selectedBoosterId: string; actionBar: ActionBarMode; shareFormat: ShareFormat }
+export type Preferences = { theme: ThemePreference; handedness: 'right' | 'left'; transferMode: TransferMode; devCatalog: boolean; collectionDisplay: CollectionDisplay; selectedBoosterId: string; actionBar: ActionBarMode; shareFormat: ShareFormat }
 export const SETTINGS_KEY = 'bizave.preferences.v1'
-export const DEFAULT_PREFERENCES: Preferences = { theme: 'system', transferMode: 'code', devCatalog: false, collectionDisplay: parseCollectionDisplay(null), selectedBoosterId: '', actionBar: 'four', shareFormat: 'story' }
+export const DEFAULT_PREFERENCES: Preferences = { theme: 'system', handedness: 'right', transferMode: 'code', devCatalog: false, collectionDisplay: parseCollectionDisplay(null), selectedBoosterId: '', actionBar: 'four', shareFormat: 'story' }
 
 export function parsePreferences(value: string | null): Preferences {
   try {
@@ -16,6 +16,7 @@ export function parsePreferences(value: string | null): Preferences {
     const data = parsed as Record<string, unknown>
     return {
       theme: data.theme === 'light' || data.theme === 'dark' ? data.theme : 'system',
+      handedness: data.handedness === 'left' ? 'left' : 'right',
       transferMode: data.transferMode === 'file' ? 'file' : 'code',
       devCatalog: data.devCatalog === true,
       actionBar: data.actionBar === 'two' ? 'two' : 'four',

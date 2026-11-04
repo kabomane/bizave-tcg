@@ -70,7 +70,7 @@ describe('solde et antirejeu', () => {
     expect(row).toMatchObject({ kind: 'fragments', amount: 137, recipientLabel: 'Nana' })
     expect((await a.player.get('local'))?.fragments).toBe(163)
     expect(await a.outbox.get(row.transferId)).toEqual(row)
-    expect(await receiveCode(row.code, b)).toEqual({ kind: 'fragments', amount: 137, senderId: (await ensureIdentity(a)).playerUuid })
+    expect(await receiveCode(row.code, b)).toEqual({ kind: 'fragments', amount: 137, senderId: (await ensureIdentity(a)).playerUuid, balance: 137 })
     await expect(receiveFragments(row.code, b)).rejects.toThrow('Ce code a déjà été utilisé.')
     expect((await b.player.get('local'))?.fragments).toBe(137)
     expect(await b.usedTransfers.count()).toBe(1)

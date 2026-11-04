@@ -7,6 +7,7 @@ type ChangelogEntry = {
 
 // Curated history, newest first. Entries are supplied by the owner, not generated from Git.
 export const changelog: readonly ChangelogEntry[] = [
+  { id: 'v142', title: 'Version 1.4.2', detail: 'Nouvelle réception des fragments, fermeture des fenêtres à droite par défaut, option Droitier / Gaucher et alignement des chiffres du solde.' },
   { id: 'v141', title: 'Version 1.4.1', detail: 'Transfert de fragments entre amis, refonte du menu Amis, expiration des codes après 24 h, corrections de bugs et descriptions ajustées.' },
   { id: 'v140', title: 'Version 1.4.0', detail: 'Refonte des piles et des aperçus, partage des images de cartes et options de personnalisation. Deux nouvelles cartes dans Memory Frame.' },
   { id: 'v132', title: 'Version 1.3.2', detail: 'Nouvelles cartes dans Anima Isekai et Memory Frame, corrections d’affichage et modification du système de mise à jour.' },

@@ -28,7 +28,7 @@ export function CardViewer({ entries, initialIndex = 0, onClose, preview = false
 }
 
 function Viewer({ entries, initialIndex, onClose, preview, receivedFrom }: { receivedFrom?: string; entries: CollectionEntry[]; initialIndex: number; onClose: () => void; preview: boolean }) {
-  const { actionBar: preferredActionBar, collectionDisplay } = useSettings()
+  const { actionBar: preferredActionBar, collectionDisplay, handedness } = useSettings()
   const actionBar = receivedFrom ? 'four' : preferredActionBar
   const { drops, notify } = useGame()
   const navigate = useNavigate()
@@ -125,7 +125,7 @@ function Viewer({ entries, initialIndex, onClose, preview, receivedFrom }: { rec
     if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') { event.preventDefault(); event.stopPropagation(); move(index + (event.key === 'ArrowRight' ? 1 : -1)) }
   }}>
     <CardBackdrop className="viewer-backdrop" rarity={definition.rarity} />
-    <div className="viewer-top"><button className="viewer-glass" aria-label="Fermer" disabled={busy} onClick={onClose}><X size={20} /></button>{!receivedFrom && actionBar === 'two' && <div className="viewer-top-actions">{favoriteButton}{shareButton}</div>}</div>
+    <div className={`viewer-top${handedness === 'left' ? ' close-left' : ''}`}>{!receivedFrom && actionBar === 'two' && <div className="viewer-top-actions">{favoriteButton}{shareButton}</div>}<button className="viewer-glass viewer-close" aria-label="Fermer" disabled={busy} onClick={onClose}><X size={20} /></button></div>
     <div className="viewer-main"><div className="viewer-stage">
       <div ref={track} className="viewer-track" style={busy ? { overflowX: 'hidden' } : undefined} onScroll={event => {
         const el = event.currentTarget

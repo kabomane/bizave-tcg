@@ -1,4 +1,19 @@
-# Validation — bizave-tcg.v1.4.1
+# Validation — bizave-tcg.v1.4.2
+
+## Publication 1.4.2 — 4 novembre 2026
+
+- Firebase Hosting publié sur https://bizave-tcg.web.app, avec le build validé ci-dessous. Manifeste public identique au build local `5a6da5d3-5fe4-4e1e-9ca1-f2c15909e007`.
+- Contrôle Chromium du site publié : version 1.4.2 dans le changelog, croix à droite par défaut, mode Gaucher conservé après rechargement et fermeture à gauche, notification toujours à 6, catalogue de développement désactivé.
+- Aucun nouveau test complet relancé pour la publication ; les contrôles locaux ci-dessous restent ceux du code publié.
+
+## Préparation locale 1.4.2 — 4 novembre 2026
+
+- Version du paquet et du lockfile : 1.4.2. `UPDATE_VERSION` reste à 6 ; note inchangée. Aucun déploiement ni push effectué pour cette préparation.
+- `npm run check` réussi : lint, TypeScript, 226 tests unitaires dans 29 fichiers et build de production.
+- Trois parcours ciblés Chromium réussis : réception de fragments par code depuis Fragments et par fichier depuis Amis, solde exact et antirejeu, navigation Terminé / Mes fragments, persistance Droitier / Gaucher et croix / actions dans les modes deux et quatre actions. Réception depuis Amis vérifiée en mouvement réduit et mode gaucher.
+- Captures examinées sur téléphone (390 × 844), tablette (820 × 1180) et ordinateur (1440 × 900), thèmes clair et sombre. Carte contenue dans l’écran et séparée de la barre d’actions. PNG dans `artifacts/fragments-recus-*.png` (hors Git).
+- WebKit indisponible sur ce poste : les trois essais échouent au lancement de `Playwright.exe`, avant toute navigation (`exitCode=3236495362`). Aucun résultat Safari réel revendiqué. La suite E2E complète n’a pas été relancée.
+- Documentation courante révisée : README, réception / aperçu, sauvegarde, cadeaux, boosters et notes de version. Comptages vérifiés dans les données : 304 modèles, 161 Memory Frame, 52 rares. Liens locaux vérifiés dans les 20 documents README / CHANGELOG / VALIDATION / docs : aucun lien absent. Les audits, notes de versions anciennes et maquettes restent historiques.
 
 ## Publication 1.4.1 — 3 novembre 2026
 

@@ -1,6 +1,6 @@
 # Codes cadeaux hors ligne
 
-Dans **Options**, la section **Code cadeau** suit le bloc **Envoi des cartes**. Un code contient 16 caractères aléatoires, présentés en quatre groupes. La saisie accepte uniquement les lettres ASCII minuscules et majuscules, les chiffres et le tiret du milieu (-). Tous les autres caractères sont retirés à la saisie et au collage avant d’appliquer la limite de 16 caractères utiles et 19 caractères affichés (les trois séparateurs compris). Le texte sous le champ affiche l’aide au départ, puis la récompense ou l’erreur à la même place ; modifier la saisie réaffiche l’aide. Les codes expirent par défaut 24 h après leur génération. Une date explicite peut remplacer cette durée. Les anciens codes sans expiration ont été retirés du catalogue actif.
+Dans **Options**, la section **Code cadeau** suit **Collection** et précède **Don des cartes**. Un code contient 16 caractères aléatoires, présentés en quatre groupes. La saisie accepte uniquement les lettres ASCII minuscules et majuscules, les chiffres et le tiret du milieu (-). Tous les autres caractères sont retirés à la saisie et au collage avant d’appliquer la limite de 16 caractères utiles et 19 caractères affichés (les trois séparateurs compris). Le texte sous le champ affiche l’aide au départ, puis la récompense ou l’erreur à la même place ; modifier la saisie réaffiche l’aide. Les codes expirent par défaut 24 h après leur génération. Une date explicite peut remplacer cette durée. Les anciens codes sans expiration ont été retirés du catalogue actif.
 
 Le catalogue public `src/data/gift-codes.json` contient les empreintes SHA-256, les récompenses et les horodatages issuedAt / expiresAt. L’empreinte porte sur le domaine `BizaveTCG/GiftCode/v1\n` suivi du code canonique, sans séparateurs et en majuscules. L’alphabet de 32 caractères exclut I, O, 0 et 1 ; les 16 symboles sont tirés uniformément par le générateur cryptographique de Node, soit 80 bits d’entropie. Il n’y a ni clé secrète dans le navigateur, ni serveur applicatif, ni signature à transporter dans chaque code.
 
@@ -10,7 +10,7 @@ Les anciens lots suivants sont désormais invalides (historique) :
 - 20 codes donnant chacun 10 boosters **Anima Isekai** ;
 - 10 codes donnant chacun **500 fragments**.
 
-Le lot du 29 octobre ajoute **10 codes donnant chacun 2 boosters epico stellari**, soit **60 codes** au total. Leur liste de distribution reste dans les fichiers privés locaux.
+Le lot historique du 29 octobre ajoutait **10 codes donnant chacun 2 boosters epico stellari**, soit **60 codes** au total. Ces codes sont également invalides. Leur liste de distribution reste dans les fichiers privés locaux ; le catalogue public actif est vide.
 
 Les boosters cadeaux rejoignent `boosterStock`, la même réserve que les paquets achetés. Ils ne consomment aucun fragment, n’augmentent pas les crédits gratuits et ne modifient pas leur recharge. Aucun achat fictif n’est ajouté à `boosterPurchases`. Les taux d’ouverture restent ceux du booster. Memory Frame consomme ses crédits gratuits avant sa réserve achetée, comme auparavant.
 

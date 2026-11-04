@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { ArrowDownLeft, Check, ClipboardPaste, FileUp, Gem } from 'lucide-react'
+import { ArrowDownLeft, Check, ClipboardPaste, FileUp } from 'lucide-react'
 import { db } from '../storage/database'
 import { receiveCode, type Received } from '../exchanges/services'
 import { readTransferFile } from '../exchanges/transferFile'
@@ -10,14 +10,15 @@ import { errorText } from './format'
 import { CardViewer } from './CardViewer'
 import { variantKey } from '../game/engine'
 import { useGame } from './useGame'
+import { ReceivedFragmentsViewer, type ReceiveOrigin } from './ReceivedFragmentsViewer'
 
-export function ReceiveSheet({ onClose }: { onClose: () => void }) {
+export function ReceiveSheet({ onClose, origin }: { onClose: () => void; origin: ReceiveOrigin }) {
   const fileInput = useRef<HTMLInputElement>(null), inFlight = useRef(false)
   const [received, setReceived] = useState<Received | null>(null), [sender, setSender] = useState('')
   const [code, setCode] = useState(''), [source, setSource] = useState(''), [error, setError] = useState('')
   const [busy, setBusy] = useState(false), [reading, setReading] = useState(false)
   const friends = useLiveQuery(() => db.friends.toArray(), [], [])
-  const { player, drops } = useGame()
+  const { drops } = useGame()
   async function receive() {
     if (inFlight.current) return
     inFlight.current = true; setBusy(true); setError('')
@@ -31,12 +32,9 @@ export function ReceiveSheet({ onClose }: { onClose: () => void }) {
     finally { inFlight.current = false; setBusy(false) }
   }
   if (received?.kind === 'card') return <CardViewer entries={[{ key: variantKey(received.card), card: received.card, ids: [received.card.dropId], acquiredAt: drops.find(drop => drop.dropId === received.card.dropId)?.updatedAt ?? 0 }]} receivedFrom={sender} onClose={onClose} />
-  const title = received ? 'Fragments reçus' : 'Recevoir un code'
-  return <Modal title={title} className="transfer-sheet receive-sheet" onClose={() => { if (!busy && !reading) onClose() }}>
-    {received ? <div className="receive-result">
-      <><div className="received-fragments"><Gem size={38} /><span className="fragment-number">+{received.amount.toLocaleString('fr-FR')}</span></div><h2>Fragments reçus</h2><p role="status">De {sender} · ajoutés à votre solde</p><p className="muted">Solde : <strong>{player.fragments.toLocaleString('fr-FR')}</strong></p></>
-      <button type="button" className="primary-button" onClick={onClose}>Parfait</button>
-    </div> : <form className="receive-form" onSubmit={event => { event.preventDefault(); void receive() }}>
+  if (received?.kind === 'fragments') return <ReceivedFragmentsViewer amount={received.amount} balance={received.balance} sender={sender} origin={origin} onClose={onClose} />
+  return <Modal title="Recevoir un code" className="transfer-sheet receive-sheet" onClose={() => { if (!busy && !reading) onClose() }}>
+    <form className="receive-form" onSubmit={event => { event.preventDefault(); void receive() }}>
       <p className="sheet-lead">Collez le code reçu ou importez le fichier <code>.btcg</code>. Une carte ou des fragments : le code sait ce qu’il contient.</p>
       <div className="receive-actions"><button type="button" className="secondary-button" disabled={busy || reading} onClick={async () => {
         setReading(true); setCode(''); setSource(''); setError('')
@@ -53,6 +51,6 @@ export function ReceiveSheet({ onClose }: { onClose: () => void }) {
       {source && <p className="receive-ready" role="status"><Check size={16} /><span>{source}</span><button type="button" className="text-button" disabled={busy} onClick={() => { setCode(''); setSource(''); setError('') }}>Changer</button></p>}
       {!friends.length && <p className="field-help">Ajoutez d’abord le contact de l’expéditeur.</p>}
       <ErrorNotice error={error} /><button className="primary-button" disabled={busy || reading || !code || !friends.length}><ArrowDownLeft size={16} />{reading ? 'Lecture…' : busy ? 'Vérification…' : 'Recevoir'}</button>
-    </form>}
+    </form>
   </Modal>
 }

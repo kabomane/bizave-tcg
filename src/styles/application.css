@@ -143,6 +143,9 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .card-fragment-value svg { flex-shrink:0; }
 .modal-header.modal-header-with-center { position:relative; margin-left:-9px; }
 .modal-header-end { display:flex; align-items:center; gap:6px; margin-left:auto; }
+.modal-header.close-left { margin-left:-9px; margin-right:0; }
+.modal-header.close-left .modal-close { flex-shrink:0; margin-right:auto; }
+.modal-header.close-left .modal-header-end { margin-left:0; }
 .collection-search-row { display:flex; align-items:center; gap:10px; width:100%; min-width:0; }
 .collection-search-row .collection-search { flex:1; min-width:0; }
 .favorites-filter { flex-shrink:0; width:44px; height:44px; }
@@ -678,7 +681,7 @@ body:has(dialog[open]) .collection-grid .card-thumbnail .holo-preview-reflection
 .fragment-balance { display:flex; align-items:center; gap:18px; padding:34px 30px; border:1px solid var(--line); border-radius:14px; background:var(--quiet-surface); }
 .fragment-balance svg, .fragment-thumb svg, .received-fragments svg, .fragment-success > p > svg { color:var(--ink); }
 .fragment-number { font-family:Georgia,'Times New Roman',serif; font-weight:400; letter-spacing:-.04em; font-variant-numeric:tabular-nums lining-nums; line-height:1; }
-.fragment-balance .fragment-number { font-size:64px; overflow-wrap:anywhere; }
+.fragment-balance .fragment-number { display:block; font-size:64px; overflow-wrap:anywhere; font-variant-numeric:lining-nums tabular-nums; }
 .fragment-balance small { display:block; margin-top:8px; color:var(--muted); font-size:10px; letter-spacing:.24em; text-transform:uppercase; }
 .fragment-actions, .friends-actions { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; }
 .fragment-actions { margin-top:12px; }

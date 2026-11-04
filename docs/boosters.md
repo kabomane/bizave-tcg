@@ -1,11 +1,11 @@
 # Paquets, boutique et stocks
 
-Quatre paquets sont configurés : **Memory Frame** (159 cartes, gratuit ou 70 fragments), **Anima Isekai** (143 cartes, gratuit ou 50 fragments), **epico stellari** (52 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (50 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
+Quatre paquets sont configurés : **Memory Frame** (161 cartes, gratuit ou 70 fragments), **Anima Isekai** (143 cartes, gratuit ou 50 fragments), **epico stellari** (52 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (52 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
 
 ## Contenus
 
 - `src/data/boosters.ts` contient les définitions des paquets.
-- `src/data/pools/memory-frame.json` contient les 159 cartes de Memory Frame, anciennement Phantom Blood. Son ID technique `phantom-blood` conserve les stocks, préférences et ouvertures en cours. Thomas BIZAVE rejoint le pool ; les numéros existants restent inchangés.
+- `src/data/pools/memory-frame.json` contient les 161 cartes de Memory Frame, anciennement Phantom Blood. Son ID technique `phantom-blood` conserve les stocks, préférences et ouvertures en cours. Thomas BIZAVE rejoint le pool ; les numéros existants restent inchangés.
 - `src/data/pools/anima-isekai.json` contient les 143 cartes d’Anima Isekai, toutes illustrées en WebP. Les pools Memory Frame et Anima Isekai sont distincts. Les 84 ajouts sont placés en fin d’ordre global ; Matthieu Izumi conserve l’ID `kis-arashi` et son numéro.
 - **epico stellari** utilise `sources: [{ type: 'rarities', rarities: ['epic', 'legendary'] }]` : toutes les cartes épiques et légendaires du catalogue, y compris les futurs ajouts, sans nouvelle liste à entretenir. Le sous-titre est calculé depuis le catalogue. Les cartes partagées gardent leur identité et leur numéro ; ce booster de regroupement est masqué dans les filtres par `showInFilters: false`.
 - Les listes ne dépendent ni des groupes éditoriaux ni du catalogue global. Ajouter une carte à un groupe ne change pas automatiquement un paquet.
