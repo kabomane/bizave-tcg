@@ -1,5 +1,11 @@
 # Historique des versions
 
+## Ajout de cartes — 5 novembre 2026 (version 1.4.2 inchangée)
+
+- Memory Frame : Claude BIZAVE et ChatGPT BIZAVE (légendaires), Salvatore et le buisson (épique), La crotte du buisson (rare), Matthieu correspondant (peu commune), avec les images et descriptions du carnet.
+- Numéros 305 à 309 ajoutés en fin d’ordre ; catalogue de 309 cartes, Memory Frame 166, epico stellari 55, rarity only 53.
+- Version 1.4.2, notification 6 et note existante conservées.
+
 ## bizave-tcg.v1.4.2 — 4 novembre 2026
 
 - Vue plein écran des fragments reçus, carte inclinable, arrivée animée et nouveau solde animé.

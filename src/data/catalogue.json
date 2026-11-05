@@ -4550,5 +4550,80 @@
       "standard": "/assets/cards/nana-office-lady/illustration.3db9e34061.webp",
       "fullArt": "/assets/cards/nana-office-lady/illustration.3db9e34061.webp"
     }
+  },
+  {
+    "id": "claude-bizave",
+    "title": "Claude BIZAVE",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "Assistant de direction (EA) de la BIZAVE Corp.",
+    "artwork": {
+      "standard": "/assets/cards/claude-bizave/illustration.f41d04e5fc.webp",
+      "fullArt": "/assets/cards/claude-bizave/illustration.f41d04e5fc.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "chatgpt-bizave",
+    "title": "ChatGPT BIZAVE",
+    "rarity": "legendary",
+    "collectionId": "speciaux",
+    "description": "Directeur des opérations (COO) de la BIZAVE Corp.",
+    "artwork": {
+      "standard": "/assets/cards/chatgpt-bizave/illustration.706c5dae3e.webp",
+      "fullArt": "/assets/cards/chatgpt-bizave/illustration.706c5dae3e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "salvatore-buisson",
+    "title": "Salvatore et le buisson",
+    "rarity": "epic",
+    "collectionId": "groupes",
+    "description": "Le buisson garde ses secrets. Le cousin, un peu moins.",
+    "artwork": {
+      "standard": "/assets/cards/salvatore-buisson/illustration.7dd8f40ceb.webp",
+      "fullArt": "/assets/cards/salvatore-buisson/illustration.7dd8f40ceb.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "crotte-buisson",
+    "title": "La crotte du buisson",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "Une crotte derrière les buissons… qui a bien pu laisser ça là ?",
+    "artwork": {
+      "standard": "/assets/cards/crotte-buisson/illustration.eb2e416df6.webp",
+      "fullArt": "/assets/cards/crotte-buisson/illustration.eb2e416df6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "m-correspondant",
+    "title": "Matthieu correspondant",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "¡Hola amigo! Aujourd'hui, j'ai… euh, comment on dit ça en espagnol ?",
+    "artwork": {
+      "standard": "/assets/cards/m-correspondant/illustration.85edd86585.webp",
+      "fullArt": "/assets/cards/m-correspondant/illustration.85edd86585.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
   }
 ]

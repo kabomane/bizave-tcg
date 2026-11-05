@@ -7,5 +7,6 @@ export default tseslint.config(
   { ignores: ['dist', 'node_modules', '.local', 'references', 'test-results*', 'playwright-report', 'artifacts'] },
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  { files: ['public/**/*.js'], languageOptions: { globals: globals.browser } },
   { files: ['**/*.{ts,tsx}'], languageOptions: { globals: { ...globals.browser, ...globals.node } }, plugins: { 'react-hooks': hooks, 'react-refresh': refresh }, rules: { ...hooks.configs.recommended.rules, 'react-refresh/only-export-components': ['warn', { allowConstantExport: true }] } },
 )

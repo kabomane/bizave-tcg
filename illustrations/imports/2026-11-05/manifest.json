@@ -1,0 +1,103 @@
+{
+  "date": "2026-11-05",
+  "references": [
+    "references/carnet-memory-frame-2026-11-05.jsx"
+  ],
+  "illustrations": [
+    {
+      "cardId": "claude-bizave",
+      "title": "Claude BIZAVE",
+      "sourceEntry": "claude_bizave.png",
+      "original": {
+        "path": "illustrations/originals/claude-bizave.png",
+        "sha256": "c8ebb74ecd390ecae6641f0d4d789bd2195f007a15bbdf824f3b713015a63c38",
+        "bytes": 3461525,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/claude-bizave/illustration.f41d04e5fc.webp",
+        "sha256": "f41d04e5fc5fb910d3dedd476bb30e0bd62062929e6e5ca7dd9d14e92aff7706",
+        "bytes": 133932,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "chatgpt-bizave",
+      "title": "ChatGPT BIZAVE",
+      "sourceEntry": "chatgpt_bizave.png",
+      "original": {
+        "path": "illustrations/originals/chatgpt-bizave.png",
+        "sha256": "989d28878729d12acd4bff75683cc9c8f99034fc80a87a232dbe03f082a63d01",
+        "bytes": 3266744,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/chatgpt-bizave/illustration.706c5dae3e.webp",
+        "sha256": "706c5dae3ea858918326ca4a006a7569e02f22528dc08d22155b90ddc2bfa9b5",
+        "bytes": 116876,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "salvatore-buisson",
+      "title": "Salvatore et le buisson",
+      "sourceEntry": "salvatore_le_buisson.png",
+      "original": {
+        "path": "illustrations/originals/salvatore-buisson.png",
+        "sha256": "dbb2524dd7130cd1f4d4e3f6dc791325a63210378a1891ecd18f91f931937831",
+        "bytes": 4020268,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/salvatore-buisson/illustration.7dd8f40ceb.webp",
+        "sha256": "7dd8f40ceb69055f8e32e1e70089a7c16587ee8514d93446809dc9bc40b95aa5",
+        "bytes": 226704,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "crotte-buisson",
+      "title": "La crotte du buisson",
+      "sourceEntry": "crotte_du_buisson.png",
+      "original": {
+        "path": "illustrations/originals/crotte-buisson.png",
+        "sha256": "5cb64d272bd0e936546b85d6ccf8a3865fbe90ceb02c1b61e7e9f75d7524f5a2",
+        "bytes": 3760277,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/crotte-buisson/illustration.eb2e416df6.webp",
+        "sha256": "eb2e416df6095fe218db340a6e447b00d232a89143e845f67346095e79f25f18",
+        "bytes": 140372,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-correspondant",
+      "title": "Matthieu correspondant",
+      "sourceEntry": "matthieu_correspondant.png",
+      "original": {
+        "path": "illustrations/originals/m-correspondant.png",
+        "sha256": "b238277533bd8ec223dc87a64dbfa560c0c039829754933d396706db3f2fa200",
+        "bytes": 3142723,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-correspondant/illustration.85edd86585.webp",
+        "sha256": "85edd865851cd1a31fc537ba15fbb5c74388f9074321a9e6eddc1212a31df182",
+        "bytes": 271818,
+        "width": 900,
+        "height": 1200
+      }
+    }
+  ]
+}

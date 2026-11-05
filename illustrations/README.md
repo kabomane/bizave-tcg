@@ -15,7 +15,17 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **302 cartes**, toutes **illustrées en WebP versionné**. Les 302 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **309 cartes**, toutes **illustrées en WebP versionné**. Les 309 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 5 novembre 2026
+
+Cinq PNG fournis séparément ajoutent **Claude BIZAVE**, **ChatGPT BIZAVE**, **Salvatore et le buisson**, **La crotte du buisson** et **Matthieu correspondant** à Memory Frame (166 cartes). Les descriptions, groupes et raretés suivent `references/carnet-memory-frame-2026-11-05.jsx` ; les consignes de création ne sont pas exécutées. Les IDs sont ajoutés en fin d’ordre global, numéros 305 à 309.
+
+Les originaux sont copiés à l’identique, puis convertis avec les paramètres existants : WebP 900 × 1200, qualité 85, sRGB. Classique et Full Art partagent chaque illustration, cadrée en haut pour conserver les visages. Le manifeste `imports/2026-11-05/manifest.json` consigne les noms fournis, dimensions et empreintes SHA-256 des PNG et WebP. Les anciennes cartes et illustrations sont conservées. Version 1.4.2, compteur de mise à jour 6 et note inchangés.
+
+## Import du 2 novembre 2026
+
+**Eli veilleuse de nuit** et **Nana Office Lady** ajoutées à Memory Frame (161 cartes à cette date), avec leurs illustrations et descriptions du carnet. Le manifeste `imports/2026-11-02/manifest.json` consigne les deux PNG et WebP. Catalogue de 304 cartes à cette date.
 
 ## Import du 1er novembre 2026
 
