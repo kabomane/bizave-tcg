@@ -1,5 +1,16 @@
 # Validation — bizave-tcg.v1.4.2
 
+## Ajout de cinq cartes et publication — 6 novembre 2026
+
+- Version **1.4.2**, `UPDATE_VERSION = 6` et note existante inchangées ; aucun changement de schéma ou de taux.
+- Cinq cartes du carnet du 5 novembre importées avec leurs descriptions, groupes, raretés et illustrations. Numéros 305 à 309 ajoutés en fin d’ordre ; Memory Frame 166, Anima Isekai 143, epico stellari 55, rarity only 53, catalogue 309 modèles illustrés.
+- Les 304 anciennes définitions, leurs numéros, le préfixe du pool Memory Frame et les empreintes SHA-256 des 304 illustrations précédentes sont inchangés. Les cinq PNG locaux correspondent aux sources fournies ; les WebP et leurs empreintes sont consignés dans `illustrations/imports/2026-11-05/manifest.json`.
+- `npm run check` réussi : ESLint, 226 tests Vitest dans 29 fichiers, TypeScript et build de production. Totaux du catalogue et valeur globale de recyclage actualisés dans les tests. Configuration ESLint corrigée pour les variables navigateur de `public/landing.js`, auparavant non déclarées.
+- Sept parcours Chromium réussis : ouverture et reprise, collection et filtres, responsive, clavier et mouvement réduit, échanges signés avec antirejeu, epico stellari et rarity only. Le test d’échange utilise désormais le dialogue et les métadonnées de l’aperçu actuel, au lieu de l’ancien dialogue « Carte reçue ». Suite E2E complète et autres moteurs non relancés pour cet ajout.
+- Rendu des cinq cartes inspecté en Classique et Full Art : dix aperçus mobile 390 × 844 et collection ordinateur, images décodées et descriptions exactes, aucune erreur navigateur. Captures dans `.local/import-2026-11-05/`, hors Git. Dix-huit liens Markdown locaux vérifiés dans les cinq documents concernés.
+- Firebase Hosting déployé sur `bizave-tcg`. Build technique `101c8d4e-652f-4981-9dd6-a958f6c6795d`. Onze ressources comparées au build local par SHA-256 sur chacun des domaines `https://bizave-tcg.web.app` et `https://bizave-tcg.kabomane.me` : HTML, manifeste, ressources d’entrée et cinq nouvelles illustrations ; toutes identiques.
+- Contrôle Chromium du site publié : compteurs des quatre paquets 166 / 143 / 53 / 55, version 1.4.2, notification 6, catalogue de développement désactivé et aucune erreur d’exécution.
+
 ## Publication 1.4.2 — 4 novembre 2026
 
 - Firebase Hosting publié sur https://bizave-tcg.web.app, avec le build validé ci-dessous. Manifeste public identique au build local `5a6da5d3-5fe4-4e1e-9ca1-f2c15909e007`.
