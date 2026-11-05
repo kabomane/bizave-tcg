@@ -1,5 +1,9 @@
 # Codes cadeaux hors ligne
 
+## Lot découverte du 5 novembre 2026
+
+Dix codes ont été ajoutés : deux donnant chacun **2 Memory Frame**, deux donnant chacun **2 Anima Isekai**, deux donnant chacun **2 epico stellari**, deux donnant chacun **2 rarity only**, et deux donnant chacun **200 fragments**. Ils expirent le **1er janvier 2027 à 00 h, heure de Paris**, soit le 31 décembre 2026 à 23 h UTC. La liste de distribution reste privée dans `.local/gift-codes/landing-2026-11-05.md`. Chaque code reste utilisable une seule fois par sauvegarde. Les codes ne sont pas affichés sur la landing.
+
 Dans **Options**, la section **Code cadeau** suit **Collection** et précède **Don des cartes**. Un code contient 16 caractères aléatoires, présentés en quatre groupes. La saisie accepte uniquement les lettres ASCII minuscules et majuscules, les chiffres et le tiret du milieu (-). Tous les autres caractères sont retirés à la saisie et au collage avant d’appliquer la limite de 16 caractères utiles et 19 caractères affichés (les trois séparateurs compris). Le texte sous le champ affiche l’aide au départ, puis la récompense ou l’erreur à la même place ; modifier la saisie réaffiche l’aide. Les codes expirent par défaut 24 h après leur génération. Une date explicite peut remplacer cette durée. Les anciens codes sans expiration ont été retirés du catalogue actif.
 
 Le catalogue public `src/data/gift-codes.json` contient les empreintes SHA-256, les récompenses et les horodatages issuedAt / expiresAt. L’empreinte porte sur le domaine `BizaveTCG/GiftCode/v1\n` suivi du code canonique, sans séparateurs et en majuscules. L’alphabet de 32 caractères exclut I, O, 0 et 1 ; les 16 symboles sont tirés uniformément par le générateur cryptographique de Node, soit 80 bits d’entropie. Il n’y a ni clé secrète dans le navigateur, ni serveur applicatif, ni signature à transporter dans chaque code.

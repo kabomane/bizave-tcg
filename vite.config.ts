@@ -10,6 +10,20 @@ export default defineConfig(({ mode }) => {
   return {
   define: { __APP_BUILD_ID__: JSON.stringify(buildId) },
   plugins: [react(), tailwindcss(), {
+    name: 'unlisted-landing',
+    configureServer(server) {
+      server.middlewares.use((request, _response, next) => {
+        if (request.url && /^\/landing\/?(?:\?|$)/.test(request.url)) request.url = request.url.replace(/^\/landing\/?/, '/landing.html')
+        next()
+      })
+    },
+    configurePreviewServer(server) {
+      server.middlewares.use((request, _response, next) => {
+        if (request.url && /^\/landing\/?(?:\?|$)/.test(request.url)) request.url = request.url.replace(/^\/landing\/?/, '/landing.html')
+        next()
+      })
+    },
+  }, {
     name: 'build-version',
     generateBundle() { this.emitFile({ type: 'asset', fileName: 'version.json', source: manifest }) },
     configureServer(server) {

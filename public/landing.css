@@ -1,0 +1,23 @@
+/* Additions to the supplied landing; its card rendering and editorial layout stay isolated. */
+.spoiler-controls { display:flex; flex-direction:column; align-items:center; gap:10px; padding:8px 0 20px; text-align:center; }
+.spoiler-toggle { display:inline-flex; align-items:center; gap:11px; min-height:46px; padding:10px 16px; border:1px solid var(--line); border-radius:30px; background:var(--raised); cursor:pointer; font-size:13px; }
+.spoiler-toggle input { width:18px; height:18px; margin:0; accent-color:var(--accent); cursor:inherit; }
+.spoiler-toggle:has(input:focus-visible) { outline:2px solid var(--accent); outline-offset:4px; }
+.spoiler-controls p { margin:0; font-size:12px; line-height:1.6; color:var(--muted); }
+.play-link { display:inline-flex; align-items:center; justify-content:center; gap:16px; min-height:48px; padding:14px 24px; margin-top:32px; border-radius:30px; background:var(--accent); color:var(--raised); font-size:13px; text-decoration:none; }
+.play-link:hover { background:color-mix(in srgb, var(--accent), #000 12%); }
+.play-link:focus-visible { outline:2px solid var(--accent); outline-offset:5px; }
+.join .wrap { text-align:center; }
+svg { flex-shrink:0; }
+@media (max-width:640px) {
+  .spoiler-controls { padding-top:0; }
+  .filters { flex-wrap:wrap; }
+  .shield { align-items:flex-start; line-height:1.6; }
+  .shield svg { margin-top:3px; }
+}
+@media (max-width:359px) {
+  .grid .cs { --w:130; }
+  .tile-cap { width:130px; }
+}
+
+.custom-art.art-placeholder { background-image:url(/assets/landing/illustration-placeholder.svg); }

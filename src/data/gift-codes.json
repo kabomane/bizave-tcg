@@ -1,1 +1,100 @@
-[]
+[
+  {
+    "codeHash": "2270b3ab22c5fe34eee8cf2c09205266360773e0afa5d14bdd56551d444f87d5",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2
+    },
+    "issuedAt": 1793876619833,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "f284284a0857fa70d9ce9324e0b644a934290c74b54d6ca95ffaa9003f434a93",
+    "reward": {
+      "type": "booster",
+      "boosterId": "phantom-blood",
+      "quantity": 2
+    },
+    "issuedAt": 1793876619833,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "0a9cdfa2a0a866efe666dbd0b31008d76034539defec6dac781e849f29a6e0de",
+    "reward": {
+      "type": "booster",
+      "boosterId": "anima-isekai",
+      "quantity": 2
+    },
+    "issuedAt": 1793876620004,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "c977278fdc34a6eda3f6c3c64c826311817e4f1565edff1ccec04a7cbcb6e40c",
+    "reward": {
+      "type": "booster",
+      "boosterId": "anima-isekai",
+      "quantity": 2
+    },
+    "issuedAt": 1793876620004,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "974039667e83588cea1fc83f4002e2d13943ebc6566f65c3b6f39f9849e7010e",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    },
+    "issuedAt": 1793876620181,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "200dc73efd2ccdcca78acf3c5c3afe4e431a4736e6d2573a901e05549d621221",
+    "reward": {
+      "type": "booster",
+      "boosterId": "epico-stellari",
+      "quantity": 2
+    },
+    "issuedAt": 1793876620181,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "a23ebb9a1b525b5595498801a2255132b19c892eaf80f82a57052ada3b81fec2",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 2
+    },
+    "issuedAt": 1793876620344,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "df81e7d89b983764cfdc73cd176f067847975ba93fe2fb1a2bd44603a0731c85",
+    "reward": {
+      "type": "booster",
+      "boosterId": "rarity-only",
+      "quantity": 2
+    },
+    "issuedAt": 1793876620344,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "2a0ecff39b0ca80bbfd5f96182a7972b672829d73a306532dc9b8ac4b2a30744",
+    "reward": {
+      "type": "fragments",
+      "amount": 200
+    },
+    "issuedAt": 1793876620499,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "ad0811257a4879c3514dd677db1231d1d8ea30da7c606b1cf82c9b985a7307ac",
+    "reward": {
+      "type": "fragments",
+      "amount": 200
+    },
+    "issuedAt": 1793876620499,
+    "expiresAt": 1798758000000
+  }
+]
