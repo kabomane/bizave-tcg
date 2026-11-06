@@ -1,12 +1,12 @@
-# bizave-tcg.v1.4.2
+# bizave-tcg.v1.4.3
 
-Version **bizave-tcg.v1.4.2** de **Bizave TCG**. Quatre boosters : **Memory Frame**, 166 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 55 cartes partagées, et **rarity only**, les 53 rares du catalogue. Le catalogue compte 309 modèles, tous illustrés.
+Version **bizave-tcg.v1.4.3** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 166 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 55 cartes partagées, et **rarity only**, les 53 rares du catalogue. Le catalogue compte 309 modèles, tous illustrés.
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
-## Version 1.4.2 — 4 novembre 2026
+## Version 1.4.3 — 7 novembre 2026
 
-Réception des fragments en plein écran avec carte inclinable et solde animé. Croix de fermeture à droite par défaut, option Droitier / Gaucher mémorisée localement. Chiffres du solde alignés. Le compteur de notification reste à 6 avec la note existante. Détails : [version 1.4.2](docs/releases/bizave-tcg.v1.4.2.md).
+Refonte de la boutique, ajout de la boutique hebdomadaire plus souple sur les taux de drop. Lucky boost et 1 à 5 cartes personnelles se renouvellent chaque lundi, dans la même page que les boosters permanents. Le compteur de notification passe à 7. Détails : [version 1.4.3](docs/releases/bizave-tcg.v1.4.3.md).
 
 ## Éditions actuelles
 
@@ -166,7 +166,7 @@ Chaque build publie un identifiant technique indépendant des notes. Un bandeau 
 
 ### Page de mise à jour
 
-`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 6) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note écrite en dur. L’ajout des cinq cartes du 5 novembre 2026 conserve la version 1.4.2, le compteur 6 et la note existante. Le push Firebase ne change pas automatiquement ce compteur.
+`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 7) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note écrite en dur. La version 1.4.3 annonce la refonte de la boutique avec le compteur 7 et sa nouvelle note. Le push Firebase ne change pas automatiquement ce compteur.
 
 Au chargement uniquement, avant l’initialisation de la sauvegarde, l’app distingue un nouveau joueur d’une partie déjà existante. Un nouveau joueur sans clé reçoit directement le compteur actuel dans `localStorage.updated` et entre dans le jeu. Un joueur existant dont `updated` est absent, invalide ou inférieur au compteur passe par `/mise-a-jour`. Cette page autonome affiche « Bizave TCG a été mis à jour », la note et un bouton Continuer centré en bas. Continuer mémorise le compteur et redirige vers Boosters ; recharger avant confirmation présente à nouveau la page. Une valeur supérieure au compteur courant est conservée, notamment en cas de retour à une ancienne version.
 
@@ -174,7 +174,7 @@ La clé `updated` reste hors d’IndexedDB et des transferts de sauvegarde. Aucu
 
 Quand les outils de développement sont disponibles (`VITE_DEV_CATALOG`), Options propose un interrupteur **Page de mise à jour**, identique au Mode dev : activé, il remet `updated` à 0 ; désactivé, il mémorise le compteur actuel. Aucune navigation immédiate : recharger permet de tester la page. Comme le Mode dev, cet interrupteur est masqué dans le build de production actuel.
 
-Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 10 : les codes envoyés distinguent cartes et fragments ; les envois existants sont migrés en cartes, sans changer leurs codes. La base canonique reste bizave-tcg. Les cartes détenues, fragments et ouvertures en cours sont conservés. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
+Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 11 : il ajoute la boutique hebdomadaire personnelle dans `weeklyShop` (sur `/boutique`). Les achats ne créent plus de journal ; `boosterPurchases` reste vide pendant la période de compatibilité. Voir [la boutique hebdomadaire](docs/boutique-hebdomadaire.md) et [le patch temporaire](docs/patch-booster-purchase-history.md). La base canonique reste bizave-tcg. Les cartes détenues, fragments et ouvertures en cours sont conservés. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
 
 Une variante est `(cardId, finish, artVariant)`. Un exemplaire possède un `dropId` UUID v4 permanent. Les découvertes restent enregistrées après recyclage ou envoi. Les statuts `outgoing` et `recycled` empêchent les réutilisations incohérentes.
 
@@ -304,7 +304,7 @@ Le journal détaillé recycling n’est plus alimenté ; sa table reste vide pou
 
 ## Base canonique unique (issue GitHub #1)
 
-Le nom de base reste désormais `bizave-tcg` ; les évolutions passent par les migrations Dexie, jamais par un nouveau nom. La table `version` contient `{ id: local, schemaVersion: 10, ready: true }` après initialisation ou copie validée. Elle est également initialisée pour les nouveaux joueurs et conservée pour les comptes exportés. Cette métadonnée technique est locale à la base, hors du fichier de sauvegarde ; les imports la remettent à jour.
+Le nom de base reste désormais `bizave-tcg` ; les évolutions passent par les migrations Dexie, jamais par un nouveau nom. La table `version` contient `{ id: local, schemaVersion: 11, ready: true }` après initialisation ou copie validée. Elle est également initialisée pour les nouveaux joueurs et conservée pour les comptes exportés. Cette métadonnée technique est locale à la base, hors du fichier de sauvegarde ; les imports la remettent à jour.
 
 Le patch temporaire `src/storage/patches/legacyDatabase.ts` est appelé une fois au boot, avant toute lecture de la partie et le test de mise à jour. Si bizave-tcg-v2 existe, il conserve cette source pendant la copie, remplace l’ancienne base canonique obsolète, copie toutes les tables et vérifie les données, y compris la clé privée par signature. Le marqueur ready est écrit dans la même transaction que la copie. La source v2 est supprimée seulement après validation et commit. Une copie interrompue est reprise au prochain chargement depuis la source intacte. Une base canonique déjà validée reste prioritaire si un ancien client recrée une v2 obsolète. Les copies sont sérialisées entre onglets via Web Locks et verrou transactionnel.
 

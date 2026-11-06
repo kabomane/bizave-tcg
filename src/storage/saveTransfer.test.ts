@@ -9,6 +9,7 @@ import { pruneOutbox } from '../exchanges/outbox'
 import { DEFAULT_PREFERENCES } from '../settings/preferences'
 import { ensureInstallation } from './installation'
 import { uuid, variantKey } from '../game/engine'
+import { refreshWeeklyShop } from './weeklyShop'
 
 let source: BizaveDatabase, target: BizaveDatabase
 beforeEach(async () => {
@@ -39,6 +40,35 @@ async function seed() {
 const exportToTarget = async () => exportSave((await ensureInstallation(target)).installationId, DEFAULT_PREFERENCES, source)
 
 describe('migration de sauvegarde', () => {
+  it('transfère la boutique de test avec ses stocks et ses offres', async () => {
+    await seed()
+    const current = await refreshWeeklyShop(source)
+    current.booster.stock = 2; current.booster.remaining = 1; current.booster.owned = 1
+    await source.weeklyShop.put(current)
+    const contents = await exportToTarget()
+    expect((await parseSaveFile(contents)).payload.tables.weeklyShop).toEqual([current])
+    await importSave(contents, target)
+    expect(await target.weeklyShop.get('current')).toEqual(current)
+    expect((await target.player.get('local'))?.fragments).toBe(273)
+  })
+  it('accepte un ancien journal signé puis le nettoie sans modifier le fichier ni les possessions', async () => {
+    await seed()
+    const identity = await ensureIdentity(source)
+    const envelope = JSON.parse(await exportToTarget()), payload = JSON.parse(envelope.payload)
+    payload.schemaVersion = 10; payload.tables.player[0].schemaVersion = 10; delete payload.tables.weeklyShop
+    payload.tables.boosterPurchases = [{ id: uuid(), boosterId: 'phantom-blood', boosterTitle: 'Memory Frame', unitPrice: 70, fragmentsSpent: 70, createdAt: 1 }]
+    envelope.payload = JSON.stringify(payload)
+    envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
+    const contents = JSON.stringify(envelope)
+    const parsed = await parseSaveFile(contents)
+    expect(parsed.payload.tables.boosterPurchases).toHaveLength(1)
+    await importSave(contents, target)
+    expect(await target.boosterPurchases.count()).toBe(0)
+    expect((await target.boosterStock.get('phantom-blood'))?.quantity).toBe(3)
+    expect((await target.player.get('local'))?.fragments).toBe(273)
+    expect(parsed.payload.tables.boosterPurchases).toHaveLength(1)
+    expect((await parseSaveFile(contents)).contents).toBe(contents)
+  })
   it('exporte et importe les codes de fragments avec le solde débité et les deux registres antirejeu', async () => {
     await seed()
     const row = await sendFragments(80, (await ensureIdentity(target)).playerUuid, source)
@@ -56,13 +86,13 @@ describe('migration de sauvegarde', () => {
     await seed()
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget()), payload = JSON.parse(envelope.payload)
-    payload.schemaVersion = 9; payload.tables.player[0].schemaVersion = 9
+    payload.schemaVersion = 9; payload.tables.player[0].schemaVersion = 9; delete payload.tables.weeklyShop
     for (const row of payload.tables.outbox) delete row.kind
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     await importSave(JSON.stringify(envelope), target)
     expect((await target.outbox.toArray())[0]).toMatchObject({ kind: 'card', code: 'TR2.YWJj' })
-    expect((await target.player.get('local'))?.schemaVersion).toBe(10)
+    expect((await target.player.get('local'))?.schemaVersion).toBe(11)
   })
   it('refuse les incohérences de type, montant et préfixe dans les envois sauvegardés', async () => {
     await seed()
@@ -245,7 +275,7 @@ describe('migration de sauvegarde', () => {
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget())
     const payload = JSON.parse(envelope.payload)
-    payload.schemaVersion = 5; payload.tables.player[0].schemaVersion = 5
+    payload.schemaVersion = 5; payload.tables.player[0].schemaVersion = 5; delete payload.tables.weeklyShop
     delete payload.tables.recycledCards
     delete payload.tables.favorites
     delete payload.tables.usedGiftCodes
@@ -254,7 +284,7 @@ describe('migration de sauvegarde', () => {
     const gift = { codeHash: 'c'.repeat(64), redeemedAt: 1 }
     await target.usedGiftCodes.add(gift)
     await importSave(JSON.stringify(envelope), target)
-    expect((await target.player.get('local'))?.schemaVersion).toBe(10)
+    expect((await target.player.get('local'))?.schemaVersion).toBe(11)
     expect(await target.usedGiftCodes.toArray()).toEqual([gift])
     await expect(exportSave('1234-56-78', DEFAULT_PREFERENCES, target)).resolves.toBeTypeOf('string')
   })
@@ -263,12 +293,12 @@ describe('migration de sauvegarde', () => {
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget())
     const payload = JSON.parse(envelope.payload)
-    payload.schemaVersion = schemaVersion; payload.tables.player[0].schemaVersion = schemaVersion
+    payload.schemaVersion = schemaVersion; payload.tables.player[0].schemaVersion = schemaVersion; delete payload.tables.weeklyShop
     if (schemaVersion === 7) delete payload.tables.recycledCards
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     await importSave(JSON.stringify(envelope), target)
-    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 10, ready: true })
+    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 11, ready: true })
   })
 
   it('rejette un registre de cadeaux mal formé, dupliqué ou manquant dans un fichier récent', async () => {
@@ -313,7 +343,7 @@ describe('suppression du compte', () => {
     const after = await ensureIdentity(source)
     expect(after.playerUuid).not.toBe(before.playerUuid)
     expect(after.signingPublicJwk).not.toEqual(before.signingPublicJwk)
-    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 10 })
+    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 11 })
     for (const table of source.tables.filter(t => !['player', 'identity', 'definitions', 'accountState', 'installation', 'version'].includes(t.name))) expect(await table.count(), table.name).toBe(0)
     expect(await source.accountState.get('local')).toEqual({ id: 'local', status: 'active', preferences: DEFAULT_PREFERENCES })
   })

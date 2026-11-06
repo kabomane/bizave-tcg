@@ -136,7 +136,7 @@ it('migre les envois v9 en cartes sans modifier leurs codes ou leur solde', asyn
   try {
     await migrated.open()
     expect(await migrated.outbox.get(old.transferId)).toEqual({ ...old, kind: 'card' })
-    expect(await migrated.player.get('local')).toMatchObject({ fragments: 300, schemaVersion: 10 })
-    expect(await migrated.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 10, ready: true })
+    expect(await migrated.player.get('local')).toMatchObject({ fragments: 300, schemaVersion: 11 })
+    expect(await migrated.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 11, ready: true })
   } finally { await migrated.delete() }
 })

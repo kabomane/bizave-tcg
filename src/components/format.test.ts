@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { copyPromisedText, formatDuration } from './format'
+import { copyPromisedText, formatDuration, formatShopCountdown } from './format'
 
 afterEach(() => vi.unstubAllGlobals())
 describe('copie créée pendant le geste utilisateur', () => {
@@ -34,4 +34,13 @@ describe('durées de recharge et d’envoi', () => {
     expect(formatDuration(ms, { hours: false })).toBe(short)
     expect(formatDuration(ms, { hours: true })).toBe(long)
   })
+})
+
+it('affiche jours/heures/minutes puis heures/minutes/secondes sous un jour', () => {
+  expect(formatShopCountdown(2 * 86400_000 + 3600_000 + 12 * 60_000)).toBe('02:01:12')
+  expect(formatShopCountdown(3600_000)).toBe('01:00:00')
+  expect(formatShopCountdown(3599_000)).toBe('00:59:59')
+  expect(formatShopCountdown(60_000)).toBe('00:01:00')
+  expect(formatShopCountdown(9_000)).toBe('00:00:09')
+  expect(formatShopCountdown(-1)).toBe('00:00:00')
 })

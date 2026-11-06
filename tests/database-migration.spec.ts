@@ -63,11 +63,11 @@ test('une seule base canonique après migration, identité et ouverture conserv�
     return { names: (await indexedDB.databases()).map(database => database.name), player: await db.player.get('local'), identity: await db.identity.get('local'), installation: await db.installation.get('local'), opening: await db.openings.toArray(), version: await db.versionInfo.get('local') }
   })
   expect(actual.names.filter((name: string | undefined) => name === 'bizave-tcg' || name === 'bizave-tcg-v2')).toEqual(['bizave-tcg'])
-  expect(actual.player).toMatchObject({ fragments: 735, freePackStock: 4, schemaVersion: 10 })
+  expect(actual.player).toMatchObject({ fragments: 735, freePackStock: 4, schemaVersion: 11 })
   expect(actual.identity.playerUuid).toBe(expected.playerUuid)
   expect(actual.installation.installationId).toBe(expected.installationId)
   expect(actual.opening[0].id).toBe(expected.openingId)
-  expect(actual.version).toEqual({ id: 'local', schemaVersion: 10, ready: true })
+  expect(actual.version).toEqual({ id: 'local', schemaVersion: 11, ready: true })
   await page.reload()
   await expect(page.getByRole('button', { name: 'Révéler la première carte', exact: true })).toBeVisible()
 })
@@ -80,5 +80,5 @@ test('un nouveau joueur possède seulement bizave-tcg et son entrée version', a
     return { names: (await indexedDB.databases()).map(database => database.name), version: await db.versionInfo.get('local') }
   })
   expect(actual.names.filter((name: string | undefined) => name === 'bizave-tcg' || name === 'bizave-tcg-v2')).toEqual(['bizave-tcg'])
-  expect(actual.version).toEqual({ id: 'local', schemaVersion: 10, ready: true })
+  expect(actual.version).toEqual({ id: 'local', schemaVersion: 11, ready: true })
 })

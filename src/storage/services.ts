@@ -9,6 +9,9 @@ import { assertAccountActive } from './accountGuard'
 import { ensureInstallation } from './installation'
 import { pruneFavorites } from '../collection/favorites'
 import { patchSoireeFilm3Rarity } from './patches/soireeFilm3Rarity'
+import { clearBoosterPurchaseHistory } from './patches/boosterPurchaseHistory'
+import { settleWeeklyShop } from './weeklyShop'
+import { WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
 
 export async function initializeDatabase(database = db, now = Date.now()) {
   validateConfiguration(cards, boosters)
@@ -22,6 +25,7 @@ export async function initializeDatabase(database = db, now = Date.now()) {
     return true
   })
   if (!active) return
+  await clearBoosterPurchaseHistory(database)
   await database.openings.filter(opening => opening.revealComplete === true).delete()
   // Archived snapshots are never deleted; removed models still have a definition.
   for (const definition of await database.definitions.toArray()) if (!cardById.has(definition.id)) cardById.set(definition.id, definition)
@@ -33,11 +37,12 @@ export async function initializeDatabase(database = db, now = Date.now()) {
 }
 function observedTime(player: PlayerStateRow, now: number) { return Math.max(now, player.maxObservedClockAt ?? now) }
 export async function refreshRecharge(database = db, now = Date.now()) {
-  return database.transaction('rw', [database.player, database.accountState], async () => {
+  return database.transaction('rw', [database.player, database.accountState, database.weeklyShop], async () => {
     await assertAccountActive(database)
     const raw = await database.player.get('local')
     if (!raw) throw new Error('La sauvegarde locale est indisponible.')
     const time = observedTime(raw, now)
+    await settleWeeklyShop(database, time)
     const next = { ...settleFreePackRecharge(raw, time), maxObservedClockAt: time }
     if (raw.freePackStock !== next.freePackStock || raw.nextFreePackAt !== next.nextFreePackAt || time - raw.maxObservedClockAt > 60_000) await database.player.put(next)
     return next
@@ -53,7 +58,7 @@ export async function buyBooster(boosterId: string, database = db, now = Date.no
   if (!booster || !offer || offer.listed === false) throw new Error('Ce booster n’est pas disponible en boutique.')
   const price = offer.price
   if (!Number.isSafeInteger(price) || price <= 0) throw new Error('Le prix de ce booster est invalide.')
-  return database.transaction('rw', [database.player, database.boosterStock, database.boosterPurchases, database.accountState], async () => {
+  return database.transaction('rw', [database.player, database.boosterStock, database.accountState], async () => {
     await assertAccountActive(database)
     const player = await database.player.get('local')
     if (!player) throw new Error('La sauvegarde locale est indisponible.')
@@ -64,14 +69,11 @@ export async function buyBooster(boosterId: string, database = db, now = Date.no
     const purchase: BoosterPurchaseRow = { id: uuid(), boosterId, boosterTitle: booster.title, unitPrice: price, fragmentsSpent: price, createdAt: time }
     await database.player.put({ ...player, fragments: player.fragments - price, maxObservedClockAt: time })
     await database.boosterStock.put({ boosterId, quantity: quantity + 1, updatedAt: time })
-    await database.boosterPurchases.add(purchase)
     return purchase
   })
 }
 export async function openBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = boosters) {
-  const booster = boosterDefinitions.find(b => b.id === boosterId && b.enabled)
-  if (!booster) throw new Error('Ce booster est indisponible.')
-  return database.transaction('rw', [database.player, database.drops, database.discoveries, database.openings, database.boosterStock, database.accountState], async () => {
+  return database.transaction('rw', [database.player, database.drops, database.discoveries, database.openings, database.boosterStock, database.accountState, database.weeklyShop], async () => {
     await assertAccountActive(database)
     // A committed but unrevealed opening takes precedence: refresh never rerolls.
     const pending = await database.openings.filter(opening => !opening.revealComplete).first()
@@ -79,9 +81,18 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
     const raw = await database.player.get('local')
     if (!raw) throw new Error('La sauvegarde locale est indisponible.')
     const time = observedTime(raw, now)
+    const weekly = boosterId === WEEKLY_BOOSTER_ID ? await database.weeklyShop.get('current') : undefined
+    if (weekly && time >= weekly.rerollAt) throw new Error('Ce booster de la semaine a expiré.')
+    const booster = weekly?.booster.definition ?? boosterDefinitions.find(b => b.id === boosterId && b.enabled)
+    if (!booster) throw new Error('Ce booster est indisponible.')
     let player = { ...settleFreePackRecharge(raw, time), maxObservedClockAt: time }
     let payment: OpenRecord['payment'] = 'shop'
-    if (booster.access.type === 'free' && player.freePackStock > 0) {
+    if (weekly) {
+      if (weekly.booster.owned < 1) throw new Error('Vous ne possédez aucun exemplaire de ce booster.')
+      weekly.booster.owned--
+      await database.weeklyShop.put(weekly)
+    }
+    else if (booster.access.type === 'free' && player.freePackStock > 0) {
       player = consumeFreePack(player, time)
       payment = 'free'
     }

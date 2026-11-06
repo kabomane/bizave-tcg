@@ -101,7 +101,7 @@ it('compacte un fichier signé du schéma 7 et considère sa provenance comme in
   const identity = await ensureIdentity(db)
   const envelope = JSON.parse(await exportSave((await ensureInstallation(other)).installationId, DEFAULT_PREFERENCES, db))
   const payload = JSON.parse(envelope.payload)
-  payload.schemaVersion = 7; payload.tables.player[0].schemaVersion = 7; delete payload.tables.recycledCards
+  payload.schemaVersion = 7; payload.tables.player[0].schemaVersion = 7; delete payload.tables.weeklyShop; delete payload.tables.recycledCards
   payload.tables.drops.push(recycled)
   payload.tables.recycling.push({ id: crypto.randomUUID(), createdAt: 1, dropIds: [recycled.dropId], fragmentsGained: 1 })
   envelope.payload = JSON.stringify(payload)
@@ -131,6 +131,6 @@ it('compacte une sauvegarde du schéma 7 sans toucher aux cartes possédées ni 
     expect(await upgraded.recycledCards.toArray()).toEqual([{ dropId: recycled.dropId }])
     expect(await upgraded.recycling.count()).toBe(0)
     expect(await upgraded.usedTransfers.get(transfer.transferId)).toEqual(transfer)
-    expect(await upgraded.player.get('local')).toMatchObject({ fragments: 123, schemaVersion: 10 })
+    expect(await upgraded.player.get('local')).toMatchObject({ fragments: 123, schemaVersion: 11 })
   } finally { await upgraded.delete() }
 })

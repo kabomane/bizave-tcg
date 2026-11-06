@@ -68,7 +68,7 @@ function ActiveApp() {
     { to: '/atelier', label: 'Atelier', icon: <Recycle size={19} /> },
     { to: '/echanges', label: 'Amis', icon: <Users size={19} /> },
   ]
-  const currentSection = (to: string) => pathname === to || (to === '/' && pathname === '/boutique')
+  const currentSection = (to: string) => pathname === to || (to === '/' && pathname.replace(/\/$/, '') === '/boutique')
   return <GameContext.Provider value={context}><CardSvgDefinitions /><div className="app-shell">
     <header className="site-header"><Link to="/parametres" className="brand" aria-label={optionsView ? 'Option TCG, paramètres' : 'Bizave TCG, paramètres'}>{optionsView ? 'option' : 'bizave'}<span>TCG</span><i /></Link>
       <nav className="desktop-nav" aria-label="Navigation principale">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={currentSection(item.to) ? 'page' : undefined}>{item.label}</Link>)}</nav>

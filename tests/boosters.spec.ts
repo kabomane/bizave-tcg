@@ -11,7 +11,7 @@ test('boutique : aucun achat pendant le mouvement, puis achat du paquet affiché
     const { db } = await import(modulePath)
     await db.player.update('local', { fragments: 200 })
   })
-  const button = page.locator('.shop-buy'), carousel = page.locator('.booster-carousel-track')
+  const button = page.locator('.weekly-daily .shop-buy'), carousel = page.locator('.weekly-daily .booster-carousel-track')
   await expect(button).toBeEnabled()
   await page.setViewportSize({ width: 390, height: 600 })
   await button.evaluate(el => {
@@ -41,8 +41,8 @@ test('boutique : aucun achat pendant le mouvement, puis achat du paquet affiché
   await page.setViewportSize({ width: 390, height: 844 })
   // Dispatch both clicks in the same task, before React can paint the disabled button.
   await page.evaluate(() => {
-    document.querySelector<HTMLButtonElement>('.carousel-next')!.click()
-    document.querySelector<HTMLButtonElement>('.shop-buy')!.click()
+    document.querySelector<HTMLButtonElement>('.weekly-daily .carousel-next')!.click()
+    document.querySelector<HTMLButtonElement>('.weekly-daily .shop-buy')!.click()
   })
   await expect(button).toBeDisabled()
   await expect(button).toHaveAttribute('aria-busy', 'true')
@@ -59,7 +59,7 @@ test('boutique : aucun achat pendant le mouvement, puis achat du paquet affiché
       el.dispatchEvent(event)
     }
     el.scrollTo({ left: 0, behavior: 'smooth' })
-    document.querySelector<HTMLButtonElement>('.shop-buy')!.click()
+    document.querySelector<HTMLButtonElement>('.weekly-daily .shop-buy')!.click()
   })
   await expect.poll(() => carousel.evaluate(el => el.scrollLeft)).toBeLessThanOrEqual(1)
   await expect(button).toBeDisabled()
@@ -87,8 +87,7 @@ test('boutique : aucun achat pendant le mouvement, puis achat du paquet affiché
     const { db } = await import(modulePath)
     return { purchases: await db.boosterPurchases.toArray(), stock: await db.boosterStock.toArray(), player: await db.player.get('local') }
   })
-  expect(after.purchases).toHaveLength(1)
-  expect(after.purchases[0]).toMatchObject({ boosterId: 'anima-isekai', fragmentsSpent: 50 })
+  expect(after.purchases).toHaveLength(0)
   expect(after.stock).toHaveLength(1)
   expect(after.stock[0]).toMatchObject({ boosterId: 'anima-isekai', quantity: 1 })
   expect(after.player.fragments).toBe(150)
@@ -116,18 +115,22 @@ test('Anima Isekai : gratuit, boutique à 50 fragments et réserve', async ({ pa
     await db.player.update('local', { fragments: 50 })
   })
   await expect(page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })).toBeDisabled()
-  const carousel = page.locator('.booster-carousel-track')
+  const carousel = page.locator('.weekly-daily .booster-carousel-track')
+  const buyGeometry = () => page.locator('.weekly-daily .shop-buy').evaluate(el => {
+    const box = el.getBoundingClientRect()
+    return { x: box.x, y: box.y + scrollY, width: box.width, height: box.height }
+  })
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-    const before = await page.locator('.shop-buy').boundingBox()
-    const pack = await page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack').boundingBox()
+    const before = await buyGeometry()
+    const pack = await page.locator('.weekly-daily .booster-carousel-slide[aria-hidden="false"] .booster-pack').boundingBox()
     expect(pack!.width).toBeCloseTo(packSizes.get(width)!.width, 0)
     expect(pack!.height).toBeCloseTo(packSizes.get(width)!.height, 0)
     expect(pack!.x + pack!.width / 2).toBeCloseTo(before!.x + before!.width / 2, 0)
     await page.getByRole('button', { name: 'Booster suivant', exact: true }).click()
     await expect(buy).toBeEnabled()
-    const after = await page.locator('.shop-buy').boundingBox()
+    const after = await buyGeometry()
     for (const key of ['x', 'y', 'width', 'height'] as const) expect(after![key]).toBeCloseTo(before![key], 0)
     await carousel.press('Home')
     await expect(page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })).toBeDisabled()

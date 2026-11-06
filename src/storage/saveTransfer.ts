@@ -16,21 +16,25 @@ import type { UsedSaveTransferRow } from './accountTypes'
 import type { UsedGiftCodeRow } from '../gifts/types'
 import { GIFT_CODE_HASH_PATTERN } from '../gifts/format'
 import { patchSoireeFilm3Rarity } from './patches/soireeFilm3Rarity'
+import { clearBoosterPurchaseHistory } from './patches/boosterPurchaseHistory'
+import { validWeeklyShop, type WeeklyShopRow } from '../game/weeklyShop'
+import { settleWeeklyShop } from './weeklyShop'
 
 export const MAX_SAVE_FILE_BYTES = 25 * 1024 * 1024
 const FORMAT = 'bizave-tcg-save-transfer'
 const encoder = new TextEncoder()
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-export const SAVE_TABLES = ['player', 'drops', 'discoveries', 'openings', 'recycling', 'friends', 'outbox', 'usedTransfers', 'definitions', 'boosterStock', 'boosterPurchases', 'usedSaveTransfers', 'usedGiftCodes', 'favorites', 'recycledCards'] as const
+export const SAVE_TABLES = ['player', 'drops', 'discoveries', 'openings', 'recycling', 'friends', 'outbox', 'usedTransfers', 'definitions', 'boosterStock', 'boosterPurchases', 'usedSaveTransfers', 'usedGiftCodes', 'favorites', 'recycledCards', 'weeklyShop'] as const
 type Snapshot = {
   player: PlayerStateRow[]; drops: CardDropRow[]; discoveries: CardDiscoveryRow[]; openings: OpenRecord[]
   recycling: RecyclingRecord[]; friends: FriendContactRow[]; outbox: OutgoingTransferRow[]; usedTransfers: UsedTransferRow[]
   definitions: CardDefinition[]; boosterStock: BoosterStockRow[]; boosterPurchases: BoosterPurchaseRow[]; usedSaveTransfers: UsedSaveTransferRow[]
   recycledCards?: RecycledCardRow[]
+  weeklyShop?: WeeklyShopRow[]
   favorites?: FavoriteRow[]
   usedGiftCodes?: UsedGiftCodeRow[] // Schema 5 files predate gift codes.
 }
-export type SavePayload = { version: 2; schemaVersion: 5 | 6 | 7 | 8 | 9 | 10; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
+export type SavePayload = { version: 2; schemaVersion: 5 | 6 | 7 | 8 | 9 | 10 | 11; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
 export type PreparedSave = { contents: string; payload: SavePayload }
 export const canonicalSavePayload = (serialized: string) => encoder.encode('BizaveTCG/SaveTransfer/v2\n' + serialized)
 function requireCrypto() {
@@ -45,12 +49,12 @@ const playerId = (value: unknown): value is string => typeof value === 'string' 
 const transferId = (value: unknown): value is string => typeof value === 'string' && uuidPattern.test(value)
 function assert(condition: unknown): asserts condition { if (!condition) throw new Error('Le contenu de cette sauvegarde est invalide ou incompatible.') }
 function validatePayload(value: unknown): asserts value is SavePayload {
-  assert(record(value) && value.version === 2 && (value.schemaVersion === 5 || value.schemaVersion === 6 || value.schemaVersion === 7 || value.schemaVersion === 8 || value.schemaVersion === 9 || value.schemaVersion === DATABASE_SCHEMA_VERSION) && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
+  assert(record(value) && value.version === 2 && (value.schemaVersion === 5 || value.schemaVersion === 6 || value.schemaVersion === 7 || value.schemaVersion === 8 || value.schemaVersion === 9 || value.schemaVersion === 10 || value.schemaVersion === DATABASE_SCHEMA_VERSION) && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
   assert(Object.keys(value).sort().join(',') === 'identity,issuedAt,preferences,recipientId,schemaVersion,sourceId,sourceInstallationId,tables,transferId,version')
   const tables = value.tables
-  const tableNames = SAVE_TABLES.filter(name => (value.schemaVersion !== 5 || name !== 'usedGiftCodes') && ((Number(value.schemaVersion) >= 7) || name !== 'favorites') && (Number(value.schemaVersion) >= 8 || name !== 'recycledCards'))
+  const tableNames = SAVE_TABLES.filter(name => (value.schemaVersion !== 5 || name !== 'usedGiftCodes') && ((Number(value.schemaVersion) >= 7) || name !== 'favorites') && (Number(value.schemaVersion) >= 8 || name !== 'recycledCards') && (Number(value.schemaVersion) >= 11 || name !== 'weeklyShop'))
   assert(Object.keys(tables).sort().join(',') === [...tableNames].sort().join(','))
-  const primaryKeys: Record<typeof SAVE_TABLES[number], string> = { player: 'id', drops: 'dropId', discoveries: 'key', openings: 'id', recycling: 'id', friends: 'playerUuid', outbox: 'transferId', usedTransfers: 'transferId', definitions: 'id', boosterStock: 'boosterId', boosterPurchases: 'id', usedSaveTransfers: 'transferId', usedGiftCodes: 'codeHash', favorites: 'key', recycledCards: 'dropId' }
+  const primaryKeys: Record<typeof SAVE_TABLES[number], string> = { player: 'id', drops: 'dropId', discoveries: 'key', openings: 'id', recycling: 'id', friends: 'playerUuid', outbox: 'transferId', usedTransfers: 'transferId', definitions: 'id', boosterStock: 'boosterId', boosterPurchases: 'id', usedSaveTransfers: 'transferId', usedGiftCodes: 'codeHash', favorites: 'key', recycledCards: 'dropId', weeklyShop: 'id' }
   for (const name of tableNames) {
     const rows = tables[name]
     assert(Array.isArray(rows) && rows.length <= 100_000 && rows.every(record))
@@ -64,6 +68,7 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   settleFreePackRecharge(player, player.maxObservedClockAt)
   assert(s.definitions.length > 0 && s.definitions.every(c => id(c.id) && text(c.title) && text(c.description) && id(c.collectionId) && ['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(c.rarity) && record(c.artwork) && Object.values(c.artwork).length === 2 && ['standard', 'fullArt'].every(k => typeof c.artwork[k as 'standard'] === 'string' && /^\/assets\/cards\/[a-z0-9/-]+\/[a-zA-Z0-9.-]+$/.test(c.artwork[k as 'standard'])) && (c.weight === undefined || (Number.isFinite(c.weight) && c.weight > 0)) && (c.artworkPosition === undefined || (record(c.artworkPosition) && Object.values(c.artworkPosition).every(text)))))
   const definitions = new Map(s.definitions.map(patchSoireeFilm3Rarity).map(c => [c.id, c]))
+  assert((s.weeklyShop ?? []).length <= 1 && (s.weeklyShop ?? []).every(row => validWeeklyShop(row, [...definitions.values()])))
   for (const current of [...cards, ...archivedCards]) assert(!definitions.has(current.id) || definitions.get(current.id)!.rarity === current.rarity)
   const card = (c: { cardId: string; finish: string; artVariant: string }) => text(c.cardId) && definitions.has(c.cardId) && ['normal', 'glossy', 'alternative'].includes(c.finish) && ['standard', 'fullArt'].includes(c.artVariant)
   assert(s.drops.every(c => card(c) && transferId(c.dropId) && ['owned', 'outgoing', 'recycled'].includes(c.status) && integer(c.acquiredAt) && integer(c.updatedAt)))
@@ -124,6 +129,9 @@ export async function exportSave(recipientId: string, preferences: Preferences, 
     await assertAccountActive(database)
     if ((await database.identity.get('local'))?.playerUuid !== identity.playerUuid || (await database.installation.get('local'))?.installationId !== installation.installationId) throw new Error('L’identité locale a changé. Réessayez.')
     await compactRecycledData(database)
+    await clearBoosterPurchaseHistory(database)
+    const player = await database.player.get('local')
+    await settleWeeklyShop(database, Math.max(Date.now(), player!.maxObservedClockAt))
     const tables = Object.fromEntries(await Promise.all(SAVE_TABLES.map(async name => [name, await database.table(name).toArray()]))) as Snapshot
     tables.openings = tables.openings.filter(opening => !opening.revealComplete)
     const portable = await Dexie.waitFor(portableIdentity(identity))
@@ -159,6 +167,7 @@ export async function importSave(contents: string, database = db) {
       const rows = name === 'definitions' ? payload.tables.definitions.map(patchSoireeFilm3Rarity) : payload.tables[name] ?? []
       await database.table(name).clear(); await database.table(name).bulkPut(rows)
     }
+    await clearBoosterPurchaseHistory(database)
     if (payload.schemaVersion < 8) await database.drops.toCollection().modify(row => { delete row.circulation })
     await database.outbox.toCollection().modify(row => { row.kind ??= 'card' })
     await compactRecycledData(database)
@@ -171,6 +180,8 @@ export async function importSave(contents: string, database = db) {
     for (const row of previousCards) if (!await database.usedTransfers.get(row.transferId)) await database.usedTransfers.add(row)
     for (const row of previousGifts) if (!await database.usedGiftCodes.get(row.codeHash)) await database.usedGiftCodes.add(row)
     await database.player.update('local', { schemaVersion: DATABASE_SCHEMA_VERSION })
+    const player = await database.player.get('local')
+    await settleWeeklyShop(database, Math.max(Date.now(), player!.maxObservedClockAt))
     await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
     await database.usedSaveTransfers.add({ transferId: payload.transferId, receivedAt: Date.now() })
     await database.identity.put(identity)

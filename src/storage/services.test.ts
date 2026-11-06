@@ -130,7 +130,7 @@ describe('stocks de boosters et boutique', () => {
     await buy(); await buy()
     db.close(); await db.open()
     expect((await db.boosterStock.get('nocturne'))?.quantity).toBe(2)
-    expect(await db.boosterPurchases.count()).toBe(2)
+    expect(await db.boosterPurchases.count()).toBe(0)
     expect(await db.drops.count()).toBe(0); expect(await db.openings.count()).toBe(0)
     expect(await db.player.get('local')).toMatchObject({ fragments: 60, freePackStock: 2, nextFreePackAt: 600_000 })
     await refreshRecharge(db, 3 * 86400_000)
@@ -144,15 +144,15 @@ describe('stocks de boosters et boutique', () => {
       expect(results.filter(result => result.status === 'fulfilled')).toHaveLength(1)
       expect((await db.player.get('local'))?.fragments).toBe(0)
       expect((await db.boosterStock.get('nocturne'))?.quantity).toBe(1)
-      expect(await db.boosterPurchases.count()).toBe(1)
+      expect(await db.boosterPurchases.count()).toBe(0)
     } finally { second.close() }
   })
-  it('annule solde, stock et historique ensemble si l’achat échoue', async () => {
+  it('annule solde et stock ensemble si l’achat échoue', async () => {
     await db.player.update('local', { fragments: 100 })
     const fail = () => { throw new Error('Échec achat simulé') }
-    db.boosterPurchases.hook('creating', fail)
+    db.boosterStock.hook('creating', fail)
     await expect(buy()).rejects.toThrow(/simulé/)
-    db.boosterPurchases.hook('creating').unsubscribe(fail)
+    db.boosterStock.hook('creating').unsubscribe(fail)
     expect((await db.player.get('local'))?.fragments).toBe(100)
     expect(await db.boosterStock.count()).toBe(0)
     expect(await db.boosterPurchases.count()).toBe(0)
@@ -209,7 +209,7 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 10 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 11 })
       expect(await upgraded.boosterStock.get(stock.boosterId)).toEqual(stock)
       expect(await upgraded.usedGiftCodes.count()).toBe(0)
     } finally { await upgraded.delete() }
@@ -228,7 +228,7 @@ describe('migrations et archives', () => {
     const upgraded = new BizaveDatabase(name)
     try {
       await upgraded.open()
-      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 10 })
+      expect(await upgraded.player.get('local')).toEqual({ ...player, schemaVersion: 11 })
       expect(await upgraded.drops.get(owned.dropId)).toEqual(owned)
       expect(await upgraded.outbox.get(outgoing.transferId)).toEqual({ ...outgoing, kind: 'card' })
       expect(await upgraded.openings.get(legacyOpening.id)).toEqual(legacyOpening)
@@ -281,7 +281,7 @@ describe('Memory Frame gratuit et acheté', () => {
     await buy()
     await expect(buy()).rejects.toThrow(/fragments/)
     expect((await db.boosterStock.get(id))?.quantity).toBe(2)
-    expect(await db.boosterPurchases.count()).toBe(2)
+    expect(await db.boosterPurchases.count()).toBe(0)
   })
   it('consomme le gratuit en priorité et conserve la réserve achetée', async () => {
     await db.player.update('local', { fragments: 70 })

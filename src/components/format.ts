@@ -2,6 +2,11 @@ export function formatDuration(milliseconds: number, { hours }: { hours: boolean
   const seconds = Math.max(0, Math.ceil(milliseconds / 1000))
   return (hours ? [Math.floor(seconds / 3600), Math.floor(seconds / 60) % 60, seconds % 60] : [Math.floor(seconds / 60), seconds % 60]).map(value => String(value).padStart(2, '0')).join(':')
 }
+export function formatShopCountdown(milliseconds: number) {
+  const seconds = Math.max(0, Math.ceil(milliseconds / 1000))
+  const parts = seconds >= 86400 ? [Math.floor(seconds / 86400), Math.floor(seconds / 3600) % 24, Math.floor(seconds / 60) % 60] : [Math.floor(seconds / 3600), Math.floor(seconds / 60) % 60, seconds % 60]
+  return parts.map(value => String(value).padStart(2, '0')).join(':')
+}
 export const errorText = (error: unknown) => error instanceof Error ? error.message : 'Une erreur est survenue.'
 export async function copyText(text: string) {
   try { await navigator.clipboard.writeText(text) } catch { throw new Error('Copie indisponible. Autorisez l’accès au presse-papiers puis réessayez.') }

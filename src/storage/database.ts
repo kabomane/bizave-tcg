@@ -2,10 +2,11 @@ import Dexie, { type Table } from 'dexie'
 import type { AccountStateRow, InstallationRow, UsedSaveTransferRow } from './accountTypes'
 import type { UsedGiftCodeRow } from '../gifts/types'
 import type { FavoriteRow } from '../game/types'
+import type { WeeklyShopRow } from '../game/weeklyShop'
 import type { RecycledCardRow } from '../game/types'
 import type { BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, LocalIdentityRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
 
-export const DATABASE_SCHEMA_VERSION = 10
+export const DATABASE_SCHEMA_VERSION = 11
 export const DATABASE_NAME = 'bizave-tcg'
 export type DatabaseVersionRow = { id: 'local'; schemaVersion: number; ready: boolean }
 export class BizaveDatabase extends Dexie {
@@ -21,6 +22,7 @@ export class BizaveDatabase extends Dexie {
   definitions!: Table<CardDefinition, string>
   boosterStock!: Table<BoosterStockRow, string>
   boosterPurchases!: Table<BoosterPurchaseRow, string>
+  weeklyShop!: Table<WeeklyShopRow, string>
   accountState!: Table<AccountStateRow, string>
   usedSaveTransfers!: Table<UsedSaveTransferRow, string>
   installation!: Table<InstallationRow, string>
@@ -83,6 +85,10 @@ export class BizaveDatabase extends Dexie {
       await tx.table('outbox').toCollection().modify(row => { row.kind ??= 'card' })
       await tx.table('player').toCollection().modify(row => { row.schemaVersion = 10 })
       await tx.table('version').put({ id: 'local', schemaVersion: 10, ready: true })
+    })
+    this.version(11).stores({ weeklyShop: '&id' }).upgrade(async tx => {
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 11 })
+      await tx.table('version').put({ id: 'local', schemaVersion: 11, ready: true })
     })
     this.versionInfo = this.table('version')
   }

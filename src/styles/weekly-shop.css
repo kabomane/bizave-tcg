@@ -1,0 +1,27 @@
+.weekly-shop-page { display:flex; flex-direction:column; gap:64px; }
+.weekly-section { display:flex; flex-direction:column; gap:40px; min-width:0; }
+.weekly-shop-page > .weekly-section + .weekly-section { margin-top:32px; }
+.weekly-section-heading { display:flex; align-items:center; gap:18px; min-width:0; }
+.weekly-section-heading::after { content:''; order:1; height:1px; background:var(--line); flex:1; }
+.weekly-section-heading h2 { margin:0; font-size:11px; line-height:1.5; font-weight:500; color:var(--muted); white-space:nowrap; }
+.weekly-section-heading .drop-rates-trigger { order:2; min-height:36px; font-size:11px; font-weight:500; white-space:nowrap; }
+.weekly-section-heading .drop-rates-trigger:hover:not(:disabled) { color:var(--accent); }
+.weekly-daily .shop-page { gap:40px; }
+.showcase-card { flex-shrink:0; aspect-ratio:300 / 450; display:flex; align-items:center; justify-content:center; }
+/* Fit the taller card ratio into the same height as a booster. */
+.showcase-card .card-slot { width:calc(100% * 326 / 360); flex-shrink:0; overflow:clip; overflow-clip-margin:6px; }
+@media(max-width:599px) {
+ .weekly-shop-page { gap:56px; }
+ .weekly-section { gap:36px; }
+ .weekly-shop-page > .weekly-section + .weekly-section { margin-top:24px; }
+ .weekly-section-heading { gap:12px; }
+ .weekly-section-heading h2 { font-size:9px; }
+ .weekly-section-heading .drop-rates-trigger { font-size:9px; }
+ .weekly-daily .shop-page { gap:36px; }
+}
+
+.weekly-header-tools { display:flex; align-items:center; gap:6px; margin-top:6px; flex-shrink:0; }
+.weekly-timer { display:inline-flex; align-items:center; gap:9px; height:36px; padding:0 12px; border:1px solid var(--line); border-radius:18px; color:var(--muted); font-size:11px; font-variant-numeric:tabular-nums; white-space:nowrap; }
+
+/* Passive shop cards must allow the carousel's native horizontal swipe too. */
+.weekly-selection .showcase-card .card { cursor:default; touch-action:manipulation; }

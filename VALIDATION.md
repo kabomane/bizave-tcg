@@ -1,4 +1,16 @@
-# Validation — bizave-tcg.v1.4.2
+# Validation — bizave-tcg.v1.4.3
+
+## Boutique hebdomadaire — 7 novembre 2026
+
+- Version **1.4.3**, compteur **7** et note : « Refonte de la boutique, ajout de la boutique hebdomadaire plus souple sur les taux de drop. »
+- La nouvelle boutique est publiée sur la route `/boutique` et incluse dans le build de production ; la route `/test` et l’ancienne page indépendante sont supprimées. Les boosters permanents restent achetables dans leur rubrique.
+- Lucky boost vient après les boosters classiques dans Vos boosters. Son bouton Taux de drop reste visible mais désactivé, comme dans la boutique. Les cartes achetées de la vitrine conservent leurs couleurs et sont signalées par le bouton Épuisée.
+- `npm run check` réussi : ESLint, 247 tests Vitest dans 32 fichiers, TypeScript et build de production. Typage des tests vérifié avec `tsconfig.tests.json`.
+- Dix parcours Chromium vérifiés : achats hebdomadaires et permanents, ouverture/reprise, renouvellement, taux selon la sélection, verrous pendant le mouvement, espacements responsive et swipe tactile natif. Neuf ont réussi ensemble ; le parcours epico stellari, interrompu une fois au clic après une capture, a réussi à la relance isolée. Les autres moteurs et la suite E2E complète n’ont pas été relancés pour cette publication.
+
+
+- Firebase Hosting publié sur `bizave-tcg`. Manifeste, HTML et ressources d’entrée identiques au build local `ab856eb1-cc13-4195-8ea9-9a55dcd74787` sur les domaines `https://bizave-tcg.web.app` et `https://bizave-tcg.kabomane.me`.
+- Contrôle Chromium du site publié : boutique, achat lucky boost, placement après les classiques, taux désactivés puis réactivés sur un autre booster, changelog 1.4.3 et nouvelle note. Continuer mémorise le compteur 7 ; aucune erreur navigateur.
 
 ## Ajout de cinq cartes et publication — 6 novembre 2026
 

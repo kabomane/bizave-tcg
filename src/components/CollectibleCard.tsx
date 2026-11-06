@@ -24,7 +24,7 @@ export function CardSvgDefinitions() {
 }
 // Reference layouts are shared. Thumbnails use baked foil; details retain the full finish layers.
 type CardPresentation = 'thumbnail' | 'detail'
-type CardProps = { card: Card; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean; suspended?: boolean; presentation?: CardPresentation }
+type CardProps = { card: Card; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean; suspended?: boolean; presentation?: CardPresentation; interactive?: boolean }
 type CardFaceProps = Omit<CardProps, 'deferred' | 'suspended' | 'presentation'> & { presentation: CardPresentation }
 
 /** Distant faces are unmounted; the presentation is independent from lazy loading. */
@@ -44,9 +44,9 @@ export function CollectibleCard({ deferred = false, suspended = false, presentat
   </div>
 }
 
-function CardFace({ card, definition, onActivate, activationLabel, presentation }: CardFaceProps) {
+function CardFace({ card, definition, onActivate, activationLabel, presentation, interactive = true }: CardFaceProps) {
   const thumbnail = presentation === 'thumbnail'
-  const { wrapperRef, elementRef, draggedRef } = useCardTilt(!thumbnail, onActivate)
+  const { wrapperRef, elementRef, draggedRef } = useCardTilt(interactive && !thumbnail, onActivate)
   const [scale, setScale] = useState(1)
   const pointerOrigin = useRef<{ x: number; y: number } | null>(null)
   useLayoutEffect(() => {
@@ -73,12 +73,12 @@ function CardFace({ card, definition, onActivate, activationLabel, presentation 
   const rarity = RARITY_LABELS[definition.rarity]
   return <div ref={wrapperRef} className={`card-scene layout-${card.artVariant === 'fullArt' ? 'gundam' : 'fusion'}`} style={{ borderRadius: 20 * scale }}>
     <div className="card-scale" style={{ transform: `scale(${scale})` }}>
-      <article ref={elementRef} className={`card has-custom ${f === 'normal' ? 'standard' : f}`} data-presentation={presentation} data-rarity={definition.rarity} data-art={card.artVariant} tabIndex={0} role="button" aria-label={`${definition.title}, ${rarity}, ${FINISH_LABELS[f]}, ${ART_LABELS[card.artVariant]}${activationLabel ? `. ${activationLabel}` : ''}`} onClick={() => { if (!draggedRef.current) onActivate?.(); draggedRef.current = false }} onKeyDown={thumbnail ? event => {
+      <article ref={elementRef} className={`card has-custom ${f === 'normal' ? 'standard' : f}`} data-presentation={presentation} data-rarity={definition.rarity} data-art={card.artVariant} tabIndex={interactive ? 0 : undefined} role={interactive ? 'button' : undefined} aria-label={`${definition.title}, ${rarity}, ${FINISH_LABELS[f]}, ${ART_LABELS[card.artVariant]}${activationLabel ? `. ${activationLabel}` : ''}`} onClick={interactive ? () => { if (!draggedRef.current) onActivate?.(); draggedRef.current = false } : undefined} onKeyDown={interactive && thumbnail ? event => {
         if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); onActivate?.() }
-      } : undefined} onPointerDown={thumbnail ? event => { draggedRef.current = false; pointerOrigin.current = { x: event.clientX, y: event.clientY } } : undefined} onPointerMove={thumbnail ? event => {
+      } : undefined} onPointerDown={interactive && thumbnail ? event => { draggedRef.current = false; pointerOrigin.current = { x: event.clientX, y: event.clientY } } : undefined} onPointerMove={interactive && thumbnail ? event => {
         const origin = pointerOrigin.current
         if (origin && Math.hypot(event.clientX - origin.x, event.clientY - origin.y) > 8) draggedRef.current = true
-      } : undefined} onPointerUp={thumbnail ? () => { pointerOrigin.current = null } : undefined} onPointerCancel={thumbnail ? () => { pointerOrigin.current = null; draggedRef.current = true } : undefined} onContextMenu={event => event.preventDefault()} onDragStart={event => event.preventDefault()}>
+      } : undefined} onPointerUp={interactive && thumbnail ? () => { pointerOrigin.current = null } : undefined} onPointerCancel={interactive && thumbnail ? () => { pointerOrigin.current = null; draggedRef.current = true } : undefined} onContextMenu={event => event.preventDefault()} onDragStart={event => event.preventDefault()}>
         <header className="name-bar"><span className={`nb-title ${f === 'alternative' ? 'foil-text' : ''}`} data-text={definition.title}>{definition.title}</span><span className="nb-meta"><span className="rarity-text">{rarity}</span><span className="rarity-icon"><svg viewBox="0 0 24 24" aria-hidden="true" dangerouslySetInnerHTML={{ __html: rarityPaths[definition.rarity] }} /></span></span><span className="nb-finish" title={FINISH_LABELS[f]}><svg viewBox="0 0 24 24" aria-hidden="true" dangerouslySetInnerHTML={{ __html: finishPaths[f] }} /></span></header>
         <div className="art"><img className="custom-art" src={definition.artwork[card.artVariant]} style={{ objectPosition: definition.artworkPosition?.[card.artVariant] }} alt={definition.artwork[card.artVariant].endsWith('.svg') ? 'Illustration à venir' : `Illustration de ${definition.title}`} loading="lazy" draggable={false} /></div>
         {f === 'glossy' && (thumbnail ? <div className="holo-preview" style={{ backgroundImage: `url("${holoPreviewTexture}")` }} aria-hidden="true"><div className="holo-preview-reflection" /></div> : <><div className="holo" /><div className="sparkle s1" /><div className="sparkle s2" /><div className="sparkle s3" /></>)}
