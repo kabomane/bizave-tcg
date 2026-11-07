@@ -1,8 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import { BizaveDatabase } from './database'
-import { buyWeeklyOffer, refreshWeeklyShop } from './weeklyShop'
+import { buyWeeklyOffer, claimWeeklyBonus, refreshWeeklyShop } from './weeklyShop'
 import { finishOpening, initializeDatabase, openBooster, refreshRecharge } from './services'
-import { SALES_CLOSE_MS, WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
+import { SALES_CLOSE_MS, WEEKLY_BOOSTER_ID, WEEKLY_REROLL_PRICE } from '../game/weeklyShop'
+import { cards } from '../data/cards'
 import { uuid } from '../game/engine'
 import { exportSave, importSave, parseSaveFile } from './saveTransfer'
 import { ensureInstallation } from './installation'
@@ -13,6 +14,51 @@ const now = Date.parse('2026-11-06T12:00:00Z')
 beforeEach(async () => { db = new BizaveDatabase('weekly-' + uuid()); await initializeDatabase(db, now); await db.player.update('local', { fragments: 100_000 }) })
 afterEach(async () => { await db.delete() })
 describe('boutique hebdomadaire persistante', () => {
+  it('réclame chaque bonus une fois entre onglets et conserve le pool des boosters déjà achetés', async () => {
+    const shop = await refreshWeeklyShop(db, now)
+    const common = cards.find(card => card.rarity === 'common')!
+    shop.booster.definition.sources = [{ type: 'cards', cardIds: [common.id] }]
+    shop.booster.definition.rates = { rarity: { common: 100, uncommon: 0, rare: 0, epic: 0, legendary: 0 } }
+    await db.weeklyShop.put(shop)
+    const offer = shop.offers[0]
+    await buyWeeklyOffer(shop.weekStart, 'booster', db, now)
+    await buyWeeklyOffer(shop.weekStart, offer.id, db, now)
+
+    const second = new BizaveDatabase(db.name)
+    await second.open()
+    try {
+      const [gift, duplicateGift] = await Promise.allSettled([
+        claimWeeklyBonus(shop.weekStart, 'fragments', db, now),
+        claimWeeklyBonus(shop.weekStart, 'fragments', second, now),
+      ])
+      const rewards = [gift, duplicateGift].flatMap(result => result.status === 'fulfilled' ? [result.value!] : [])
+      expect(rewards).toHaveLength(1)
+      expect(rewards[0]).toBeGreaterThanOrEqual(10)
+      expect(rewards[0]).toBeLessThanOrEqual(300)
+      expect(rewards[0] % 10).toBe(0)
+
+      const rerolls = await Promise.allSettled([
+        claimWeeklyBonus(shop.weekStart, 'reroll', db, now),
+        claimWeeklyBonus(shop.weekStart, 'reroll', second, now),
+      ])
+      expect(rerolls.filter(result => result.status === 'fulfilled')).toHaveLength(1)
+      const updated = (await db.weeklyShop.get('current'))!
+      expect(updated).toMatchObject({ rerollUsed: true, fragmentsClaimed: true, booster: { remaining: shop.booster.stock - 1, owned: 0 }, priorBooster: { owned: 1, definition: shop.booster.definition } })
+      expect(updated.booster.definition.sources).not.toEqual(shop.booster.definition.sources)
+      expect(updated.offers.every(card => !card.sold)).toBe(true)
+      expect(await db.drops.count()).toBe(1)
+      expect((await db.player.get('local'))?.fragments).toBe(100_000 - shop.booster.price - offer.price - WEEKLY_REROLL_PRICE + rewards[0])
+      await expect(buyWeeklyOffer(shop.weekStart, offer.id, db, now)).rejects.toThrow('renouvelée')
+      await buyWeeklyOffer(shop.weekStart, updated.offers[0].id, db, now, true)
+      const opening = await openBooster(WEEKLY_BOOSTER_ID, db, now)
+      expect(opening.results.map(card => card.cardId)).toEqual(Array(5).fill(common.id))
+      expect((await db.weeklyShop.get('current'))?.priorBooster).toBeUndefined()
+      const next = await refreshWeeklyShop(db, shop.rerollAt)
+      expect(next.fragmentsClaimed).toBeUndefined()
+      expect(next.rerollUsed).toBeUndefined()
+      expect(await db.weeklyShop.count()).toBe(1)
+    } finally { second.close() }
+  })
   it('ne génère rien avant la première visite, puis conserve le même tirage au rechargement', async () => {
     expect(await db.weeklyShop.count()).toBe(0)
     const first = await refreshWeeklyShop(db, now)
@@ -98,6 +144,8 @@ describe('boutique hebdomadaire persistante', () => {
     await db.player.update('local', { maxObservedClockAt: purchaseTime })
     await buyWeeklyOffer(shop.weekStart, 'booster', db, purchaseTime)
     await buyWeeklyOffer(shop.weekStart, shop.offers[0].id, db, purchaseTime)
+    await claimWeeklyBonus(shop.weekStart, 'fragments', db, purchaseTime)
+    await claimWeeklyBonus(shop.weekStart, 'reroll', db, purchaseTime)
     const state = await db.weeklyShop.get('current')
     const target = new BizaveDatabase('weekly-target-' + uuid())
     try {

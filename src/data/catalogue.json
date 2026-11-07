@@ -4625,5 +4625,35 @@
       "standard": "center top",
       "fullArt": "center top"
     }
+  },
+  {
+    "id": "ciel-bleu",
+    "title": "Ciel bleu",
+    "rarity": "rare",
+    "collectionId": "groupes",
+    "description": "Pas la peine de paniquer, tout ça c'est que du provisoire. Putain, le ciel il est d'un bleu !",
+    "artwork": {
+      "standard": "/assets/cards/ciel-bleu/illustration.01f51857b7.webp",
+      "fullArt": "/assets/cards/ciel-bleu/illustration.01f51857b7.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "le-bus",
+    "title": "Le bus",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "Non mais t'y crois ? J'ai encore raté mon bus, il est parti devant moi !",
+    "artwork": {
+      "standard": "/assets/cards/le-bus/illustration.51c6c03d8f.webp",
+      "fullArt": "/assets/cards/le-bus/illustration.51c6c03d8f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
   }
 ]

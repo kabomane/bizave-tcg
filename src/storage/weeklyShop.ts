@@ -1,5 +1,5 @@
 import { cards } from '../data/cards'
-import { createWeeklyShop, SALES_CLOSE_MS, weeklyPeriod } from '../game/weeklyShop'
+import { createWeeklyShop, rerollWeeklyOffers, rollFragmentReward, SALES_CLOSE_MS, WEEKLY_REROLL_PRICE, weeklyPeriod } from '../game/weeklyShop'
 import { uuid, variantKey } from '../game/engine'
 import { db, type BizaveDatabase } from './database'
 import { assertAccountActive } from './accountGuard'
@@ -23,14 +23,20 @@ export async function refreshWeeklyShop(database = db, now = Date.now()) {
     return (await settleWeeklyShop(database, time, true))!
   })
 }
-export async function buyWeeklyOffer(weekStart: number, offerId: 'booster' | string, database = db, now = Date.now()) {
+async function readActiveWeeklyShop(database: BizaveDatabase, weekStart: number, now: number) {
+  await assertAccountActive(database)
+  const player = await database.player.get('local')
+  if (!player) throw new Error('La sauvegarde locale est indisponible.')
+  const time = Math.max(now, player.maxObservedClockAt)
+  const shop = await database.weeklyShop.get('current')
+  if (!shop || shop.weekStart !== weekStart || shop.weekStart !== weeklyPeriod(time).weekStart) throw new Error('La boutique a été renouvelée. Actualisez les offres.')
+  return { player, shop, time }
+}
+
+export async function buyWeeklyOffer(weekStart: number, offerId: string, database = db, now = Date.now(), expectedRerolled = false) {
   return database.transaction('rw', [database.player, database.weeklyShop, database.accountState, database.drops, database.discoveries], async () => {
-    await assertAccountActive(database)
-    const player = await database.player.get('local')
-    if (!player) throw new Error('La sauvegarde locale est indisponible.')
-    const time = Math.max(now, player.maxObservedClockAt)
-    const shop = await database.weeklyShop.get('current')
-    if (!shop || shop.weekStart !== weekStart || shop.weekStart !== weeklyPeriod(time).weekStart) throw new Error('La boutique a été renouvelée. Actualisez les offres.')
+    const { player, shop, time } = await readActiveWeeklyShop(database, weekStart, now)
+    if (!!shop.rerollUsed !== expectedRerolled) throw new Error('La boutique a été renouvelée. Actualisez les offres.')
     const offer = shop.offers.find(o => o.id === offerId)
     const booster = offerId === 'booster'
     if (booster ? shop.booster.remaining < 1 : !offer || offer.sold) throw new Error('Cette offre est épuisée.')
@@ -47,5 +53,25 @@ export async function buyWeeklyOffer(weekStart: number, offerId: 'booster' | str
       if (!await database.discoveries.get(key)) await database.discoveries.add({ key, cardId: card.cardId, finish: card.finish, artVariant: card.artVariant, firstDiscoveredAt: time })
     }
     await database.weeklyShop.put(shop)
+  })
+}
+
+export async function claimWeeklyBonus(weekStart: number, kind: 'reroll' | 'fragments', database = db, now = Date.now()) {
+  return database.transaction('rw', [database.player, database.weeklyShop, database.accountState], async () => {
+    const { player, shop, time } = await readActiveWeeklyShop(database, weekStart, now)
+    if (kind === 'reroll') {
+      if (shop.rerollUsed) throw new Error('Le reroll de la semaine a déjà été utilisé.')
+      if (player.fragments < WEEKLY_REROLL_PRICE) throw new Error('Vous n’avez pas assez de fragments.')
+      await database.weeklyShop.put(rerollWeeklyOffers(shop, cards))
+      await database.player.put({ ...player, fragments: player.fragments - WEEKLY_REROLL_PRICE, maxObservedClockAt: time })
+      return undefined
+    }
+    if (shop.fragmentsClaimed) throw new Error('La carte fragments a déjà été réclamée.')
+    const amount = rollFragmentReward()
+    const fragments = player.fragments + amount
+    if (!Number.isSafeInteger(fragments)) throw new Error('Le solde de fragments est trop élevé.')
+    await database.weeklyShop.put({ ...shop, fragmentsClaimed: true })
+    await database.player.put({ ...player, fragments, maxObservedClockAt: time })
+    return amount
   })
 }

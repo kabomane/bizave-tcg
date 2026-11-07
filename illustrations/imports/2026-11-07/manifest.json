@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-07",
+  "illustrations": [
+    {
+      "cardId": "ciel-bleu",
+      "title": "Ciel bleu",
+      "sourceEntry": "ciel_bleu.png",
+      "original": {
+        "path": "illustrations/originals/ciel-bleu.png",
+        "sha256": "f691d6efc601feba672d8a6b44a193d3ceeb3dc5505b9cf4676db34e69ec6a67",
+        "bytes": 3881379,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ciel-bleu/illustration.01f51857b7.webp",
+        "sha256": "01f51857b7277c01aa44f5745b63776d7568e7db37d9644cfcf2083e67dbb1f4",
+        "bytes": 208116,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "le-bus",
+      "title": "Le bus",
+      "sourceEntry": "le_bus.png",
+      "original": {
+        "path": "illustrations/originals/le-bus.png",
+        "sha256": "d408812311843749ff82069aad3f275cf2e7e0c6bafb6777b66965d816f3487c",
+        "bytes": 3764230,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/le-bus/illustration.51c6c03d8f.webp",
+        "sha256": "51c6c03d8f26c32f39baf1d69b31dfa4305bd3adeb520c09ea87450afbe45fae",
+        "bytes": 162538,
+        "width": 900,
+        "height": 1200
+      }
+    }
+  ]
+}

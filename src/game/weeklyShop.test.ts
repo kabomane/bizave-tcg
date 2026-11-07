@@ -1,12 +1,19 @@
 import { describe, expect, it } from 'vitest'
 import { cards } from '../data/cards'
-import { createWeeklyShop, rollWeeklyShowcase, redistributeRates, validWeeklyShop, weeklyPeriod } from './weeklyShop'
+import { createWeeklyShop, rollFragmentReward, rollWeeklyShowcase, redistributeRates, validWeeklyShop, weeklyPeriod } from './weeklyShop'
 import { DEFAULT_RARITY_RATES } from './config'
 import { drawPack, validateConfiguration } from './engine'
 
 const now = Date.parse('2026-11-06T12:00:00Z')
 function seeded(seed: number) { return () => { seed = (Math.imul(1664525, seed) + 1013904223) >>> 0; return seed / 2 ** 32 } }
 describe('génération hebdomadaire', () => {
+  it('moyenne deux tirages de fragments indépendants et arrondit à la dizaine', () => {
+    const draws = [30 / 291, 216 / 291]
+    expect(rollFragmentReward(() => draws.shift()!)).toBe(130)
+    expect(draws).toHaveLength(0)
+    expect(rollFragmentReward(() => 0)).toBe(10)
+    expect(rollFragmentReward(() => .999)).toBe(300)
+  })
   it.each([
     [.6999, .8499, 'normal', 'standard'],
     [.70, .8499, 'glossy', 'standard'],

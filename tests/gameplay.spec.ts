@@ -14,7 +14,7 @@ test('boosters gratuits ; ouverture au clic, reprise et collection persistante',
   await page.goto('/')
   await expect(page.locator('.pack-interaction')).toHaveCount(2)
   await expect(page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')).toContainText('Memory Frame')
-  await expect(page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')).toContainText('166 cartes')
+  await expect(page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')).toContainText('168 cartes')
   await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
   await expect(page.locator('.reveal-progress')).toHaveAttribute('aria-label', '1 cartes révélées sur 5')

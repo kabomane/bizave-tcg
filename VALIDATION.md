@@ -1,4 +1,10 @@
-# Validation — bizave-tcg.v1.4.3
+# Validation — bizave-tcg.v1.4.4
+
+## Publication 1.4.4
+
+- `npm run check` réussi avec 249 tests Vitest dans 32 fichiers, ESLint, TypeScript et compilation. Six parcours de la landing réussis dans Chromium et WebKit. Contrôles ciblés des cartes, des achats hebdomadaires et des compteurs réussis.
+- Firebase Hosting publié sur `bizave-tcg`. Le manifeste, la landing, ses styles et son script, la route boutique et les deux nouvelles illustrations correspondent au build local `29d95db3-d1b4-41fa-8a54-b21cee0b22bb` sur `bizave-tcg.web.app` et `bizave-tcg.kabomane.me`.
+- Contrôle Chromium du site publié : thème sombre système, Ciel bleu et Le bus visibles sur la landing, SVG Atelier, taux et nombre de cartes de lucky boost, bonus gratuits, reroll direct et compteur de disponibilité. Changelog 1.4.4 et notification 7 vérifiés. Aucune erreur navigateur.
 
 ## Boutique hebdomadaire — 7 novembre 2026
 

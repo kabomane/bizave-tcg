@@ -1,55 +1,37 @@
 import { expect, test } from '@playwright/test'
 
-test('la landing ne crée pas de partie et anonymise les cartes avant consentement', async ({ page }) => {
+test('la landing affiche les cartes et la boutique sans créer de partie', async ({ page }) => {
   const artworkRequests: string[] = []
   page.on('request', request => { if (request.url().includes('/assets/cards/')) artworkRequests.push(request.url()) })
   const response = await page.goto('/landing')
   expect(response?.status()).toBe(200)
   await expect(page).toHaveTitle('Découvrir bizave TCG')
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute('content', 'noindex, nofollow, noarchive')
-  const toggle = page.getByRole('checkbox', { name: 'Afficher les vraies cartes' })
-  await expect(toggle).toBeEnabled()
-  await expect(toggle).not.toBeChecked()
+  await expect(page.getByRole('checkbox', { name: 'Afficher les vraies cartes' })).toHaveCount(0)
   await expect(page.locator('.cs > .card-scale')).toHaveCount(24)
-  await expect(page.locator('.cs[aria-label="Nom de la carte — aperçu sans spoil"]')).toHaveCount(24)
-  await expect(page.locator('.fan .art-placeholder').first()).toBeVisible()
-  await expect(page.locator('.cs > .card-scale .nb-title')).toHaveText(Array(24).fill('Nom de la carte'))
-  await expect(page.locator('.cs > .card-scale .description')).toHaveText(Array(24).fill('Description de la carte'))
-  await expect(page.locator('.cs > .card-scale .art-placeholder')).toHaveCount(24)
   await expect(page.locator('.fan .alternative .gold-frame')).toHaveCount(1)
   await expect(page.locator('.fan .glossy .holo')).toHaveCount(1)
-  expect((await page.request.get('/assets/landing/illustration-placeholder.svg')).ok()).toBe(true)
-  expect(artworkRequests).toEqual([])
-  expect(await page.evaluate(async () => (await indexedDB.databases()).length)).toBe(0)
-
-  await toggle.focus()
-  await page.keyboard.press('Space')
-  await expect(toggle).toBeChecked()
-  await expect(page.locator('.cs > .card-scale')).toHaveCount(24)
   await expect(page.locator('.fan .cs[aria-label="Thomas BIZAVE, Légendaire, Alternative"]')).toBeVisible()
-  await expect.poll(() => artworkRequests.length).toBeGreaterThan(0)
-  const art = page.locator('.fan .custom-art').first()
-  const imageURL = await art.evaluate(element => getComputedStyle(element).backgroundImage.slice(5, -2))
-  expect((await page.request.get(imageURL)).ok()).toBe(true)
-
-  await toggle.uncheck()
-  await expect(page.locator('.cs > .card-scale')).toHaveCount(24)
-  await expect(page.locator('.cs > .card-scale .art-placeholder')).toHaveCount(24)
-  await expect(page.locator('.cs > .card-scale .nb-title[data-text="Nom de la carte"]')).toHaveCount(24)
-  await expect(page.getByRole('status')).toContainText('Anti-spoil activé')
-  await toggle.check()
-  await page.reload()
-  await expect(toggle).not.toBeChecked()
-  await expect(page.locator('.cs > .card-scale')).toHaveCount(24)
+  await expect(page.getByRole('img', { name: 'Ciel bleu, Rare, Mate', exact: true })).toBeVisible()
+  await expect(page.getByRole('img', { name: 'Le bus, Commune, Mate', exact: true })).toBeVisible()
+  await expect.poll(() => artworkRequests.some(url => url.includes('/ciel-bleu/'))).toBe(true)
+  await expect(page.getByRole('img', { name: 'Booster lucky boost', exact: true })).toBeVisible()
+  await expect(page.locator('.weekly-offers')).toContainText('reroll à 150 fragments')
+  await expect(page.locator('.booster-pack[data-booster="phantom-blood"]')).toContainText('168 cartes')
+  const gem = page.locator('.values-row svg').first()
+  await expect(gem).toHaveAttribute('viewBox', '0 0 24 24')
+  expect(await gem.locator('use').evaluate(element => (element as SVGUseElement).getBBox().width)).toBeGreaterThan(0)
+  expect(await page.evaluate(async () => (await indexedDB.databases()).length)).toBe(0)
   await expect(page.getByRole('link', { name: 'Découvrir le jeu' })).toHaveCount(2)
 })
 
-test('la landing tient sur mobile et accepte son URL avec barre et paramètres', async ({ page }) => {
+test('la landing tient sur mobile et suit le thème système', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 740 })
+  await page.emulateMedia({ colorScheme: 'dark', reducedMotion: 'reduce' })
   await page.goto('/landing/?source=amis')
   await expect(page.getByRole('heading', { level: 1 })).toContainText('Des souvenirs')
-  await expect(page.getByRole('checkbox', { name: 'Afficher les vraies cartes' })).not.toBeChecked()
-  for (const selector of ['.hero', '.filters', '.grid', '.device', '.shop', '.share', 'footer']) {
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(25, 26, 28)')
+  for (const selector of ['.hero', '.filters', '.grid', '.device', '.weekly-shop-preview', '.shop', '.share', 'footer']) {
     await page.locator(selector).scrollIntoViewIfNeeded()
     const bounds = await page.locator(selector).boundingBox()
     expect(bounds).not.toBeNull()
@@ -57,16 +39,16 @@ test('la landing tient sur mobile et accepte son URL avec barre et paramètres',
     expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(320)
   }
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320)
+  await page.emulateMedia({ colorScheme: 'light', reducedMotion: 'reduce' })
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(243, 241, 235)')
 })
 
-test('sans JavaScript, les aperçus anonymisés et le lien vers le jeu restent accessibles', async ({ browser }) => {
-  const context = await browser.newContext({ javaScriptEnabled: false })
+test('sans JavaScript, les cartes et le lien vers le jeu restent accessibles', async ({ browser, baseURL }) => {
+  const context = await browser.newContext({ baseURL, javaScriptEnabled: false })
   const page = await context.newPage()
   await page.goto('/landing')
-  await expect(page.locator('.fan .art-placeholder').first()).toBeVisible()
-  await expect(page.locator('.cs > .card-scale .nb-title')).toHaveText(Array(24).fill('Nom de la carte'))
+  await expect(page.getByRole('img', { name: 'Ciel bleu, Rare, Mate', exact: true })).toBeVisible()
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Découvrir le jeu' }).first()).toBeVisible()
-  await expect(page.getByRole('checkbox')).toBeDisabled()
   await context.close()
 })

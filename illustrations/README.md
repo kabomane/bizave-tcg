@@ -15,7 +15,11 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **309 cartes**, toutes **illustrées en WebP versionné**. Les 309 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **311 cartes**, toutes **illustrées en WebP versionné**. Les 311 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 7 novembre 2026
+
+**Ciel bleu** et **Le bus** rejoignent Memory Frame, numéros 310 et 311. Les PNG de Téléchargements sont conservés à l’identique et convertis en WebP pour les deux formats. Le manifeste `imports/2026-11-07/manifest.json` consigne les empreintes et les dimensions.
 
 ## Import du 5 novembre 2026
 

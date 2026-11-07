@@ -12,7 +12,7 @@ test('rarity only : boutique à 400, taux rares garantis et ouverture sans créd
   const buy = page.getByRole('button', { name: 'Acheter rarity only pour 400 fragments', exact: true })
   await expect(buy).toBeDisabled()
   await page.locator('.weekly-daily').getByRole('button', { name: 'Taux de drop', exact: true }).click()
-  const rates = page.getByRole('dialog', { name: 'Taux de drop', exact: true })
+  const rates = page.getByRole('dialog', { name: 'Taux de drop · rarity only', exact: true })
   await expect(rates.locator('section').filter({ has: page.getByRole('heading', { name: 'Rareté', exact: true }) }).locator('dd')).toHaveText(['0 %', '0 %', '100 %', '0 %', '0 %'])
   await rates.getByRole('button', { name: 'Fermer', exact: true }).click()
   const freeStock = await page.evaluate(async () => {

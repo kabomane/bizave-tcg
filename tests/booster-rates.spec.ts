@@ -4,14 +4,16 @@ test('epico stellari : taux du paquet sélectionné, achat à 700 et ouverture',
   await page.emulateMedia({ reducedMotion: 'reduce' })
   await page.setViewportSize({ width: 390, height: 844 })
   const showRates = async (epico: boolean) => {
-    const scope = page.url().endsWith('/boutique') ? page.locator('.weekly-daily') : page
+    const inShop = page.url().endsWith('/boutique')
+    const scope = inShop ? page.locator('.weekly-daily') : page
+    const title = inShop ? `Taux de drop · ${epico ? 'epico stellari' : 'Memory Frame'}` : 'Taux de drop'
     await scope.getByRole('button', { name: 'Taux de drop', exact: true }).click()
-    const dialog = page.getByRole('dialog', { name: 'Taux de drop', exact: true })
+    const dialog = page.getByRole('dialog', { name: title, exact: true })
     const rarity = dialog.locator('section').filter({ has: page.getByRole('heading', { name: 'Rareté', exact: true }) })
     await expect(rarity.locator('dd')).toHaveText(epico ? ['0 %', '0 %', '0 %', '91 %', '9 %'] : ['57 %', '24 %', '12 %', '5 %', '2 %'])
     await expect(dialog.locator('section').filter({ has: page.getByRole('heading', { name: 'Finition', exact: true }) }).locator('dd')).toHaveText(['81 %', '15 %', '4 %'])
     await expect(dialog.locator('section').filter({ has: page.getByRole('heading', { name: 'Illustration', exact: true }) }).locator('dd')).toHaveText(['92 %', '8 %'])
-    await expect(dialog.getByRole('heading')).toHaveText(['Taux de drop', 'Rareté', 'Finition', 'Illustration'])
+    await expect(dialog.getByRole('heading')).toHaveText([title, 'Rareté', 'Finition', 'Illustration'])
     await dialog.getByRole('button', { name: 'Fermer', exact: true }).click()
   }
   await page.goto('/')

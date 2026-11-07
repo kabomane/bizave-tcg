@@ -25,3 +25,11 @@
 
 /* Passive shop cards must allow the carousel's native horizontal swipe too. */
 .weekly-selection .showcase-card .card { cursor:default; touch-action:manipulation; }
+
+.weekly-bonus-card { width:calc(100% * 326 / 360); container-type:inline-size; }
+.weekly-bonus-card .received-fragment-card {
+  --cw:100cqw;
+  --received-fragment-shadow:0 10px 20px -11px #0009;
+  text-align:center;
+  touch-action:manipulation;
+}

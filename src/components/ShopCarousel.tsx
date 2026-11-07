@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { ReactNode } from 'react'
 
 export function ShopCarousel<T extends { id: string; title: string }>({ choices, selectedId, onSelect, onMovingChange, disabled = false, renderChoice, labels }: {
-  choices: readonly T[]; selectedId: string; onSelect: (id: string) => void; onMovingChange?: (moving: boolean) => void; disabled?: boolean
+  choices: readonly T[]; selectedId: T['id']; onSelect: (id: T['id']) => void; onMovingChange?: (moving: boolean) => void; disabled?: boolean
   renderChoice: (choice: T, active: boolean) => ReactNode
   labels: { region: string; selection: string; previous: string; next: string }
 }) {
@@ -61,7 +61,7 @@ export function ShopCarousel<T extends { id: string; title: string }>({ choices,
       state.onMovingChange?.(false)
     }, 150)
   }
-  function select(id: string) {
+  function select(id: T['id']) {
     if (id === selectedId && !moving.current) return
     startMoving()
     onSelect(id)
