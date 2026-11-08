@@ -26,6 +26,53 @@ test('atelier : les favoris sont exclus des deux modes et protégés du recyclag
   expect(state).toEqual({ owned: 2, favorites: 1 })
 })
 
+test('atelier : recherche de favoris, doublons et sélection de la dernière copie dans Toutes vos cartes', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/atelier')
+  await expect(page.getByRole('heading', { name: 'Atelier', exact: true })).toBeVisible()
+  await page.evaluate(async () => {
+    const path = '/src/storage/database.ts', { db } = await import(path)
+    const card = { finish: 'normal', artVariant: 'standard' }
+    const ids = ['t-classique', 't-classique', 't-voyageur', 'op-thomas', 'op-thomas']
+    await db.drops.bulkAdd(ids.map((cardId, i) => ({ ...card, cardId, dropId: crypto.randomUUID(), status: 'owned', acquiredAt: i, updatedAt: i })))
+    await db.favorites.bulkAdd(['t-classique', 't-voyageur'].map(cardId => ({ ...card, cardId, key: `${cardId}::normal::standard` })))
+  })
+  const rows = page.locator('.duplicate-row')
+  await expect(rows.locator('strong')).toHaveText(['Roronoa Thomas'])
+  await page.getByRole('button', { name: 'Afficher uniquement les favoris', exact: true }).click()
+  await expect(rows.locator('strong')).toHaveText(['Thomas classique'])
+  const search = page.getByRole('searchbox', { name: 'Rechercher une carte' })
+  await search.fill('voyageur')
+  await expect(rows).toHaveCount(0)
+  await page.getByRole('button', { name: 'Effacer la recherche', exact: true }).click()
+  await expect(rows.locator('strong')).toHaveText(['Thomas classique'])
+  await page.getByLabel('Tout sélectionner', { exact: true }).check()
+  await expect(page.locator('.recycle-summary')).toContainText('1 sélectionné')
+  await page.getByRole('button', { name: /^Recycler/ }).click()
+  const dialog = page.getByRole('dialog')
+  await expect(dialog).toContainText('Vos dernières copies sont conservées.')
+  await dialog.getByRole('button', { name: 'Recycler', exact: true }).click()
+  await expect(page.getByRole('heading', { name: 'Aucun doublon favori.', exact: true })).toBeVisible()
+  await page.getByRole('button', { name: 'Vos doublons', exact: true }).click()
+  await expect(rows).toHaveCount(2)
+  await expect(rows.getByText('Thomas classique', { exact: true })).toBeVisible()
+  await expect(rows.getByText('Thomas voyageur', { exact: true })).toBeVisible()
+  await search.fill('voyageur')
+  await expect(rows.locator('strong')).toHaveText(['Thomas voyageur'])
+  await rows.getByRole('checkbox').check()
+  await expect(page.locator('.recycle-summary')).toContainText('1 sélectionné')
+  await page.getByRole('button', { name: /^Recycler/ }).click()
+  await expect(dialog).toContainText('dernière copie de 1 variante')
+  await dialog.getByRole('button', { name: 'Recycler', exact: true }).click()
+  await expect(rows).toHaveCount(0)
+  const state = await page.evaluate(async () => {
+    const path = '/src/storage/database.ts', { db } = await import(path)
+    const owned = await db.drops.where('status').equals('owned').toArray()
+    return { owned: owned.map((drop: { cardId: string }) => drop.cardId).sort(), favorites: await db.favorites.toCollection().primaryKeys() }
+  })
+  expect(state).toEqual({ owned: ['op-thomas', 'op-thomas', 't-classique'], favorites: ['t-classique::normal::standard'] })
+})
+
 test('atelier : filtres combinés, sélection visible et mode dernières copies', async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 })
   await page.goto('/atelier')

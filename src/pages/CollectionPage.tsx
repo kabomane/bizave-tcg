@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../storage/database'
 import { memo, useCallback, useMemo, useState } from 'react'
-import { Gem, Layers3, Search, SlidersHorizontal, Star, X } from 'lucide-react'
+import { Gem, Layers3, SlidersHorizontal } from 'lucide-react'
 import { useGame } from '../components/useGame'
 import { cardById } from '../data/cards'
 import { matchesCardSearch } from '../game/cardSearch'
@@ -10,6 +10,7 @@ import type { Card } from '../game/types'
 import { CollectibleCard } from '../components/CollectibleCard'
 import { EmptyState, ErrorNotice } from '../components/ui'
 import { CardFilters } from '../components/CardFilters'
+import { CardSearchRow } from '../components/CardSearchRow'
 import { EMPTY_CARD_FILTERS, matchesCardFilters } from '../collection/filters'
 import { errorText } from '../components/format'
 
@@ -82,7 +83,8 @@ export function CollectionPage() {
   return <>
     <div className="page-heading collection-heading"><div className="title-with-count"><h1 className="page-title">Collection</h1><span>{preview ? 'Mode dev' : filteredQuantity}</span></div><button type="button" className="text-button collection-display-trigger" aria-haspopup="dialog" aria-expanded={!!displayAnchor} onClick={event => { setDisplayError(''); setDisplayAnchor(event.currentTarget.getBoundingClientRect()) }}><SlidersHorizontal size={16} /> Affichage</button></div>
     {displayAnchor && <CollectionDisplayOptions value={collectionDisplay} onChange={changeDisplay} onClose={() => setDisplayAnchor(null)} anchor={displayAnchor} error={<ErrorNotice error={displayError} />} />}
-    <div className="collection-tools"><div className="collection-search-row"><label className="collection-search"><Search size={17} /><input type="search" aria-label="Rechercher une carte" placeholder="Rechercher une carte…" value={search} onChange={event => setSearch(event.target.value)} />{search && <button type="button" className="icon-button" aria-label="Effacer la recherche" onClick={() => setSearch('')}><X size={15} /></button>}</label><button type="button" className="icon-button favorites-filter" aria-label="Afficher uniquement les favoris" aria-pressed={favoritesOnly} onClick={() => setFavoritesOnly(value => !value)}><Star size={18} fill={favoritesOnly ? 'currentColor' : 'none'} /></button></div>
+    <div className="collection-tools">
+      <CardSearchRow search={search} onSearchChange={setSearch} favoritesOnly={favoritesOnly} onToggleFavorites={() => setFavoritesOnly(value => !value)} />
       <CardFilters value={filters} onChange={setFilters} />
     </div>
     {variants.length ? <><div className="collection-grid">{visible.map(item => {

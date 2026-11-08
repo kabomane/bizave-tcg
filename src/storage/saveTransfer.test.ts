@@ -51,22 +51,20 @@ describe('migration de sauvegarde', () => {
     expect(await target.weeklyShop.get('current')).toEqual(current)
     expect((await target.player.get('local'))?.fragments).toBe(273)
   })
-  it('accepte un ancien journal signé puis le nettoie sans modifier le fichier ni les possessions', async () => {
+  it('importe une sauvegarde du schéma 10 avec son historique d’achats et ses stocks', async () => {
     await seed()
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget()), payload = JSON.parse(envelope.payload)
     payload.schemaVersion = 10; payload.tables.player[0].schemaVersion = 10; delete payload.tables.weeklyShop
-    payload.tables.boosterPurchases = [{ id: uuid(), boosterId: 'phantom-blood', boosterTitle: 'Memory Frame', unitPrice: 70, fragmentsSpent: 70, createdAt: 1 }]
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     const contents = JSON.stringify(envelope)
     const parsed = await parseSaveFile(contents)
     expect(parsed.payload.tables.boosterPurchases).toHaveLength(1)
     await importSave(contents, target)
-    expect(await target.boosterPurchases.count()).toBe(0)
+    expect(await target.boosterPurchases.toArray()).toEqual(parsed.payload.tables.boosterPurchases)
     expect((await target.boosterStock.get('phantom-blood'))?.quantity).toBe(3)
     expect((await target.player.get('local'))?.fragments).toBe(273)
-    expect(parsed.payload.tables.boosterPurchases).toHaveLength(1)
     expect((await parseSaveFile(contents)).contents).toBe(contents)
   })
   it('exporte et importe les codes de fragments avec le solde débité et les deux registres antirejeu', async () => {

@@ -38,4 +38,8 @@ Le schéma Dexie 11 ajoute `weeklyShop`. Les transferts conservent la boutique e
 
 Les cartes acquises, les boosters payés non ouverts et les ouvertures inachevées restent des données de jeu utiles. Aucune ancienne offre ni journal d’achat ou de reroll n’est archivé. La suppression de compte et le verrou d’export couvrent aussi la boutique.
 
-Le nettoyage de l’historique d’achats des boosters habituels est isolé dans [le patch temporaire](patch-booster-purchase-history.md).
+## Événement de Noël
+
+Le booster **merry xmas** est préparé mais masqué en production. Son activation sera publiée séparément. En développement, **Options → Développement** propose **Événement toujours actif** et **Fragments illimités** pour le tester localement.
+
+Quand l’événement est actif, le booster apparaît en deuxième position du carrousel, à côté de Lucky Boost. Il coûte 50 fragments, sans limite d’achat. Chaque ouverture révèle une seule carte événementielle, mate et classique. Elle disparaît à la fermeture du récapitulatif et ne rejoint pas la collection.

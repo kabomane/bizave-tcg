@@ -12,4 +12,4 @@ Note affichée : « Refonte de la boutique, ajout de la boutique hebdomadaire pl
 - Dans Vos boosters, lucky boost vient après les boosters classiques et son bouton Taux de drop reste visible mais désactivé.
 - Schéma Dexie 11 : boutique courante transférable et validation des offres à l’import. Les achats ne créent plus de journal ; le nettoyage de l’ancien historique est isolé dans un patch temporaire supprimable.
 
-Détails : [boutique hebdomadaire](../boutique-hebdomadaire.md), [patch temporaire](../patch-booster-purchase-history.md), [validation](../../VALIDATION.md).
+Détails : [boutique hebdomadaire](../boutique-hebdomadaire.md), [validation](../../VALIDATION.md).

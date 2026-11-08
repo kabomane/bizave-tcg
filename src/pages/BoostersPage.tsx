@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import type { CSSProperties } from 'react'
 import { ArrowRight, Check, Clock3, PackageOpen } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { boosters } from '../data/boosters'
@@ -22,7 +23,7 @@ import { CardViewer } from '../components/CardViewer'
 import { CardBackdrop } from '../components/CardBackdrop'
 import { FinishDot } from '../components/FinishDot'
 import { useNow } from '../components/useNow'
-import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID, WEEKLY_BOOSTER_TITLE } from '../game/weeklyShop'
+import { priorWeeklyBoosters, WEEKLY_BOOSTER_COLORS, WEEKLY_BOOSTER_ID, WEEKLY_BOOSTER_TITLE } from '../game/weeklyShop'
 
 function RechargeClock({ at }: { at: number }) { const now = useNow(); return <span className="recharge-clock"><Clock3 size={12} />{formatDuration(at - now, { hours: false })}</span> }
 const openingCard = (cardId: string) => (cardById.get(cardId) ?? christmasCardById.get(cardId))!
@@ -97,10 +98,19 @@ export function BoostersPage() {
   if (pending && !tearing) {
     const count = pending.revealedCount, card = pending.results[Math.max(0, count - 1)]
     const christmas = pending.boosterId === christmasBooster.id
-    const title = christmas ? christmasBooster.title : pending.boosterId === WEEKLY_BOOSTER_ID ? WEEKLY_BOOSTER_TITLE : pending.boosterTitle || boosters.find(choice => choice.id === pending.boosterId)?.title || 'Booster'
+    const weeklyOpening = pending.boosterId === WEEKLY_BOOSTER_ID
+    const definition = christmas ? christmasBooster : boosters.find(choice => choice.id === pending.boosterId)
+    const title = christmas ? christmasBooster.title : weeklyOpening ? WEEKLY_BOOSTER_TITLE : pending.boosterTitle || definition?.title || 'Booster'
+    const colors = pending.boosterColors ?? (weeklyOpening ? WEEKLY_BOOSTER_COLORS : definition?.artwork.colors)
+    const backStyle = colors && {
+      '--back-primary': colors.primary,
+      '--back-secondary': colors.secondary,
+      '--back-shine': colors.shine,
+      '--back-glow': colors.glow,
+    } as CSSProperties
     return <section ref={revealRoot} className={`opening-view${christmas ? ' christmas-opening' : ''}`} aria-label="Ouverture du booster">
       <CardBackdrop className="opening-backdrop" rarity={count > 0 ? openingCard(card.cardId).rarity : undefined} /><div className="opening-spacer" aria-hidden="true" />
-      <div className="opening-card-area" key={count}>{count === 0 ? <button className="card-back" onClick={next} disabled={busy} aria-label={christmas ? 'Révéler la carte' : 'Révéler la première carte'}><span className="back-ornament" /><span className="back-monogram">B</span><span className="back-wordmark">BIZAVE</span><span className="back-star">✦</span></button> : <CollectibleCard card={card} definition={openingCard(card.cardId)} onActivate={next} activationLabel={christmas ? 'Voir le récapitulatif' : count < pending.results.length ? 'Carte suivante' : 'Voir les cartes obtenues'} />}</div>
+      <div className="opening-card-area" key={count}>{count === 0 ? <button className="card-back" style={backStyle} onClick={next} disabled={busy} aria-label={christmas ? 'Révéler la carte' : 'Révéler la première carte'}><span className="back-ornament" /><span className="back-monogram">B</span><span className="back-wordmark">BIZAVE</span><span className="back-star">✦</span></button> : <CollectibleCard card={card} definition={openingCard(card.cardId)} onActivate={next} activationLabel={christmas ? 'Voir le récapitulatif' : count < pending.results.length ? 'Carte suivante' : 'Voir les cartes obtenues'} />}</div>
       <div className="opening-bottom"><div className="reveal-progress" aria-label={`${count} ${christmas ? 'carte révélée' : 'cartes révélées'} sur ${pending.results.length}`}>{pending.results.map((result, i) => i < count ? <FinishDot key={i} card={result} revealed active={i === count - 1} /> : <span key={i} className="finish-dot" />)}</div><div className="opening-meta"><span>{title}</span></div></div><ErrorNotice error={error} />
     </section>
   }

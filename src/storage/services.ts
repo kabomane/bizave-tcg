@@ -9,8 +9,6 @@ import { db, DATABASE_SCHEMA_VERSION, type BizaveDatabase } from './database'
 import { assertAccountActive } from './accountGuard'
 import { ensureInstallation } from './installation'
 import { pruneFavorites } from '../collection/favorites'
-import { patchSoireeFilm3Rarity } from './patches/soireeFilm3Rarity'
-import { clearBoosterPurchaseHistory } from './patches/boosterPurchaseHistory'
 import { settleWeeklyShop } from './weeklyShop'
 import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
 import { fragmentPurchaseCost } from '../settings/development'
@@ -23,14 +21,13 @@ export async function initializeDatabase(database = db, now = Date.now()) {
   const active = await database.transaction('rw', [database.player, database.definitions, database.accountState, database.versionInfo], async () => {
     await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
     if ((await database.accountState.get('local'))?.status === 'exported') return false
-    const previous = new Map((await database.definitions.toArray()).map(patchSoireeFilm3Rarity).map(c => [c.id, c]))
+    const previous = new Map((await database.definitions.toArray()).map(c => [c.id, c]))
     for (const card of [...cards, ...archivedCards]) if (previous.has(card.id) && previous.get(card.id)!.rarity !== card.rarity) throw new Error(`Configuration : la rareté de ${card.id} est immuable après publication.`)
     if (!await database.player.get('local')) await database.player.add({ id: 'local', fragments: 0, freePackStock: FREE_PACK_INITIAL_STOCK, nextFreePackAt: FREE_PACK_INITIAL_STOCK < FREE_PACK_CAPACITY ? now + FREE_PACK_RECHARGE_MS : null, maxObservedClockAt: now, schemaVersion: DATABASE_SCHEMA_VERSION })
     await database.definitions.bulkPut([...cards, ...archivedCards])
     return true
   })
   if (!active) return
-  await clearBoosterPurchaseHistory(database)
   await database.openings.filter(opening => opening.revealComplete === true).delete()
   // Archived snapshots are never deleted; removed models still have a definition.
   for (const definition of await database.definitions.toArray()) if (!cardById.has(definition.id)) cardById.set(definition.id, definition)
@@ -121,7 +118,7 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
     }
     const temporary = booster.id === christmasBooster.id
     const results = drawPack(booster, temporary ? christmasCards : cards)
-    const record: OpenRecord = { id: uuid(), boosterId, boosterTitle: booster.title, openedAt: time, payment, fragmentsSpent: 0, results, revealComplete: false, revealedCount: 0 }
+    const record: OpenRecord = { id: uuid(), boosterId, boosterTitle: booster.title, boosterColors: { ...booster.artwork.colors }, openedAt: time, payment, fragmentsSpent: 0, results, revealComplete: false, revealedCount: 0 }
     await database.player.put(player)
     if (!temporary) {
       await database.drops.bulkAdd(results.map(c => ({ ...c, status: 'owned' as const, acquiredAt: time, updatedAt: time, circulation: 'local' as const })))

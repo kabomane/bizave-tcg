@@ -16,8 +16,6 @@ import type { RecycledCardRow, FavoriteRow, BoosterPurchaseRow, BoosterStockRow,
 import type { UsedSaveTransferRow } from './accountTypes'
 import type { UsedGiftCodeRow } from '../gifts/types'
 import { GIFT_CODE_HASH_PATTERN } from '../gifts/format'
-import { patchSoireeFilm3Rarity } from './patches/soireeFilm3Rarity'
-import { clearBoosterPurchaseHistory } from './patches/boosterPurchaseHistory'
 import { validWeeklyShop, type WeeklyShopRow } from '../game/weeklyShop'
 import { settleWeeklyShop } from './weeklyShop'
 
@@ -70,7 +68,7 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   assert(credits === undefined || (record(credits) && Object.entries(credits).every(([kind, count]) => (kind === 'reroll' || kind === 'fragments') && integer(count) && count < Number.MAX_SAFE_INTEGER)))
   settleFreePackRecharge(player, player.maxObservedClockAt)
   assert(s.definitions.length > 0 && s.definitions.every(c => id(c.id) && text(c.title) && text(c.description) && id(c.collectionId) && ['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(c.rarity) && record(c.artwork) && Object.values(c.artwork).length === 2 && ['standard', 'fullArt'].every(k => typeof c.artwork[k as 'standard'] === 'string' && /^\/assets\/cards\/[a-z0-9/-]+\/[a-zA-Z0-9.-]+$/.test(c.artwork[k as 'standard'])) && (c.weight === undefined || (Number.isFinite(c.weight) && c.weight > 0)) && (c.artworkPosition === undefined || (record(c.artworkPosition) && Object.values(c.artworkPosition).every(text)))))
-  const definitions = new Map(s.definitions.map(patchSoireeFilm3Rarity).map(c => [c.id, c]))
+  const definitions = new Map(s.definitions.map(c => [c.id, c]))
   for (const definition of definitions.values()) {
     assert(!christmasCardById.has(definition.id))
     assert(definition.promoNumber === undefined || (typeof definition.promoNumber === 'string' && /^PR-\d{3}$/.test(definition.promoNumber)))
@@ -89,6 +87,8 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   assert(s.discoveries.every(c => card(c) && c.key === variantKey(c) && integer(c.firstDiscoveredAt)))
   assert(s.openings.every(o => {
     const christmas = o.boosterId === christmasBooster.id
+    const colors = o.boosterColors
+    if (colors !== undefined && (!record(colors) || !(['primary', 'secondary', 'shine', 'glow'] as const).every(key => text(colors[key])))) return false
     return transferId(o.id) && id(o.boosterId) && (o.boosterTitle === undefined || text(o.boosterTitle)) && integer(o.openedAt) &&
       ['free', 'fragments', 'shop'].includes(o.payment) && integer(o.fragmentsSpent) && typeof o.revealComplete === 'boolean' &&
       Array.isArray(o.results) && (christmas ? o.results.length === 1 : o.results.length > 0 && o.results.length <= 100) &&
@@ -145,7 +145,6 @@ export async function exportSave(recipientId: string, preferences: Preferences, 
     await assertAccountActive(database)
     if ((await database.identity.get('local'))?.playerUuid !== identity.playerUuid || (await database.installation.get('local'))?.installationId !== installation.installationId) throw new Error('L’identité locale a changé. Réessayez.')
     await compactRecycledData(database)
-    await clearBoosterPurchaseHistory(database)
     const player = await database.player.get('local')
     await settleWeeklyShop(database, Math.max(Date.now(), player!.maxObservedClockAt))
     const tables = Object.fromEntries(await Promise.all(SAVE_TABLES.map(async name => [name, await database.table(name).toArray()]))) as Snapshot
@@ -180,10 +179,9 @@ export async function importSave(contents: string, database = db) {
     const previousRecycled = await database.recycledCards.toArray()
     const previousSaves = await database.usedSaveTransfers.toArray(), previousCards = await database.usedTransfers.toArray(), previousGifts = await database.usedGiftCodes.toArray()
     for (const name of SAVE_TABLES) {
-      const rows = name === 'definitions' ? payload.tables.definitions.map(patchSoireeFilm3Rarity) : payload.tables[name] ?? []
+      const rows = payload.tables[name] ?? []
       await database.table(name).clear(); await database.table(name).bulkPut(rows)
     }
-    await clearBoosterPurchaseHistory(database)
     if (payload.schemaVersion < 8) await database.drops.toCollection().modify(row => { delete row.circulation })
     await database.outbox.toCollection().modify(row => { row.kind ??= 'card' })
     await compactRecycledData(database)

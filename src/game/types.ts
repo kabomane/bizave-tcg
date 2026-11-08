@@ -36,6 +36,7 @@ export type PlayerStateRow = {
 }
 export type OpenRecord = {
   id: string; boosterId: string; boosterTitle?: string; openedAt: number; payment: 'free' | 'fragments' | 'shop'
+  boosterColors?: BoosterDefinition['artwork']['colors']
   fragmentsSpent: number; results: Card[]; revealComplete: boolean; revealedCount: number
 }
 export type BoosterStockRow = { boosterId: string; quantity: number; updatedAt: number }

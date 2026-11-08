@@ -7,7 +7,6 @@ import { BetaClosedPage } from './pages/BetaClosedPage'
 import { initializeDatabase } from './storage/services'
 import { db } from './storage/database'
 import { needsUpdateNotice } from './settings/updateNotice'
-import { migrateLegacyDatabase } from './storage/patches/legacyDatabase'
 import './styles/index.css'
 import './styles/cards-reference.css'
 import './styles/application.css'
@@ -17,7 +16,6 @@ import './styles/settings.css'
 
 const root = createRoot(document.getElementById('root')!)
 async function boot() {
-  await migrateLegacyDatabase()
   const existingPlayer = !!await db.player.get('local') || !!await db.accountState.get('local')
   const updateRequired = needsUpdateNotice(existingPlayer)
   await initializeDatabase()

@@ -13,3 +13,9 @@ Firebase applique no-cache aux documents et routes, no-store à /version.json et
 Déploiement initial : les onglets utilisant une version antérieure à ce mécanisme doivent être actualisés une première fois manuellement. Après cette étape, les prochains déploiements sont détectés automatiquement. Le compteur UPDATE_VERSION et la note restent à mettre à jour seulement pour les publications annoncées selon le fonctionnement existant.
 
 Validation : tests unitaires du moniteur (polling, visibilité, absence longue, restauration, déduplication, arrêt, réseau et validation du manifeste), et tests navigateur dans tests/live-updates.spec.ts (bandeau, actualisation manuelle, anti-boucle, ouverture en cours, saisie et perte réseau).
+
+## Fermeture de la bêta
+
+En production, `VITE_BETA_CLOSED=true` affiche la page de fermeture sur toutes les routes du jeu au prochain chargement. Elle s’affiche avant l’initialisation d’IndexedDB. La réinitialisation des sauvegardes et l’attribution du code de compensation sont prévues pour la réouverture en 1.5.0.
+
+Le compte à rebours vise le samedi 14 novembre 2026 à 00 h, heure de Paris. Le bouton est désactivé pendant toute cette publication et affiche « incessamment sous peu » une fois l’échéance passée. Le manifeste annonce `betaClosed: true` et `appVersion: "1.4.5"`. Le compteur de la note de mise à jour reste à 8.

@@ -140,7 +140,7 @@
 ## Publication — 30 octobre 2026, mise à jour 2
 
 - 32 modèles illustrés ajoutés à Memory Frame : 158 modèles dans ce booster, 217 dans le catalogue complet. Les 185 originaux et 185 WebP précédents restent inchangés, empreintes et dates contrôlées ; 16 images déjà présentes dans l’archive sont ignorées. Les numéros précédents sont préservés.
-- Thomas Sakamoto et Nana Sakamoto renommés. Soirée film #3 passe de rare à peu commune ; correctif de compatibilité isolé dans `src/storage/patches/soireeFilm3Rarity.ts`, retrait documenté dans `docs/patch-soiree-film-3.md`.
+- Thomas Sakamoto et Nana Sakamoto renommés. Soirée film #3 passe de rare à peu commune avec un correctif de compatibilité temporaire.
 - Tri Rareté indépendant des fragments, compteur filtré des exemplaires détenus, `UPDATE_VERSION = 2` et nouvelle note en trois lignes fournie par le propriétaire.
 - `npm run check` réussi : lint, 189 tests unitaires/intégration, TypeScript et build. Huit parcours Chromium réussis sur la collection, la migration et la notification de mise à jour.
 - Build de production : 232 fichiers, 44 915 210 octets, mode dev désactivé. Audit des 60 empreintes de cadeaux réussi, aucun code en clair, original, archive, certificat ou fichier privé dans `dist/`.

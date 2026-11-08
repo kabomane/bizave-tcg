@@ -5,6 +5,7 @@ import type { ArtVariant, BoosterDefinition, CardDefinition, Finish, Rarity } fr
 
 export const WEEKLY_BOOSTER_ID = 'weekly-mystery'
 export const WEEKLY_BOOSTER_TITLE = 'lucky boost'
+export const WEEKLY_BOOSTER_COLORS = { primary: '#446658', secondary: '#15271f', shine: '#e5d6aa', glow: '#8bad8a' }
 export const SALES_CLOSE_MS = 2 * 60 * 60 * 1000
 export const WEEKLY_REROLL_PRICE = 150
 const MAX_WEEKLY_BOOSTER_STOCK = 4
@@ -96,7 +97,7 @@ function rollWeeklyBooster(catalogue: CardDefinition[], rng: Rng = secureRandom)
   const stock = int(1, MAX_WEEKLY_BOOSTER_STOCK, rng)
   const definition: BoosterDefinition = {
     id: WEEKLY_BOOSTER_ID, title: WEEKLY_BOOSTER_TITLE, subtitle: '', description: '',
-    artwork: { symbol: 'moon', colors: { primary: '#446658', secondary: '#15271f', shine: '#e5d6aa', glow: '#8bad8a' } },
+    artwork: { symbol: 'moon', colors: { ...WEEKLY_BOOSTER_COLORS } },
     access: { type: 'shop', price, listed: false }, cardsPerPack: 5, sources: [{ type: 'cards', cardIds: pool.map(c => c.id) }],
     rates: { rarity, finish, illustration }, enabled: true, order: -1, showInFilters: false,
   }
