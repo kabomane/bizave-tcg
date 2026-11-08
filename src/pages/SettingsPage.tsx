@@ -2,6 +2,7 @@ import { Check, Download, FileUp, Trash2, Palette, Layers3, Send, Gift, Shield, 
 import { useEffect, useRef, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
 import { DEV_CATALOG_ENABLED } from '../dev/catalogPreview'
+import { DEVELOPMENT_OPTIONS_ENABLED } from '../settings/development'
 import { ErrorNotice, Modal } from '../components/ui'
 import { errorText } from '../components/format'
 import { updateSettings, useSettings } from '../settings/useSettings'
@@ -55,9 +56,21 @@ export function SettingsPage() {
     <SettingsGroup id="account" title="Compte et sauvegarde" description="Transférer votre partie, gérer votre compte" icon={<Shield size={20} />}>
       <div className="settings-account-actions"><button className="text-button" disabled={!identity || !installation} onClick={() => openDialog('transfer')}><Download size={16} />Transfert de sauvegarde</button><button className="text-button settings-delete" onClick={() => openDialog('delete')}><Trash2 size={16} />Supprimer le compte</button></div>
     </SettingsGroup>
-    {DEV_CATALOG_ENABLED && <SettingsGroup id="development" title="Développement" description="Catalogue et page de mise à jour" icon={<Wrench size={20} />}>
+    {(DEV_CATALOG_ENABLED || DEVELOPMENT_OPTIONS_ENABLED) && <SettingsGroup id="development" title="Développement" description="Options de test" icon={<Wrench size={20} />}>
+      {DEV_CATALOG_ENABLED && <>
       <div className="settings-dev"><div><h3>Mode dev</h3><p className="settings-note" id="dev-description">Afficher toutes les cartes dans la collection. Votre sauvegarde reste intacte.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={settings.devCatalog} aria-label="Mode dev" aria-describedby="dev-description" onClick={() => change({ devCatalog: !settings.devCatalog })}><span /></button></div>
       <div className="settings-dev"><div><h3>Page de mise à jour</h3><p className="settings-note" id="update-test-description">Afficher la page de mise à jour au prochain rechargement.</p></div><button type="button" className="setting-switch" role="switch" aria-checked={updateReset} aria-label="Page de mise à jour" aria-describedby="update-test-description" onClick={() => { try { if (updateReset) acknowledgeUpdate(); else resetUpdateNotice(); setUpdateReset(value => !value); setError('') } catch { setError('Impossible de modifier cette option.') } }}><span /></button></div>
+      </>}
+      {DEVELOPMENT_OPTIONS_ENABLED && <>
+        <div className="settings-dev">
+          <div><h3>Fragments illimités</h3><p className="settings-note" id="unlimited-fragments-description">Tester les achats et le reroll avec un solde de test illimité.</p></div>
+          <button type="button" className="setting-switch" role="switch" aria-checked={settings.devUnlimitedFragments} aria-label="Fragments illimités" aria-describedby="unlimited-fragments-description" onClick={() => change({ devUnlimitedFragments: !settings.devUnlimitedFragments })}><span /></button>
+        </div>
+        <div className="settings-dev">
+          <div><h3>Événement toujours actif</h3><p className="settings-note" id="always-active-event-description">Afficher le booster de Noël dans la boutique pour le tester.</p></div>
+          <button type="button" className="setting-switch" role="switch" aria-checked={settings.devEventAlwaysActive} aria-label="Événement toujours actif" aria-describedby="always-active-event-description" onClick={() => change({ devEventAlwaysActive: !settings.devEventAlwaysActive })}><span /></button>
+        </div>
+      </>}
     </SettingsGroup>}
     <ErrorNotice error={error} />
     <input ref={fileInput} className="visually-hidden" type="file" accept=".btcg" aria-label="Fichier de sauvegarde .btcg" tabIndex={-1} disabled={busy} onChange={event => {

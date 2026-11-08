@@ -171,7 +171,7 @@ describe('économie', () => {
     for (const r of rarities) for (const f of finishes) for (const a of variants) mean += DEFAULT_RARITY_RATES[r] * DEFAULT_FINISH_RATES[f] * DEFAULT_ART_VARIANT_RATES[a] / 1_000_000 * getRecycleFragments(r, f, a)
     expect(mean).toBeCloseTo(4.149816, 8)
     expect(mean * 5).toBeCloseTo(20.74908, 8)
-    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(30784)
+    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(31140)
     for (const booster of [...boosters, ...publishedBoosters]) {
       const offer = shopOffer(booster)
       if (!offer) continue

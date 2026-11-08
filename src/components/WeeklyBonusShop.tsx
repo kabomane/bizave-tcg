@@ -7,6 +7,8 @@ import { errorText } from './format'
 import { ShopBuyButton } from './ShopBuyButton'
 import { ShopCarousel } from './ShopCarousel'
 import { ErrorNotice } from './ui'
+import { useSettings } from '../settings/useSettings'
+import { fragmentPurchaseCost } from '../settings/development'
 
 const choices = [
   { id: 'reroll', title: 'Reroll', face: 'Reroll', caption: 'Nouvelle sélection', footer: 'Lucky boost et vitrine', Icon: RotateCw },
@@ -17,6 +19,7 @@ const labels = { region: 'Choisir un bonus', selection: 'Sélection des bonus', 
 export function WeeklyBonusShop({ shop, balance, credits, expired, onRerolled }: {
   shop: WeeklyShopRow; balance: number; credits?: PlayerStateRow['weeklyBonusCredits']; expired: boolean; onRerolled: () => void
 }) {
+  const settings = useSettings()
   const [selectedId, setSelectedId] = useState<WeeklyBonusKind>('reroll')
   const [moving, setMoving] = useState(false)
   const [busy, setBusy] = useState(false)
@@ -32,7 +35,7 @@ export function WeeklyBonusShop({ shop, balance, credits, expired, onRerolled }:
   const count = remaining[selectedId]
   const used = count === 0
   const rerollPrice = credits?.reroll ? 0 : WEEKLY_REROLL_PRICE
-  const disabled = expired || used || (reroll && balance < rerollPrice)
+  const disabled = expired || used || (reroll && balance < fragmentPurchaseCost(rerollPrice, settings))
   const purchased = success?.id === selectedId
 
   useEffect(() => {

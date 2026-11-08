@@ -145,5 +145,14 @@
     },
     "issuedAt": 1794153762043,
     "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "2f9b6a7dd4445f400815afed703c9d4b91d0dfb9f9402ed83385cdd946ff277c",
+    "reward": {
+      "type": "card-variants",
+      "cardId": "merry-wifemas"
+    },
+    "issuedAt": 1794172241495,
+    "expiresAt": 1799276400000
   }
 ]

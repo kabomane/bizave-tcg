@@ -5001,5 +5001,21 @@
       "fullArt": "center top"
     },
     "promoNumber": "PR-001"
+  },
+  {
+    "id": "merry-wifemas",
+    "title": "Merry Wifemas",
+    "rarity": "legendary",
+    "collectionId": "promo",
+    "description": "Merry Wifemas vous souhaitent un joyeux Noël.",
+    "artwork": {
+      "standard": "/assets/cards/merry-wifemas/illustration.6d21afa638.webp",
+      "fullArt": "/assets/cards/merry-wifemas/illustration.6d21afa638.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    },
+    "promoNumber": "PR-002"
   }
 ]

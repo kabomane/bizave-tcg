@@ -1,0 +1,302 @@
+[
+  {
+    "id": "noel-c1",
+    "title": "Le petit cube rouge",
+    "rarity": "common",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-c1/illustration.04e7eb7bc3.webp",
+      "fullArt": "/assets/cards/noel-c1/illustration.04e7eb7bc3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-c2",
+    "title": "Le paquet kraft",
+    "rarity": "common",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-c2/illustration.7d2be752fe.webp",
+      "fullArt": "/assets/cards/noel-c2/illustration.7d2be752fe.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-c3",
+    "title": "Le tube vert",
+    "rarity": "common",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-c3/illustration.b2ad627f5f.webp",
+      "fullArt": "/assets/cards/noel-c3/illustration.b2ad627f5f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-c4",
+    "title": "La pochette rayée",
+    "rarity": "common",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-c4/illustration.b00977d0d0.webp",
+      "fullArt": "/assets/cards/noel-c4/illustration.b00977d0d0.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-pc1",
+    "title": "La boîte à pois",
+    "rarity": "uncommon",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-pc1/illustration.54e5c74e0f.webp",
+      "fullArt": "/assets/cards/noel-pc1/illustration.54e5c74e0f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-pc2",
+    "title": "Le paquet flocons",
+    "rarity": "uncommon",
+    "collectionId": "noel",
+    "description": "Ce cadeau contient quelque chose\nBKB5 - …. - …. - ….",
+    "artwork": {
+      "standard": "/assets/cards/noel-pc2/illustration.a262e19034.webp",
+      "fullArt": "/assets/cards/noel-pc2/illustration.a262e19034.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-pc3",
+    "title": "La boîte à rennes",
+    "rarity": "uncommon",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-pc3/illustration.b1a20fae34.webp",
+      "fullArt": "/assets/cards/noel-pc3/illustration.b1a20fae34.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-pc4",
+    "title": "Le paquet sapin",
+    "rarity": "uncommon",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-pc4/illustration.e63a0223ef.webp",
+      "fullArt": "/assets/cards/noel-pc4/illustration.e63a0223ef.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-r1",
+    "title": "La boîte étoilée",
+    "rarity": "rare",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-r1/illustration.d853bccb74.webp",
+      "fullArt": "/assets/cards/noel-r1/illustration.d853bccb74.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-r2",
+    "title": "Le carton à chapeau",
+    "rarity": "rare",
+    "collectionId": "noel",
+    "description": "Ce cadeau contient quelque chose\n…. - DTYA - …. - ….",
+    "artwork": {
+      "standard": "/assets/cards/noel-r2/illustration.b6a10e26d1.webp",
+      "fullArt": "/assets/cards/noel-r2/illustration.b6a10e26d1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-r3",
+    "title": "La boîte hexagonale",
+    "rarity": "rare",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-r3/illustration.1b70b99503.webp",
+      "fullArt": "/assets/cards/noel-r3/illustration.1b70b99503.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-r4",
+    "title": "Le long écrin",
+    "rarity": "rare",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-r4/illustration.8dc55684b3.webp",
+      "fullArt": "/assets/cards/noel-r4/illustration.8dc55684b3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-e1",
+    "title": "Le coffre de velours",
+    "rarity": "epic",
+    "collectionId": "noel",
+    "description": "Ce cadeau contient quelque chose\n…. - …. - 6WSU - ….",
+    "artwork": {
+      "standard": "/assets/cards/noel-e1/illustration.f04d62a940.webp",
+      "fullArt": "/assets/cards/noel-e1/illustration.f04d62a940.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-e2",
+    "title": "Le cadeau sur luge",
+    "rarity": "epic",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-e2/illustration.0fb8b20a67.webp",
+      "fullArt": "/assets/cards/noel-e2/illustration.0fb8b20a67.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-e3",
+    "title": "La tour de cadeaux",
+    "rarity": "epic",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-e3/illustration.1ab04a7655.webp",
+      "fullArt": "/assets/cards/noel-e3/illustration.1ab04a7655.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-e4",
+    "title": "Le cœur emballé",
+    "rarity": "epic",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-e4/illustration.5f138047ee.webp",
+      "fullArt": "/assets/cards/noel-e4/illustration.5f138047ee.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-l1",
+    "title": "Le grand cadeau d'or",
+    "rarity": "legendary",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-l1/illustration.88ebaa0b36.webp",
+      "fullArt": "/assets/cards/noel-l1/illustration.88ebaa0b36.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-l2",
+    "title": "Le cadeau de cristal",
+    "rarity": "legendary",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-l2/illustration.a7cca87bf8.webp",
+      "fullArt": "/assets/cards/noel-l2/illustration.a7cca87bf8.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-l3",
+    "title": "Le cadeau flottant",
+    "rarity": "legendary",
+    "collectionId": "noel",
+    "description": "Ce cadeau contient quelque chose\n…. - …. - …. - FYU6",
+    "artwork": {
+      "standard": "/assets/cards/noel-l3/illustration.fe982fbda1.webp",
+      "fullArt": "/assets/cards/noel-l3/illustration.fe982fbda1.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "noel-l4",
+    "title": "Le cadeau du pôle Nord",
+    "rarity": "legendary",
+    "collectionId": "noel",
+    "description": "Ce cadeau est vide…",
+    "artwork": {
+      "standard": "/assets/cards/noel-l4/illustration.727c381fa7.webp",
+      "fullArt": "/assets/cards/noel-l4/illustration.727c381fa7.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  }
+]

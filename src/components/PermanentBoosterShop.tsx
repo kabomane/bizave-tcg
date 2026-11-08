@@ -9,9 +9,12 @@ import { ShopBuyButton } from './ShopBuyButton'
 import { DropRates } from './DropRates'
 import { EmptyState, ErrorNotice, Modal } from './ui'
 import { errorText } from './format'
+import { useSettings } from '../settings/useSettings'
+import { fragmentPurchaseCost } from '../settings/development'
 
 export function PermanentBoosterShop() {
   const { player } = useGame()
+  const settings = useSettings()
   const offers = useMemo(() => shopBoosters(boosters), [])
   const [selectedId, setSelectedId] = useState(offers[0]?.id ?? '')
   const booster = offers.find(offer => offer.id === selectedId) ?? offers[0]
@@ -38,7 +41,7 @@ export function PermanentBoosterShop() {
   return <section className="shop-page"><div className="weekly-section-heading"><h2>Boosters permanents</h2>{offers.length > 0 && <button className="drop-rates-trigger" disabled={moving} onClick={() => setShowRates(true)}><Info size={12} /> Taux de drop</button>}</div>
     {booster ? <div className="shop-stage">
         <BoosterCarousel choices={offers} selectedId={booster.id} onSelect={id => { setSelectedId(id); setError('') }} onMovingChange={changeMoving} disabled={busyId !== null} />
-        <ShopBuyButton price={price} disabled={busyId !== null || player.fragments < price} moving={moving} busy={busy} purchased={purchased} accessibleLabel={moving ? 'Changement de booster' : purchased ? `${booster.title} ajouté` : `Acheter ${booster.title} pour ${price} fragments`} onClick={() => void buy(booster.id)} />
+        <ShopBuyButton price={price} disabled={busyId !== null || player.fragments < fragmentPurchaseCost(price, settings)} moving={moving} busy={busy} purchased={purchased} accessibleLabel={moving ? 'Changement de booster' : purchased ? `${booster.title} ajouté` : `Acheter ${booster.title} pour ${price} fragments`} onClick={() => void buy(booster.id)} />
         {booster.description && <p className="shop-description">{booster.description}</p>}
       </div> : <EmptyState icon={<ShoppingBag size={25} />} title="Aucun paquet en boutique.">Les prochains paquets apparaîtront ici.</EmptyState>}
     {showRates && booster && <Modal title={`Taux de drop · ${booster.title}`} onClose={() => setShowRates(false)}><DropRates booster={booster} /></Modal>}
