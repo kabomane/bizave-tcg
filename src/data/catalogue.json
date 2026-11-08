@@ -4843,8 +4843,8 @@
     "collectionId": "thomas",
     "description": "Le bol était plus grand que l'estomac.",
     "artwork": {
-      "standard": "/assets/cards/t-ramen/illustration.35a1298369.webp",
-      "fullArt": "/assets/cards/t-ramen/illustration.35a1298369.webp"
+      "standard": "/assets/cards/t-ramen/illustration.a0c7a1e3e2.webp",
+      "fullArt": "/assets/cards/t-ramen/illustration.a0c7a1e3e2.webp"
     },
     "artworkPosition": {
       "standard": "center top",
@@ -4946,7 +4946,7 @@
     "title": "Eli bons p'tits plats",
     "rarity": "uncommon",
     "collectionId": "groupes",
-    "description": "Quand Eli cuisine, Matthieu joue. Chacun son rôle.",
+    "description": "Le meilleur restaurant de Québec n’a qu’une table… et une cheffe.",
     "artwork": {
       "standard": "/assets/cards/eli-bons-plats/illustration.2efeff4d3f.webp",
       "fullArt": "/assets/cards/eli-bons-plats/illustration.2efeff4d3f.webp"

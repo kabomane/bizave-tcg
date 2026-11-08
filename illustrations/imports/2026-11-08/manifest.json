@@ -247,18 +247,18 @@
       "cardId": "t-ramen",
       "title": "Thomas Ramen Museum",
       "number": 324,
-      "sourceEntry": "thomas_ramen_museum.png",
+      "sourceEntry": "thomas_ramen.png",
       "original": {
         "path": "illustrations/originals/t-ramen.png",
-        "sha256": "258d85c123a59f05b1110d1d534005536e3f27ee074d57f0d458f62cc926bb68",
-        "bytes": 3052394,
+        "sha256": "5801e466e6578ab4e91be94fbc49237d4e550b8d90d6e901ba844d2b2f8809ab",
+        "bytes": 3118035,
         "width": 1086,
         "height": 1448
       },
       "published": {
-        "path": "public/assets/cards/t-ramen/illustration.35a1298369.webp",
-        "sha256": "35a12983691ddd0009d136fd18da0e01b9d8cbe0440e1206545a6703e3f990e6",
-        "bytes": 264970,
+        "path": "public/assets/cards/t-ramen/illustration.a0c7a1e3e2.webp",
+        "sha256": "a0c7a1e3e25ba4fca52638e5494c053923d189ccbc8f2aec211ce5b877932344",
+        "bytes": 270532,
         "width": 900,
         "height": 1200
       }
