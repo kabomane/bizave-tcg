@@ -1,0 +1,20 @@
+.booster-pack[data-booster='christmas-gift'] {
+  background:
+    linear-gradient(108deg, #fff2dc14, transparent 22% 71%, #fff2dc0c 85%, transparent 96%),
+    radial-gradient(ellipse at 50% 32%, #38724d 0%, #23503a 37%, var(--pack-secondary) 73%);
+}
+.booster-pack[data-booster='christmas-gift'] .pack-border { border-color: #eed49b70; }
+.booster-pack[data-booster='christmas-gift'] .pack-border::before,
+.booster-pack[data-booster='christmas-gift'] .pack-border::after { border-color: #efd6a1; background: var(--pack-primary); }
+.booster-pack[data-booster='christmas-gift'] .pack-seal {
+  background: repeating-linear-gradient(90deg, #0006 0 1px, #ffe2af2e 1px 2px, transparent 2px 4px),
+    linear-gradient(#cc8b5d, var(--pack-primary) 24%, #651f29);
+}
+.booster-pack[data-booster='christmas-gift'] .pack-wordmark strong { background-image: linear-gradient(120deg, #d7ad67, #fff0bf 52%, #d7ad67); }
+.booster-pack[data-booster='christmas-gift'] .pack-wordmark span { color: var(--pack-shine); }
+
+.christmas-opening .card .description { white-space: pre-line; }
+.christmas-opening .recap-grid {
+  grid-template-columns: minmax(0, min(240px, 68vw));
+  justify-content: center;
+}

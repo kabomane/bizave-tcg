@@ -1,5 +1,6 @@
 import { cards, cardById, archivedCards } from '../data/cards'
 import { boosters } from '../data/boosters'
+import { christmasBooster, christmasCards, isChristmasEventActive } from '../data/christmas'
 import { FREE_PACK_CAPACITY, FREE_PACK_INITIAL_STOCK, FREE_PACK_RECHARGE_MS } from '../game/config'
 import { shopOffer } from '../game/boosterAvailability'
 import { consumeFreePack, drawPack, getRecycleFragments, settleFreePackRecharge, uuid, variantKey, validateConfiguration } from '../game/engine'
@@ -12,9 +13,13 @@ import { patchSoireeFilm3Rarity } from './patches/soireeFilm3Rarity'
 import { clearBoosterPurchaseHistory } from './patches/boosterPurchaseHistory'
 import { settleWeeklyShop } from './weeklyShop'
 import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
+import { fragmentPurchaseCost } from '../settings/development'
+
+const purchasableBoosters = [...boosters, christmasBooster]
 
 export async function initializeDatabase(database = db, now = Date.now()) {
   validateConfiguration(cards, boosters)
+  validateConfiguration(christmasCards, [christmasBooster])
   const active = await database.transaction('rw', [database.player, database.definitions, database.accountState, database.versionInfo], async () => {
     await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
     if ((await database.accountState.get('local'))?.status === 'exported') return false
@@ -52,7 +57,7 @@ export async function discover(database: BizaveDatabase, card: Card, now: number
   const key = variantKey(card)
   if (!await database.discoveries.get(key)) await database.discoveries.add({ key, cardId: card.cardId, finish: card.finish, artVariant: card.artVariant, firstDiscoveredAt: now })
 }
-export async function buyBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = boosters) {
+export async function buyBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = purchasableBoosters) {
   const booster = boosterDefinitions.find(b => b.id === boosterId && b.enabled)
   const offer = booster && shopOffer(booster)
   if (!booster || !offer || offer.listed === false) throw new Error('Ce booster n’est pas disponible en boutique.')
@@ -60,24 +65,27 @@ export async function buyBooster(boosterId: string, database = db, now = Date.no
   if (!Number.isSafeInteger(price) || price <= 0) throw new Error('Le prix de ce booster est invalide.')
   return database.transaction('rw', [database.player, database.boosterStock, database.accountState], async () => {
     await assertAccountActive(database)
+    if (boosterId === christmasBooster.id && !isChristmasEventActive()) throw new Error('Ce booster n’est pas disponible en boutique.')
     const player = await database.player.get('local')
     if (!player) throw new Error('La sauvegarde locale est indisponible.')
-    if (player.fragments < price) throw new Error('Vous n’avez pas assez de fragments.')
+    const fragmentsSpent = fragmentPurchaseCost(price)
+    if (player.fragments < fragmentsSpent) throw new Error('Vous n’avez pas assez de fragments.')
     const quantity = (await database.boosterStock.get(boosterId))?.quantity ?? 0
     if (!Number.isSafeInteger(quantity) || quantity < 0 || quantity === Number.MAX_SAFE_INTEGER) throw new Error('Le stock de ce booster est incohérent.')
     const time = observedTime(player, now)
-    const purchase: BoosterPurchaseRow = { id: uuid(), boosterId, boosterTitle: booster.title, unitPrice: price, fragmentsSpent: price, createdAt: time }
-    await database.player.put({ ...player, fragments: player.fragments - price, maxObservedClockAt: time })
+    const purchase: BoosterPurchaseRow = { id: uuid(), boosterId, boosterTitle: booster.title, unitPrice: price, fragmentsSpent, createdAt: time }
+    await database.player.put({ ...player, fragments: player.fragments - fragmentsSpent, maxObservedClockAt: time })
     await database.boosterStock.put({ boosterId, quantity: quantity + 1, updatedAt: time })
     return purchase
   })
 }
-export async function openBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = boosters) {
+export async function openBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = purchasableBoosters) {
   return database.transaction('rw', [database.player, database.drops, database.discoveries, database.openings, database.boosterStock, database.accountState, database.weeklyShop], async () => {
     await assertAccountActive(database)
     // A committed but unrevealed opening takes precedence: refresh never rerolls.
     const pending = await database.openings.filter(opening => !opening.revealComplete).first()
     if (pending) return pending
+    if (boosterId === christmasBooster.id && !isChristmasEventActive()) throw new Error('Ce booster est indisponible.')
     const raw = await database.player.get('local')
     if (!raw) throw new Error('La sauvegarde locale est indisponible.')
     const time = observedTime(raw, now)
@@ -111,11 +119,14 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
       if (!stock || !Number.isSafeInteger(stock.quantity) || stock.quantity < 1) throw new Error(booster.access.type === 'free' ? 'Le stock gratuit est épuisé.' : 'Vous ne possédez aucun exemplaire de ce booster. Retrouvez-le en boutique.')
       await database.boosterStock.put({ ...stock, quantity: stock.quantity - 1, updatedAt: time })
     }
-    const results = drawPack(booster, cards)
+    const temporary = booster.id === christmasBooster.id
+    const results = drawPack(booster, temporary ? christmasCards : cards)
     const record: OpenRecord = { id: uuid(), boosterId, boosterTitle: booster.title, openedAt: time, payment, fragmentsSpent: 0, results, revealComplete: false, revealedCount: 0 }
     await database.player.put(player)
-    await database.drops.bulkAdd(results.map(c => ({ ...c, status: 'owned' as const, acquiredAt: time, updatedAt: time, circulation: 'local' as const })))
-    for (const card of results) await discover(database, card, time)
+    if (!temporary) {
+      await database.drops.bulkAdd(results.map(c => ({ ...c, status: 'owned' as const, acquiredAt: time, updatedAt: time, circulation: 'local' as const })))
+      for (const card of results) await discover(database, card, time)
+    }
     await database.openings.add(record)
     return record
   })

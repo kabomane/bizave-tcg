@@ -13,7 +13,7 @@ type CardPoolSource =
 type BoosterShopOffer = { price: number; listed?: boolean }
 export type BoosterDefinition = {
   id: string; title: string; subtitle: string; description: string
-  artwork: { symbol: 'spark' | 'moon' | 'bloom'; colors: { primary: string; secondary: string; shine: string; glow: string } }
+  artwork: { symbol: 'spark' | 'moon' | 'bloom' | 'gift'; colors: { primary: string; secondary: string; shine: string; glow: string } }
   access: { type: 'free'; shop?: BoosterShopOffer } | ({ type: 'shop' } & BoosterShopOffer)
   cardsPerPack: number; sources: CardPoolSource[]; enabled: boolean; order: number
   showInFilters?: boolean

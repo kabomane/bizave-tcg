@@ -8,6 +8,7 @@ import type { PortableIdentity } from '../exchanges/crypto'
 import { ensureInstallation } from './installation'
 import { uuid, variantKey, settleFreePackRecharge } from '../game/engine'
 import { cards, archivedCards } from '../data/cards'
+import { christmasBooster, christmasCardById } from '../data/christmas'
 import { FREE_PACK_CAPACITY, FREE_PACK_INITIAL_STOCK, FREE_PACK_RECHARGE_MS } from '../game/config'
 import { DEFAULT_PREFERENCES, parsePreferences } from '../settings/preferences'
 import type { Preferences } from '../settings/preferences'
@@ -70,20 +71,29 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   settleFreePackRecharge(player, player.maxObservedClockAt)
   assert(s.definitions.length > 0 && s.definitions.every(c => id(c.id) && text(c.title) && text(c.description) && id(c.collectionId) && ['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(c.rarity) && record(c.artwork) && Object.values(c.artwork).length === 2 && ['standard', 'fullArt'].every(k => typeof c.artwork[k as 'standard'] === 'string' && /^\/assets\/cards\/[a-z0-9/-]+\/[a-zA-Z0-9.-]+$/.test(c.artwork[k as 'standard'])) && (c.weight === undefined || (Number.isFinite(c.weight) && c.weight > 0)) && (c.artworkPosition === undefined || (record(c.artworkPosition) && Object.values(c.artworkPosition).every(text)))))
   const definitions = new Map(s.definitions.map(patchSoireeFilm3Rarity).map(c => [c.id, c]))
-  for (const definition of definitions.values()) assert(definition.promoNumber === undefined || (typeof definition.promoNumber === 'string' && /^PR-\d{3}$/.test(definition.promoNumber)))
+  for (const definition of definitions.values()) {
+    assert(!christmasCardById.has(definition.id))
+    assert(definition.promoNumber === undefined || (typeof definition.promoNumber === 'string' && /^PR-\d{3}$/.test(definition.promoNumber)))
+  }
   for (const current of [...cards, ...archivedCards]) {
     const definition = definitions.get(current.id)
     assert(!definition || (definition.rarity === current.rarity && definition.promoNumber === current.promoNumber))
   }
   assert((s.weeklyShop ?? []).length <= 1 && (s.weeklyShop ?? []).every(row => validWeeklyShop(row, [...definitions.values()])))
-  const card = (c: { cardId: string; finish: string; artVariant: string }) => text(c.cardId) && definitions.has(c.cardId) && ['normal', 'glossy', 'alternative'].includes(c.finish) && ['standard', 'fullArt'].includes(c.artVariant)
+  const card = (c: { cardId: string; finish: string; artVariant: string }, christmas = false) => text(c.cardId) && (christmas ? christmasCardById.has(c.cardId) : definitions.has(c.cardId)) && ['normal', 'glossy', 'alternative'].includes(c.finish) && ['standard', 'fullArt'].includes(c.artVariant)
   assert(s.drops.every(c => card(c) && transferId(c.dropId) && ['owned', 'outgoing', 'recycled'].includes(c.status) && integer(c.acquiredAt) && integer(c.updatedAt)))
   assert(s.drops.every(c => c.circulation === undefined || c.circulation === 'local' || c.circulation === 'exchanged'))
   assert((s.recycledCards ?? []).every(c => transferId(c.dropId) && Object.keys(c).length === 1))
   const destroyed = new Set((s.recycledCards ?? []).map(c => c.dropId))
   assert(s.drops.every(c => !destroyed.has(c.dropId)))
   assert(s.discoveries.every(c => card(c) && c.key === variantKey(c) && integer(c.firstDiscoveredAt)))
-  assert(s.openings.every(o => transferId(o.id) && id(o.boosterId) && (o.boosterTitle === undefined || text(o.boosterTitle)) && integer(o.openedAt) && ['free', 'fragments', 'shop'].includes(o.payment) && integer(o.fragmentsSpent) && typeof o.revealComplete === 'boolean' && Array.isArray(o.results) && o.results.length > 0 && o.results.length <= 100 && o.results.every(c => record(c) && card(c) && transferId(c.dropId)) && integer(o.revealedCount) && o.revealedCount <= o.results.length))
+  assert(s.openings.every(o => {
+    const christmas = o.boosterId === christmasBooster.id
+    return transferId(o.id) && id(o.boosterId) && (o.boosterTitle === undefined || text(o.boosterTitle)) && integer(o.openedAt) &&
+      ['free', 'fragments', 'shop'].includes(o.payment) && integer(o.fragmentsSpent) && typeof o.revealComplete === 'boolean' &&
+      Array.isArray(o.results) && (christmas ? o.results.length === 1 : o.results.length > 0 && o.results.length <= 100) &&
+      o.results.every(c => record(c) && card(c, christmas) && transferId(c.dropId)) && integer(o.revealedCount) && o.revealedCount <= o.results.length
+  }))
   assert(s.openings.filter(o => !o.revealComplete).length <= 1)
   const ownedVariants = new Set(s.drops.filter(drop => drop.status === 'owned').map(variantKey))
   assert((s.favorites ?? []).every(f => card(f) && f.key === variantKey(f) && ownedVariants.has(f.key)))

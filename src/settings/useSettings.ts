@@ -1,12 +1,8 @@
 import { useSyncExternalStore } from 'react'
-import { DEFAULT_PREFERENCES, parsePreferences, resolveTheme, SETTINGS_KEY } from './preferences'
+import { parsePreferences, readLocalPreferences, resolveTheme, SETTINGS_KEY } from './preferences'
 import type { Preferences } from './preferences'
 
-function read(): Preferences {
-  try { return parsePreferences(localStorage.getItem(SETTINGS_KEY)) }
-  catch { return { ...DEFAULT_PREFERENCES } }
-}
-let preferences = read()
+let preferences = readLocalPreferences()
 const listeners = new Set<() => void>()
 const system = window.matchMedia('(prefers-color-scheme: dark)')
 function applyTheme() { document.documentElement.dataset.theme = resolveTheme(preferences.theme, system.matches) }
@@ -16,7 +12,7 @@ function emit() { applyTheme(); listeners.forEach(listener => listener()) }
 applyTheme()
 system.addEventListener('change', emit)
 window.addEventListener('storage', event => {
-  if (event.key === SETTINGS_KEY || event.key === null) { preferences = read(); emit() }
+  if (event.key === SETTINGS_KEY || event.key === null) { preferences = readLocalPreferences(); emit() }
 })
 
 export function updateSettings(patch: Partial<Preferences>) {
