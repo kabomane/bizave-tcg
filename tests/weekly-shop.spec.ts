@@ -190,20 +190,24 @@ test('titres alignés et taux de drop selon la sélection, avec pilule adaptativ
 })
 
 test('bonus : carte gratuite, reroll unique et remise à zéro le lundi', async ({ page }) => {
+  const balance = 100_000
   await page.goto('/boutique/')
   await expect(page.locator('.weekly-selection .shop-buy')).toBeVisible()
-  const week = await page.evaluate(async () => {
+  const week = await page.evaluate(async fragments => {
     const path = '/src/storage/database.ts', { db } = await import(path)
     const shop = await db.weeklyShop.get('current')
     shop.booster.owned = shop.booster.stock
     shop.booster.remaining = 0
     shop.offers[0].sold = true
     await db.weeklyShop.put(shop)
-    await db.player.update('local', { fragments: 1000 })
+    await db.player.update('local', { fragments })
     return shop.weekStart
-  })
+  }, balance)
   const bonus = page.getByRole('region', { name: /^Bonus de la semaine · [01] restant$/ })
   const button = bonus.locator('.shop-buy')
+  const selection = page.locator('.weekly-selection')
+  const buy = selection.locator('.shop-buy')
+  await expect(buy).toHaveText(/^Épuisé/)
   await expect(bonus.locator('.booster-carousel-dots > span')).toHaveCount(2)
   await expect(bonus.getByRole('heading')).toHaveText('Bonus de la semaine · 1 restant')
   await bonus.getByRole('button', { name: 'Bonus suivant', exact: true }).click()
@@ -220,8 +224,10 @@ test('bonus : carte gratuite, reroll unique et remise à zéro le lundi', async 
   await expect(bonus.getByRole('heading')).toHaveText('Bonus de la semaine · 0 restant')
   await expect(page.getByRole('dialog')).toHaveCount(0)
   await expect(page.locator('.weekly-selection .showcase-card.is-sold')).toHaveCount(0)
-  await expect(page.locator('.weekly-selection .shop-buy')).toHaveText(/^Épuisé/)
-  await expect(page.getByRole('link', { name: `${1000 + reward - 150} fragments`, exact: true })).toBeVisible()
+  await expect(selection.getByRole('heading')).toHaveText(/^Cette semaine · [1-4] restants?$/)
+  await expect(buy).toHaveAccessibleName(/^Acheter lucky boost pour/)
+  await expect(buy).toBeEnabled()
+  await expect(page.getByRole('link', { name: `${balance + reward - 150} fragments`, exact: true })).toBeVisible()
   await bonus.getByRole('button', { name: 'Bonus suivant', exact: true }).click()
   await expect(button).toHaveText('Réclamée')
   await expect(button).toBeDisabled()
@@ -230,6 +236,7 @@ test('bonus : carte gratuite, reroll unique et remise à zéro le lundi', async 
   const current = await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); return { shop: await db.weeklyShop.get('current'), count: await db.weeklyShop.count() } })
   expect(current.count).toBe(1); expect(current.shop.booster.owned).toBe(0)
   expect(current.shop.priorBooster).toBeUndefined()
+  expect(current.shop.priorBoosters).toBeUndefined()
   expect(current.shop.offers.every((offer: { sold: boolean }) => !offer.sold)).toBe(true)
   await expect(button).toHaveAccessibleName('Acheter le reroll pour 150 fragments')
   await expect(button).toBeEnabled()

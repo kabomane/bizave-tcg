@@ -4,7 +4,8 @@ import { initializeDatabase, openBooster } from '../storage/services'
 import { exportSave, importSave } from '../storage/saveTransfer'
 import { ensureInstallation } from '../storage/installation'
 import { DEFAULT_PREFERENCES } from '../settings/preferences'
-import { uuid } from '../game/engine'
+import { uuid, variantKey } from '../game/engine'
+import { claimWeeklyBonus, refreshWeeklyShop } from '../storage/weeklyShop'
 import { hashGiftCode, normalizeGiftCode } from './format'
 import { redeemGiftCode } from './services'
 import { giftCodeByHash } from './catalogue'
@@ -18,6 +19,9 @@ vi.mock('./catalogue', async () => {
     { code: 'CCCCCCCCCCCCCCCC', reward: { type: 'fragments', amount: 500 } },
     { code: 'DDDDDDDDDDDDDDDD', reward: { type: 'booster', boosterId: 'phantom-blood', quantity: 2, fragments: 100 } },
     { code: 'EEEEEEEEEEEEEEEE', reward: { type: 'boosters', boosters: ['phantom-blood', 'anima-isekai', 'epico-stellari', 'rarity-only'].map(boosterId => ({ boosterId, quantity: 1 })) } },
+    { code: 'FFFFFFFFFFFFFFFF', reward: { type: 'card-variants', cardId: 'bizave-tcg-beta' } },
+    { code: 'GGGGGGGGGGGGGGGG', reward: { type: 'weekly-bonus', bonus: 'reroll', quantity: 2 } },
+    { code: 'HHHHHHHHHHHHHHHH', reward: { type: 'weekly-bonus', bonus: 'fragments', quantity: 2 } },
   ]
   return { giftCodeByHash: new Map(await Promise.all(rewards.map(async gift => { const codeHash = await hashGiftCode(gift.code); return [codeHash, { codeHash, reward: gift.reward, issuedAt: 0, expiresAt: 8_000_000_000_000_000 }] as const }))) }
 })
@@ -27,6 +31,68 @@ beforeEach(async () => { db = new BizaveDatabase('gifts-' + uuid()); await initi
 afterEach(async () => { vi.restoreAllMocks(); await db.delete() })
 
 describe('codes cadeaux hors ligne', () => {
+  it('ajoute deux utilisations par cadeau sans consommer les bonus ordinaires', async () => {
+    const now = 200
+    const results = await Promise.allSettled([redeemGiftCode('GGGG-GGGG-GGGG-GGGG', db, now), redeemGiftCode('GGGG-GGGG-GGGG-GGGG', db, now)])
+    expect(results.map(result => result.status).sort()).toEqual(['fulfilled', 'rejected'])
+    await redeemGiftCode('HHHH-HHHH-HHHH-HHHH', db, now)
+    expect(await db.weeklyShop.count()).toBe(0)
+    expect(await db.player.get('local')).toMatchObject({ fragments: 0, weeklyBonusCredits: { reroll: 2, fragments: 2 } })
+    const shop = await refreshWeeklyShop(db, now)
+    for (let i = 0; i < 2; i++) await claimWeeklyBonus(shop.weekStart, 'reroll', db, now, 0)
+    expect((await db.weeklyShop.get('current'))?.rerollUsed).toBeUndefined()
+    expect(await db.player.get('local')).toMatchObject({ fragments: 0, weeklyBonusCredits: { reroll: 0, fragments: 2 } })
+
+    const amounts = []
+    for (let i = 0; i < 3; i++) amounts.push((await claimWeeklyBonus(shop.weekStart, 'fragments', db, now))!)
+    await expect(claimWeeklyBonus(shop.weekStart, 'fragments', db, now)).rejects.toThrow(/déjà été réclamée/)
+    expect(amounts.every(amount => amount >= 10 && amount <= 300 && amount % 10 === 0)).toBe(true)
+    const fragments = amounts.reduce((sum, amount) => sum + amount, 0)
+    expect(await db.player.get('local')).toMatchObject({ fragments, weeklyBonusCredits: { reroll: 0, fragments: 0 } })
+
+    await db.player.update('local', { fragments: 1000 })
+    await expect(claimWeeklyBonus(shop.weekStart, 'reroll', db, now, 0)).rejects.toThrow(/prix du reroll a changé/)
+    expect((await db.player.get('local'))?.fragments).toBe(1000)
+    await claimWeeklyBonus(shop.weekStart, 'reroll', db, now, 150)
+    await expect(claimWeeklyBonus(shop.weekStart, 'reroll', db, now)).rejects.toThrow(/déjà été utilisé/)
+    expect((await db.player.get('local'))?.fragments).toBe(850)
+    expect(await db.weeklyShop.get('current')).toMatchObject({ rerollCount: 3, rerollUsed: true, fragmentsClaimed: true })
+  })
+
+  it('conserve les bonus cadeaux au lundi et après un transfert', async () => {
+    const now = Date.now()
+    const shop = await refreshWeeklyShop(db, now)
+    await redeemGiftCode('HHHH-HHHH-HHHH-HHHH', db, now)
+    const next = await refreshWeeklyShop(db, shop.rerollAt)
+    await claimWeeklyBonus(next.weekStart, 'fragments', db, next.weekStart)
+    expect((await db.player.get('local'))?.weeklyBonusCredits).toEqual({ fragments: 2 })
+    const target = new BizaveDatabase('gift-bonuses-' + uuid())
+    try {
+      await initializeDatabase(target, now)
+      const contents = await exportSave((await ensureInstallation(target)).installationId, DEFAULT_PREFERENCES, db)
+      await importSave(contents, target)
+      expect((await target.player.get('local'))?.weeklyBonusCredits).toEqual({ fragments: 2 })
+      await expect(redeemGiftCode('HHHH-HHHH-HHHH-HHHH', target, next.weekStart)).rejects.toThrow(/déjà été utilisé/)
+      await claimWeeklyBonus(next.weekStart, 'fragments', target, next.weekStart)
+      expect((await target.player.get('local'))?.weeklyBonusCredits).toEqual({ fragments: 1 })
+    } finally { await target.delete() }
+  })
+
+  it('attribue chacune des six variantes de PR-001 une seule fois', async () => {
+    const code = 'FFFF-FFFF-FFFF-FFFF'
+    const results = await Promise.allSettled([redeemGiftCode(code, db, 200), redeemGiftCode(code, db, 200)])
+    expect(results.map(result => result.status).sort()).toEqual(['fulfilled', 'rejected'])
+    const drops = await db.drops.toArray()
+    const keys = ['normal', 'glossy', 'alternative'].flatMap(finish =>
+      ['standard', 'fullArt'].map(art => `bizave-tcg-beta::${finish}::${art}`)).sort()
+    expect(drops.map(variantKey).sort()).toEqual(keys)
+    expect(drops.every(drop => drop.status === 'owned' && drop.circulation === 'local')).toBe(true)
+    expect((await db.discoveries.toArray()).map(row => row.key).sort()).toEqual(keys)
+    expect(await db.usedGiftCodes.count()).toBe(1)
+    expect(await db.boosterStock.count()).toBe(0)
+    expect((await db.player.get('local'))?.fragments).toBe(0)
+  })
+
   it('respecte l’expiration à la milliseconde près, sans crédit pour un code expiré', async () => {
     const hash = await hashGiftCode('CCCC-CCCC-CCCC-CCCC'), previous = giftCodeByHash.get(hash)!
     const issuedAt = 100, expiresAt = issuedAt + 24 * 60 * 60 * 1000
@@ -119,7 +185,7 @@ describe('codes cadeaux hors ligne', () => {
     } finally { second.close() }
   })
 
-  it.each(['AAAAAAAAAAAAAAAA', 'CCCCCCCCCCCCCCCC', 'DDDDDDDDDDDDDDDD', 'EEEEEEEEEEEEEEEE'])('annule la récompense si l’écriture du registre échoue (%s)', async code => {
+  it.each(['AAAAAAAAAAAAAAAA', 'CCCCCCCCCCCCCCCC', 'DDDDDDDDDDDDDDDD', 'EEEEEEEEEEEEEEEE', 'FFFFFFFFFFFFFFFF', 'GGGGGGGGGGGGGGGG', 'HHHHHHHHHHHHHHHH'])('annule la récompense si l’écriture du registre échoue (%s)', async code => {
     const before = await db.player.get('local')
     const fail = () => { throw new Error('Stockage plein') }
     db.usedGiftCodes.hook('creating', fail)
@@ -127,6 +193,8 @@ describe('codes cadeaux hors ligne', () => {
     db.usedGiftCodes.hook('creating').unsubscribe(fail)
     expect(await db.player.get('local')).toEqual(before)
     expect(await db.boosterStock.count()).toBe(0)
+    expect(await db.drops.count()).toBe(0)
+    expect(await db.discoveries.count()).toBe(0)
     expect(await db.usedGiftCodes.count()).toBe(0)
     await expect(redeemGiftCode(code, db, 200)).resolves.toBeDefined()
   })

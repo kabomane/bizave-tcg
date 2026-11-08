@@ -6,7 +6,7 @@ import process from 'node:process'
 import { GIFT_CODE_ALPHABET, hashGiftCode } from '../src/gifts/format.ts'
 
 const root = new URL('../', import.meta.url)
-const { values } = parseArgs({ options: { booster: { type: 'string' }, boosters: { type: 'string' }, quantity: { type: 'string' }, fragments: { type: 'string' }, count: { type: 'string' }, 'expires-at': { type: 'string' } } })
+const { values } = parseArgs({ options: { booster: { type: 'string' }, boosters: { type: 'string' }, 'card-variants': { type: 'string' }, 'weekly-bonus': { type: 'string' }, quantity: { type: 'string' }, fragments: { type: 'string' }, count: { type: 'string' }, 'expires-at': { type: 'string' } } })
 const issuedAt = Date.now()
 if (values['expires-at'] && !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d{1,3})?)?(?:Z|[+-]\d{2}:\d{2})$/.test(values['expires-at'])) throw new Error('Utilisez --expires-at avec une date ISO et son fuseau, par exemple 2026-12-01T22:00:00+01:00.')
 const expiresAt = values['expires-at'] ? Date.parse(values['expires-at']) : issuedAt + 24 * 60 * 60 * 1000
@@ -18,14 +18,29 @@ function positive(value, label) {
 const count = positive(values.count, 'Le nombre de codes')
 if (count > 10_000) throw new Error('Un lot est limité à 10 000 codes.')
 let reward
-if (values.boosters && !values.booster && !values.fragments) {
+if (values['weekly-bonus'] !== undefined) {
+  if (values.booster !== undefined || values.boosters !== undefined || values.fragments !== undefined || values['card-variants'] !== undefined) throw new Error('Un bonus de la semaine ne peut pas être combiné avec une autre récompense.')
+  const bonus = values['weekly-bonus']
+  if (bonus !== 'reroll' && bonus !== 'fragments') throw new Error('Bonus inconnu. Utilisez reroll ou fragments.')
+  const quantity = positive(values.quantity, 'La quantité de bonus')
+  if (!Number.isSafeInteger(quantity + 1)) throw new Error('La quantité de bonus est trop élevée.')
+  reward = { type: 'weekly-bonus', bonus, quantity }
+}
+else if (values['card-variants'] !== undefined) {
+  if (values.booster !== undefined || values.boosters !== undefined || values.fragments !== undefined || values.quantity !== undefined) throw new Error('Un cadeau de variantes ne peut pas être combiné avec une autre récompense.')
+  const cardId = values['card-variants']
+  const cards = JSON.parse(await readFile(new URL('src/data/catalogue.json', root), 'utf8'))
+  if (!cards.some(card => card.id === cardId && card.promoNumber)) throw new Error('Carte promo inconnue.')
+  reward = { type: 'card-variants', cardId }
+}
+else if (values.boosters && !values.booster && !values.fragments) {
   const ids = values.boosters.split(',')
   if (!ids.length || new Set(ids).size !== ids.length || ids.some(id => !/^[a-z0-9][a-z0-9-]{0,79}$/.test(id))) throw new Error('Liste de boosters invalide.')
   reward = { type: 'boosters', boosters: ids.map(boosterId => ({ boosterId, quantity: positive(values.quantity, 'La quantité de chaque booster') })) }
 }
 else if (values.booster && !values.boosters && /^[a-z0-9][a-z0-9-]{0,79}$/.test(values.booster)) reward = { type: 'booster', boosterId: values.booster, quantity: positive(values.quantity, 'La quantité de boosters'), ...(values.fragments ? { fragments: positive(values.fragments, 'Le nombre de fragments') } : {}) }
 else if (values.fragments && !values.booster && !values.boosters && !values.quantity) reward = { type: 'fragments', amount: positive(values.fragments, 'Le nombre de fragments') }
-else throw new Error('Utilisez --booster <id> --quantity <nombre> [--fragments <nombre>] --count <nombre>, --boosters <id1,id2,...> --quantity <nombre> --count <nombre>, ou --fragments <nombre> --count <nombre>.')
+else throw new Error('Utilisez --booster <id> --quantity <nombre> [--fragments <nombre>], --boosters <id1,id2,...> --quantity <nombre>, --fragments <nombre>, --card-variants <id>, ou --weekly-bonus <reroll|fragments> --quantity <nombre>. Ajoutez --count <nombre>.')
 
 const cataloguePath = new URL('src/data/gift-codes.json', root)
 const catalogue = JSON.parse(await readFile(cataloguePath, 'utf8'))

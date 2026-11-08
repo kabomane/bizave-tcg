@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { boosters } from '../data/boosters'
+import { cardById } from '../data/cards'
 import { redeemGiftCode } from '../gifts/services'
 import { errorText } from './format'
 
@@ -18,7 +19,21 @@ export function GiftCodeForm() {
     try {
       const reward = await redeemGiftCode(code)
       setCode('')
-      setSuccess(reward.type === 'boosters' ? `${reward.boosters.map(item => `${item.quantity} booster${item.quantity > 1 ? 's' : ''} ${boosters.find(booster => booster.id === item.boosterId)!.title}`).join(', ')} ajoutés à vos boosters.` : reward.type === 'fragments' ? `${reward.amount} fragments ajoutés.` : `${reward.quantity} booster${reward.quantity > 1 ? 's' : ''} ${boosters.find(booster => booster.id === reward.boosterId)!.title} ajouté${reward.quantity > 1 ? 's' : ''} à vos boosters.${reward.fragments ? ` ${reward.fragments} fragments ajoutés.` : ''}`)
+      if (reward.type === 'card-variants') {
+        const card = cardById.get(reward.cardId)!
+        setSuccess(`Toutes les variantes de ${card.title} (${card.promoNumber}) ont été ajoutées à votre collection.`)
+      } else if (reward.type === 'boosters') {
+        setSuccess(`${reward.boosters.map(item => `${item.quantity} booster${item.quantity > 1 ? 's' : ''} ${boosters.find(booster => booster.id === item.boosterId)!.title}`).join(', ')} ajoutés à vos boosters.`)
+      } else if (reward.type === 'fragments') {
+        setSuccess(`${reward.amount} fragments ajoutés.`)
+      } else if (reward.type === 'weekly-bonus') {
+        const item = reward.bonus === 'reroll'
+          ? (reward.quantity === 1 ? 'reroll gratuit' : 'rerolls gratuits')
+          : (reward.quantity === 1 ? 'carte fragments' : 'cartes fragments')
+        setSuccess(`${reward.quantity} ${item} à réclamer dans Boutique → Bonus de la semaine.`)
+      } else {
+        setSuccess(`${reward.quantity} booster${reward.quantity > 1 ? 's' : ''} ${boosters.find(booster => booster.id === reward.boosterId)!.title} ajouté${reward.quantity > 1 ? 's' : ''} à vos boosters.${reward.fragments ? ` ${reward.fragments} fragments ajoutés.` : ''}`)
+      }
     } catch (e) { setError(errorText(e)) }
     finally { inFlight.current = false; setBusy(false) }
   }

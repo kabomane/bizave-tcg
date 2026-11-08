@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Gem, RotateCw } from 'lucide-react'
 import { WEEKLY_REROLL_PRICE, type WeeklyShopRow } from '../game/weeklyShop'
+import type { PlayerStateRow, WeeklyBonusKind } from '../game/types'
 import { claimWeeklyBonus } from '../storage/weeklyShop'
 import { errorText } from './format'
 import { ShopBuyButton } from './ShopBuyButton'
@@ -11,22 +12,27 @@ const choices = [
   { id: 'reroll', title: 'Reroll', face: 'Reroll', caption: 'Nouvelle sélection', footer: 'Lucky boost et vitrine', Icon: RotateCw },
   { id: 'fragments', title: 'Carte fragments', face: '?', caption: 'fragments', footer: 'Carte gratuite', Icon: Gem },
 ] as const
-type BonusId = (typeof choices)[number]['id']
 const labels = { region: 'Choisir un bonus', selection: 'Sélection des bonus', previous: 'Bonus précédent', next: 'Bonus suivant' }
 
-export function WeeklyBonusShop({ shop, balance, expired, onRerolled }: {
-  shop: WeeklyShopRow; balance: number; expired: boolean; onRerolled: () => void
+export function WeeklyBonusShop({ shop, balance, credits, expired, onRerolled }: {
+  shop: WeeklyShopRow; balance: number; credits?: PlayerStateRow['weeklyBonusCredits']; expired: boolean; onRerolled: () => void
 }) {
-  const [selectedId, setSelectedId] = useState<BonusId>('reroll')
+  const [selectedId, setSelectedId] = useState<WeeklyBonusKind>('reroll')
   const [moving, setMoving] = useState(false)
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState<{ id: BonusId; message: string } | null>(null)
+  const [success, setSuccess] = useState<{ id: WeeklyBonusKind; message: string } | null>(null)
   const movingRef = useRef(false)
   const inFlight = useRef(false)
   const reroll = selectedId === 'reroll'
-  const used = reroll ? shop.rerollUsed : shop.fragmentsClaimed
-  const disabled = expired || !!used || (reroll && balance < WEEKLY_REROLL_PRICE)
+  const remaining = {
+    reroll: Number(!shop.rerollUsed) + (credits?.reroll ?? 0),
+    fragments: Number(!shop.fragmentsClaimed) + (credits?.fragments ?? 0),
+  }
+  const count = remaining[selectedId]
+  const used = count === 0
+  const rerollPrice = credits?.reroll ? 0 : WEEKLY_REROLL_PRICE
+  const disabled = expired || used || (reroll && balance < rerollPrice)
   const purchased = success?.id === selectedId
 
   useEffect(() => {
@@ -41,7 +47,7 @@ export function WeeklyBonusShop({ shop, balance, expired, onRerolled }: {
     setBusy(true)
     setError('')
     try {
-      const amount = await claimWeeklyBonus(shop.weekStart, selectedId)
+      const amount = await claimWeeklyBonus(shop.weekStart, selectedId, undefined, undefined, reroll ? rerollPrice : undefined)
       setSuccess({ id: selectedId, message: amount === undefined ? 'Renouvelé' : `+${amount} fragments` })
       if (reroll) onRerolled()
     } catch (error) {
@@ -52,13 +58,13 @@ export function WeeklyBonusShop({ shop, balance, expired, onRerolled }: {
     }
   }
 
-  const label = expired ? 'Renouvellement…' : used ? (reroll ? 'Épuisé' : 'Réclamée') : reroll ? 'Acheter' : 'Réclamer'
+  const label = expired ? 'Renouvellement…' : used ? (reroll ? 'Épuisé' : 'Réclamée') : reroll && rerollPrice > 0 ? 'Acheter' : 'Réclamer'
   const accessibleLabel = purchased ? success.message : !used && !expired
-    ? reroll ? `Acheter le reroll pour ${WEEKLY_REROLL_PRICE} fragments` : 'Réclamer la carte fragments'
+    ? reroll ? (rerollPrice > 0 ? `Acheter le reroll pour ${rerollPrice} fragments` : 'Réclamer le reroll gratuit') : 'Réclamer la carte fragments'
     : label
 
   return <section className="weekly-section weekly-bonus" aria-labelledby="weekly-bonus-title">
-    <div className="weekly-section-heading"><h2 id="weekly-bonus-title">Bonus de la semaine · {used ? 0 : 1} restant</h2></div>
+    <div className="weekly-section-heading"><h2 id="weekly-bonus-title">Bonus de la semaine · {count} restant{count > 1 ? 's' : ''}</h2></div>
     <div className="shop-stage">
       <ShopCarousel
         choices={choices}
@@ -68,7 +74,7 @@ export function WeeklyBonusShop({ shop, balance, expired, onRerolled }: {
         onSelect={id => { setSelectedId(id); setError('') }}
         onMovingChange={value => { movingRef.current = value; setMoving(value) }}
         renderChoice={({ id, face, caption, footer, Icon }) => {
-          const spent = id === 'reroll' ? shop.rerollUsed : shop.fragmentsClaimed
+          const spent = remaining[id] === 0
           return <div className={`showcase-card booster-size${spent ? ' is-sold' : ''}`}>
             <div className="weekly-bonus-card">
               <article className="received-fragment-card">
@@ -85,7 +91,7 @@ export function WeeklyBonusShop({ shop, balance, expired, onRerolled }: {
         }}
       />
       <ShopBuyButton
-        price={reroll ? WEEKLY_REROLL_PRICE : undefined}
+        price={reroll && rerollPrice > 0 ? rerollPrice : undefined}
         label={label}
         accessibleLabel={moving ? 'Changement de bonus' : accessibleLabel}
         disabled={disabled}

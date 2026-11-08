@@ -1,5 +1,6 @@
 import { cards } from '../data/cards'
-import { createWeeklyShop, rerollWeeklyOffers, rollFragmentReward, SALES_CLOSE_MS, WEEKLY_REROLL_PRICE, weeklyPeriod } from '../game/weeklyShop'
+import { createWeeklyShop, rerollWeeklyOffers, rollFragmentReward, SALES_CLOSE_MS, WEEKLY_REROLL_PRICE, weeklyPeriod, weeklyRerollCount } from '../game/weeklyShop'
+import type { WeeklyBonusKind } from '../game/types'
 import { uuid, variantKey } from '../game/engine'
 import { db, type BizaveDatabase } from './database'
 import { assertAccountActive } from './accountGuard'
@@ -33,10 +34,10 @@ async function readActiveWeeklyShop(database: BizaveDatabase, weekStart: number,
   return { player, shop, time }
 }
 
-export async function buyWeeklyOffer(weekStart: number, offerId: string, database = db, now = Date.now(), expectedRerolled = false) {
+export async function buyWeeklyOffer(weekStart: number, offerId: string, database = db, now = Date.now(), expectedRerollCount = 0) {
   return database.transaction('rw', [database.player, database.weeklyShop, database.accountState, database.drops, database.discoveries], async () => {
     const { player, shop, time } = await readActiveWeeklyShop(database, weekStart, now)
-    if (!!shop.rerollUsed !== expectedRerolled) throw new Error('La boutique a été renouvelée. Actualisez les offres.')
+    if (weeklyRerollCount(shop) !== expectedRerollCount) throw new Error('La boutique a été renouvelée. Actualisez les offres.')
     const offer = shop.offers.find(o => o.id === offerId)
     const booster = offerId === 'booster'
     if (booster ? shop.booster.remaining < 1 : !offer || offer.sold) throw new Error('Cette offre est épuisée.')
@@ -56,21 +57,28 @@ export async function buyWeeklyOffer(weekStart: number, offerId: string, databas
   })
 }
 
-export async function claimWeeklyBonus(weekStart: number, kind: 'reroll' | 'fragments', database = db, now = Date.now()) {
+export async function claimWeeklyBonus(weekStart: number, kind: WeeklyBonusKind, database = db, now = Date.now(), expectedRerollPrice?: number) {
   return database.transaction('rw', [database.player, database.weeklyShop, database.accountState], async () => {
     const { player, shop, time } = await readActiveWeeklyShop(database, weekStart, now)
+    const credits = player.weeklyBonusCredits?.[kind] ?? 0
     if (kind === 'reroll') {
-      if (shop.rerollUsed) throw new Error('Le reroll de la semaine a déjà été utilisé.')
-      if (player.fragments < WEEKLY_REROLL_PRICE) throw new Error('Vous n’avez pas assez de fragments.')
-      await database.weeklyShop.put(rerollWeeklyOffers(shop, cards))
-      await database.player.put({ ...player, fragments: player.fragments - WEEKLY_REROLL_PRICE, maxObservedClockAt: time })
+      const price = credits > 0 ? 0 : WEEKLY_REROLL_PRICE
+      if (price > 0 && shop.rerollUsed) throw new Error('Le reroll de la semaine a déjà été utilisé.')
+      if (expectedRerollPrice !== undefined && price !== expectedRerollPrice) throw new Error('Le prix du reroll a changé. Réessayez.')
+      if (player.fragments < price) throw new Error('Vous n’avez pas assez de fragments.')
+      const next = rerollWeeklyOffers(shop, cards)
+      if (price > 0) next.rerollUsed = true
+      else player.weeklyBonusCredits = { ...player.weeklyBonusCredits, reroll: credits - 1 }
+      await database.weeklyShop.put(next)
+      await database.player.put({ ...player, fragments: player.fragments - price, maxObservedClockAt: time })
       return undefined
     }
-    if (shop.fragmentsClaimed) throw new Error('La carte fragments a déjà été réclamée.')
+    if (shop.fragmentsClaimed && credits === 0) throw new Error('La carte fragments a déjà été réclamée.')
     const amount = rollFragmentReward()
     const fragments = player.fragments + amount
     if (!Number.isSafeInteger(fragments)) throw new Error('Le solde de fragments est trop élevé.')
-    await database.weeklyShop.put({ ...shop, fragmentsClaimed: true })
+    if (shop.fragmentsClaimed) player.weeklyBonusCredits = { ...player.weeklyBonusCredits, fragments: credits - 1 }
+    else await database.weeklyShop.put({ ...shop, fragmentsClaimed: true })
     await database.player.put({ ...player, fragments, maxObservedClockAt: time })
     return amount
   })

@@ -1,5 +1,15 @@
 # Codes cadeaux hors ligne
 
+## Bonus de la semaine
+
+Chaque code de bonus ajoute des rerolls gratuits ou des cartes fragments mystère au compteur correspondant dans **Boutique → Bonus de la semaine**. Les codes sont utilisables une fois par sauvegarde. Les crédits restent disponibles jusqu’à leur utilisation, y compris après le renouvellement hebdomadaire.
+
+Le lot du 8 novembre 2026 contient deux codes de deux rerolls et deux codes de deux cartes mystère. Il expire le 1er janvier 2027 à 00 h, heure de Paris. Un code de reroll est publié dans la note de mise à jour 8. Les trois autres sont dans les lots privés.
+
+## Promo Bizave TCG bêta
+
+Le code de PR-001 donne un exemplaire de chacune des six variantes dans la collection. Le lot expire le 2 décembre 2026 à 00 h, heure de Paris. Le code en clair se trouve dans le lot privé sous `.local/gift-codes/`. Les six cartes et le registre sont écrits dans la même transaction.
+
 ## Lot découverte du 5 novembre 2026
 
 Dix codes ont été ajoutés : deux donnant chacun **2 Memory Frame**, deux donnant chacun **2 Anima Isekai**, deux donnant chacun **2 epico stellari**, deux donnant chacun **2 rarity only**, et deux donnant chacun **200 fragments**. Ils expirent le **1er janvier 2027 à 00 h, heure de Paris**, soit le 31 décembre 2026 à 23 h UTC. La liste de distribution reste privée dans `.local/gift-codes/landing-2026-11-05.md`. Chaque code reste utilisable une seule fois par sauvegarde. Les codes ne sont pas affichés sur la landing.
@@ -28,6 +38,9 @@ npm run gifts:generate -- --booster epico-stellari --quantity 2 --count 10
 npm run gifts:generate -- --booster phantom-blood --quantity 2 --fragments 100 --count 10
 npm run gifts:generate -- --booster rarity-only --quantity 5 --count 10
 npm run gifts:generate -- --boosters phantom-blood,anima-isekai,epico-stellari,rarity-only --quantity 1 --count 5
+npm run gifts:generate -- --card-variants bizave-tcg-beta --count 1 --expires-at "2026-12-02T00:00:00+01:00"
+npm run gifts:generate -- --weekly-bonus reroll --quantity 2 --count 2
+npm run gifts:generate -- --weekly-bonus fragments --quantity 2 --count 2
 ```
 
 Chaque commande **ajoute un nouveau lot** au catalogue existant. Ne pas la relancer pour simplement consulter les codes déjà créés. Le générateur écrit d’abord leur liste en clair dans `.local/gift-codes/<lot>.json`, puis ajoute les seules empreintes au catalogue public. Les fichiers privés sont ignorés par Git et restent hors de `public/` et du build. Les conserver ailleurs dans un emplacement privé : ils ne sont pas sauvegardés sur GitHub. La liste Markdown locale du premier lot regroupe les 50 codes pour leur distribution.

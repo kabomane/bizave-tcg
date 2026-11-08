@@ -50,7 +50,8 @@ export async function renderShareImage(card: Card, definition: CardDefinition, f
     ctx.translate(170, 250)
   }
   ctx.scale(scale, scale)
-  drawCard(ctx, scale, { ...definition, pos: definition.artworkPosition?.[card.artVariant] ?? (card.artVariant === 'fullArt' ? 'center 30%' : 'center 38%') }, card.finish, card.artVariant, { art, holo })
+  const description = definition.promoNumber ? `${definition.promoNumber} · ${definition.description}` : definition.description
+  drawCard(ctx, scale, { ...definition, description, pos: definition.artworkPosition?.[card.artVariant] ?? (card.artVariant === 'fullArt' ? 'center 30%' : 'center 38%') }, card.finish, card.artVariant, { art, holo })
   const type = 'image/png'
   const blob = await new Promise<Blob>((resolve, reject) => canvas.toBlob(value => value ? resolve(value) : reject(new Error('Impossible de créer l’image.')), type, .92))
   return new File([blob], `bizave-${definition.id}-${card.finish}-${card.artVariant}-${format}.png`, { type })

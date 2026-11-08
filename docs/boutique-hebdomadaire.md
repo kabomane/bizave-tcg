@@ -14,7 +14,7 @@ Le renouvellement a lieu le lundi à minuit en Europe/Paris, changements d’heu
 
 - Présence de chaque palier de rareté, finition et illustration : 70 %. Au moins un palier par catégorie. Les pourcentages des paliers absents sont redistribués proportionnellement, avec le reste d’arrondi au premier palier présent.
 - Pool souhaité de 40 à 80 modèles distincts, limité au nombre disponible dans les raretés retenues. Chaque rareté à taux positif est représentée ; les raretés à zéro sont exclues. Cinq cartes par ouverture ; les doublons à l’ouverture restent possibles.
-- Stock de 1 à 4 boosters pour la semaine. Leur achat augmente uniquement `owned` dans la ligne hebdomadaire, sans utiliser `boosterStock` ni créer d’historique.
+- Stock initial de 1 à 4 boosters par tirage. Chaque achat diminue `remaining` et augmente `owned` dans la ligne hebdomadaire.
 - Booster acheté non ouvert : expiration au renouvellement, sans remboursement. Les ventes ferment deux heures avant. Une ouverture déjà commencée conserve ses résultats jusqu’à sa révélation complète, même après renouvellement.
 - Vitrine : 1 à 5 modèles distincts tirés à 30/25/20/13/12 % par rareté ; finitions Mate/Holographique/Alternative à 70/22/8 % et illustrations Classique/Full Art à 85/15 %. Ces taux propres à la vitrine s’appliquent aux prochains tirages sans modifier les offres déjà sauvegardées. Un exemplaire achetable par offre, puis état épuisé jusqu’au renouvellement. La carte achetée rejoint immédiatement la collection et les découvertes.
 - Achats transactionnels : relecture du solde, du stock et de la semaine affichée. Une offre périmée ou épuisée est refusée, y compris entre plusieurs onglets. Aucun achat hebdomadaire ne crée de journal.
@@ -25,10 +25,12 @@ Les prix reprennent le simulateur fourni : valeur de base de rareté × 3 × mul
 
 Le troisième carrousel reprend le visuel des cartes de réception de fragments et propose deux articles, chacun disponible une fois par semaine :
 
-- **Reroll** à 150 fragments, déclenché au clic sur Acheter. Le reroll remplace toute la vitrine, y compris les cartes vendues, et renouvelle le pool, les taux et le prix des exemplaires de lucky boost encore en vente sans augmenter le stock. Les exemplaires déjà achetés ouvrent leur ancien pool en premier. Sa définition est supprimée dès la dernière ouverture. Une offre affichée avant le reroll est refusée à l’achat.
+- **Reroll** à 150 fragments. Chaque reroll remplace toute la vitrine et tire un nouveau pool, de nouveaux taux, un nouveau prix et un stock de 1 à 4 Lucky Boost. Les boosters achetés et encore fermés conservent leur pool dans `priorBoosters` et s’ouvrent dans l’ordre des lots. Leur nombre est indépendant du nouveau stock en vente. Une offre affichée avant un reroll est refusée à l’achat.
 - **Carte fragments** gratuite. Au clic, deux entiers indépendants sont tirés uniformément entre 10 et 300. La moyenne arrondie à la dizaine la plus proche est créditée immédiatement. Le montant apparaît sur le bouton, puis la carte est marquée « Réclamée ».
 
 Le reroll ne modifie pas la carte fragments. Les deux disponibilités sont enregistrées dans la ligne de la semaine courante et se réinitialisent le lundi. Le montant réclamé n’est pas archivé.
+
+Les codes cadeaux ajoutent des utilisations au compteur du bonus sélectionné. Un crédit de reroll donne un reroll gratuit et est utilisé avant l’option payante. La carte fragments hebdomadaire est réclamée en premier, puis les cartes offertes se réclament une par une avec le même tirage. Les crédits non utilisés suivent la sauvegarde et restent disponibles après le renouvellement du lundi.
 
 ## Sauvegarde et nettoyage
 

@@ -96,5 +96,54 @@
     },
     "issuedAt": 1793876620499,
     "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "55c4370aa5585062461b4135d33206c2c7b89d5c79bb1e9835261b22b63457c3",
+    "reward": {
+      "type": "card-variants",
+      "cardId": "bizave-tcg-beta"
+    },
+    "issuedAt": 1794152423553,
+    "expiresAt": 1796166000000
+  },
+  {
+    "codeHash": "458384a83eeae340afdff7732ba2286fe24ee0226d8b043820c24e95dc57e47f",
+    "reward": {
+      "type": "weekly-bonus",
+      "bonus": "reroll",
+      "quantity": 2
+    },
+    "issuedAt": 1794153761405,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "9452915ea63d826a697a5e79dbb5c8932b558062a4c49323bd9074a107129239",
+    "reward": {
+      "type": "weekly-bonus",
+      "bonus": "reroll",
+      "quantity": 2
+    },
+    "issuedAt": 1794153761405,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "114368d700fff293dc532df2963ad689e017594b462770f6bf8b332e1ba9a0e6",
+    "reward": {
+      "type": "weekly-bonus",
+      "bonus": "fragments",
+      "quantity": 2
+    },
+    "issuedAt": 1794153762043,
+    "expiresAt": 1798758000000
+  },
+  {
+    "codeHash": "cfa038dff6aaef527e9cbc91ee6c95bc0be773e4d0e0fe701bc69d6f2622b1f0",
+    "reward": {
+      "type": "weekly-bonus",
+      "bonus": "fragments",
+      "quantity": 2
+    },
+    "issuedAt": 1794153762043,
+    "expiresAt": 1798758000000
   }
 ]

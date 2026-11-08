@@ -1,0 +1,701 @@
+{
+  "date": "2026-11-08",
+  "archive": "vague 2 - 80 cartes.zip",
+  "carnet": "carnet-cartes.jsx",
+  "illustrations": [
+    {
+      "cardId": "thomafia-parrain",
+      "title": "Tho’ Mafia : Le Parrain",
+      "number": 312,
+      "sourceEntry": "thomafia_parrain.png",
+      "original": {
+        "path": "illustrations/originals/thomafia-parrain.png",
+        "sha256": "b30269e63c3201ca16270caf855b6f3a263cdcc52d8bd98ab71813a3ee400d82",
+        "bytes": 2727380,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/thomafia-parrain/illustration.5deac36dc9.webp",
+        "sha256": "5deac36dc902d2e53e07fbbe8b8ea4f9f61c909a97982a6129c3e20e23ec5a3c",
+        "bytes": 185240,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "thomafia-consigliere",
+      "title": "Tho’ Mafia : Le Consigliere",
+      "number": 313,
+      "sourceEntry": "thomafia_consigliere.png",
+      "original": {
+        "path": "illustrations/originals/thomafia-consigliere.png",
+        "sha256": "bf69441e1df05d7435864906351f8de759accfb89dcd39b5447e6107e2714cb9",
+        "bytes": 2511756,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/thomafia-consigliere/illustration.fabbda510a.webp",
+        "sha256": "fabbda510ad3e6d876b86b13ae6a8ef93b0d8801e4811c52b90290a97ad3ffd4",
+        "bytes": 142788,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "thomafia-comptable",
+      "title": "Tho’ Mafia : La Comptable",
+      "number": 314,
+      "sourceEntry": "thomafia_comptable.png",
+      "original": {
+        "path": "illustrations/originals/thomafia-comptable.png",
+        "sha256": "3bedd10b38d9c48c461dfd5b1016e92fa842970a3511f23f057ca03ea2bafa37",
+        "bytes": 2796571,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/thomafia-comptable/illustration.79efc74c57.webp",
+        "sha256": "79efc74c57767bb462afcd75a219ada9d605f28118d7072ceddb2ca40cd68a04",
+        "bytes": 215356,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "thomafia-gros-bras",
+      "title": "Tho’ Mafia : Le Gros Bras",
+      "number": 315,
+      "sourceEntry": "thomafia_gros_bras.png",
+      "original": {
+        "path": "illustrations/originals/thomafia-gros-bras.png",
+        "sha256": "8a9d17cee216b7480b5f1e87b42a11c99c54630435933d736d392310a60c3ce1",
+        "bytes": 3426007,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/thomafia-gros-bras/illustration.d633f9a53c.webp",
+        "sha256": "d633f9a53c9d1035f4a7bb7ad8ca90872e93c9500815e2752669e596dd3b90d1",
+        "bytes": 149386,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "thomafia-negociatrice",
+      "title": "Tho’ Mafia : La Négociatrice",
+      "number": 316,
+      "sourceEntry": "thomafia_negociatrice.png",
+      "original": {
+        "path": "illustrations/originals/thomafia-negociatrice.png",
+        "sha256": "0b88d789bd907fb2fb59b17f709109c02d7464212f4f09eaeea23a5d033ea1eb",
+        "bytes": 3423891,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/thomafia-negociatrice/illustration.cf6d66a74a.webp",
+        "sha256": "cf6d66a74aae59ccd2b502c92a7710211126e7e46d495582fc13654a3758251f",
+        "bytes": 168248,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "mattyakuza-oyabun",
+      "title": "Matt’ Yakuza : L'Oyabun",
+      "number": 317,
+      "sourceEntry": "mattyakuza_oyabun.png",
+      "original": {
+        "path": "illustrations/originals/mattyakuza-oyabun.png",
+        "sha256": "7d3f094cf7623b6d67a1481943cf74b38f02ed245e55afe92cd52681cea2fa22",
+        "bytes": 2841547,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/mattyakuza-oyabun/illustration.9ca4d9ef0e.webp",
+        "sha256": "9ca4d9ef0e210756ee7277a05ce2bf29019ab8935e2cc4d5ab52833d5e9a1fb5",
+        "bytes": 205780,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "mattyakuza-anesan",
+      "title": "Matt’ Yakuza : L'Ane-san",
+      "number": 318,
+      "sourceEntry": "mattyakuza_ane_san.png",
+      "original": {
+        "path": "illustrations/originals/mattyakuza-anesan.png",
+        "sha256": "2664187d528441be60c643c0571c2b17073366060adb009c2c82c1019baa70c7",
+        "bytes": 2644004,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/mattyakuza-anesan/illustration.102d9b6bcc.webp",
+        "sha256": "102d9b6bcccf34b6fb89e8c6b60235ee8a829be8365f1dcb8a62f8320865304d",
+        "bytes": 166830,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "mattyakuza-wakagashira",
+      "title": "Matt’ Yakuza : Le Wakagashira",
+      "number": 319,
+      "sourceEntry": "mattyakuza_wakagashira.png",
+      "original": {
+        "path": "illustrations/originals/mattyakuza-wakagashira.png",
+        "sha256": "b1aa4af52cbf192666b95e3985e3a50acea627de4e7b16d8e920a348ed405735",
+        "bytes": 3599113,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/mattyakuza-wakagashira/illustration.8bf4d00e4f.webp",
+        "sha256": "8bf4d00e4f5ca5a5df9a2655413f885f0a4ff20051e2ffc86dbe80342983f73e",
+        "bytes": 130422,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "mattyakuza-tatoue",
+      "title": "Matt’ Yakuza : Le Tatoué",
+      "number": 320,
+      "sourceEntry": "mattyakuza_tatoue.png",
+      "original": {
+        "path": "illustrations/originals/mattyakuza-tatoue.png",
+        "sha256": "d06802d6410b83ba34ff853aedef7948a4dbafdbd3cb0a5755baf6ededa39551",
+        "bytes": 2742506,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/mattyakuza-tatoue/illustration.f875b39e79.webp",
+        "sha256": "f875b39e7961f84c3f3317b9f9695562d54c94a46ffd46e383b0145a237e1ec4",
+        "bytes": 204884,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "mattyakuza-informatrice",
+      "title": "Matt’ Yakuza : L'Informatrice",
+      "number": 321,
+      "sourceEntry": "mattyakuza_informatrice.png",
+      "original": {
+        "path": "illustrations/originals/mattyakuza-informatrice.png",
+        "sha256": "79c17e3fff5779c7b304edb35f9549be08eb06df3965f8119600281d24a57240",
+        "bytes": 2712395,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/mattyakuza-informatrice/illustration.b169b3e8f6.webp",
+        "sha256": "b169b3e8f65a864a898abc9af8c28d399cb66d584b94c81e2cbf863eb8a92346",
+        "bytes": 182142,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-jetlag",
+      "title": "Thomas jet-lag",
+      "number": 322,
+      "sourceEntry": "thomas_jetlag.png",
+      "original": {
+        "path": "illustrations/originals/t-jetlag.png",
+        "sha256": "c640e3d1610260e98be6586c66e03c8bdd78ff276ea7a778e571e48b00856a23",
+        "bytes": 4102459,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-jetlag/illustration.eb71d69e37.webp",
+        "sha256": "eb71d69e375247c2fa3e174d7a787cefed45f4f491ea0df9e0415dfb3b0200aa",
+        "bytes": 243920,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-cables",
+      "title": "Thomas câble management",
+      "number": 323,
+      "sourceEntry": "thomas_cable_management.png",
+      "original": {
+        "path": "illustrations/originals/t-cables.png",
+        "sha256": "a2dcdfdb7601ba07f9f90a89209f9f5267d34c8687ce18e7d83b6630e803c3f2",
+        "bytes": 4155350,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-cables/illustration.f1178e9f88.webp",
+        "sha256": "f1178e9f88ed708b8676c808960fc90c99738c47f3c868ccec97c28fc00260e7",
+        "bytes": 316718,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-ramen",
+      "title": "Thomas Ramen Museum",
+      "number": 324,
+      "sourceEntry": "thomas_ramen_museum.png",
+      "original": {
+        "path": "illustrations/originals/t-ramen.png",
+        "sha256": "258d85c123a59f05b1110d1d534005536e3f27ee074d57f0d458f62cc926bb68",
+        "bytes": 3052394,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-ramen/illustration.35a1298369.webp",
+        "sha256": "35a12983691ddd0009d136fd18da0e01b9d8cbe0440e1206545a6703e3f990e6",
+        "bytes": 264970,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-parapluie",
+      "title": "Thomas parapluie volé",
+      "number": 325,
+      "sourceEntry": "thomas_parapluie_vole.png",
+      "original": {
+        "path": "illustrations/originals/t-parapluie.png",
+        "sha256": "868ca4f6e6ebbd84a42b37b14a4fc69da3f7f23e18507162275d4acbafb50b63",
+        "bytes": 3743638,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-parapluie/illustration.7b9cf7efc4.webp",
+        "sha256": "7b9cf7efc4cecaae9f989158c0059033709858e754877cd9d75cdae852f3f467",
+        "bytes": 200094,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-konbini",
+      "title": "Thomas konbini",
+      "number": 326,
+      "sourceEntry": "thomas_kombini.png",
+      "original": {
+        "path": "illustrations/originals/t-konbini.png",
+        "sha256": "9396fd1f5a2015e5873f8c644ab553601591db89c006198e5ccfc735597013c5",
+        "bytes": 4131727,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-konbini/illustration.7ac1801fde.webp",
+        "sha256": "7ac1801fdecf9ea03950bb32cd9385bd19fa64e80a69b4f8a10e6ebe7428859d",
+        "bytes": 225404,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-pelle-neige",
+      "title": "Matthieu pelle à neige",
+      "number": 327,
+      "sourceEntry": "matthieu_pelle_neige.png",
+      "original": {
+        "path": "illustrations/originals/m-pelle-neige.png",
+        "sha256": "558324a43a4daa8b3f1f46f478f9b85c1c035af0a8554103605abefd1f633a0c",
+        "bytes": 4020556,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-pelle-neige/illustration.0636418efd.webp",
+        "sha256": "0636418efd9b2c078b1e0c29d4a1ac4389ac61b0de9da1aa5f9000e5ab239692",
+        "bytes": 278506,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-depanneur",
+      "title": "Matthieu au dépanneur",
+      "number": 328,
+      "sourceEntry": "matthieu_depanneur.png",
+      "original": {
+        "path": "illustrations/originals/m-depanneur.png",
+        "sha256": "e892aa2e6f99f6693201dc2e6643498a35a639703ebacc2e70c8e3fa44896c81",
+        "bytes": 2647984,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-depanneur/illustration.41e0df574e.webp",
+        "sha256": "41e0df574ef76459e66254f25741c607d9f12677713e07ce0451dbeba9ac7025",
+        "bytes": 201526,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-hockey",
+      "title": "Matthieu hockey",
+      "number": 329,
+      "sourceEntry": "matthieu_hockey.png",
+      "original": {
+        "path": "illustrations/originals/m-hockey.png",
+        "sha256": "5bdf583ee4a159d2176b8b2523f91ecaddd269848cb547496e3017eab9b37b1f",
+        "bytes": 3245250,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-hockey/illustration.d32bc1369c.webp",
+        "sha256": "d32bc1369c4d50af0baa38ad3eaef6f3c1786bac0003ae2fb76a9f5eba30ddd7",
+        "bytes": 276964,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-hockey",
+      "title": "Eli hockey",
+      "number": 330,
+      "sourceEntry": "eli_hockey.png",
+      "original": {
+        "path": "illustrations/originals/eli-hockey.png",
+        "sha256": "2f5e18a51052dc6fd99f789603b5aeae4220a062c0387a1a50abe06d5212c3c8",
+        "bytes": 4092354,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-hockey/illustration.3466439166.webp",
+        "sha256": "34664391664b214b278e24baba8059692a649f3e709c87f2e0f5e4e3b3620d99",
+        "bytes": 277486,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-bons-plats",
+      "title": "Eli bons p'tits plats",
+      "number": 331,
+      "sourceEntry": "eli_ptit_plats.png",
+      "original": {
+        "path": "illustrations/originals/eli-bons-plats.png",
+        "sha256": "77fccad5d862fb82f067eeddbd18aa5166a0be7dea853a37a13e5fe5be49d186",
+        "bytes": 4164997,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-bons-plats/illustration.2efeff4d3f.webp",
+        "sha256": "2efeff4d3fcc155aa30a5873da25b50a35ed80574dd6c3379dcd0a8540765381",
+        "bytes": 233156,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "d-motive",
+      "title": "Dorian le motivé",
+      "number": 332,
+      "sourceEntry": "dorian_motive.png",
+      "original": {
+        "path": "illustrations/originals/d-motive.png",
+        "sha256": "07df8bc52fd01c50a52839d6804d6157447ed194559cc4adbb066221fe3aa4fe",
+        "bytes": 2958851,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/d-motive/illustration.d567cc8497.webp",
+        "sha256": "d567cc8497613e9e94a658a9d9acbd356ee829009244f7443c4279f2a649f234",
+        "bytes": 208674,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "d-souk",
+      "title": "Dorian au souk",
+      "number": 333,
+      "sourceEntry": "dorian_souk.png",
+      "original": {
+        "path": "illustrations/originals/d-souk.png",
+        "sha256": "629213a16cf49aff34f2e731fcc2c608bce2b5bbb9cef0e8f518f0e850d44cd9",
+        "bytes": 3343600,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/d-souk/illustration.98be0c74a3.webp",
+        "sha256": "98be0c74a3c286b087e25b6b1490cdcd29e65c7e8fdb7f998805385065f0656a",
+        "bytes": 295454,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bizave-tcg-beta",
+      "title": "Bizave TCG bêta",
+      "number": "PR-001",
+      "sourceEntry": "bizave_tcg_beta.png",
+      "original": {
+        "path": "illustrations/originals/bizave-tcg-beta.png",
+        "sha256": "cf26b5aac0353ff1c196b8e909e60dc8961544a42e7c1c33d4bd3df792272b26",
+        "bytes": 4155814,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bizave-tcg-beta/illustration.5acc8485dd.webp",
+        "sha256": "5acc8485dd1c2f20814e420805d6f9e6ebba40e66fa2501e1ebfd7f0f456fcf6",
+        "bytes": 281878,
+        "width": 900,
+        "height": 1200
+      }
+    }
+  ],
+  "identicalArchiveEntries": [
+    {
+      "sourceEntry": "matthieu_reparateur.png",
+      "cardId": "m-reparateur"
+    },
+    {
+      "sourceEntry": "resto_de_poutine.png",
+      "cardId": "resto-poutine"
+    },
+    {
+      "sourceEntry": "date_a_aquarium.png",
+      "cardId": "date-aquarium"
+    },
+    {
+      "sourceEntry": "words_2024.png",
+      "cardId": "worlds-lcs"
+    },
+    {
+      "sourceEntry": "eli_arabe.png",
+      "cardId": "eli-arabe"
+    },
+    {
+      "sourceEntry": "nana_arabe.png",
+      "cardId": "nana-arabe"
+    },
+    {
+      "sourceEntry": "micro_ondes_pizza.png",
+      "cardId": "micro-ondes-pizza"
+    },
+    {
+      "sourceEntry": "cest_pas_loin.png",
+      "cardId": "c-est-pas-loin"
+    },
+    {
+      "sourceEntry": "ubigi_esim.png",
+      "cardId": "ubigi-esim"
+    },
+    {
+      "sourceEntry": "cafe_glace_mcdo.png",
+      "cardId": "cafe-glace-mcdo"
+    },
+    {
+      "sourceEntry": "pgw_2023.png",
+      "cardId": "pgw-2023"
+    },
+    {
+      "sourceEntry": "thomas_romantique.png",
+      "cardId": "t-romantique"
+    },
+    {
+      "sourceEntry": "dorian_parisien.png",
+      "cardId": "d-parisien"
+    },
+    {
+      "sourceEntry": "dorian_romantique.png",
+      "cardId": "d-romantique"
+    },
+    {
+      "sourceEntry": "dorian_motard.png",
+      "cardId": "d-motard"
+    },
+    {
+      "sourceEntry": "dorian_viandard.png",
+      "cardId": "d-viandard"
+    },
+    {
+      "sourceEntry": "dorian_classique.png",
+      "cardId": "d-classique"
+    },
+    {
+      "sourceEntry": "dorian_bouffon.png",
+      "cardId": "d-bouffon"
+    },
+    {
+      "sourceEntry": "dorian_pas_muscle.png",
+      "cardId": "d-pas-muscle"
+    },
+    {
+      "sourceEntry": "dorian_chamelier.png",
+      "cardId": "d-chamelier"
+    },
+    {
+      "sourceEntry": "dorian_a_la_bourre.png",
+      "cardId": "d-bourre"
+    },
+    {
+      "sourceEntry": "dorian_lutosa.png",
+      "cardId": "d-lutoza"
+    },
+    {
+      "sourceEntry": "dorian_mma.png",
+      "cardId": "d-mma"
+    },
+    {
+      "sourceEntry": "eli_bilingue.png",
+      "cardId": "eli-bilingue"
+    },
+    {
+      "sourceEntry": "eli_traitresse.png",
+      "cardId": "eli-traitresse"
+    },
+    {
+      "sourceEntry": "dorian_la_mer.png",
+      "cardId": "d-mer"
+    },
+    {
+      "sourceEntry": "matthieu_caca_de_chien.png",
+      "cardId": "m-caca-chien"
+    },
+    {
+      "sourceEntry": "thomas_motard.png",
+      "cardId": "t-motard"
+    },
+    {
+      "sourceEntry": "matthieu_passion_yoga.png",
+      "cardId": "m-yoga"
+    },
+    {
+      "sourceEntry": "dorian_arabe.png",
+      "cardId": "d-arabe"
+    },
+    {
+      "sourceEntry": "dorian_vs_ubigi.png",
+      "cardId": "d-vs-ubigi"
+    },
+    {
+      "sourceEntry": "eli_bouffonne.png",
+      "cardId": "eli-bouffonne"
+    },
+    {
+      "sourceEntry": "thomas_la_mer.png",
+      "cardId": "t-mer"
+    },
+    {
+      "sourceEntry": "statue_de_nana.png",
+      "cardId": "statue-nana"
+    },
+    {
+      "sourceEntry": "statue_de_matthieu.png",
+      "cardId": "statue-matthieu"
+    },
+    {
+      "sourceEntry": "statue_de_thomas.png",
+      "cardId": "statue-thomas"
+    },
+    {
+      "sourceEntry": "statue_de_eli.png",
+      "cardId": "statue-eli"
+    },
+    {
+      "sourceEntry": "statue_de_dorian.png",
+      "cardId": "statue-dorian"
+    },
+    {
+      "sourceEntry": "thomas_bizave.png",
+      "cardId": "t-bizave"
+    },
+    {
+      "sourceEntry": "eli_veilleuse_de_nuit.png",
+      "cardId": "eli-veilleuse"
+    },
+    {
+      "sourceEntry": "nana_office_lady.png",
+      "cardId": "nana-office-lady"
+    },
+    {
+      "sourceEntry": "chatgpt_bizave.png",
+      "cardId": "chatgpt-bizave"
+    },
+    {
+      "sourceEntry": "claude_bizave.png",
+      "cardId": "claude-bizave"
+    },
+    {
+      "sourceEntry": "salvatore_le_buisson.png",
+      "cardId": "salvatore-buisson"
+    },
+    {
+      "sourceEntry": "crotte_du_buisson.png",
+      "cardId": "crotte-buisson"
+    },
+    {
+      "sourceEntry": "matthieu_correspondant.png",
+      "cardId": "m-correspondant"
+    },
+    {
+      "sourceEntry": "ciel_bleu.png",
+      "cardId": "ciel-bleu"
+    },
+    {
+      "sourceEntry": "le_bus.png",
+      "cardId": "le-bus"
+    },
+    {
+      "sourceEntry": "petit_thomas.png",
+      "cardId": "t-petit"
+    },
+    {
+      "sourceEntry": "matthieu_arabe.png",
+      "cardId": "m-arabe"
+    },
+    {
+      "sourceEntry": "thomas_spotteur.png",
+      "cardId": "t-spotteur"
+    },
+    {
+      "sourceEntry": "matthieu_en_belgique.png",
+      "cardId": "m-belgique"
+    },
+    {
+      "sourceEntry": "matthieu_infirmier.png",
+      "cardId": "m-infirmier"
+    },
+    {
+      "sourceEntry": "matthieu_destination_quebec.png",
+      "cardId": "m-dest-quebec"
+    },
+    {
+      "sourceEntry": "thomas_conducteur.png",
+      "cardId": "t-conducteur"
+    },
+    {
+      "sourceEntry": "thomas_vs_immigration.png",
+      "cardId": "t-immigration"
+    },
+    {
+      "sourceEntry": "thomas_arabe.png",
+      "cardId": "t-arabe"
+    },
+    {
+      "sourceEntry": "eli_kpop_star.png",
+      "cardId": "eli-kpop"
+    }
+  ]
+}

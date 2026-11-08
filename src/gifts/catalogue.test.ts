@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import definitions from '../data/gift-codes.json'
+import { cardById } from '../data/cards'
 import { boosters } from '../data/boosters'
 import { shopBoosters } from '../game/boosterAvailability'
 import { GIFT_CODE_HASH_PATTERN } from './format'
@@ -26,6 +27,11 @@ describe('catalogue public des cadeaux', () => {
           expect(available.has(item.boosterId)).toBe(true)
           expect(Number.isSafeInteger(item.quantity) && item.quantity > 0).toBe(true)
         }
+      } else if (gift.reward.type === 'card-variants') {
+        expect(cardById.get(gift.reward.cardId)?.promoNumber).toBeDefined()
+      } else if (gift.reward.type === 'weekly-bonus') {
+        expect(['reroll', 'fragments']).toContain(gift.reward.bonus)
+        expect(Number.isSafeInteger(gift.reward.quantity) && gift.reward.quantity > 0).toBe(true)
       } else {
         expect(gift.reward.type).toBe('fragments')
         expect(Number.isSafeInteger(gift.reward.amount) && gift.reward.amount > 0).toBe(true)

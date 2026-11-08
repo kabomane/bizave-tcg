@@ -1,18 +1,20 @@
 # Paquets, boutique et stocks
 
-Quatre paquets sont configurés : **Memory Frame** (168 cartes, gratuit ou 70 fragments), **Anima Isekai** (143 cartes, gratuit ou 50 fragments), **epico stellari** (55 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (54 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
+Quatre paquets sont configurés : **Memory Frame** (190 cartes, gratuit ou 70 fragments), **Anima Isekai** (143 cartes, gratuit ou 50 fragments), **epico stellari** (57 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (62 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
 
 ## Contenus
 
 - `src/data/boosters.ts` contient les définitions des paquets.
-- `src/data/pools/memory-frame.json` contient les 168 cartes de Memory Frame, anciennement Phantom Blood. Son ID technique `phantom-blood` conserve les stocks, préférences et ouvertures en cours. Claude BIZAVE, ChatGPT BIZAVE, Salvatore et le buisson, La crotte du buisson et Matthieu correspondant rejoignent le pool le 5 novembre 2026. Ciel bleu et Le bus suivent le 7 novembre ; les numéros existants restent inchangés.
+- `src/data/pools/memory-frame.json` contient les 190 cartes de Memory Frame, anciennement Phantom Blood. Son ID technique `phantom-blood` conserve les stocks, préférences et ouvertures en cours. Claude BIZAVE, ChatGPT BIZAVE, Salvatore et le buisson, La crotte du buisson et Matthieu correspondant rejoignent le pool le 5 novembre 2026. Ciel bleu et Le bus suivent le 7 novembre, puis les 22 ajouts de la vague 2 le 8 novembre.
 - `src/data/pools/anima-isekai.json` contient les 143 cartes d’Anima Isekai, toutes illustrées en WebP. Les pools Memory Frame et Anima Isekai sont distincts. Les 84 ajouts sont placés en fin d’ordre global ; Matthieu Izumi conserve l’ID `kis-arashi` et son numéro.
-- **epico stellari** utilise `sources: [{ type: 'rarities', rarities: ['epic', 'legendary'] }]` : toutes les cartes épiques et légendaires du catalogue, y compris les futurs ajouts, sans nouvelle liste à entretenir. Le sous-titre est calculé depuis le catalogue. Les cartes partagées gardent leur identité et leur numéro ; ce booster de regroupement est masqué dans les filtres par `showInFilters: false`.
+- **epico stellari** utilise `sources: [{ type: 'rarities', rarities: ['epic', 'legendary'] }]` : toutes les cartes épiques et légendaires éligibles aux tirages, y compris les futurs ajouts, sans nouvelle liste à entretenir. Le sous-titre est calculé depuis le catalogue. Les cartes partagées gardent leur identité et leur numéro ; ce booster de regroupement est masqué dans les filtres par `showInFilters: false`.
 - Les listes ne dépendent ni des groupes éditoriaux ni du catalogue global. Ajouter une carte à un groupe ne change pas automatiquement un paquet.
 - Les nouveaux paquets peuvent référencer les mêmes identifiants et des identifiants exclusifs dans leur propre liste. Une carte partagée garde une seule définition et la même identité dans la collection, les échanges et les doublons.
 - Préférer des listes explicites par paquet. Les sources dynamiques `collection` restent possibles dans le moteur, mais incluent les futures cartes de ce groupe.
 - Les taux de rareté, finition et illustration héritent des valeurs de `src/game/config.ts` ; chaque booster peut remplacer indépendamment un de ces trois profils. Chaque rareté ayant un taux strictement positif doit avoir au moins une carte dans le pool.
 - Les poids relatifs déjà pris en charge s’appliquent au choix d’un modèle dans sa rareté. Ils ne garantissent pas un nombre de cartes exclusives par ouverture.
+
+Les cartes portant un `promoNumber` sont réservées aux récompenses dédiées. Les tirages et la boutique hebdomadaire les excluent.
 
 La propriété `showInFilters` contrôle la présence du booster dans les filtres partagés de Collection et Atelier. Elle vaut `true` par défaut si omise. Memory Frame et Anima Isekai la définissent à `true`, epico stellari à `false`. Elle ne change ni les cartes détenues, ni la boutique, ni les paquets ouvrables.
 

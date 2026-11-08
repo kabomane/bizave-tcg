@@ -21,7 +21,7 @@ import { CardViewer } from '../components/CardViewer'
 import { CardBackdrop } from '../components/CardBackdrop'
 import { FinishDot } from '../components/FinishDot'
 import { useNow } from '../components/useNow'
-import { WEEKLY_BOOSTER_ID, WEEKLY_BOOSTER_TITLE } from '../game/weeklyShop'
+import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID, WEEKLY_BOOSTER_TITLE } from '../game/weeklyShop'
 
 function RechargeClock({ at }: { at: number }) { const now = useNow(); return <span className="recharge-clock"><Clock3 size={12} />{formatDuration(at - now, { hours: false })}</span> }
 
@@ -35,8 +35,12 @@ export function BoostersPage() {
   const inFlight = useRef(false), revealRoot = useRef<HTMLElement>(null), preloadedOpening = useRef<string | null>(null)
   const currentTime = useNow()
   const weekly = weeklyShop && Math.max(currentTime, player.maxObservedClockAt) < weeklyShop.rerollAt ? weeklyShop : undefined
-  const weeklyDefinition = weekly?.priorBooster?.definition ?? weekly?.booster.definition
-  const stockRows = useMemo(() => weekly ? [...boosterStock, { boosterId: WEEKLY_BOOSTER_ID, quantity: weekly.booster.owned + (weekly.priorBooster?.owned ?? 0), updatedAt: weekly.weekStart }] : boosterStock, [boosterStock, weekly])
+  const weeklyDefinition = weekly && (priorWeeklyBoosters(weekly)[0]?.definition ?? weekly.booster.definition)
+  const stockRows = useMemo(() => weekly ? [...boosterStock, {
+    boosterId: WEEKLY_BOOSTER_ID,
+    quantity: priorWeeklyBoosters(weekly).reduce((total, batch) => total + batch.owned, weekly.booster.owned),
+    updatedAt: weekly.weekStart,
+  }] : boosterStock, [boosterStock, weekly])
   const choices = useMemo(() => [...availableBoosters(boosters, stockRows), ...availableBoosters(weeklyDefinition ? [weeklyDefinition] : [], stockRows)], [stockRows, weeklyDefinition])
   const booster = choices.find(choice => choice.id === selectedBoosterId) || choices[0]
   const [openingView, setOpeningView] = useState<{ choices: BoosterDefinition[]; selectedId: string; quantity: number } | null>(null)

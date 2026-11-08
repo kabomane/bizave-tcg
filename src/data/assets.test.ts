@@ -21,8 +21,11 @@ describe('assets publiés', () => {
     expect(files.filter(file => /\.png$/i.test(file))).toEqual([])
     expect(files.map(file => '/assets/cards/' + relative(directory, file).replaceAll('\\', '/')).filter(url => !references.has(url))).toEqual([])
   })
-  it('attribue exactement une position à chaque carte du catalogue', () => {
+  it('attribue une position à chaque carte de série et un numéro distinct à chaque promo', () => {
     expect(new Set(order).size).toBe(order.length)
-    expect([...order].sort()).toEqual(catalogue.map(card => card.id).sort())
+    expect([...order].sort()).toEqual(catalogue.filter(card => !card.promoNumber).map(card => card.id).sort())
+    const promoNumbers = catalogue.flatMap(card => card.promoNumber ? [card.promoNumber] : [])
+    expect(new Set(promoNumbers).size).toBe(promoNumbers.length)
+    for (const number of promoNumbers) expect(number).toMatch(/^PR-\d{3}$/)
   })
 })

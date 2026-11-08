@@ -22,13 +22,14 @@ export function weightedPick<T extends string>(rates: Record<T, number>, rng: Rn
 }
 type PoolEntry = { card: CardDefinition; weight: number }
 export function resolveBoosterPool(booster: BoosterDefinition, catalogue: CardDefinition[]): PoolEntry[] {
+  const eligible = catalogue.filter(card => !card.promoNumber)
   const result = new Map<string, PoolEntry>()
   for (const source of booster.sources) {
     const multiplier = source.multiplier ?? 1
     if (!Number.isFinite(multiplier) || multiplier <= 0) throw new Error('Configuration : multiplicateur invalide.')
     if (source.type === 'cards' && source.cardIds.some(id => !catalogue.some(c => c.id === id))) throw new Error('Configuration : carte inconnue dans le pool.')
     if (source.type === 'rarities' && (!source.rarities.length || source.rarities.some(rarity => !Object.hasOwn(DEFAULT_RARITY_RATES, rarity)))) throw new Error('Configuration : raretés inconnues dans le pool.')
-    const subset = catalogue.filter(c => source.type === 'collection' ? c.collectionId === source.collectionId && !source.excludeCardIds?.includes(c.id) : source.type === 'rarities' ? source.rarities.includes(c.rarity) : source.cardIds.includes(c.id))
+    const subset = eligible.filter(c => source.type === 'collection' ? c.collectionId === source.collectionId && !source.excludeCardIds?.includes(c.id) : source.type === 'rarities' ? source.rarities.includes(c.rarity) : source.cardIds.includes(c.id))
     if (source.type === 'collection' && !catalogue.some(c => c.collectionId === source.collectionId)) throw new Error('Configuration : collection inconnue.')
     for (const card of subset) result.set(card.id, { card, weight: (result.get(card.id)?.weight ?? 0) + (card.weight ?? 1) * multiplier })
   }

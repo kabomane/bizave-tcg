@@ -7,6 +7,7 @@ type ChangelogEntry = {
 
 // Curated history, newest first. Entries are supplied by the owner, not generated from Git.
 export const changelog: readonly ChangelogEntry[] = [
+  { id: 'v145', title: 'Version 1.4.5', detail: '22 nouvelles cartes Memory Frame, promo Bizave TCG bêta, stock de lucky boost renouvelé au reroll et codes cadeaux pour les bonus de la semaine.' },
   { id: 'v144', title: 'Version 1.4.4', detail: 'Bonus hebdomadaires avec reroll et carte fragments gratuite, taux de lucky boost visibles, deux nouvelles cartes Memory Frame et page de découverte actualisée.' },
   { id: 'v143', title: 'Version 1.4.3', detail: 'Refonte de la boutique, ajout de la boutique hebdomadaire plus souple sur les taux de drop.' },
   { id: 'v142', title: 'Version 1.4.2', detail: 'Nouvelle réception des fragments, fermeture des fenêtres à droite par défaut, option Droitier / Gaucher et alignement des chiffres du solde.' },

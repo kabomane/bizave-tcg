@@ -4,7 +4,7 @@ import { buyWeeklyOffer, claimWeeklyBonus, refreshWeeklyShop } from './weeklySho
 import { finishOpening, initializeDatabase, openBooster, refreshRecharge } from './services'
 import { SALES_CLOSE_MS, WEEKLY_BOOSTER_ID, WEEKLY_REROLL_PRICE } from '../game/weeklyShop'
 import { cards } from '../data/cards'
-import { uuid } from '../game/engine'
+import { resolveBoosterPool, uuid } from '../game/engine'
 import { exportSave, importSave, parseSaveFile } from './saveTransfer'
 import { ensureInstallation } from './installation'
 import { DEFAULT_PREFERENCES } from '../settings/preferences'
@@ -14,14 +14,16 @@ const now = Date.parse('2026-11-06T12:00:00Z')
 beforeEach(async () => { db = new BizaveDatabase('weekly-' + uuid()); await initializeDatabase(db, now); await db.player.update('local', { fragments: 100_000 }) })
 afterEach(async () => { await db.delete() })
 describe('boutique hebdomadaire persistante', () => {
-  it('réclame chaque bonus une fois entre onglets et conserve le pool des boosters déjà achetés', async () => {
+  it('réclame chaque bonus une fois, renouvelle le stock épuisé et ouvre les anciens boosters en premier', async () => {
     const shop = await refreshWeeklyShop(db, now)
     const common = cards.find(card => card.rarity === 'common')!
     shop.booster.definition.sources = [{ type: 'cards', cardIds: [common.id] }]
     shop.booster.definition.rates = { rarity: { common: 100, uncommon: 0, rare: 0, epic: 0, legendary: 0 } }
+    shop.booster.stock = shop.booster.remaining = 1
     await db.weeklyShop.put(shop)
     const offer = shop.offers[0]
     await buyWeeklyOffer(shop.weekStart, 'booster', db, now)
+    expect((await db.weeklyShop.get('current'))?.booster.remaining).toBe(0)
     await buyWeeklyOffer(shop.weekStart, offer.id, db, now)
 
     const second = new BizaveDatabase(db.name)
@@ -43,16 +45,26 @@ describe('boutique hebdomadaire persistante', () => {
       ])
       expect(rerolls.filter(result => result.status === 'fulfilled')).toHaveLength(1)
       const updated = (await db.weeklyShop.get('current'))!
-      expect(updated).toMatchObject({ rerollUsed: true, fragmentsClaimed: true, booster: { remaining: shop.booster.stock - 1, owned: 0 }, priorBooster: { owned: 1, definition: shop.booster.definition } })
+      expect(updated).toMatchObject({ rerollUsed: true, rerollCount: 1, fragmentsClaimed: true, booster: { remaining: updated.booster.stock, owned: 0 }, priorBoosters: [{ owned: 1, definition: shop.booster.definition }] })
+      expect(updated.booster.stock).toBeGreaterThanOrEqual(1)
+      expect(updated.booster.stock).toBeLessThanOrEqual(4)
       expect(updated.booster.definition.sources).not.toEqual(shop.booster.definition.sources)
       expect(updated.offers.every(card => !card.sold)).toBe(true)
       expect(await db.drops.count()).toBe(1)
       expect((await db.player.get('local'))?.fragments).toBe(100_000 - shop.booster.price - offer.price - WEEKLY_REROLL_PRICE + rewards[0])
       await expect(buyWeeklyOffer(shop.weekStart, offer.id, db, now)).rejects.toThrow('renouvelée')
-      await buyWeeklyOffer(shop.weekStart, updated.offers[0].id, db, now, true)
+      await buyWeeklyOffer(shop.weekStart, updated.offers[0].id, db, now, 1)
+      await buyWeeklyOffer(shop.weekStart, 'booster', db, now, 1)
       const opening = await openBooster(WEEKLY_BOOSTER_ID, db, now)
       expect(opening.results.map(card => card.cardId)).toEqual(Array(5).fill(common.id))
-      expect((await db.weeklyShop.get('current'))?.priorBooster).toBeUndefined()
+      const afterOpening = (await db.weeklyShop.get('current'))!
+      expect(afterOpening.priorBoosters).toBeUndefined()
+      expect(afterOpening.booster).toMatchObject({ owned: 1, remaining: updated.booster.stock - 1 })
+      await finishOpening(opening.id, db)
+      const newOpening = await openBooster(WEEKLY_BOOSTER_ID, db, now)
+      const newPool = new Set(resolveBoosterPool(updated.booster.definition, cards).map(({ card }) => card.id))
+      expect(newOpening.results.every(card => newPool.has(card.cardId))).toBe(true)
+      expect((await db.weeklyShop.get('current'))?.booster.owned).toBe(0)
       const next = await refreshWeeklyShop(db, shop.rerollAt)
       expect(next.fragmentsClaimed).toBeUndefined()
       expect(next.rerollUsed).toBeUndefined()
@@ -65,6 +77,39 @@ describe('boutique hebdomadaire persistante', () => {
     db.close(); await db.open()
     expect(await refreshWeeklyShop(db, now + 1000)).toEqual(first)
     expect(await db.weeklyShop.count()).toBe(1)
+  })
+  it('conserve les pools de plusieurs rerolls, dont un ancien lot issu d’une sauvegarde', async () => {
+    const shop = await refreshWeeklyShop(db, now)
+    const [first, second, third] = cards.filter(card => card.rarity === 'common')
+    const definitionFor = (cardId: string) => ({
+      ...shop.booster.definition,
+      sources: [{ type: 'cards' as const, cardIds: [cardId] }],
+      rates: { rarity: { common: 100, uncommon: 0, rare: 0, epic: 0, legendary: 0 } },
+    })
+    await db.weeklyShop.put({
+      ...shop,
+      rerollUsed: true,
+      priorBooster: { definition: definitionFor(first.id), owned: 1 },
+      booster: { ...shop.booster, definition: definitionFor(second.id), owned: 1, remaining: shop.booster.stock - 1 },
+    })
+    await db.player.update('local', { weeklyBonusCredits: { reroll: 2 } })
+    await claimWeeklyBonus(shop.weekStart, 'reroll', db, now, 0)
+    const refreshed = (await db.weeklyShop.get('current'))!
+    expect(refreshed.rerollCount).toBe(2)
+    await expect(buyWeeklyOffer(shop.weekStart, 'booster', db, now, 1)).rejects.toThrow(/renouvelée/)
+    refreshed.booster.definition = definitionFor(third.id)
+    // Keep the offer's displayed price aligned with its stored definition.
+    refreshed.booster.definition.access = { type: 'shop', price: refreshed.booster.price, listed: false }
+    await db.weeklyShop.put(refreshed)
+    await buyWeeklyOffer(shop.weekStart, 'booster', db, now, 2)
+    await claimWeeklyBonus(shop.weekStart, 'reroll', db, now, 0)
+    expect((await db.weeklyShop.get('current'))?.priorBoosters).toHaveLength(3)
+    for (const card of [first, second, third]) {
+      const opening = await openBooster(WEEKLY_BOOSTER_ID, db, now)
+      expect(opening.results.map(drop => drop.cardId)).toEqual(Array(5).fill(card.id))
+      await finishOpening(opening.id, db)
+    }
+    expect((await db.weeklyShop.get('current'))?.priorBoosters).toBeUndefined()
   })
   it('sérialise deux achats de la même carte entre deux connexions', async () => {
     const shop = await refreshWeeklyShop(db, now), offer = shop.offers[0]
@@ -146,7 +191,9 @@ describe('boutique hebdomadaire persistante', () => {
     await buyWeeklyOffer(shop.weekStart, shop.offers[0].id, db, purchaseTime)
     await claimWeeklyBonus(shop.weekStart, 'fragments', db, purchaseTime)
     await claimWeeklyBonus(shop.weekStart, 'reroll', db, purchaseTime)
-    const state = await db.weeklyShop.get('current')
+    const state = (await db.weeklyShop.get('current'))!
+    expect(state.booster.remaining).toBe(state.booster.stock)
+    expect(state.priorBoosters?.[0].owned).toBe(1)
     const target = new BizaveDatabase('weekly-target-' + uuid())
     try {
       await initializeDatabase(target, time)

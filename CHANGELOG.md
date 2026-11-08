@@ -1,5 +1,13 @@
 # Historique des versions
 
+## bizave-tcg.v1.4.5 — 8 novembre 2026
+
+- 22 nouvelles cartes dans Memory Frame (190 cartes) et promo Bizave TCG bêta (PR-001) disponible en six variantes par code cadeau.
+- Le reroll de la boutique renouvelle le stock de lucky boost. Les exemplaires déjà achetés gardent leur pool et s’ouvrent dans l’ordre d’achat.
+- Codes cadeaux pour ajouter des rerolls gratuits ou des cartes fragments mystère. Notification 8 avec un code donnant deux rerolls gratuits.
+
+[Note de version 1.4.5](docs/releases/bizave-tcg.v1.4.5.md)
+
 ## Ajout de cartes — 5 novembre 2026 (version 1.4.2 inchangée)
 
 - Memory Frame : Claude BIZAVE et ChatGPT BIZAVE (légendaires), Salvatore et le buisson (épique), La crotte du buisson (rare), Matthieu correspondant (peu commune), avec les images et descriptions du carnet.

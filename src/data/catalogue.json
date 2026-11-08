@@ -4655,5 +4655,351 @@
       "standard": "center top",
       "fullArt": "center top"
     }
+  },
+  {
+    "id": "thomafia-parrain",
+    "title": "Tho’ Mafia : Le Parrain",
+    "rarity": "legendary",
+    "collectionId": "thomas",
+    "description": "Personne ne refuse une offre de la Tho’ Mafia.",
+    "artwork": {
+      "standard": "/assets/cards/thomafia-parrain/illustration.5deac36dc9.webp",
+      "fullArt": "/assets/cards/thomafia-parrain/illustration.5deac36dc9.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "thomafia-consigliere",
+    "title": "Tho’ Mafia : Le Consigliere",
+    "rarity": "rare",
+    "collectionId": "matthieu",
+    "description": "Le colis ? Quel colis ?",
+    "artwork": {
+      "standard": "/assets/cards/thomafia-consigliere/illustration.fabbda510a.webp",
+      "fullArt": "/assets/cards/thomafia-consigliere/illustration.fabbda510a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "thomafia-comptable",
+    "title": "Tho’ Mafia : La Comptable",
+    "rarity": "rare",
+    "collectionId": "eli",
+    "description": "Les comptes sont propres. Ne posez pas de questions.",
+    "artwork": {
+      "standard": "/assets/cards/thomafia-comptable/illustration.79efc74c57.webp",
+      "fullArt": "/assets/cards/thomafia-comptable/illustration.79efc74c57.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "thomafia-gros-bras",
+    "title": "Tho’ Mafia : Le Gros Bras",
+    "rarity": "rare",
+    "collectionId": "dorian",
+    "description": "Il a regardé le patron de travers.",
+    "artwork": {
+      "standard": "/assets/cards/thomafia-gros-bras/illustration.d633f9a53c.webp",
+      "fullArt": "/assets/cards/thomafia-gros-bras/illustration.d633f9a53c.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "thomafia-negociatrice",
+    "title": "Tho’ Mafia : La Négociatrice",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "Au bout de trois heures, ils ont tous signé.",
+    "artwork": {
+      "standard": "/assets/cards/thomafia-negociatrice/illustration.cf6d66a74a.webp",
+      "fullArt": "/assets/cards/thomafia-negociatrice/illustration.cf6d66a74a.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mattyakuza-oyabun",
+    "title": "Matt’ Yakuza : L'Oyabun",
+    "rarity": "legendary",
+    "collectionId": "matthieu",
+    "description": "Réunion du clan reportée : l'Oyabun dort encore.",
+    "artwork": {
+      "standard": "/assets/cards/mattyakuza-oyabun/illustration.9ca4d9ef0e.webp",
+      "fullArt": "/assets/cards/mattyakuza-oyabun/illustration.9ca4d9ef0e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mattyakuza-anesan",
+    "title": "Matt’ Yakuza : L'Ane-san",
+    "rarity": "rare",
+    "collectionId": "eli",
+    "description": "Le clan obéit à l'Oyabun. L'Oyabun obéit à Ane-san.",
+    "artwork": {
+      "standard": "/assets/cards/mattyakuza-anesan/illustration.102d9b6bcc.webp",
+      "fullArt": "/assets/cards/mattyakuza-anesan/illustration.102d9b6bcc.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mattyakuza-wakagashira",
+    "title": "Matt’ Yakuza : Le Wakagashira",
+    "rarity": "rare",
+    "collectionId": "thomas",
+    "description": "Tout est prêt, Oyabun. Comme d'habitude… sans vous.",
+    "artwork": {
+      "standard": "/assets/cards/mattyakuza-wakagashira/illustration.8bf4d00e4f.webp",
+      "fullArt": "/assets/cards/mattyakuza-wakagashira/illustration.8bf4d00e4f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mattyakuza-tatoue",
+    "title": "Matt’ Yakuza : Le Tatoué",
+    "rarity": "rare",
+    "collectionId": "dorian",
+    "description": "Il a laissé sa marque. Littéralement.",
+    "artwork": {
+      "standard": "/assets/cards/mattyakuza-tatoue/illustration.f875b39e79.webp",
+      "fullArt": "/assets/cards/mattyakuza-tatoue/illustration.f875b39e79.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "mattyakuza-informatrice",
+    "title": "Matt’ Yakuza : L'Informatrice",
+    "rarity": "rare",
+    "collectionId": "speciaux",
+    "description": "Elle sait tout. Surtout ce qui ne la regarde pas.",
+    "artwork": {
+      "standard": "/assets/cards/mattyakuza-informatrice/illustration.b169b3e8f6.webp",
+      "fullArt": "/assets/cards/mattyakuza-informatrice/illustration.b169b3e8f6.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-jetlag",
+    "title": "Thomas jet-lag",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Premier jour au Japon : un match des BayStars, la pluie… et le sommeil qui gagne à chaque manche.",
+    "artwork": {
+      "standard": "/assets/cards/t-jetlag/illustration.eb71d69e37.webp",
+      "fullArt": "/assets/cards/t-jetlag/illustration.eb71d69e37.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-cables",
+    "title": "Thomas câble management",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Cette fois, c'est la bonne. Comme la dernière fois.",
+    "artwork": {
+      "standard": "/assets/cards/t-cables/illustration.f1178e9f88.webp",
+      "fullArt": "/assets/cards/t-cables/illustration.f1178e9f88.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-ramen",
+    "title": "Thomas Ramen Museum",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Le bol était plus grand que l'estomac.",
+    "artwork": {
+      "standard": "/assets/cards/t-ramen/illustration.35a1298369.webp",
+      "fullArt": "/assets/cards/t-ramen/illustration.35a1298369.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-parapluie",
+    "title": "Thomas parapluie volé",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Entré avec un parapluie, ressorti sans. Bienvenue au Japon.",
+    "artwork": {
+      "standard": "/assets/cards/t-parapluie/illustration.7b9cf7efc4.webp",
+      "fullArt": "/assets/cards/t-parapluie/illustration.7b9cf7efc4.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "t-konbini",
+    "title": "Thomas konbini",
+    "rarity": "common",
+    "collectionId": "thomas",
+    "description": "Thon-mayo ou saumon ? Le dilemme quotidien.",
+    "artwork": {
+      "standard": "/assets/cards/t-konbini/illustration.7ac1801fde.webp",
+      "fullArt": "/assets/cards/t-konbini/illustration.7ac1801fde.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "m-pelle-neige",
+    "title": "Matthieu pelle à neige",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "Câlisse de tabarnak, y'en est encore tombé un pied, esti !",
+    "artwork": {
+      "standard": "/assets/cards/m-pelle-neige/illustration.0636418efd.webp",
+      "fullArt": "/assets/cards/m-pelle-neige/illustration.0636418efd.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "m-depanneur",
+    "title": "Matthieu au dépanneur",
+    "rarity": "common",
+    "collectionId": "matthieu",
+    "description": "Un p'tit tour au dépanneur, et on repart avec bien plus que prévu.",
+    "artwork": {
+      "standard": "/assets/cards/m-depanneur/illustration.41e0df574e.webp",
+      "fullArt": "/assets/cards/m-depanneur/illustration.41e0df574e.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "m-hockey",
+    "title": "Matthieu hockey",
+    "rarity": "uncommon",
+    "collectionId": "matthieu",
+    "description": "Tabarnak, c'était hors-jeu !",
+    "artwork": {
+      "standard": "/assets/cards/m-hockey/illustration.d32bc1369c.webp",
+      "fullArt": "/assets/cards/m-hockey/illustration.d32bc1369c.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "eli-hockey",
+    "title": "Eli hockey",
+    "rarity": "uncommon",
+    "collectionId": "eli",
+    "description": "Il crie sur l'arbitre, je regarde le match.",
+    "artwork": {
+      "standard": "/assets/cards/eli-hockey/illustration.3466439166.webp",
+      "fullArt": "/assets/cards/eli-hockey/illustration.3466439166.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "eli-bons-plats",
+    "title": "Eli bons p'tits plats",
+    "rarity": "uncommon",
+    "collectionId": "groupes",
+    "description": "Quand Eli cuisine, Matthieu joue. Chacun son rôle.",
+    "artwork": {
+      "standard": "/assets/cards/eli-bons-plats/illustration.2efeff4d3f.webp",
+      "fullArt": "/assets/cards/eli-bons-plats/illustration.2efeff4d3f.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-motive",
+    "title": "Dorian le motivé",
+    "rarity": "uncommon",
+    "collectionId": "dorian",
+    "description": "Acheter le casque avant le permis : comme ça, impossible de faire demi-tour.",
+    "artwork": {
+      "standard": "/assets/cards/d-motive/illustration.d567cc8497.webp",
+      "fullArt": "/assets/cards/d-motive/illustration.d567cc8497.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "d-souk",
+    "title": "Dorian au souk",
+    "rarity": "uncommon",
+    "collectionId": "dorian",
+    "description": "Il était venu pour les épices. Il est reparti avec la Marocaine.",
+    "artwork": {
+      "standard": "/assets/cards/d-souk/illustration.98be0c74a3.webp",
+      "fullArt": "/assets/cards/d-souk/illustration.98be0c74a3.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    }
+  },
+  {
+    "id": "bizave-tcg-beta",
+    "title": "Bizave TCG bêta",
+    "rarity": "legendary",
+    "collectionId": "promo",
+    "description": "merci d'avoir rejoint la béta !",
+    "artwork": {
+      "standard": "/assets/cards/bizave-tcg-beta/illustration.5acc8485dd.webp",
+      "fullArt": "/assets/cards/bizave-tcg-beta/illustration.5acc8485dd.webp"
+    },
+    "artworkPosition": {
+      "standard": "center top",
+      "fullArt": "center top"
+    },
+    "promoNumber": "PR-001"
   }
 ]

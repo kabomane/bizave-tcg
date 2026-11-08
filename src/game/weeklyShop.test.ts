@@ -36,6 +36,16 @@ describe('génération hebdomadaire', () => {
     validateConfiguration(catalogue, [shop.booster.definition])
     expect(drawPack(shop.booster.definition, catalogue)).toHaveLength(5)
   })
+  it('écarte PR-001 du booster et de la vitrine de la semaine', () => {
+    const promo = cards.find(card => card.promoNumber === 'PR-001')!
+    const catalogue = [cards[0], promo]
+    const shop = createWeeklyShop(catalogue, now, () => .99)
+    expect(shop.booster.definition.sources).toEqual([{ type: 'cards', cardIds: [cards[0].id] }])
+    expect(shop.offers.map(offer => offer.cardId)).toEqual([cards[0].id])
+    expect(validWeeklyShop(shop, catalogue)).toBe(true)
+    shop.offers[0].cardId = promo.id
+    expect(validWeeklyShop(shop, catalogue)).toBe(false)
+  })
   it('produit des offres distinctes, des prix valides et des pools ouvrables sur de nombreux tirages', () => {
     const counts = new Set<number>()
     for (let seed = 1; seed <= 200; seed++) {
@@ -58,6 +68,7 @@ describe('génération hebdomadaire', () => {
   it('refuse les stocks, prix, taux ou pools invalides dans une sauvegarde', () => {
     for (const change of [
       (s: ReturnType<typeof createWeeklyShop>) => { s.booster.owned = 99 },
+      (s: ReturnType<typeof createWeeklyShop>) => { s.rerollUsed = true; s.priorBooster = { definition: s.booster.definition, owned: 5 } },
       (s: ReturnType<typeof createWeeklyShop>) => { s.booster.price = -10 },
       (s: ReturnType<typeof createWeeklyShop>) => { s.booster.definition.sources = [{ type: 'cards', cardIds: ['inconnue'] }] },
       (s: ReturnType<typeof createWeeklyShop>) => { s.booster.definition.rates = { rarity: { common: 100, uncommon: 100, rare: 0, epic: 0, legendary: 0 } } },

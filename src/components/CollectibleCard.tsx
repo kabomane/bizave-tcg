@@ -83,7 +83,7 @@ function CardFace({ card, definition, onActivate, activationLabel, presentation,
         <div className="art"><img className="custom-art" src={definition.artwork[card.artVariant]} style={{ objectPosition: definition.artworkPosition?.[card.artVariant] }} alt={definition.artwork[card.artVariant].endsWith('.svg') ? 'Illustration à venir' : `Illustration de ${definition.title}`} loading="lazy" draggable={false} /></div>
         {f === 'glossy' && (thumbnail ? <div className="holo-preview" style={{ backgroundImage: `url("${holoPreviewTexture}")` }} aria-hidden="true"><div className="holo-preview-reflection" /></div> : <><div className="holo" /><div className="sparkle s1" /><div className="sparkle s2" /><div className="sparkle s3" /></>)}
         <div className="type-line"><span className="tl-rarity"><span className="rarity-text">{rarity}</span></span><span className="tl-sep"> — </span><span className="tl-fin">{micro}</span></div>
-        <div className="card-info"><p className="description">{definition.description}</p><div className="finish-name"><span className="rarity-text">{rarity}</span> · {micro}</div></div>
+        <div className="card-info"><p className="description">{definition.promoNumber && <>{definition.promoNumber} · </>}{definition.description}</p><div className="finish-name"><span className="rarity-text">{rarity}</span> · {micro}</div></div>
         {f === 'glossy' ? <div className={thumbnail ? 'holo-preview-frame' : 'foil-frame'} aria-hidden="true" /> : f === 'alternative' ? <><div className="gold-frame" /><div className="gold-inner" /></> : <div className="matte-frame" />}
         <div className="shade" />
       </article>

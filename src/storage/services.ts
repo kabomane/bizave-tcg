@@ -11,7 +11,7 @@ import { pruneFavorites } from '../collection/favorites'
 import { patchSoireeFilm3Rarity } from './patches/soireeFilm3Rarity'
 import { clearBoosterPurchaseHistory } from './patches/boosterPurchaseHistory'
 import { settleWeeklyShop } from './weeklyShop'
-import { WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
+import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
 
 export async function initializeDatabase(database = db, now = Date.now()) {
   validateConfiguration(cards, boosters)
@@ -83,14 +83,19 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
     const time = observedTime(raw, now)
     const weekly = boosterId === WEEKLY_BOOSTER_ID ? await database.weeklyShop.get('current') : undefined
     if (weekly && time >= weekly.rerollAt) throw new Error('Ce booster de la semaine a expiré.')
-    const booster = weekly?.priorBooster?.definition ?? weekly?.booster.definition ?? boosterDefinitions.find(b => b.id === boosterId && b.enabled)
+    const prior = weekly ? priorWeeklyBoosters(weekly)[0] : undefined
+    const booster = prior?.definition ?? weekly?.booster.definition ?? boosterDefinitions.find(b => b.id === boosterId && b.enabled)
     if (!booster) throw new Error('Ce booster est indisponible.')
     let player = { ...settleFreePackRecharge(raw, time), maxObservedClockAt: time }
     let payment: OpenRecord['payment'] = 'shop'
     if (weekly) {
-      if (weekly.priorBooster) {
-        weekly.priorBooster.owned--
-        if (weekly.priorBooster.owned === 0) delete weekly.priorBooster
+      if (prior) {
+        prior.owned--
+        if (prior.owned === 0) {
+          weekly.priorBoosters?.shift()
+          if (!weekly.priorBoosters?.length) delete weekly.priorBoosters
+          delete weekly.priorBooster
+        }
       } else {
         if (weekly.booster.owned < 1) throw new Error('Vous ne possédez aucun exemplaire de ce booster.')
         weekly.booster.owned--

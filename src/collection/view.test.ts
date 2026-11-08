@@ -31,9 +31,10 @@ describe('affichage de la collection', () => {
     expect(parseCollectionDisplay({ pileCover: 'unknown' }).pileCover).toBe('rarest')
     expect(parseCollectionDisplay({ sort: 'name' }).pileCover).toBe('rarest')
   })
-  it('conserve un ordre fixe couvrant chaque carte une seule fois', () => {
-    expect(new Set(order).size).toBe(cards.length + archivedCards.length)
-    expect([...order].sort()).toEqual([...cards, ...archivedCards].map(card => card.id).sort())
+  it('conserve un ordre fixe couvrant chaque carte de série une seule fois', () => {
+    const series = [...cards, ...archivedCards].filter(card => !card.promoNumber)
+    expect(new Set(order).size).toBe(series.length)
+    expect([...order].sort()).toEqual(series.map(card => card.id).sort())
     expect(cardNumber('t-classique')).toBe(1)
     expect(cardNumber('m-classique')).toBeGreaterThan(cardNumber('t-classique'))
   })

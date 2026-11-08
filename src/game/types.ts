@@ -4,6 +4,7 @@ export type ArtVariant = 'standard' | 'fullArt'
 export type CardDefinition = {
   id: string; title: string; description: string; rarity: Rarity; collectionId: string
   artwork: { standard: string; fullArt: string }; artworkPosition?: Partial<Record<ArtVariant, string>>; weight?: number
+  promoNumber?: string
 }
 type CardPoolSource =
   | { type: 'collection'; collectionId: string; excludeCardIds?: string[]; multiplier?: number }
@@ -27,9 +28,11 @@ export type FavoriteRow = Pick<Card, 'cardId' | 'finish' | 'artVariant'> & { key
 export type CardDropRow = Card & { status: 'owned' | 'outgoing' | 'recycled'; acquiredAt: number; updatedAt: number; circulation?: 'local' | 'exchanged' }
 export type RecycledCardRow = { dropId: string }
 export type CardDiscoveryRow = Omit<Card, 'dropId'> & { key: string; firstDiscoveredAt: number }
+export type WeeklyBonusKind = 'reroll' | 'fragments'
 export type PlayerStateRow = {
   id: 'local'; fragments: number; freePackStock: number; nextFreePackAt: number | null
   maxObservedClockAt: number; schemaVersion: number
+  weeklyBonusCredits?: Partial<Record<WeeklyBonusKind, number>>
 }
 export type OpenRecord = {
   id: string; boosterId: string; boosterTitle?: string; openedAt: number; payment: 'free' | 'fragments' | 'shop'

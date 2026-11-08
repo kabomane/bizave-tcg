@@ -7,6 +7,7 @@ export const WEEKLY_BOOSTER_ID = 'weekly-mystery'
 export const WEEKLY_BOOSTER_TITLE = 'lucky boost'
 export const SALES_CLOSE_MS = 2 * 60 * 60 * 1000
 export const WEEKLY_REROLL_PRICE = 150
+const MAX_WEEKLY_BOOSTER_STOCK = 4
 export const WEEKLY_SHOWCASE_RATES = {
   rarity: { common: 30, uncommon: 25, rare: 20, epic: 13, legendary: 12 },
   finish: { normal: 70, glossy: 22, alternative: 8 },
@@ -14,13 +15,23 @@ export const WEEKLY_SHOWCASE_RATES = {
 } as const
 type Rng = () => number
 export type WeeklyOffer = { id: string; cardId: string; finish: Finish; artVariant: ArtVariant; price: number; sold: boolean }
+type PriorWeeklyBooster = { definition: BoosterDefinition; owned: number }
 export type WeeklyShopRow = {
   id: 'current'; weekStart: number; rerollAt: number
   booster: { definition: BoosterDefinition; price: number; stock: number; remaining: number; owned: number }
   offers: WeeklyOffer[]
   rerollUsed?: true
+  rerollCount?: number
   fragmentsClaimed?: true
-  priorBooster?: { definition: BoosterDefinition; owned: number }
+  priorBooster?: PriorWeeklyBooster // Saves created before gift rerolls.
+  priorBoosters?: PriorWeeklyBooster[]
+}
+
+export function weeklyRerollCount(shop: WeeklyShopRow) {
+  return shop.rerollCount ?? Number(!!shop.rerollUsed)
+}
+export function priorWeeklyBoosters(shop: WeeklyShopRow) {
+  return shop.priorBoosters ?? (shop.priorBooster ? [shop.priorBooster] : [])
 }
 
 const parisDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' })
@@ -68,10 +79,11 @@ function shuffle<T>(items: T[], rng: Rng) {
   return shuffled
 }
 function rollWeeklyBooster(catalogue: CardDefinition[], rng: Rng = secureRandom): WeeklyShopRow['booster'] {
-  const eligible = (Object.keys(DEFAULT_RARITY_RATES) as Rarity[]).filter(r => catalogue.some(c => c.rarity === r))
+  const available = catalogue.filter(c => !c.promoNumber)
+  const eligible = (Object.keys(DEFAULT_RARITY_RATES) as Rarity[]).filter(r => available.some(c => c.rarity === r))
   const rarity = rollRates(DEFAULT_RARITY_RATES, rng, eligible)
   const finish = rollRates(DEFAULT_FINISH_RATES, rng), illustration = rollRates(DEFAULT_ART_VARIANT_RATES, rng)
-  const candidates = catalogue.filter(c => rarity[c.rarity] > 0), size = Math.min(int(40, 80, rng), candidates.length)
+  const candidates = available.filter(c => rarity[c.rarity] > 0), size = Math.min(int(40, 80, rng), candidates.length)
   // Seed each active rarity, then fill without repeating models. Rates remain exact.
   const required = eligible.filter(r => rarity[r] > 0).map(r => { const choices = candidates.filter(c => c.rarity === r); return choices[int(0, choices.length - 1, rng)] })
   const used = new Set(required.map(c => c.id))
@@ -81,7 +93,7 @@ function rollWeeklyBooster(catalogue: CardDefinition[], rng: Rng = secureRandom)
   const content = 5 * eligible.reduce((sum, key) => sum + rarity[key] / 100 * cardValue(key), 0) * avgFinish * avgArt
   const targeted = rarity.common === 0 || finish.normal === 0 || illustration.standard === 0
   const price = Math.max(round10(content * (targeted ? 2.75 : 1.1) * variation(rng)), Math.ceil(content / 10) * 10)
-  const stock = int(1, 4, rng)
+  const stock = int(1, MAX_WEEKLY_BOOSTER_STOCK, rng)
   const definition: BoosterDefinition = {
     id: WEEKLY_BOOSTER_ID, title: WEEKLY_BOOSTER_TITLE, subtitle: '', description: '',
     artwork: { symbol: 'moon', colors: { primary: '#446658', secondary: '#15271f', shine: '#e5d6aa', glow: '#8bad8a' } },
@@ -92,8 +104,8 @@ function rollWeeklyBooster(catalogue: CardDefinition[], rng: Rng = secureRandom)
 }
 
 export function rollWeeklyShowcase(catalogue: CardDefinition[], rng: Rng = secureRandom): WeeklyOffer[] {
-  const eligible = (Object.keys(DEFAULT_RARITY_RATES) as Rarity[]).filter(r => catalogue.some(c => c.rarity === r))
-  const available = [...catalogue], offers: WeeklyOffer[] = []
+  const available = catalogue.filter(c => !c.promoNumber), offers: WeeklyOffer[] = []
+  const eligible = (Object.keys(DEFAULT_RARITY_RATES) as Rarity[]).filter(r => available.some(c => c.rarity === r))
   const count = Math.min(int(1, 5, rng), available.length)
   for (let i = 0; i < count; i++) {
     const availableRarities = eligible.filter(r => available.some(c => c.rarity === r))
@@ -111,15 +123,18 @@ export function createWeeklyShop(catalogue: CardDefinition[], now: number, rng: 
 }
 
 export function rerollWeeklyOffers(shop: WeeklyShopRow, catalogue: CardDefinition[]): WeeklyShopRow {
-  const nextBooster = rollWeeklyBooster(catalogue)
   const { booster } = shop
-  return {
+  const priorBoosters = [...priorWeeklyBoosters(shop)]
+  if (booster.owned > 0) priorBoosters.push({ definition: booster.definition, owned: booster.owned })
+  const next: WeeklyShopRow = {
     ...shop,
-    rerollUsed: true,
-    priorBooster: booster.owned > 0 ? { definition: booster.definition, owned: booster.owned } : undefined,
-    booster: { ...nextBooster, stock: booster.stock, remaining: booster.remaining },
+    rerollCount: weeklyRerollCount(shop) + 1,
+    priorBoosters: priorBoosters.length ? priorBoosters : undefined,
+    booster: rollWeeklyBooster(catalogue),
     offers: rollWeeklyShowcase(catalogue),
   }
+  delete next.priorBooster
+  return next
 }
 
 function validWeeklyBooster(definition: BoosterDefinition, catalogue: CardDefinition[]) {
@@ -136,16 +151,20 @@ function validWeeklyBooster(definition: BoosterDefinition, catalogue: CardDefini
 export function validWeeklyShop(value: unknown, catalogue: CardDefinition[]): value is WeeklyShopRow {
   try {
     if (!value || typeof value !== 'object') return false
+    const eligible = catalogue.filter(card => !card.promoNumber)
     const row = value as WeeklyShopRow, b = row.booster, d = b.definition
     const integer = (n: number) => Number.isSafeInteger(n) && n >= 0
     const price = (n: number) => integer(n) && n > 0 && n % 10 === 0
     if (row.id !== 'current' || !integer(row.weekStart) || weeklyPeriod(row.weekStart).weekStart !== row.weekStart || weeklyPeriod(row.weekStart).rerollAt !== row.rerollAt) return false
-    if (![b.stock, b.remaining, b.owned].every(integer) || b.stock < 1 || b.stock > 4 || b.remaining + b.owned > b.stock || !price(b.price)) return false
-    if (!validWeeklyBooster(d, catalogue) || d.access.type !== 'shop' || d.access.price !== b.price) return false
+    if (![b.stock, b.remaining, b.owned].every(integer) || b.stock < 1 || b.stock > MAX_WEEKLY_BOOSTER_STOCK || b.remaining + b.owned > b.stock || !price(b.price)) return false
+    if (!validWeeklyBooster(d, eligible) || d.access.type !== 'shop' || d.access.price !== b.price) return false
     if (row.rerollUsed !== undefined && row.rerollUsed !== true) return false
+    if (row.rerollCount !== undefined && (!integer(row.rerollCount) || row.rerollCount < 1)) return false
     if (row.fragmentsClaimed !== undefined && row.fragmentsClaimed !== true) return false
-    const prior = row.priorBooster
-    if (prior !== undefined && (!row.rerollUsed || !integer(prior.owned) || prior.owned < 1 || prior.owned + b.owned + b.remaining > b.stock || !validWeeklyBooster(prior.definition, catalogue))) return false
-    return row.offers.length >= 1 && row.offers.length <= 5 && new Set(row.offers.map(o => o.id)).size === row.offers.length && new Set(row.offers.map(o => o.cardId)).size === row.offers.length && row.offers.every((o, i) => o.id === String(i) && catalogue.some(c => c.id === o.cardId) && Object.hasOwn(DEFAULT_FINISH_RATES, o.finish) && Object.hasOwn(DEFAULT_ART_VARIANT_RATES, o.artVariant) && price(o.price) && typeof o.sold === 'boolean')
+    if (row.priorBooster !== undefined && (!row.priorBooster || !row.rerollUsed || row.rerollCount !== undefined || row.priorBoosters !== undefined)) return false
+    if (row.priorBoosters !== undefined && (!Array.isArray(row.priorBoosters) || row.rerollCount === undefined)) return false
+    const prior = priorWeeklyBoosters(row)
+    if (prior.length > weeklyRerollCount(row) || prior.some(batch => !integer(batch.owned) || batch.owned < 1 || batch.owned > MAX_WEEKLY_BOOSTER_STOCK || !validWeeklyBooster(batch.definition, eligible))) return false
+    return row.offers.length >= 1 && row.offers.length <= 5 && new Set(row.offers.map(o => o.id)).size === row.offers.length && new Set(row.offers.map(o => o.cardId)).size === row.offers.length && row.offers.every((o, i) => o.id === String(i) && eligible.some(c => c.id === o.cardId) && Object.hasOwn(DEFAULT_FINISH_RATES, o.finish) && Object.hasOwn(DEFAULT_ART_VARIANT_RATES, o.artVariant) && price(o.price) && typeof o.sold === 'boolean')
   } catch { return false }
 }

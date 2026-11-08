@@ -15,7 +15,11 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **311 cartes**, toutes **illustrées en WebP versionné**. Les 311 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **334 cartes**, toutes **illustrées en WebP versionné**. Les 334 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 8 novembre 2026
+
+La vague 2 ajoute 22 cartes à Memory Frame (numéros 312 à 333). Les 58 autres PNG de l’archive sont identiques aux originaux existants. Le PNG fourni séparément illustre la promo **Bizave TCG bêta (PR-001)**. Le manifeste `imports/2026-11-08/manifest.json` indique les correspondances et empreintes.
 
 ## Import du 7 novembre 2026
 

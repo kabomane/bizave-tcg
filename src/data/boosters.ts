@@ -1,8 +1,10 @@
 import type { BoosterDefinition } from '../game/types'
 import memoryFrameCards from './pools/memory-frame.json'
 import animaIsekaiCards from './pools/anima-isekai.json'
-import catalogue from './catalogue.json'
+import { cards } from './cards'
 import { RARITY_COLORS } from '../game/config'
+
+const packCards = cards.filter(card => !card.promoNumber)
 
 export const boosters: BoosterDefinition[] = [{
   // Keep the original ID so purchased packs and pending openings survive the rename.
@@ -22,7 +24,7 @@ export const boosters: BoosterDefinition[] = [{
   enabled: true, order: 1,
   showInFilters: true,
 }, {
-  id: 'epico-stellari', title: 'epico stellari', subtitle: `${catalogue.filter(card => card.rarity === 'epic' || card.rarity === 'legendary').length} cartes`, description: '',
+  id: 'epico-stellari', title: 'epico stellari', subtitle: `${packCards.filter(card => card.rarity === 'epic' || card.rarity === 'legendary').length} cartes`, description: '',
   artwork: { symbol: 'bloom', colors: { primary: RARITY_COLORS.epic, secondary: '#21122f', shine: RARITY_COLORS.legendary, glow: RARITY_COLORS.legendary } },
   access: { type: 'shop', price: 700 }, cardsPerPack: 5,
   sources: [{ type: 'rarities', rarities: ['epic', 'legendary'] }],
@@ -30,7 +32,7 @@ export const boosters: BoosterDefinition[] = [{
   enabled: true, order: 3,
   showInFilters: false,
 }, {
-  id: 'rarity-only', title: 'rarity only', subtitle: `${catalogue.filter(card => card.rarity === 'rare').length} cartes`, description: '',
+  id: 'rarity-only', title: 'rarity only', subtitle: `${packCards.filter(card => card.rarity === 'rare').length} cartes`, description: '',
   artwork: { symbol: 'spark', colors: { primary: RARITY_COLORS.rare, secondary: '#101f39', shine: '#c9dffc', glow: RARITY_COLORS.rare } },
   access: { type: 'shop', price: 400 }, cardsPerPack: 5,
   sources: [{ type: 'rarities', rarities: ['rare'] }],

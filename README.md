@@ -1,20 +1,20 @@
-# bizave-tcg.v1.4.4
+# bizave-tcg.v1.4.5
 
-Version **bizave-tcg.v1.4.4** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 168 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 55 cartes partagées, et **rarity only**, les 54 rares du catalogue. Le catalogue compte 311 modèles, tous illustrés.
+Version **bizave-tcg.v1.4.5** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 190 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 57 cartes partagées, et **rarity only**, 62 cartes rares. Le catalogue compte 334 modèles illustrés, dont la promo Bizave TCG bêta (PR-001).
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
-## Version 1.4.4
+## Version 1.4.5
 
-La boutique propose un reroll global et une carte fragments gratuite chaque semaine. Les taux de lucky boost et la taille de son pool sont affichés. Ciel bleu et Le bus rejoignent Memory Frame. La landing affiche les cartes directement, présente la nouvelle boutique et suit le thème système. Le compteur de notification reste à 7. Détails : [version 1.4.4](docs/releases/bizave-tcg.v1.4.4.md).
+Memory Frame accueille 22 cartes de la vague 2. La promo PR-001 est disponible en six variantes via code cadeau. Le reroll renouvelle aussi le stock de lucky boost, et les codes cadeaux peuvent ajouter des rerolls gratuits ou des cartes fragments mystère. La note de mise à jour 8 annonce un code de reroll. Détails dans [la note de version 1.4.5](docs/releases/bizave-tcg.v1.4.5.md).
 
 ## Éditions actuelles
 
-**Memory Frame** remplace le nom Phantom Blood et réunit désormais 168 cartes, toutes illustrées. Son pool est défini explicitement dans `src/data/pools/memory-frame.json` ; son identifiant technique `phantom-blood` conserve les stocks et ouvertures existants. Il utilise les crédits gratuits et reste achetable à 70 fragments.
+**Memory Frame** remplace le nom Phantom Blood et réunit désormais 190 cartes, toutes illustrées. Son pool est défini explicitement dans `src/data/pools/memory-frame.json` ; son identifiant technique `phantom-blood` conserve les stocks et ouvertures existants. Il utilise les crédits gratuits et reste achetable à 70 fragments.
 
 **Anima Isekai** propose les 143 cartes de son carnet, dans `src/data/pools/anima-isekai.json`. Il utilise le stock gratuit commun et reste disponible en boutique à **50 fragments** pour cinq cartes. Ses 143 illustrations sont intégrées. Les pools Memory Frame et Anima Isekai sont distincts et utilisent les mêmes taux de tirage par défaut.
 
-**epico stellari** est disponible uniquement en boutique à **700 fragments** pour cinq cartes. Son pool réunit automatiquement toutes les épiques et légendaires du catalogue actuel et futur : actuellement 34 épiques et 21 légendaires. Chaque carte a 91 % de chance d’être épique et 9 % légendaire ; finitions et illustrations gardent leurs taux par défaut. Les cartes partagées conservent leur numéro et leurs exemplaires.
+**epico stellari** est disponible uniquement en boutique à **700 fragments** pour cinq cartes. Son pool compte 34 épiques et 23 légendaires éligibles aux tirages. Chaque carte a 91 % de chance d’être épique et 9 % légendaire. Les finitions et illustrations suivent les taux par défaut.
 
 L’interface utilise une DA ivoire, encre et bordeaux indépendante du cahier de référence. Le sachet se clique directement ; chaque carte révélée se clique pour passer à la suivante. Après la cinquième, un clic affiche le récapitulatif. Les gabarits Fusion/Gundam et la limite de 20° restent inchangés.
 
@@ -68,9 +68,9 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 
 ## Ce qui est livré
 
-- Memory Frame : **168 modèles** (58 communs, 41 peu communs, 33 rares, 21 épiques, 15 légendaires), gratuits ou achetables à 70 fragments.
+- Memory Frame : **190 modèles** (65 communs, 46 peu communs, 41 rares, 21 épiques, 17 légendaires), gratuits ou achetables à 70 fragments.
 - Anima Isekai : **143 modèles** (69 communs, 34 peu communs, 21 rares, 13 épiques, 6 légendaires), gratuits ou en boutique à 50 fragments.
-- **311 illustrations WebP versionnées**, pour 311 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
+- **334 illustrations WebP versionnées**, pour 334 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
 - Stock gratuit global **5**, recharge **1/15 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
@@ -120,7 +120,7 @@ Les originaux restent dans `illustrations/originals/`, hors de `public/`, ignor�
 
 Le script refuse les originaux inconnus avant toute écriture, avertit en cas de ratio différent ou d’agrandissement, conserve les cadrages `artworkPosition` et retire les anciens fichiers générés de la carte. Les cartes sans original gardent leurs SVG. Une seconde exécution sans changement ne réécrit aucun fichier.
 
-Les carnets actuels sont `references/carnet-memory-frame-2026-11-05.jsx` et `references/carnet-anima-isekai-2026-11-01.jsx`. Le manifeste `illustrations/imports/2026-11-01/manifest.json` détaille les 85 ajouts, les 85 nouvelles illustrations et le renommage Arashi Shinichi → Matthieu Izumi (`kis-arashi` conservé). Le manifeste `illustrations/imports/2026-11-05/manifest.json` détaille les cinq cartes ajoutées à Memory Frame le 5 novembre, numérotées de 305 à 309. Le manifeste `illustrations/imports/2026-11-07/manifest.json` documente Ciel bleu et Le bus, numéros 310 et 311. Les numéros et les illustrations précédentes sont conservés. Les carnets et manifestes précédents restent des références historiques.
+Les carnets archivés incluent `references/carnet-memory-frame-2026-11-05.jsx` et `references/carnet-anima-isekai-2026-11-01.jsx`. Le manifeste `illustrations/imports/2026-11-01/manifest.json` détaille les 85 ajouts, les 85 nouvelles illustrations et le renommage Arashi Shinichi → Matthieu Izumi (`kis-arashi` conservé). Le manifeste `illustrations/imports/2026-11-05/manifest.json` détaille les cinq cartes ajoutées à Memory Frame le 5 novembre, numérotées de 305 à 309. Le manifeste `illustrations/imports/2026-11-07/manifest.json` documente Ciel bleu et Le bus, numéros 310 et 311. Le manifeste du 8 novembre documente 22 cartes Memory Frame (312 à 333) et la promo PR-001. Les numéros et les illustrations précédentes sont conservés. Les carnets et manifestes précédents restent des références historiques.
 
 ## Créer une collection
 
@@ -138,7 +138,7 @@ Les définitions sont dans `src/data/boosters.ts`. Chaque paquet possède son po
 
 Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement si plusieurs paquets sont disponibles ; Memory Frame et Anima Isekai sont toujours sélectionnables. Ils utilisent d’abord les crédits gratuits, puis leur réserve achetée lorsque le gratuit est vide. Le compteur réunit les deux stocks sous la forme « 0 / 5 + n » ; l’invitation « Toucher pour ouvrir » est retirée. epico stellari apparaît dans Vos boosters lorsqu’un exemplaire est détenu et consomme uniquement sa réserve achetée.
 
-Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 168 et 143 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
+Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 190 et 143 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires éligibles aux tirages. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
 
 La boutique reprend le carrousel tactile et clavier de Vos boosters, avec les mêmes dimensions de sachets. Seul le paquet défile ; le bouton d’achat reste fixe et adapte son prix, sa disponibilité et son action au paquet sélectionné. Pendant le déplacement horizontal, il est désactivé et affiche une flèche tournante jusqu’à l’alignement du nouveau paquet et de son offre. Le défilement vertical de la page ne déclenche pas ce verrou.
 
@@ -235,7 +235,7 @@ src/pages/          pages du jeu et options
 src/styles/        thème UI et CSS de carte de référence
 tests/             parcours navigateur Playwright
 references/        carnets actuels du 1er novembre, références historiques et démo des finitions
-public/assets/     311 WebP versionnés
+public/assets/     334 WebP versionnés
 ```
 
 Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs/installation/using-vite), [Dexie useLiveQuery](https://dexie.org/docs/dexie-react-hooks/useLiveQuery()), [Vite réseau](https://vite.dev/config/server-options).
@@ -252,7 +252,7 @@ Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les c
 
 Apparence propose aussi **Main dominante** : Droitier par défaut place les croix de fermeture à droite dans toutes les fenêtres ; Gaucher les place à gauche. En aperçu à deux actions, Favori et Partager occupent le côté opposé. Ce choix est enregistré sous `bizave.preferences.v1`, comme le thème.
 
-Le mode dev affiche les 311 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
+Le mode dev affiche les 334 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
 La page `/fragments` s’ouvre depuis le compteur de l’en-tête. Le choix du destinataire partage `FriendPicker` avec le don de carte. Le montant se règle à l’unité, par boutons accélérés, curseur quadratique ou clavier ; un clic sur Envoyer confirme. Aucun remboursement automatique si le code reste inutilisé.
 

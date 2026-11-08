@@ -11,7 +11,7 @@ import { ErrorNotice, Modal } from '../components/ui'
 import { DropRates, DropRateTable } from '../components/DropRates'
 import { errorText, formatShopCountdown } from '../components/format'
 import { cardById } from '../data/cards'
-import { SALES_CLOSE_MS, WEEKLY_SHOWCASE_RATES, type WeeklyOffer } from '../game/weeklyShop'
+import { SALES_CLOSE_MS, WEEKLY_SHOWCASE_RATES, weeklyRerollCount, type WeeklyOffer } from '../game/weeklyShop'
 import { buyWeeklyOffer, refreshWeeklyShop } from '../storage/weeklyShop'
 import { PermanentBoosterShop } from '../components/PermanentBoosterShop'
 import { WeeklyBonusShop } from '../components/WeeklyBonusShop'
@@ -27,9 +27,10 @@ export function ShopPage() {
   const [showRates, setShowRates] = useState(false)
   const movingRef = useRef(false)
   const changeMoving = useCallback((value: boolean) => { movingRef.current = value; setMoving(value) }, [])
-  const [purchasedOffer, setPurchasedOffer] = useState<{ weekStart: number; rerolled: boolean; id: string } | null>(null)
+  const [purchasedOffer, setPurchasedOffer] = useState<{ weekStart: number; rerollCount: number; id: string } | null>(null)
   const inFlight = useRef(false)
   const expired = !!shop && now >= shop.rerollAt
+  const rerollCount = shop ? weeklyRerollCount(shop) : 0
   const choices = useMemo<WeeklyChoice[]>(() => shop ? [
     { id: 'booster', title: shop.booster.definition.title, kind: 'booster' },
     ...shop.offers.map(offer => ({ id: `card-${offer.id}`, title: cardById.get(offer.cardId)!.title, kind: 'card' as const, offer })),
@@ -49,9 +50,8 @@ export function ShopPage() {
     const id = selected.kind === 'booster' ? 'booster' : selected.offer.id
     inFlight.current = true; setBusy(id); setError('')
     try {
-      const rerolled = !!shop.rerollUsed
-      await buyWeeklyOffer(shop.weekStart, id, undefined, undefined, rerolled)
-      setPurchasedOffer({ weekStart: shop.weekStart, rerolled, id })
+      await buyWeeklyOffer(shop.weekStart, id, undefined, undefined, rerollCount)
+      setPurchasedOffer({ weekStart: shop.weekStart, rerollCount, id })
     } catch (e) { setError(errorText(e)); await refreshWeeklyShop().catch(() => {}) }
     finally { inFlight.current = false; setBusy(null) }
   }
@@ -64,7 +64,7 @@ export function ShopPage() {
   const remaining = isBooster ? shop?.booster.remaining ?? 0 : offer && !offer.sold ? 1 : 0
   const sold = remaining === 0
   const purchaseLabel = expired ? 'Renouvellement…' : sold ? (isBooster ? 'Épuisé' : 'Épuisée') : isBooster && closed ? 'Ventes fermées' : 'Acheter'
-  const purchased = purchasedOffer !== null && purchasedOffer.weekStart === shop?.weekStart && purchasedOffer.rerolled === !!shop?.rerollUsed && purchasedOffer.id === offerId
+  const purchased = purchasedOffer !== null && purchasedOffer.weekStart === shop?.weekStart && purchasedOffer.rerollCount === rerollCount && purchasedOffer.id === offerId
   return <section className="weekly-shop-page">
     <BoosterSectionHeading title="Boutique" linkTo="/" linkLabel="Vos boosters" back actions={shop ? <div className="weekly-header-tools"><span className="weekly-timer" role="timer" aria-label={`Renouvellement dans ${formatShopCountdown(shop.rerollAt - now)}`} title={shop.rerollAt - now < 86400_000 ? 'Heures : minutes : secondes' : 'Jours : heures : minutes'}><Clock3 size={14} /><span>{formatShopCountdown(shop.rerollAt - now)}</span></span></div> : undefined} />
     <ErrorNotice error={error} />
@@ -76,7 +76,7 @@ export function ShopPage() {
       </div>
     </section> : <p className="shop-description">Préparation de la boutique…</p>}
     <section className="weekly-section weekly-daily" aria-label="Achats de tous les jours"><PermanentBoosterShop /></section>
-    {shop && <WeeklyBonusShop key={shop.weekStart} shop={shop} balance={player.fragments} expired={expired} onRerolled={() => setSelectedId('booster')} />}
+    {shop && <WeeklyBonusShop key={shop.weekStart} shop={shop} balance={player.fragments} credits={player.weeklyBonusCredits} expired={expired} onRerolled={() => setSelectedId('booster')} />}
     {showRates && shop && <Modal title={isBooster ? 'Taux de drop · lucky boost' : 'Taux de drop · Vitrine'} onClose={() => setShowRates(false)}>
       {isBooster ? <DropRates booster={shop.booster.definition} /> : <DropRateTable rates={WEEKLY_SHOWCASE_RATES} />}
     </Modal>}

@@ -65,11 +65,17 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   assert(s.player.length === 1)
   const player = s.player[0]
   assert(player.id === 'local' && integer(player.fragments) && integer(player.maxObservedClockAt) && player.schemaVersion === value.schemaVersion && integer(player.freePackStock) && player.freePackStock <= FREE_PACK_CAPACITY && (player.nextFreePackAt === null || integer(player.nextFreePackAt)))
+  const credits = player.weeklyBonusCredits
+  assert(credits === undefined || (record(credits) && Object.entries(credits).every(([kind, count]) => (kind === 'reroll' || kind === 'fragments') && integer(count) && count < Number.MAX_SAFE_INTEGER)))
   settleFreePackRecharge(player, player.maxObservedClockAt)
   assert(s.definitions.length > 0 && s.definitions.every(c => id(c.id) && text(c.title) && text(c.description) && id(c.collectionId) && ['common', 'uncommon', 'rare', 'epic', 'legendary'].includes(c.rarity) && record(c.artwork) && Object.values(c.artwork).length === 2 && ['standard', 'fullArt'].every(k => typeof c.artwork[k as 'standard'] === 'string' && /^\/assets\/cards\/[a-z0-9/-]+\/[a-zA-Z0-9.-]+$/.test(c.artwork[k as 'standard'])) && (c.weight === undefined || (Number.isFinite(c.weight) && c.weight > 0)) && (c.artworkPosition === undefined || (record(c.artworkPosition) && Object.values(c.artworkPosition).every(text)))))
   const definitions = new Map(s.definitions.map(patchSoireeFilm3Rarity).map(c => [c.id, c]))
+  for (const definition of definitions.values()) assert(definition.promoNumber === undefined || (typeof definition.promoNumber === 'string' && /^PR-\d{3}$/.test(definition.promoNumber)))
+  for (const current of [...cards, ...archivedCards]) {
+    const definition = definitions.get(current.id)
+    assert(!definition || (definition.rarity === current.rarity && definition.promoNumber === current.promoNumber))
+  }
   assert((s.weeklyShop ?? []).length <= 1 && (s.weeklyShop ?? []).every(row => validWeeklyShop(row, [...definitions.values()])))
-  for (const current of [...cards, ...archivedCards]) assert(!definitions.has(current.id) || definitions.get(current.id)!.rarity === current.rarity)
   const card = (c: { cardId: string; finish: string; artVariant: string }) => text(c.cardId) && definitions.has(c.cardId) && ['normal', 'glossy', 'alternative'].includes(c.finish) && ['standard', 'fullArt'].includes(c.artVariant)
   assert(s.drops.every(c => card(c) && transferId(c.dropId) && ['owned', 'outgoing', 'recycled'].includes(c.status) && integer(c.acquiredAt) && integer(c.updatedAt)))
   assert(s.drops.every(c => c.circulation === undefined || c.circulation === 'local' || c.circulation === 'exchanged'))
