@@ -1,4 +1,5 @@
 import { defineConfig } from 'vitest/config'
+import { loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import { readFileSync } from 'node:fs'
@@ -6,7 +7,9 @@ import { randomUUID } from 'node:crypto'
 
 export default defineConfig(({ mode }) => {
   const buildId = randomUUID()
-  const manifest = JSON.stringify({ schema: 1, buildId })
+  const { version: appVersion } = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 'utf8'))
+  const betaClosed = loadEnv(mode, process.cwd(), 'VITE_BETA_CLOSED').VITE_BETA_CLOSED === 'true'
+  const manifest = JSON.stringify({ schema: 1, buildId, appVersion, betaClosed })
   return {
   define: { __APP_BUILD_ID__: JSON.stringify(buildId) },
   plugins: [react(), tailwindcss(), {

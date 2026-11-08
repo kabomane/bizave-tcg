@@ -20,6 +20,22 @@ describe('détection des builds', () => {
     expect(await fetchBuildVersion(new AbortController().signal)).toBeNull()
     expect(fetch).toHaveBeenCalledWith('/version.json', expect.objectContaining({ cache: 'no-store' }))
   })
+  it('ouvre la bêta uniquement pour un build jouable à partir de la version 1.5.0', async () => {
+    const signal = new AbortController().signal
+    const manifest = { schema: 1, buildId: 'build-release' }
+    for (const version of [
+      manifest,
+      { ...manifest, appVersion: '1.4.5', betaClosed: false },
+      { ...manifest, appVersion: '1.5.0', betaClosed: true },
+      { ...manifest, appVersion: '1.5.0-beta', betaClosed: false },
+    ]) {
+      vi.stubGlobal('fetch', async () => Response.json(version))
+      expect(await fetchBuildVersion(signal, { releaseOnly: true })).toBeNull()
+      expect(await fetchBuildVersion(signal)).toBe(manifest.buildId)
+    }
+    vi.stubGlobal('fetch', async () => Response.json({ ...manifest, appVersion: '1.5.0', betaClosed: false }))
+    expect(await fetchBuildVersion(signal, { releaseOnly: true })).toBe(manifest.buildId)
+  })
   it('notifie un onglet actif, vérifie toutes les minutes et nettoie les événements', async () => {
     const f = fixture()
     await vi.advanceTimersByTimeAsync(0)

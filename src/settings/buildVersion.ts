@@ -7,10 +7,18 @@ export function parseBuildVersion(value: unknown): string | null {
   return schema === 1 && typeof buildId === 'string' && /^[a-zA-Z0-9._-]{1,128}$/.test(buildId) ? buildId : null
 }
 
-export async function fetchBuildVersion(signal: AbortSignal): Promise<string | null> {
+export async function fetchBuildVersion(signal: AbortSignal, { releaseOnly = false } = {}): Promise<string | null> {
   const response = await fetch('/version.json', { cache: 'no-store', signal, headers: { Accept: 'application/json' } })
   if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) return null
-  return parseBuildVersion(await response.json())
+  const manifest: unknown = await response.json()
+  const id = parseBuildVersion(manifest)
+  if (id && releaseOnly) {
+    const { appVersion, betaClosed } = manifest as Record<string, unknown>
+    if (betaClosed !== false || typeof appVersion !== 'string' || !/^\d+\.\d+\.\d+$/.test(appVersion)) return null
+    const [major, minor] = appVersion.split('.').map(Number)
+    if (major < 1 || (major === 1 && minor < 5)) return null
+  }
+  return id
 }
 
 export function watchBuildVersion({ current, onVersion, doc = document, win = window, fetchVersion = fetchBuildVersion, now = () => Date.now() }: {

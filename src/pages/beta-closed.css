@@ -1,0 +1,38 @@
+.update-page.beta-closed {
+  gap: clamp(18px, 4svh, 36px);
+}
+
+.beta-closed-heading { display: grid; justify-items: center; gap: 12px; margin-block-start: auto; }
+.beta-closed-heading h1 { margin: 0; font-size: clamp(32px, 7.6vw, 54px); line-height: 1; letter-spacing: -.055em; }
+.beta-closed-heading p, .beta-closed-copy p { margin: 0; color: var(--muted); line-height: 1.65; }
+.beta-closed-heading strong, .beta-closed-copy strong { color: var(--ink); }
+.beta-closed-heading p { font-size: 14px; }
+.beta-closed-copy { max-width: 440px; display: grid; gap: 6px; font-size: 14px; }
+
+.beta-fan {
+  width: 100%;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+  margin: 0;
+  padding: 8px 0;
+}
+.beta-fan-card {
+  grid-area: 1 / 1;
+  width: clamp(92px, 30vw, 198px);
+  transform-origin: 50% 78%;
+  filter: drop-shadow(0 8px 14px rgb(0 0 0 / .23));
+}
+.beta-fan-card--left { transform: translate(-52%, 6%) rotate(-10deg) scale(.91); }
+.beta-fan-card--right { transform: translate(52%, 6%) rotate(10deg) scale(.91); }
+.beta-fan-card--right .nb-title { margin-inline-start: auto; }
+.beta-fan-card--center { z-index: 1; }
+
+.beta-closed .update-actions { margin-block: clamp(14px, 3svh, 28px) auto; }
+.beta-closed .beta-reopen-button { min-height: 58px; flex-direction: column; gap: 3px; }
+.beta-reopen-button:disabled { opacity: 1; border-color: var(--line); background: var(--surface); color: var(--muted); }
+.beta-countdown { font-size: 16px; font-variant-numeric: tabular-nums; color: var(--ink); }
+
+@media (max-width: 599px) {
+  .update-page.beta-closed { gap: 22px; }
+}
