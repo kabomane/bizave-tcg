@@ -41,7 +41,7 @@ export function AtelierPage() {
   async function recycle() {
     if (busy || !safeSelection.length) return
     setBusy(true); setError('')
-    try { await recycleDrops(safeSelection, includeLast, db, Date.now(), !favoritesOnly); resetSelection() } catch (e) { setError(errorText(e)) } finally { setBusy(false) }
+    try { await recycleDrops(safeSelection, includeLast, db, !favoritesOnly); resetSelection() } catch (e) { setError(errorText(e)) } finally { setBusy(false) }
   }
   return <><div className="page-heading"><div className="title-with-count"><h1 className="page-title">Atelier</h1><span>{visible.length}</span></div><button type="button" className="text-button heading-caption atelier-mode" aria-pressed={includeLast} disabled={busy} onClick={() => { setIncludeLast(value => !value); resetSelection() }}><span>{includeLast ? 'Toutes vos cartes' : 'Vos doublons'}</span><ArrowLeftRight size={13} aria-hidden="true" /></button></div>
     <div className="collection-tools">

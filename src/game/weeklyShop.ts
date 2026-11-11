@@ -97,7 +97,7 @@ function rollWeeklyBooster(catalogue: CardDefinition[], rng: Rng = secureRandom)
   const stock = int(1, MAX_WEEKLY_BOOSTER_STOCK, rng)
   const definition: BoosterDefinition = {
     id: WEEKLY_BOOSTER_ID, title: WEEKLY_BOOSTER_TITLE, subtitle: '', description: '',
-    artwork: { symbol: 'moon', colors: { ...WEEKLY_BOOSTER_COLORS } },
+    artwork: { emoji: '🍀', colors: { ...WEEKLY_BOOSTER_COLORS } },
     access: { type: 'shop', price, listed: false }, cardsPerPack: 5, sources: [{ type: 'cards', cardIds: pool.map(c => c.id) }],
     rates: { rarity, finish, illustration }, enabled: true, order: -1, showInFilters: false,
   }

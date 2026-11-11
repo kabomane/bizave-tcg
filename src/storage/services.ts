@@ -4,10 +4,11 @@ import { christmasBooster, christmasCards, isChristmasEventActive } from '../dat
 import { FREE_PACK_CAPACITY, FREE_PACK_INITIAL_STOCK, FREE_PACK_RECHARGE_MS } from '../game/config'
 import { shopOffer } from '../game/boosterAvailability'
 import { consumeFreePack, drawPack, getRecycleFragments, settleFreePackRecharge, uuid, variantKey, validateConfiguration } from '../game/engine'
-import type { BoosterPurchaseRow, Card, CardDefinition, CardDropRow, OpenRecord, PlayerStateRow } from '../game/types'
-import { db, DATABASE_SCHEMA_VERSION, type BizaveDatabase } from './database'
+import type { BoosterPurchaseRow, CardDefinition, CardDropRow, OpenRecord, PlayerStateRow } from '../game/types'
+import { db, DATABASE_SCHEMA_VERSION } from './database'
 import { assertAccountActive } from './accountGuard'
 import { ensureInstallation } from './installation'
+import { discover } from './discoveries'
 import { pruneFavorites } from '../collection/favorites'
 import { settleWeeklyShop } from './weeklyShop'
 import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
@@ -49,10 +50,6 @@ export async function refreshRecharge(database = db, now = Date.now()) {
     if (raw.freePackStock !== next.freePackStock || raw.nextFreePackAt !== next.nextFreePackAt || time - raw.maxObservedClockAt > 60_000) await database.player.put(next)
     return next
   })
-}
-export async function discover(database: BizaveDatabase, card: Card, now: number) {
-  const key = variantKey(card)
-  if (!await database.discoveries.get(key)) await database.discoveries.add({ key, cardId: card.cardId, finish: card.finish, artVariant: card.artVariant, firstDiscoveredAt: now })
 }
 export async function buyBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = purchasableBoosters) {
   const booster = boosterDefinitions.find(b => b.id === boosterId && b.enabled)
@@ -153,8 +150,7 @@ export function duplicateDrops(drops: CardDropRow[]) {
     seen.add(key); return false
   })
 }
-export async function recycleDrops(ids: string[], allowLastCopy = false, database = db, now = Date.now(), protectFavorites = false) {
-  void now // Retained for compatibility with callers; recycled cards no longer store timestamps.
+export async function recycleDrops(ids: string[], allowLastCopy = false, database = db, protectFavorites = false) {
   if (!ids.length || new Set(ids).size !== ids.length) throw new Error('Sélection de recyclage invalide.')
   return database.transaction('rw', [database.player, database.drops, database.recycledCards, database.definitions, database.accountState, database.favorites], async () => {
     await assertAccountActive(database)

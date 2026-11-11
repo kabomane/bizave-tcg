@@ -22,11 +22,13 @@ import { preloadImages } from '../components/preloadImages'
 import { CardViewer } from '../components/CardViewer'
 import { CardBackdrop } from '../components/CardBackdrop'
 import { FinishDot } from '../components/FinishDot'
-import { useNow } from '../components/useNow'
+import { useDeadlineReached, useNow } from '../components/useNow'
 import { priorWeeklyBoosters, WEEKLY_BOOSTER_COLORS, WEEKLY_BOOSTER_ID, WEEKLY_BOOSTER_TITLE } from '../game/weeklyShop'
+import '../styles/christmas.css'
 
 function RechargeClock({ at }: { at: number }) { const now = useNow(); return <span className="recharge-clock"><Clock3 size={12} />{formatDuration(at - now, { hours: false })}</span> }
 const openingCard = (cardId: string) => (cardById.get(cardId) ?? christmasCardById.get(cardId))!
+const PACK_OPENING_MS = 960 // Fan transition plus the longest stagger in booster-pack.css.
 
 export function BoostersPage() {
   const { player, pendingOpening, boosterStock, drops, weeklyShop } = useGame()
@@ -38,8 +40,8 @@ export function BoostersPage() {
   const [recapIndex, setRecapIndex] = useState<number | null>(null)
   const [recap, setRecap] = useState<OpenRecord | null>(null)
   const inFlight = useRef(false), revealRoot = useRef<HTMLElement>(null), preloadedOpening = useRef<string | null>(null)
-  const currentTime = useNow()
-  const weekly = weeklyShop && Math.max(currentTime, player.maxObservedClockAt) < weeklyShop.rerollAt ? weeklyShop : undefined
+  const weeklyExpired = useDeadlineReached(weeklyShop?.rerollAt, player.maxObservedClockAt)
+  const weekly = weeklyExpired ? undefined : weeklyShop
   const weeklyDefinition = weekly && (priorWeeklyBoosters(weekly)[0]?.definition ?? weekly.booster.definition)
   const stockRows = useMemo(() => weekly ? [...boosterStock, {
     boosterId: WEEKLY_BOOSTER_ID,
@@ -82,7 +84,7 @@ export function BoostersPage() {
     if (inFlight.current || !canOpen || !booster) return
     inFlight.current = true; setBusy(true); setError(''); setTearing(true); setRecap(null)
     setOpeningView({ choices, selectedId: booster.id, quantity: purchasedQuantity(booster.id, stockRows) })
-    try { const record = await openBooster(booster.id); preloadedOpening.current = record.id; void preloadImages(record.results.map(card => openingCard(card.cardId).artwork[card.artVariant])); await new Promise(resolve => setTimeout(resolve, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : 620)) }
+    try { const record = await openBooster(booster.id); preloadedOpening.current = record.id; void preloadImages(record.results.map(card => openingCard(card.cardId).artwork[card.artVariant])); await new Promise(resolve => setTimeout(resolve, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : PACK_OPENING_MS)) }
     catch (e) { setError(errorText(e)) }
     finally { setTearing(false); setOpeningView(null); setBusy(false); inFlight.current = false }
   }
@@ -124,7 +126,7 @@ export function BoostersPage() {
         <span className="recap-caption"><FinishDot card={card} active /></span>
       </div>)}</div>
       <div className="recap-actions"><button className="primary-button recap-confirm" onClick={() => { setRecap(null); window.scrollTo({ top: 0, behavior: 'instant' }) }}>{christmas ? 'Fermer' : 'Valider'}</button></div>
-      {!christmas && recapIndex !== null && <CardViewer initialIndex={recapIndex} onClose={() => setRecapIndex(null)} entries={recap.results.map(card => ({ key: card.dropId, card, ids: drops.some(drop => drop.dropId === card.dropId && drop.status === 'owned') ? [card.dropId] : [], acquiredAt: recap.openedAt })).filter(entry => !drops.some(drop => drop.dropId === entry.card.dropId && drop.status === 'recycled'))} />}
+      {!christmas && recapIndex !== null && <CardViewer initialIndex={recapIndex} onClose={() => setRecapIndex(null)} entries={recap.results.map(card => ({ key: card.dropId, card, ids: drops.some(drop => drop.dropId === card.dropId && drop.status === 'owned') ? [card.dropId] : [], acquiredAt: recap.openedAt }))} />}
     </section>
   }
   return <section className="phantom-home">

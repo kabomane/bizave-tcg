@@ -1,5 +1,5 @@
 .update-page.beta-closed {
-  gap: clamp(18px, 4svh, 36px);
+  gap: clamp(16px, 3svh, 24px);
 }
 
 .beta-closed-heading { display: grid; justify-items: center; gap: 12px; margin-block-start: auto; }
@@ -7,7 +7,8 @@
 .beta-closed-heading p, .beta-closed-copy p { margin: 0; color: var(--muted); line-height: 1.65; }
 .beta-closed-heading strong, .beta-closed-copy strong { color: var(--ink); }
 .beta-closed-heading p { font-size: 14px; }
-.beta-closed-copy { max-width: 440px; display: grid; gap: 6px; font-size: 14px; }
+.beta-closed-copy { max-width: 520px; display: grid; gap: 6px; font-size: 14px; }
+.beta-closed-copy strong { white-space: nowrap; }
 
 .beta-fan {
   width: 100%;
@@ -19,7 +20,7 @@
 }
 .beta-fan-card {
   grid-area: 1 / 1;
-  width: clamp(92px, 30vw, 198px);
+  width: clamp(92px, min(30vw, 20svh), 174px);
   transform-origin: 50% 78%;
   filter: drop-shadow(0 8px 14px rgb(0 0 0 / .23));
 }
@@ -28,10 +29,16 @@
 .beta-fan-card--right .nb-title { margin-inline-start: auto; }
 .beta-fan-card--center { z-index: 1; }
 
-.beta-closed .update-actions { margin-block: clamp(14px, 3svh, 28px) auto; }
-.beta-closed .beta-reopen-button { min-height: 58px; flex-direction: column; gap: 3px; }
-.beta-reopen-button:disabled { opacity: 1; border-color: var(--line); background: var(--surface); color: var(--muted); }
-.beta-countdown { font-size: 16px; font-variant-numeric: tabular-nums; color: var(--ink); }
+.beta-promo-code { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 10px 16px; margin-block: 8px; }
+.beta-promo-code code { font-size: clamp(14px, 4vw, 20px); font-weight: 600; letter-spacing: .07em; user-select: all; }
+.beta-closed .update-actions { margin-block: clamp(4px, 1svh, 10px) auto; }
+.beta-closed .update-actions p { max-width: 440px; margin: 0; font-size: 13px; line-height: 1.55; }
+.beta-closed .beta-reopen-button { min-height: 52px; }
+
+@media (min-width: 600px) and (max-height: 800px) {
+  .update-page.beta-closed { padding-block: 24px max(24px, env(safe-area-inset-bottom)); gap: 16px; }
+  .beta-closed-heading h1 { font-size: clamp(32px, 6svh, 44px); }
+}
 
 @media (max-width: 599px) {
   .update-page.beta-closed { gap: 22px; }

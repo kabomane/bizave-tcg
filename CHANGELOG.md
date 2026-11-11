@@ -1,5 +1,13 @@
 # Historique des versions
 
+## bizave-tcg.v1.5.0 — 11 novembre 2026
+
+- Passage de la bêta à une nouvelle partie après confirmation, avec le code de compensation PR-001 affiché avant la réinitialisation.
+- Sachets en relief et boîte acrylique de Merry Xmas, faces animées à plat en boutique. Merry Xmas coûte 30 fragments.
+- Nouvelle illustration de Bizave TCG bêta. Les codes PR-001 et PR-002 donnent chacun une carte Classique, finition Alternative.
+- Nettoyage du code et des styles, compteurs isolés et observation des mises à jour activée à la demande.
+- Version 1.5.0 sur le jeu et la landing. Compteur de mise à jour 8.
+
 ## bizave-tcg.v1.4.5 — 8 novembre 2026
 
 - 22 nouvelles cartes dans Memory Frame (190 cartes) et promo Bizave TCG bêta (PR-001) disponible en six variantes par code cadeau.

@@ -2,7 +2,6 @@ import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES, DEFAULT_RARITY_RATES, 
 import type { ArtVariant, BoosterDefinition, Card, CardDefinition, Finish, Rarity } from './types'
 import { shopOffer } from './boosterAvailability'
 import { resolveBoosterRates, validateRates } from './boosterRates'
-export { validateRates } from './boosterRates'
 type Rng = () => number
 export const secureRandom: Rng = () => crypto.getRandomValues(new Uint32Array(1))[0] / 2 ** 32
 export function uuid(): string {

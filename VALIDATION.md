@@ -1,4 +1,12 @@
-# Validation — bizave-tcg.v1.4.4
+# Validation — bizave-tcg.v1.5.0
+
+## Publication 1.5.0 — 11 novembre 2026
+
+- `npm run check` réussi avec 253 tests Vitest dans 30 fichiers, ESLint, TypeScript et build de production. Knip sans signalement.
+- Cinq parcours Chromium réussis pour le nouveau joueur, le passage de la bêta, la récompense PR-001 et la landing. Le build compilé a également été vérifié dans Chromium avant déploiement.
+- Firebase Hosting publié sur `bizave-tcg`. Manifeste, HTML, landing, ses styles et son script, ressources d’entrée et nouvelle illustration PR-001 identiques au build local `eaa5d6a4-8bb6-432c-8310-c2a75a759032` sur `bizave-tcg.web.app` et `bizave-tcg.kabomane.me`.
+- Parcours Chromium réussi sur les deux domaines publiés avec une sauvegarde bêta isolée. Vérifications du nouvel écran, des trois illustrations, de la réinitialisation au clic, du schéma 12, du cache vidé et du retour direct au jeu après rechargement. Aucun défaut JavaScript relevé.
+- Landing en 1.5.0 et en-tête HTTP de purge du cache vérifiés sur les deux domaines. Compteur de mise à jour 8.
 
 ## Publication 1.4.4
 

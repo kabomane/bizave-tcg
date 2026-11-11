@@ -2,6 +2,12 @@
 
 Quatre paquets sont configurés : **Memory Frame** (190 cartes, gratuit ou 70 fragments), **Anima Isekai** (143 cartes, gratuit ou 50 fragments), **epico stellari** (57 cartes actuellement, boutique uniquement à 700 fragments) et **rarity only** (62 rares actuellement, boutique uniquement à 400 fragments). Ils contiennent cinq cartes par ouverture. Les autres paquets des tests restent des fixtures.
 
+## Rendu des paquets
+
+Le sachet relief est le modèle par défaut. `artwork.design: 'bloc'` sélectionne la boîte acrylique pour Merry Xmas. La même face avant s’affiche en volume dans **Vos boosters** et à plat en **Boutique**. Les reflets restent animés en boutique. Le réglage « Réduire les animations » les désactive.
+
+[Maquette JSX originale avec notes de développement](../references/boosters-sachet-relief-et-bloc-acrylique.jsx)
+
 ## Contenus
 
 - `src/data/boosters.ts` contient les définitions des paquets.

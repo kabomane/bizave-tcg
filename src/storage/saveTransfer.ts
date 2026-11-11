@@ -1,6 +1,7 @@
 import { compactRecycledData } from './recycledCards'
 import Dexie from 'dexie'
 import { db, DATABASE_SCHEMA_VERSION, type BizaveDatabase } from './database'
+import { isBetaSave } from './betaSave'
 import { assertAccountActive } from './accountGuard'
 import { ensureIdentity } from '../exchanges/services'
 import { base64url, unbase64url, PLAYER_UUID_PATTERN, generateIdentity, portableIdentity, importPortableIdentity, readableId, signingFingerprint, signingPublicKey } from '../exchanges/crypto'
@@ -33,7 +34,7 @@ type Snapshot = {
   favorites?: FavoriteRow[]
   usedGiftCodes?: UsedGiftCodeRow[] // Schema 5 files predate gift codes.
 }
-export type SavePayload = { version: 2; schemaVersion: 5 | 6 | 7 | 8 | 9 | 10 | 11; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
+export type SavePayload = { version: 2; schemaVersion: 5 | 6 | 7 | 8 | 9 | 10 | 11 | typeof DATABASE_SCHEMA_VERSION; transferId: string; sourceId: string; sourceInstallationId: string; recipientId: string; issuedAt: number; identity: PortableIdentity; preferences: Preferences; tables: Snapshot }
 export type PreparedSave = { contents: string; payload: SavePayload }
 export const canonicalSavePayload = (serialized: string) => encoder.encode('BizaveTCG/SaveTransfer/v2\n' + serialized)
 function requireCrypto() {
@@ -48,7 +49,7 @@ const playerId = (value: unknown): value is string => typeof value === 'string' 
 const transferId = (value: unknown): value is string => typeof value === 'string' && uuidPattern.test(value)
 function assert(condition: unknown): asserts condition { if (!condition) throw new Error('Le contenu de cette sauvegarde est invalide ou incompatible.') }
 function validatePayload(value: unknown): asserts value is SavePayload {
-  assert(record(value) && value.version === 2 && (value.schemaVersion === 5 || value.schemaVersion === 6 || value.schemaVersion === 7 || value.schemaVersion === 8 || value.schemaVersion === 9 || value.schemaVersion === 10 || value.schemaVersion === DATABASE_SCHEMA_VERSION) && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
+  assert(record(value) && value.version === 2 && integer(value.schemaVersion) && value.schemaVersion >= 5 && value.schemaVersion <= DATABASE_SCHEMA_VERSION && transferId(value.transferId) && playerId(value.sourceId) && playerId(value.sourceInstallationId) && playerId(value.recipientId) && value.sourceInstallationId !== value.recipientId && integer(value.issuedAt) && record(value.identity) && value.identity.playerUuid === value.sourceId && record(value.tables) && record(value.preferences))
   assert(Object.keys(value).sort().join(',') === 'identity,issuedAt,preferences,recipientId,schemaVersion,sourceId,sourceInstallationId,tables,transferId,version')
   const tables = value.tables
   const tableNames = SAVE_TABLES.filter(name => (value.schemaVersion !== 5 || name !== 'usedGiftCodes') && ((Number(value.schemaVersion) >= 7) || name !== 'favorites') && (Number(value.schemaVersion) >= 8 || name !== 'recycledCards') && (Number(value.schemaVersion) >= 11 || name !== 'weeklyShop'))
@@ -203,7 +204,7 @@ export async function importSave(contents: string, database = db) {
   })
 }
 
-export async function deleteAccount(database: BizaveDatabase = db) {
+export async function deleteAccount(database: BizaveDatabase = db, { onlyBeta = false } = {}) {
   const previous = await database.identity.get('local')
   const previousInstallation = await database.installation.get('local')
   let identity = await generateIdentity()
@@ -212,6 +213,7 @@ export async function deleteAccount(database: BizaveDatabase = db) {
   while (installationId === previousInstallation?.installationId || installationId === identity.playerUuid) installationId = readableId()
   const now = Date.now()
   await database.transaction('rw', database.tables, async () => {
+    if (onlyBeta && !isBetaSave(await database.player.get('local'), await database.accountState.get('local'), await database.versionInfo.get('local'))) return
     for (const table of database.tables) await table.clear()
     await database.identity.add(identity)
     await database.installation.add({ id: 'local', installationId, createdAt: now })

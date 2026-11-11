@@ -14,8 +14,8 @@ Déploiement initial : les onglets utilisant une version antérieure à ce méca
 
 Validation : tests unitaires du moniteur (polling, visibilité, absence longue, restauration, déduplication, arrêt, réseau et validation du manifeste), et tests navigateur dans tests/live-updates.spec.ts (bandeau, actualisation manuelle, anti-boucle, ouverture en cours, saisie et perte réseau).
 
-## Fermeture de la bêta
+## Passage en version 1.5.0
 
-En production, `VITE_BETA_CLOSED=true` affiche la page de fermeture sur toutes les routes du jeu au prochain chargement. Elle s’affiche avant l’initialisation d’IndexedDB. La réinitialisation des sauvegardes et l’attribution du code de compensation sont prévues pour la réouverture en 1.5.0.
+Au démarrage, la page de fin de bêta s’affiche si IndexedDB contient une sauvegarde antérieure au schéma 12. La lecture se fait avant les migrations. Un nouveau joueur ou une sauvegarde de version 12 entre directement dans le jeu.
 
-Le compte à rebours vise le samedi 14 novembre 2026 à 00 h, heure de Paris. Le bouton est désactivé pendant toute cette publication et affiche « incessamment sous peu » une fois l’échéance passée. Le manifeste annonce `betaClosed: true` et `appVersion: "1.4.5"`. Le compteur de la note de mise à jour reste à 8.
+La page présente trois variantes de PR-001. Le code cadeau offre un exemplaire au format Classique, finition Alternative. Le joueur peut copier le code et l’utiliser dans **Options → Code cadeau** après la transition. Le bouton d’entrée demande à Firebase de purger le cache HTTP sur les navigateurs compatibles et vide Cache Storage. Une transaction remplace ensuite les données bêta par une sauvegarde neuve au schéma 12. Le manifeste annonce `betaClosed: false` et `appVersion: "1.5.0"`.

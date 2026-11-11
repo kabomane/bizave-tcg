@@ -100,7 +100,7 @@
   {
     "codeHash": "55c4370aa5585062461b4135d33206c2c7b89d5c79bb1e9835261b22b63457c3",
     "reward": {
-      "type": "card-variants",
+      "type": "promo-card",
       "cardId": "bizave-tcg-beta"
     },
     "issuedAt": 1794152423553,
@@ -149,7 +149,7 @@
   {
     "codeHash": "2f9b6a7dd4445f400815afed703c9d4b91d0dfb9f9402ed83385cdd946ff277c",
     "reward": {
-      "type": "card-variants",
+      "type": "promo-card",
       "cardId": "merry-wifemas"
     },
     "issuedAt": 1794172241495,

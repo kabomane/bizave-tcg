@@ -1,5 +1,5 @@
 import { db, type BizaveDatabase } from '../storage/database'
-import { discover } from '../storage/services'
+import { discover } from '../storage/discoveries'
 import { createContactCode, verifyTransfer, signTransfer, generateIdentity, parseContactCode, signFragmentTransfer, verifyFragmentTransfer, MAX_FRAGMENT_TRANSFER } from './crypto'
 import type { Card, LocalIdentityRow } from '../game/types'
 import { assertAccountActive } from '../storage/accountGuard'

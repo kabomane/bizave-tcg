@@ -1,11 +1,10 @@
 import { boosters } from '../data/boosters'
 import { cardById } from '../data/cards'
-import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES } from '../game/config'
 import { uuid } from '../game/engine'
-import type { ArtVariant, CardDropRow, Finish } from '../game/types'
+import type { CardDropRow } from '../game/types'
 import { db } from '../storage/database'
 import { assertAccountActive } from '../storage/accountGuard'
-import { discover } from '../storage/services'
+import { discover } from '../storage/discoveries'
 import { giftCodeByHash } from './catalogue'
 import { hashGiftCode } from './format'
 import type { GiftCodeDefinition } from './types'
@@ -24,8 +23,8 @@ export async function redeemGiftCode(code: string, database = db, now?: number) 
   if (!gift) throw new Error('Ce code cadeau est invalide.')
   assertGiftActive(gift, requestedAt)
   const reward = gift.reward
-  const cardId = reward.type === 'card-variants' ? reward.cardId : undefined
-  if (reward.type === 'card-variants' && !cardById.get(reward.cardId)?.promoNumber) throw new Error('La carte de ce cadeau est indisponible.')
+  const cardId = reward.type === 'promo-card' ? reward.cardId : undefined
+  if (reward.type === 'promo-card' && !cardById.get(reward.cardId)?.promoNumber) throw new Error('La carte de ce cadeau est indisponible.')
   if (reward.type === 'weekly-bonus' && ((reward.bonus !== 'reroll' && reward.bonus !== 'fragments') || !Number.isSafeInteger(reward.quantity) || reward.quantity <= 0)) throw new Error('Ce cadeau est indisponible.')
   const grants = reward.type === 'booster' ? [reward] : reward.type === 'boosters' ? reward.boosters : []
   if (!Array.isArray(grants) || reward.type === 'boosters' && !grants.length || new Set(grants.map(item => item.boosterId)).size !== grants.length) throw new Error('Ce cadeau est indisponible.')
@@ -58,13 +57,11 @@ export async function redeemGiftCode(code: string, database = db, now?: number) 
       player.weeklyBonusCredits = { ...player.weeklyBonusCredits, [reward.bonus]: total }
     }
     if (cardId) {
-      const finishes = Object.keys(DEFAULT_FINISH_RATES) as Finish[]
-      const illustrations = Object.keys(DEFAULT_ART_VARIANT_RATES) as ArtVariant[]
-      const drops: CardDropRow[] = finishes.flatMap(finish => illustrations.map(artVariant => ({
-        dropId: uuid(), cardId, finish, artVariant, status: 'owned', acquiredAt: time, updatedAt: time, circulation: 'local',
-      })))
-      await database.drops.bulkAdd(drops)
-      for (const drop of drops) await discover(database, drop, time)
+      const drop: CardDropRow = {
+        dropId: uuid(), cardId, finish: 'alternative', artVariant: 'standard', status: 'owned', acquiredAt: time, updatedAt: time, circulation: 'local',
+      }
+      await database.drops.add(drop)
+      await discover(database, drop, time)
     }
     await database.player.put({ ...player, fragments: player.fragments + fragments, maxObservedClockAt: time })
     await database.usedGiftCodes.add({ codeHash, redeemedAt: time })

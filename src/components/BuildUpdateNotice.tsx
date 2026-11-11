@@ -27,13 +27,14 @@ export function BuildUpdateNotice() {
   }, [])
   const pending = useLiveQuery(() => db.openings.filter(row => !row.revealComplete).count())
   useEffect(() => {
+    if (!available) return
     const update = () => setSafe(pending === 0 && safeScreen())
     update()
     const observer = new MutationObserver(update)
     observer.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['open', 'aria-busy', 'disabled', 'class'] })
     document.addEventListener('input', update); document.addEventListener('focusin', update); document.addEventListener('focusout', update)
     return () => { observer.disconnect(); document.removeEventListener('input', update); document.removeEventListener('focusin', update); document.removeEventListener('focusout', update) }
-  }, [pending])
+  }, [available, pending])
 
   const apply = useCallback(async (id: string, automatic: boolean) => {
     if (document.visibilityState !== 'visible' || !safeScreen()) return

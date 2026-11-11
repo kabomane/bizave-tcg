@@ -1,5 +1,7 @@
 {
-  "ignore": [
-    "references/carnet-cartes-2026-10-26.jsx"
+  "ignoreFiles": [
+    "references/*.jsx",
+    "public/landing.css",
+    "public/landing.js"
   ]
 }

@@ -82,6 +82,19 @@
             "value": "application/json"
           }
         ]
+      },
+      {
+        "source": "/release-cache-reset.json",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          },
+          {
+            "key": "Clear-Site-Data",
+            "value": "\"cache\""
+          }
+        ]
       }
     ]
   }

@@ -2,7 +2,7 @@ import { parseCollectionDisplay } from '../collection/preferences'
 import type { CollectionDisplay } from '../collection/preferences'
 
 export type ThemePreference = 'system' | 'light' | 'dark'
-export type ActionBarMode = 'four' | 'two'
+type ActionBarMode = 'four' | 'two'
 export type ShareFormat = 'story' | 'card'
 type TransferMode = 'code' | 'file'
 export type Preferences = { theme: ThemePreference; handedness: 'right' | 'left'; transferMode: TransferMode; devCatalog: boolean; devUnlimitedFragments: boolean; devEventAlwaysActive: boolean; collectionDisplay: CollectionDisplay; selectedBoosterId: string; actionBar: ActionBarMode; shareFormat: ShareFormat }

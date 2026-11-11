@@ -16,8 +16,8 @@ export const christmasBooster = {
   title: 'merry xmas',
   subtitle: `${christmasCards.length} cartes`,
   description: '',
-  artwork: { symbol: 'gift', colors: { primary: '#a4373e', secondary: '#102f26', shine: '#f5dba2', glow: '#407c57' } },
-  access: { type: 'shop', price: 50 },
+  artwork: { design: 'bloc', emoji: '🎁', colors: { primary: '#a4373e', secondary: '#102f26', shine: '#f5dba2', glow: '#407c57' } },
+  access: { type: 'shop', price: 30 },
   cardsPerPack: 1,
   sources: [{ type: 'cards', cardIds: christmasCards.map(card => card.id) }],
   rates: {

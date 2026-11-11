@@ -74,7 +74,7 @@ it('refuse atomiquement les favoris dans un lot Atelier même en mode dernières
   const favorite = await copy(), ordinary = await copy({ cardId: 'op-thomas' })
   await setFavorite(favorite, true, db)
   const before = await db.player.get('local')
-  await expect(recycleDrops([ordinary.dropId, favorite.dropId], true, db, Date.now(), true)).rejects.toThrow(/favorite/)
+  await expect(recycleDrops([ordinary.dropId, favorite.dropId], true, db, true)).rejects.toThrow(/favorite/)
   expect(await db.player.get('local')).toEqual(before)
   expect((await db.drops.toArray()).every(drop => drop.status === 'owned')).toBe(true)
   expect(await db.recycling.count()).toBe(0)

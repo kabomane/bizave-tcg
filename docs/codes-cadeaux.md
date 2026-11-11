@@ -6,9 +6,9 @@ Chaque code de bonus ajoute des rerolls gratuits ou des cartes fragments mystèr
 
 Le lot du 8 novembre 2026 contient deux codes de deux rerolls et deux codes de deux cartes mystère. Il expire le 1er janvier 2027 à 00 h, heure de Paris. Un code de reroll est publié dans la note de mise à jour 8. Les trois autres sont dans les lots privés.
 
-## Promo Bizave TCG bêta
+## Promos PR-001 et PR-002
 
-Le code de PR-001 donne un exemplaire de chacune des six variantes dans la collection. Le lot expire le 2 décembre 2026 à 00 h, heure de Paris. Le code en clair se trouve dans le lot privé sous `.local/gift-codes/`. Les six cartes et le registre sont écrits dans la même transaction.
+Les codes de **Bizave TCG bêta (PR-001)** et de **Merry Wifemas (PR-002)** donnent chacun un exemplaire au format **Classique**, finition **Alternative**. La carte et le registre sont écrits dans la même transaction. La page de passage en 1.5.0 affiche le code PR-001 aux joueurs qui ont une sauvegarde bêta sur leur appareil. Ce code expire le 2 décembre 2026 à 00 h, heure de Paris.
 
 ## Lot découverte du 5 novembre 2026
 
@@ -38,7 +38,7 @@ npm run gifts:generate -- --booster epico-stellari --quantity 2 --count 10
 npm run gifts:generate -- --booster phantom-blood --quantity 2 --fragments 100 --count 10
 npm run gifts:generate -- --booster rarity-only --quantity 5 --count 10
 npm run gifts:generate -- --boosters phantom-blood,anima-isekai,epico-stellari,rarity-only --quantity 1 --count 5
-npm run gifts:generate -- --card-variants bizave-tcg-beta --count 1 --expires-at "2026-12-02T00:00:00+01:00"
+npm run gifts:generate -- --promo-card bizave-tcg-beta --count 1 --expires-at "2026-12-02T00:00:00+01:00"
 npm run gifts:generate -- --weekly-bonus reroll --quantity 2 --count 2
 npm run gifts:generate -- --weekly-bonus fragments --quantity 2 --count 2
 ```

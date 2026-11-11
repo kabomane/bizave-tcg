@@ -1,9 +1,10 @@
 import { cards } from '../data/cards'
 import { createWeeklyShop, rerollWeeklyOffers, rollFragmentReward, SALES_CLOSE_MS, WEEKLY_REROLL_PRICE, weeklyPeriod, weeklyRerollCount } from '../game/weeklyShop'
 import type { WeeklyBonusKind } from '../game/types'
-import { uuid, variantKey } from '../game/engine'
+import { uuid } from '../game/engine'
 import { db, type BizaveDatabase } from './database'
 import { assertAccountActive } from './accountGuard'
+import { discover } from './discoveries'
 import { fragmentPurchaseCost } from '../settings/development'
 
 /** Caller holds the weeklyShop write lock; old weeks are fully overwritten. */
@@ -51,8 +52,7 @@ export async function buyWeeklyOffer(weekStart: number, offerId: string, databas
       offer!.sold = true
       const card = { dropId: uuid(), cardId: offer!.cardId, finish: offer!.finish, artVariant: offer!.artVariant }
       await database.drops.add({ ...card, status: 'owned', acquiredAt: time, updatedAt: time, circulation: 'local' })
-      const key = variantKey(card)
-      if (!await database.discoveries.get(key)) await database.discoveries.add({ key, cardId: card.cardId, finish: card.finish, artVariant: card.artVariant, firstDiscoveredAt: time })
+      await discover(database, card, time)
     }
     await database.weeklyShop.put(shop)
   })

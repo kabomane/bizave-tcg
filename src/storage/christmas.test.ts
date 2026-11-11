@@ -33,9 +33,9 @@ it('sépare les vingt cadeaux temporaires et PR-002 des pools habituels', () => 
   expect(pools.every(id => id !== 'merry-wifemas' && !christmasCardById.has(id))).toBe(true)
 })
 
-it('achète six paquets à 50 fragments puis révèle une carte sans collection ni découverte', async () => {
+it('achète six paquets à 30 fragments puis révèle une carte sans collection ni découverte', async () => {
   const id = christmasBooster.id
-  await db.player.update('local', { fragments: 325 })
+  await db.player.update('local', { fragments: 205 })
   await Promise.all(Array.from({ length: 6 }, () => buyBooster(id, db, now)))
   await expect(buyBooster(id, db, now)).rejects.toThrow(/pas assez/)
   expect(await db.player.get('local')).toMatchObject({ fragments: 25, freePackStock: 5 })
@@ -63,12 +63,12 @@ it('masque le stock de Noël hors événement sans retirer les exemplaires achet
   await expect(buyBooster(id, db, now)).rejects.toThrow(/disponible en boutique/)
   await expect(openBooster(id, db, now)).rejects.toThrow(/indisponible/)
   expect((await db.boosterStock.get(id))?.quantity).toBe(1)
-  expect((await db.player.get('local'))?.fragments).toBe(150)
+  expect((await db.player.get('local'))?.fragments).toBe(170)
 })
 
 it('reprend une révélation temporaire transférée sans créer de carte permanente', async () => {
   const id = christmasBooster.id
-  await db.player.update('local', { fragments: 50 })
+  await db.player.update('local', { fragments: 30 })
   await buyBooster(id, db, now)
   const opening = await openBooster(id, db, now)
   const target = new BizaveDatabase('christmas-target-' + uuid())

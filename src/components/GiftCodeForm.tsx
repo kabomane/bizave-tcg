@@ -19,9 +19,9 @@ export function GiftCodeForm() {
     try {
       const reward = await redeemGiftCode(code)
       setCode('')
-      if (reward.type === 'card-variants') {
+      if (reward.type === 'promo-card') {
         const card = cardById.get(reward.cardId)!
-        setSuccess(`Toutes les variantes de ${card.title} (${card.promoNumber}) ont été ajoutées à votre collection.`)
+        setSuccess(`La carte ${card.title} (${card.promoNumber}) a été ajoutée à votre collection en Classique, finition Alternative.`)
       } else if (reward.type === 'boosters') {
         setSuccess(`${reward.boosters.map(item => `${item.quantity} booster${item.quantity > 1 ? 's' : ''} ${boosters.find(booster => booster.id === item.boosterId)!.title}`).join(', ')} ajoutés à vos boosters.`)
       } else if (reward.type === 'fragments') {

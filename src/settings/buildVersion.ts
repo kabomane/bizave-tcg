@@ -1,4 +1,4 @@
-export const VERSION_POLL_MS = 60_000
+const VERSION_POLL_MS = 60_000
 export const LONG_ABSENCE_MS = 5 * 60_000
 
 export function parseBuildVersion(value: unknown): string | null {

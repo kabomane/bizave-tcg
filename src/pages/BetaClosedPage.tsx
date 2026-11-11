@@ -1,47 +1,62 @@
+import { useState } from 'react'
 import { CardSvgDefinitions, CollectibleCard } from '../components/CollectibleCard'
-import { formatDuration } from '../components/format'
-import { useNow } from '../components/useNow'
+import { copyText, errorText } from '../components/format'
+import { ErrorNotice } from '../components/ui'
+import { BETA_PROMO_CODE } from '../data/betaRelease'
 import { cardById } from '../data/cards'
 import './beta-closed.css'
 
-const opensAt = Date.parse('2026-11-14T00:00:00+01:00')
+const promo = cardById.get('bizave-tcg-beta')!
 const fan = [
-  { id: 'chatgpt-bizave', position: 'left', finish: 'normal' },
-  { id: 't-bizave', position: 'center', finish: 'alternative' },
-  { id: 'claude-bizave', position: 'right', finish: 'normal' },
+  { position: 'left', finish: 'normal', artVariant: 'standard' },
+  { position: 'center', finish: 'alternative', artVariant: 'fullArt' },
+  { position: 'right', finish: 'glossy', artVariant: 'standard' },
 ] as const
 
-export function BetaClosedPage() {
-  const remaining = Math.max(0, opensAt - useNow())
-  const countdownOver = remaining === 0
+export function BetaClosedPage({ onEnter }: { onEnter: () => Promise<void> }) {
+  const [copied, setCopied] = useState(false)
+  const [busy, setBusy] = useState(false)
+  const [error, setError] = useState('')
 
-  const seconds = Math.ceil(remaining / 1000)
-  const days = Math.floor(seconds / 86_400)
-  const time = formatDuration((seconds % 86_400) * 1000, { hours: true })
+  async function copyCode() {
+    setError('')
+    try { await copyText(BETA_PROMO_CODE); setCopied(true) }
+    catch (error) { setError(errorText(error)) }
+  }
+
+  async function enter() {
+    setError('')
+    setBusy(true)
+    try { await onEnter() }
+    catch (error) { setError(errorText(error)); setBusy(false) }
+  }
 
   return <main className="update-page beta-closed">
     <span className="brand update-brand">bizave<span>TCG</span><i /></span>
     <header className="beta-closed-heading">
-      <h1>La bêta est fermée.</h1>
-      <p>Bizave TCG prépare sa sortie en version <strong>1.5.0</strong>.</p>
+      <h1>La bêta est terminée.</h1>
+      <p>Bienvenue dans <strong>Bizave TCG 1.5.0</strong>.</p>
     </header>
     <CardSvgDefinitions />
-    <figure className="beta-fan" aria-label="ChatGPT BIZAVE, Thomas BIZAVE et Claude BIZAVE">
-      {fan.map(({ id, position, finish }) => <div key={id} className={`beta-fan-card beta-fan-card--${position}`} aria-hidden="true">
-        <CollectibleCard definition={cardById.get(id)!} card={{ cardId: id, dropId: '', finish, artVariant: 'standard' }} presentation="thumbnail" interactive={false} />
+    <figure className="beta-fan" aria-label="Trois variantes de PR-001 : mate, holographique et alternative Full Art">
+      {fan.map(({ position, finish, artVariant }) => <div key={position} className={`beta-fan-card beta-fan-card--${position}`} aria-hidden="true">
+        <CollectibleCard definition={promo} card={{ cardId: promo.id, dropId: '', finish, artVariant }} presentation="thumbnail" interactive={false} />
       </div>)}
     </figure>
     <div className="beta-closed-copy">
-      <p>À la réouverture, les sauvegardes de la bêta seront réinitialisées.</p>
-      <p>Si vous avez une sauvegarde sur cet appareil, vous recevrez un <strong>code de compensation exclusif</strong> lors du passage en version 1.5.0.</p>
+      <p>Merci d’avoir joué à la bêta. Ce code offre la carte <strong>PR-001</strong> en Classique, finition Alternative.</p>
+      <div className="beta-promo-code">
+        <code>{BETA_PROMO_CODE}</code>
+        <button className="secondary-button" type="button" onClick={() => void copyCode()} disabled={busy}>{copied ? 'Copié' : 'Copier le code'}</button>
+      </div>
+      <p>Gardez le code avant de continuer. Utilisez-le dans <strong>Options → Code cadeau</strong>.</p>
     </div>
     <div className="update-actions">
-      <button className="primary-button beta-reopen-button" type="button" disabled>
-        {countdownOver ? 'incessamment sous peu' : <>
-          <span>Réouverture dans</span>
-          <span className="beta-countdown">{days > 0 && `${days} j · `}{time}</span>
-        </>}
+      <p id="beta-reset-warning" className="muted">En entrant, vous effacez définitivement la partie bêta de cet appareil et démarrez une nouvelle sauvegarde.</p>
+      <button className="primary-button beta-reopen-button" type="button" onClick={() => void enter()} disabled={busy} aria-describedby="beta-reset-warning" aria-busy={busy}>
+        {busy ? 'Réinitialisation…' : 'Réinitialiser et entrer en 1.5.0'}
       </button>
+      <ErrorNotice error={error} />
     </div>
   </main>
 }

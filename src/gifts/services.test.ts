@@ -19,7 +19,8 @@ vi.mock('./catalogue', async () => {
     { code: 'CCCCCCCCCCCCCCCC', reward: { type: 'fragments', amount: 500 } },
     { code: 'DDDDDDDDDDDDDDDD', reward: { type: 'booster', boosterId: 'phantom-blood', quantity: 2, fragments: 100 } },
     { code: 'EEEEEEEEEEEEEEEE', reward: { type: 'boosters', boosters: ['phantom-blood', 'anima-isekai', 'epico-stellari', 'rarity-only'].map(boosterId => ({ boosterId, quantity: 1 })) } },
-    { code: 'FFFFFFFFFFFFFFFF', reward: { type: 'card-variants', cardId: 'bizave-tcg-beta' } },
+    { code: 'FFFFFFFFFFFFFFFF', reward: { type: 'promo-card', cardId: 'bizave-tcg-beta' } },
+    { code: 'JJJJJJJJJJJJJJJJ', reward: { type: 'promo-card', cardId: 'merry-wifemas' } },
     { code: 'GGGGGGGGGGGGGGGG', reward: { type: 'weekly-bonus', bonus: 'reroll', quantity: 2 } },
     { code: 'HHHHHHHHHHHHHHHH', reward: { type: 'weekly-bonus', bonus: 'fragments', quantity: 2 } },
   ]
@@ -78,16 +79,17 @@ describe('codes cadeaux hors ligne', () => {
     } finally { await target.delete() }
   })
 
-  it('attribue chacune des six variantes de PR-001 une seule fois', async () => {
-    const code = 'FFFF-FFFF-FFFF-FFFF'
+  it.each([
+    ['PR-001', 'FFFF-FFFF-FFFF-FFFF', 'bizave-tcg-beta'],
+    ['PR-002', 'JJJJ-JJJJ-JJJJ-JJJJ', 'merry-wifemas'],
+  ])('attribue un exemplaire Classique Alternative de %s malgré deux usages concurrents', async (_promo, code, cardId) => {
     const results = await Promise.allSettled([redeemGiftCode(code, db, 200), redeemGiftCode(code, db, 200)])
     expect(results.map(result => result.status).sort()).toEqual(['fulfilled', 'rejected'])
     const drops = await db.drops.toArray()
-    const keys = ['normal', 'glossy', 'alternative'].flatMap(finish =>
-      ['standard', 'fullArt'].map(art => `bizave-tcg-beta::${finish}::${art}`)).sort()
-    expect(drops.map(variantKey).sort()).toEqual(keys)
-    expect(drops.every(drop => drop.status === 'owned' && drop.circulation === 'local')).toBe(true)
-    expect((await db.discoveries.toArray()).map(row => row.key).sort()).toEqual(keys)
+    const key = `${cardId}::alternative::standard`
+    expect(drops.map(variantKey)).toEqual([key])
+    expect(drops[0]).toMatchObject({ status: 'owned', circulation: 'local' })
+    expect((await db.discoveries.toArray()).map(row => row.key)).toEqual([key])
     expect(await db.usedGiftCodes.count()).toBe(1)
     expect(await db.boosterStock.count()).toBe(0)
     expect((await db.player.get('local'))?.fragments).toBe(0)

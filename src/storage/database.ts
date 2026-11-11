@@ -6,8 +6,8 @@ import type { WeeklyShopRow } from '../game/weeklyShop'
 import type { RecycledCardRow } from '../game/types'
 import type { BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, LocalIdentityRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
 
-export const DATABASE_SCHEMA_VERSION = 11
-export const DATABASE_NAME = 'bizave-tcg'
+export const DATABASE_SCHEMA_VERSION = 12
+const DATABASE_NAME = 'bizave-tcg'
 export type DatabaseVersionRow = { id: 'local'; schemaVersion: number; ready: boolean }
 export class BizaveDatabase extends Dexie {
   drops!: Table<CardDropRow, string>
@@ -64,7 +64,7 @@ export class BizaveDatabase extends Dexie {
       await tx.table('player').toCollection().modify(row => { row.schemaVersion = 5 })
     })
     this.version(6).stores({ usedGiftCodes: '&codeHash' }).upgrade(async tx => {
-      await tx.table('player').toCollection().modify(row => { row.schemaVersion = DATABASE_SCHEMA_VERSION })
+      await tx.table('player').toCollection().modify(row => { row.schemaVersion = 6 })
     })
     this.version(7).stores({ favorites: '&key, cardId' }).upgrade(async tx => {
       await tx.table('openings').filter(row => row.revealComplete === true).delete()
@@ -90,6 +90,8 @@ export class BizaveDatabase extends Dexie {
       await tx.table('player').toCollection().modify(row => { row.schemaVersion = 11 })
       await tx.table('version').put({ id: 'local', schemaVersion: 11, ready: true })
     })
+    // Keep the beta markers until the player confirms the release reset.
+    this.version(12).stores({})
     this.versionInfo = this.table('version')
   }
 }

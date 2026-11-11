@@ -1,5 +1,21 @@
 import { expect, test, type Page } from '@playwright/test'
 
+test('le booster hebdomadaire disparaît à son échéance sans rechargement', async ({ page }) => {
+  await page.clock.install({ time: new Date('2026-11-08T22:59:30Z') })
+  await page.goto('/boutique')
+  await expect(page.locator('.weekly-selection .shop-buy')).toBeVisible()
+  await page.evaluate(async () => {
+    const path = '/src/storage/database.ts', { db } = await import(path)
+    const shop = await db.weeklyShop.get('current')
+    await db.weeklyShop.update('current', { 'booster.owned': 1, 'booster.remaining': shop.booster.remaining - 1 })
+  })
+  await page.goto('/')
+  const weeklyPack = page.locator('.booster-pack[data-booster="weekly-mystery"]')
+  await expect(weeklyPack).toHaveCount(1)
+  await page.clock.fastForward(30_000)
+  await expect(weeklyPack).toHaveCount(0)
+})
+
 async function openPack(page: Page) {
   await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
@@ -13,8 +29,11 @@ test('boosters gratuits ; ouverture au clic, reprise et collection persistante',
   await expect(page.locator('.collection-grid .card')).toHaveCount(0)
   await page.goto('/')
   await expect(page.locator('.pack-interaction')).toHaveCount(2)
-  await expect(page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')).toContainText('Memory Frame')
-  await expect(page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')).toContainText('190 cartes')
+  const pack = page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')
+  await expect(pack).toContainText('Memory Frame')
+  await expect(pack).toContainText('190 cartes')
+  await expect(pack).toHaveClass(/pack-sachet.*pack-volume/)
+  await expect(pack.locator('.pack-card-back')).toHaveCount(3)
   await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()
   await expect(page.locator('.card-back')).toHaveCSS('--back-primary', '#641e2c')
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()

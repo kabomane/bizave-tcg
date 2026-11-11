@@ -27,7 +27,7 @@ describe('catalogue public des cadeaux', () => {
           expect(available.has(item.boosterId)).toBe(true)
           expect(Number.isSafeInteger(item.quantity) && item.quantity > 0).toBe(true)
         }
-      } else if (gift.reward.type === 'card-variants') {
+      } else if (gift.reward.type === 'promo-card') {
         expect(cardById.get(gift.reward.cardId)?.promoNumber).toBeDefined()
       } else if (gift.reward.type === 'weekly-bonus') {
         expect(['reroll', 'fragments']).toContain(gift.reward.bonus)

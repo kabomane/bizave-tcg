@@ -42,4 +42,4 @@ Les cartes acquises, les boosters payés non ouverts et les ouvertures inachevé
 
 Le booster **merry xmas** est préparé mais masqué en production. Son activation sera publiée séparément. En développement, **Options → Développement** propose **Événement toujours actif** et **Fragments illimités** pour le tester localement.
 
-Quand l’événement est actif, le booster apparaît en deuxième position du carrousel, à côté de Lucky Boost. Il coûte 50 fragments, sans limite d’achat. Chaque ouverture révèle une seule carte événementielle, mate et classique. Elle disparaît à la fermeture du récapitulatif et ne rejoint pas la collection.
+Quand l’événement est actif, le booster apparaît en deuxième position du carrousel, à côté de Lucky Boost. Il coûte 30 fragments, sans limite d’achat. Chaque ouverture révèle une seule carte événementielle, mate et classique. Elle disparaît à la fermeture du récapitulatif et ne rejoint pas la collection.

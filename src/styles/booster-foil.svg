@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="200" height="300" viewBox="0 0 200 300">
+  <filter id="foil">
+    <feTurbulence type="fractalNoise" baseFrequency="0.045 0.008" numOctaves="3" seed="7"/>
+    <feDiffuseLighting lighting-color="#fff" surfaceScale="2.4">
+      <feDistantLight azimuth="235" elevation="42"/>
+    </feDiffuseLighting>
+  </filter>
+  <rect width="200" height="300" filter="url(#foil)"/>
+</svg>

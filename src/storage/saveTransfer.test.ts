@@ -1,6 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import Dexie from 'dexie'
-import { BizaveDatabase } from './database'
+import { BizaveDatabase, DATABASE_SCHEMA_VERSION } from './database'
+import { readBetaSave } from './betaSave'
 import { initializeDatabase, openBooster, refreshRecharge, recycleDrops } from './services'
 import { canonicalSavePayload, deleteAccount, exportSave, importSave, parseSaveFile, readSaveFile, SAVE_TABLES, MAX_SAVE_FILE_BYTES } from './saveTransfer'
 import { addContact, ensureIdentity, ownContact, removeFriend, renameFriend, receiveTransfer, sendTransfer, sendFragments } from '../exchanges/services'
@@ -18,6 +19,21 @@ beforeEach(async () => {
   await Promise.all([ensureIdentity(source), ensureIdentity(target)])
 })
 afterEach(async () => { vi.restoreAllMocks(); await Promise.all([source.delete(), target.delete()]) })
+
+it('ne remplace une sauvegarde bêta qu’une fois quand deux onglets entrent en 1.5.0', async () => {
+  await source.player.update('local', { schemaVersion: 11, fragments: 987 })
+  await source.versionInfo.put({ id: 'local', schemaVersion: 11, ready: true })
+  expect(await readBetaSave(source.name)).toBe(true)
+  let resets = 0
+  const secondTab = new BizaveDatabase(source.name)
+  for (const database of [source, secondTab]) database.identity.hook('creating', () => { resets++ })
+  try {
+    await Promise.all([deleteAccount(source, { onlyBeta: true }), deleteAccount(secondTab, { onlyBeta: true })])
+    expect(resets).toBe(1)
+    expect(await source.player.get('local')).toMatchObject({ schemaVersion: DATABASE_SCHEMA_VERSION, fragments: 0 })
+    expect(await readBetaSave(source.name)).toBe(false)
+  } finally { secondTab.close() }
+})
 async function seed() {
   const now = Date.now()
   const drops = ['owned', 'outgoing', 'recycled'].map(status => ({ dropId: uuid(), cardId: 't-classique', finish: 'glossy' as const, artVariant: 'fullArt' as const, status: status as 'owned', acquiredAt: now, updatedAt: now }))
@@ -90,7 +106,7 @@ describe('migration de sauvegarde', () => {
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     await importSave(JSON.stringify(envelope), target)
     expect((await target.outbox.toArray())[0]).toMatchObject({ kind: 'card', code: 'TR2.YWJj' })
-    expect((await target.player.get('local'))?.schemaVersion).toBe(11)
+    expect((await target.player.get('local'))?.schemaVersion).toBe(DATABASE_SCHEMA_VERSION)
   })
   it('refuse les incohérences de type, montant et préfixe dans les envois sauvegardés', async () => {
     await seed()
@@ -282,21 +298,22 @@ describe('migration de sauvegarde', () => {
     const gift = { codeHash: 'c'.repeat(64), redeemedAt: 1 }
     await target.usedGiftCodes.add(gift)
     await importSave(JSON.stringify(envelope), target)
-    expect((await target.player.get('local'))?.schemaVersion).toBe(11)
+    expect((await target.player.get('local'))?.schemaVersion).toBe(DATABASE_SCHEMA_VERSION)
     expect(await target.usedGiftCodes.toArray()).toEqual([gift])
     await expect(exportSave('1234-56-78', DEFAULT_PREFERENCES, target)).resolves.toBeTypeOf('string')
   })
 
-  it.each([7, 8])('importe un fichier du schéma %s et initialise la métadonnée locale actuelle', async schemaVersion => {
+  it.each([7, 8, 11])('importe un fichier du schéma %s et initialise la métadonnée locale actuelle', async schemaVersion => {
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget())
     const payload = JSON.parse(envelope.payload)
-    payload.schemaVersion = schemaVersion; payload.tables.player[0].schemaVersion = schemaVersion; delete payload.tables.weeklyShop
+    payload.schemaVersion = schemaVersion; payload.tables.player[0].schemaVersion = schemaVersion
+    if (schemaVersion < 11) delete payload.tables.weeklyShop
     if (schemaVersion === 7) delete payload.tables.recycledCards
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     await importSave(JSON.stringify(envelope), target)
-    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: 11, ready: true })
+    expect(await target.versionInfo.get('local')).toEqual({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
   })
 
   it('rejette un registre de cadeaux mal formé, dupliqué ou manquant dans un fichier récent', async () => {
@@ -341,7 +358,7 @@ describe('suppression du compte', () => {
     const after = await ensureIdentity(source)
     expect(after.playerUuid).not.toBe(before.playerUuid)
     expect(after.signingPublicJwk).not.toEqual(before.signingPublicJwk)
-    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: 11 })
+    expect(await source.player.get('local')).toMatchObject({ freePackStock: 5, fragments: 0, nextFreePackAt: null, schemaVersion: DATABASE_SCHEMA_VERSION })
     for (const table of source.tables.filter(t => !['player', 'identity', 'definitions', 'accountState', 'installation', 'version'].includes(t.name))) expect(await table.count(), table.name).toBe(0)
     expect(await source.accountState.get('local')).toEqual({ id: 'local', status: 'active', preferences: DEFAULT_PREFERENCES })
   })

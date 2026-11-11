@@ -106,7 +106,7 @@ function wrap(ctx: CanvasRenderingContext2D, text: string, maxW: number) {
   }
   return out;
 }
-export function drawCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: number, y: number, w: number, h: number, pos = 'center center') {
+function drawCover(ctx: CanvasRenderingContext2D, img: HTMLImageElement, x: number, y: number, w: number, h: number, pos = 'center center') {
   const [px, py] = parsePos(pos);
   const s = Math.max(w / img.naturalWidth, h / img.naturalHeight), dw = img.naturalWidth * s, dh = img.naturalHeight * s;
   ctx.drawImage(img, x + (w - dw) * px, y + (h - dh) * py, dw, dh);
