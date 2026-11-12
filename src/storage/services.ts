@@ -4,17 +4,18 @@ import { christmasBooster, christmasCards, isChristmasEventActive } from '../dat
 import { FREE_PACK_CAPACITY, FREE_PACK_INITIAL_STOCK, FREE_PACK_RECHARGE_MS } from '../game/config'
 import { shopOffer } from '../game/boosterAvailability'
 import { consumeFreePack, drawPack, getRecycleFragments, settleFreePackRecharge, uuid, variantKey, validateConfiguration } from '../game/engine'
-import type { BoosterPurchaseRow, CardDefinition, CardDropRow, OpenRecord, PlayerStateRow } from '../game/types'
+import type { BoosterDefinition, BoosterPurchaseRow, CardDefinition, CardDropRow, OpenRecord, PlayerStateRow } from '../game/types'
 import { db, DATABASE_SCHEMA_VERSION } from './database'
 import { assertAccountActive } from './accountGuard'
 import { ensureInstallation } from './installation'
 import { discover } from './discoveries'
 import { pruneFavorites } from '../collection/favorites'
 import { settleWeeklyShop } from './weeklyShop'
+import { settleDailyShop } from './dailyShop'
 import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
 import { fragmentPurchaseCost } from '../settings/development'
 
-const purchasableBoosters = [...boosters, christmasBooster]
+const purchasableBoosters: BoosterDefinition[] = [...boosters, christmasBooster]
 
 export async function initializeDatabase(database = db, now = Date.now()) {
   validateConfiguration(cards, boosters)
@@ -40,19 +41,20 @@ export async function initializeDatabase(database = db, now = Date.now()) {
 }
 function observedTime(player: PlayerStateRow, now: number) { return Math.max(now, player.maxObservedClockAt ?? now) }
 export async function refreshRecharge(database = db, now = Date.now()) {
-  return database.transaction('rw', [database.player, database.accountState, database.weeklyShop], async () => {
+  return database.transaction('rw', [database.player, database.accountState, database.weeklyShop, database.dailyShop], async () => {
     await assertAccountActive(database)
     const raw = await database.player.get('local')
     if (!raw) throw new Error('La sauvegarde locale est indisponible.')
     const time = observedTime(raw, now)
     await settleWeeklyShop(database, time)
+    await settleDailyShop(database, time)
     const next = { ...settleFreePackRecharge(raw, time), maxObservedClockAt: time }
     if (raw.freePackStock !== next.freePackStock || raw.nextFreePackAt !== next.nextFreePackAt || time - raw.maxObservedClockAt > 60_000) await database.player.put(next)
     return next
   })
 }
 export async function buyBooster(boosterId: string, database = db, now = Date.now(), boosterDefinitions = purchasableBoosters) {
-  const booster = boosterDefinitions.find(b => b.id === boosterId && b.enabled)
+  const booster = boosterDefinitions.find(b => b.id === boosterId && b.enabled && !b.dailyOnly)
   const offer = booster && shopOffer(booster)
   if (!booster || !offer || offer.listed === false) throw new Error('Ce booster n’est pas disponible en boutique.')
   const price = offer.price
@@ -86,7 +88,7 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
     const weekly = boosterId === WEEKLY_BOOSTER_ID ? await database.weeklyShop.get('current') : undefined
     if (weekly && time >= weekly.rerollAt) throw new Error('Ce booster de la semaine a expiré.')
     const prior = weekly ? priorWeeklyBoosters(weekly)[0] : undefined
-    const booster = prior?.definition ?? weekly?.booster.definition ?? boosterDefinitions.find(b => b.id === boosterId && b.enabled)
+    const booster = prior?.definition ?? weekly?.booster.definition ?? boosterDefinitions.find(b => b.id === boosterId && b.enabled && !b.dailyOnly)
     if (!booster) throw new Error('Ce booster est indisponible.')
     let player = { ...settleFreePackRecharge(raw, time), maxObservedClockAt: time }
     let payment: OpenRecord['payment'] = 'shop'

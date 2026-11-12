@@ -71,7 +71,7 @@ describe('migration de sauvegarde', () => {
     await seed()
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget()), payload = JSON.parse(envelope.payload)
-    payload.schemaVersion = 10; payload.tables.player[0].schemaVersion = 10; delete payload.tables.weeklyShop
+    payload.schemaVersion = 10; payload.tables.player[0].schemaVersion = 10; delete payload.tables.dailyShop; delete payload.tables.weeklyShop
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
     const contents = JSON.stringify(envelope)
@@ -100,7 +100,7 @@ describe('migration de sauvegarde', () => {
     await seed()
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget()), payload = JSON.parse(envelope.payload)
-    payload.schemaVersion = 9; payload.tables.player[0].schemaVersion = 9; delete payload.tables.weeklyShop
+    payload.schemaVersion = 9; payload.tables.player[0].schemaVersion = 9; delete payload.tables.dailyShop; delete payload.tables.weeklyShop
     for (const row of payload.tables.outbox) delete row.kind
     envelope.payload = JSON.stringify(payload)
     envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))
@@ -289,7 +289,7 @@ describe('migration de sauvegarde', () => {
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget())
     const payload = JSON.parse(envelope.payload)
-    payload.schemaVersion = 5; payload.tables.player[0].schemaVersion = 5; delete payload.tables.weeklyShop
+    payload.schemaVersion = 5; payload.tables.player[0].schemaVersion = 5; delete payload.tables.dailyShop; delete payload.tables.weeklyShop
     delete payload.tables.recycledCards
     delete payload.tables.favorites
     delete payload.tables.usedGiftCodes
@@ -303,11 +303,12 @@ describe('migration de sauvegarde', () => {
     await expect(exportSave('1234-56-78', DEFAULT_PREFERENCES, target)).resolves.toBeTypeOf('string')
   })
 
-  it.each([7, 8, 11])('importe un fichier du schéma %s et initialise la métadonnée locale actuelle', async schemaVersion => {
+  it.each([7, 8, 11, 12])('importe un fichier du schéma %s et initialise la métadonnée locale actuelle', async schemaVersion => {
     const identity = await ensureIdentity(source)
     const envelope = JSON.parse(await exportToTarget())
     const payload = JSON.parse(envelope.payload)
     payload.schemaVersion = schemaVersion; payload.tables.player[0].schemaVersion = schemaVersion
+    delete payload.tables.dailyShop
     if (schemaVersion < 11) delete payload.tables.weeklyShop
     if (schemaVersion === 7) delete payload.tables.recycledCards
     envelope.payload = JSON.stringify(payload)

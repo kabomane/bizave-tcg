@@ -5,15 +5,21 @@ test('epico stellari : taux du paquet sélectionné, achat à 700 et ouverture',
   await page.setViewportSize({ width: 390, height: 844 })
   const showRates = async (epico: boolean) => {
     const inShop = page.url().endsWith('/boutique')
-    const scope = inShop ? page.locator('.weekly-daily') : page
-    const title = inShop ? `Taux de drop · ${epico ? 'epico stellari' : 'Memory Frame'}` : 'Taux de drop'
+    if (inShop) await expect(page.getByRole('heading', { name: 'Boutique', exact: true })).toBeVisible()
+    const scope = page
+    const title = 'Taux de drop'
     await scope.getByRole('button', { name: 'Taux de drop', exact: true }).click()
     const dialog = page.getByRole('dialog', { name: title, exact: true })
-    const rarity = dialog.locator('section').filter({ has: page.getByRole('heading', { name: 'Rareté', exact: true }) })
-    await expect(rarity.locator('dd')).toHaveText(epico ? ['0 %', '0 %', '0 %', '91 %', '9 %'] : ['57 %', '24 %', '12 %', '5 %', '2 %'])
-    await expect(dialog.locator('section').filter({ has: page.getByRole('heading', { name: 'Finition', exact: true }) }).locator('dd')).toHaveText(['81 %', '15 %', '4 %'])
-    await expect(dialog.locator('section').filter({ has: page.getByRole('heading', { name: 'Illustration', exact: true }) }).locator('dd')).toHaveText(['92 %', '8 %'])
-    await expect(dialog.getByRole('heading')).toHaveText([title, 'Rareté', 'Finition', 'Illustration'])
+    if (inShop) await dialog.getByRole('button', { name: epico ? 'epico stellari' : /^Memory Frame/, exact: !epico ? false : true }).click()
+    const current = dialog.locator('.booster-carousel-slide[aria-hidden="false"]')
+    await expect(current.locator('h2')).toHaveText('Rareté')
+    await expect(current.locator('dd')).toHaveText(epico ? ['0 %', '0 %', '0 %', '91 %', '9 %'] : ['57 %', '24 %', '12 %', '5 %', '2 %'])
+    await dialog.getByRole('button', { name: 'Catégorie suivante', exact: true }).click()
+    await expect(current.locator('h2')).toHaveText('Finition')
+    await expect(current.locator('dd')).toHaveText(['81 %', '15 %', '4 %'])
+    await dialog.getByRole('button', { name: 'Catégorie suivante', exact: true }).click()
+    await expect(current.locator('h2')).toHaveText('Illustration')
+    await expect(current.locator('dd')).toHaveText(['92 %', '8 %'])
     await dialog.getByRole('button', { name: 'Fermer', exact: true }).click()
   }
   await page.goto('/')
@@ -21,17 +27,14 @@ test('epico stellari : taux du paquet sélectionné, achat à 700 et ouverture',
   await showRates(false)
   await page.getByRole('link', { name: 'Boutique', exact: true }).click()
   await showRates(false)
-  await page.locator('.weekly-daily .booster-carousel-track, .phantom-home .booster-carousel-track').press('End')
   const buy = page.getByRole('button', { name: 'Acheter epico stellari pour 700 fragments', exact: true })
   await expect(buy).toBeDisabled()
   await showRates(true)
-  await page.locator('.weekly-daily .booster-carousel-track, .phantom-home .booster-carousel-track').press('Home')
   await showRates(false)
   await page.evaluate(async () => {
     const path = '/src/storage/database.ts', { db } = await import(path)
     await db.player.update('local', { fragments: 700 })
   })
-  await page.locator('.weekly-daily .booster-carousel-track, .phantom-home .booster-carousel-track').press('End')
   await expect(buy).toBeEnabled()
   await page.screenshot({ path: `artifacts/epico-stellari-shop-${test.info().project.name}.png`, fullPage: true })
   await buy.click()
@@ -42,9 +45,9 @@ test('epico stellari : taux du paquet sélectionné, achat à 700 et ouverture',
   await page.getByRole('button', { name: 'Booster suivant', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Ouvrir le booster epico stellari', exact: true })).toBeEnabled()
   await showRates(true)
-  await page.locator('.weekly-daily .booster-carousel-track, .phantom-home .booster-carousel-track').press('Home')
+  await page.locator('.phantom-home .booster-carousel-track').press('Home')
   await showRates(false)
-  await page.locator('.weekly-daily .booster-carousel-track, .phantom-home .booster-carousel-track').press('End')
+  await page.locator('.phantom-home .booster-carousel-track').press('End')
   await page.getByRole('button', { name: 'Ouvrir le booster epico stellari', exact: true }).click()
   await expect(page.getByRole('button', { name: 'Révéler la première carte', exact: true })).toBeVisible()
   const state = await page.evaluate(async () => {

@@ -10,7 +10,7 @@ test('un nouveau joueur possède seulement bizave-tcg et son entrée version', a
     return { names: (await indexedDB.databases()).map(database => database.name), version: await db.versionInfo.get('local') }
   })
   expect(actual.names.filter((name: string | undefined) => name === 'bizave-tcg' || name === 'bizave-tcg-v2')).toEqual(['bizave-tcg'])
-  expect(actual.version).toEqual({ id: 'local', schemaVersion: 12, ready: true })
+  expect(actual.version).toEqual({ id: 'local', schemaVersion: 13, ready: true })
   await expect(page.locator('.beta-closed')).toHaveCount(0)
 })
 
@@ -35,7 +35,7 @@ test('affiche PR-001 avant la réinitialisation explicite de la partie bêta', a
   await expect(gate.locator('.beta-fan .card')).toHaveCount(3)
   const code = (await gate.locator('code').textContent())!
   expect(code).toMatch(/^(?:[A-Z2-9]{4}-){3}[A-Z2-9]{4}$/)
-  const entry = gate.getByRole('button', { name: 'Réinitialiser et entrer en 1.5.0' })
+  const entry = gate.getByRole('button', { name: 'Réinitialiser et entrer en 1.5.1' })
 
   const cacheResetPath = '**/release-cache-reset.json'
   await page.route(cacheResetPath, route => route.fulfill({ status: 503 }))
@@ -51,7 +51,7 @@ test('affiche PR-001 avant la réinitialisation explicite de la partie bêta', a
     const path = '/src/storage/database.ts', { db } = await import(path)
     const { fragments, schemaVersion } = await db.player.get('local')
     return { fragments, schemaVersion, version: (await db.versionInfo.get('local')).schemaVersion, caches: await caches.keys() }
-  })).toEqual({ fragments: 0, schemaVersion: 12, version: 12, caches: [] })
+  })).toEqual({ fragments: 0, schemaVersion: 13, version: 13, caches: [] })
 
   await page.goto('/parametres')
   await expect(gate).toHaveCount(0)

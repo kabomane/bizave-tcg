@@ -33,3 +33,95 @@
   text-align:center;
   touch-action:manipulation;
 }
+
+/* Three shop periods share the same paper surfaces and native card carousel. */
+.redesigned-shop { gap:0; padding-bottom:42px; }
+.redesigned-shop .booster-section-heading { width:100%; margin-bottom:32px; }
+.shop-tabs { display:flex; gap:32px; border-bottom:1px solid var(--line); margin-bottom:38px; }
+.shop-tabs a { display:flex; align-items:center; min-height:52px; color:var(--muted); font-size:12px; text-decoration:none; border-bottom:2px solid transparent; }
+.shop-tabs a:hover,.shop-tabs a:focus-visible { color:var(--ink); border-bottom-color:var(--accent); }
+.shop-section { scroll-margin-top:24px; min-width:0; }
+.shop-section + .shop-section { margin-top:76px; padding-top:46px; border-top:1px solid var(--line); }
+.shop-section-head { display:flex; align-items:center; justify-content:space-between; gap:14px; margin-bottom:30px; }
+.shop-section-head h2 { margin:0; font:400 clamp(30px,3.2vw,44px)/1 Georgia,'Times New Roman',serif; letter-spacing:-.055em; }
+.section-note { font-size:11px; color:var(--muted); }
+.daily-grid,.weekly-layout { display:grid; grid-template-columns:minmax(0,1.55fr) minmax(0,1fr); gap:30px; align-items:stretch; }
+.daily-grid.has-no-cards { grid-template-columns:1fr; }
+.featured-offer,.card-zone,.weekly-lucky { display:flex; flex-direction:column; min-width:0; }
+.section-line { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.section-line::after { content:''; height:1px; flex:1; background:var(--line); }
+.section-line h3 { margin:0; font-size:11px; line-height:1.5; font-weight:500; color:var(--muted); }
+.redesigned-shop .offer-card,.redesigned-shop .shop-stage { border:1px solid var(--line); background:var(--paper-raised); border-radius:4px; min-width:0; flex:1; }
+.hero-offer { display:grid; grid-template-columns:44% minmax(0,1fr); align-items:center; min-height:350px; }
+.hero-visual { padding:30px 12px; display:flex; justify-content:center; align-items:center; }
+.shop-pack { width:170px; max-width:100%; flex-shrink:0; filter:drop-shadow(5px 14px 12px #0002); }
+.shop-pack .booster-pack { width:100%; }
+.hero-meta { padding:30px 26px 30px 0; min-width:0; }
+.hero-meta h3,.lucky-details h3 { margin:0; font:400 clamp(27px,2.8vw,38px)/1.04 Georgia,'Times New Roman',serif; letter-spacing:-.045em; }
+.hero-meta p,.lucky-details p { margin:15px 0 0; color:var(--muted); font-size:12px; line-height:1.75; }
+.price-block { display:flex; align-items:baseline; flex-wrap:wrap; gap:7px 9px; margin:23px 0; }
+.price-block strong { font:400 38px/1 Georgia,'Times New Roman',serif; letter-spacing:-.045em; font-variant-numeric:tabular-nums; }
+.price-block span,.price-block del { font-size:11px; color:var(--muted); }
+.hero-meta .primary-button,.lucky-details .primary-button { width:100%; justify-content:center; gap:14px; }
+.redesigned-shop .shop-stage { padding:20px 14px 22px; gap:16px; justify-content:center; }
+.redesigned-shop .showcase-card.booster-size { width:178px; }
+.redesigned-shop .shop-buy { width:auto; min-width:190px; max-width:100%; border-radius:24px; font-size:12px; }
+.redesigned-shop .showcase-card .card { cursor:default; touch-action:manipulation; }
+.redesigned-shop .weekly-section { gap:0; }
+.lucky-preview { display:grid; grid-template-columns:39% minmax(0,1fr); align-items:center; gap:24px; padding:28px; }
+.lucky-preview .shop-pack { width:150px; margin:auto; }
+.lucky-details h3 { font-size:30px; }
+.lucky-details .price-block { margin:18px 0; }
+.lucky-details .price-block strong { font-size:32px; }
+.weekly-bonus { margin-top:32px; }
+.permanent-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:18px; }
+.permanent-tile { padding:28px 16px 22px; display:flex; flex-direction:column; align-items:center; gap:24px; background:var(--paper-raised); border:1px solid var(--line); border-radius:4px; min-width:0; }
+.permanent-tile .shop-pack { width:145px; }
+.redesigned-shop .permanent-tile .shop-buy { width:100%; min-width:0; padding:10px 7px; gap:8px; font-size:11px; margin-top:auto; }
+.permanent-shop > section + section { margin-top:32px; }
+@media(max-width:899px) {
+ .daily-grid,.weekly-layout { grid-template-columns:minmax(0,1fr); gap:30px; }
+ .hero-offer { min-height:320px; }
+ .hero-visual .shop-pack { width:180px; }
+ .permanent-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+}
+@media(max-width:599px) {
+ .redesigned-shop .booster-section-heading { margin-bottom:24px; }
+ .shop-tabs { gap:0; justify-content:space-between; margin-bottom:28px; }
+ .shop-tabs a { font-size:11px; }
+ .shop-section + .shop-section { margin-top:54px; padding-top:34px; }
+ .shop-section-head { margin-bottom:22px; }
+ .shop-section-head h2 { font-size:30px; }
+ .shop-section-head .weekly-timer { height:31px; font-size:10px; gap:6px; padding:0 9px; }
+ .section-note { font-size:10px; }
+ .section-line h3 { font-size:10px; }
+ .hero-offer { grid-template-columns:41% minmax(0,1fr); min-height:255px; }
+ .hero-visual { padding:25px 9px; }
+ .hero-visual .shop-pack { width:115px; }
+ .hero-meta { padding:22px 15px 22px 3px; }
+ .hero-meta h3 { font-size:27px; }
+ .hero-meta p,.lucky-details p { font-size:10px; line-height:1.6; margin-top:12px; }
+ .price-block { margin:15px 0; gap:6px; }
+ .price-block strong { font-size:28px; }
+ .price-block span,.price-block del { font-size:9px; }
+ .hero-meta .primary-button,.lucky-details .primary-button { font-size:10px; min-height:40px; padding:9px 6px; gap:7px; }
+ .lucky-preview { grid-template-columns:38% minmax(0,1fr); gap:17px; padding:20px 16px; min-height:250px; }
+ .lucky-preview .shop-pack { width:125px; }
+ .lucky-details h3 { font-size:26px; }
+ .lucky-details .price-block strong { font-size:28px; }
+ .redesigned-shop .shop-stage { padding:14px 10px 18px; }
+ .redesigned-shop .showcase-card.booster-size { width:160px; }
+ .permanent-grid { gap:12px; }
+ .permanent-tile { padding:22px 10px 18px; gap:20px; }
+ .permanent-tile .shop-pack { width:125px; }
+ .redesigned-shop .permanent-tile .shop-buy { font-size:10px; gap:5px; padding:9px 5px; }
+ .redesigned-shop .permanent-tile .shop-price { padding-left:5px; gap:4px; }
+}
+@media(prefers-reduced-motion:no-preference) { .shop-tabs a { scroll-behavior:smooth; } }
+
+/* Compact offer headings and the original collectible bonus faces. */
+.redesigned-shop .hero-meta h3,.redesigned-shop .lucky-details h3 { font-size:clamp(18px,1.7vw,26px); white-space:nowrap; letter-spacing:-.045em; }
+@media(max-width:599px) {
+ .redesigned-shop .hero-meta h3,.redesigned-shop .lucky-details h3 { font-size:clamp(16px,4.4vw,22px); }
+}
+@media(max-width:359px) { .redesigned-shop .hero-meta h3,.redesigned-shop .lucky-details h3 { font-size:15px; } }

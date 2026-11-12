@@ -17,7 +17,7 @@ test('la landing affiche les cartes et la boutique sans créer de partie', async
   await expect.poll(() => artworkRequests.some(url => url.includes('/ciel-bleu/'))).toBe(true)
   await expect(page.getByRole('img', { name: 'Booster lucky boost', exact: true })).toBeVisible()
   await expect(page.locator('.weekly-offers')).toContainText('reroll à 150 fragments')
-  await expect(page.locator('.booster-pack[data-booster="phantom-blood"]')).toContainText('190 cartes')
+  await expect(page.locator('.booster-pack[data-booster="phantom-blood"]')).toContainText('220 cartes')
   const gem = page.locator('.values-row svg').first()
   await expect(gem).toHaveAttribute('viewBox', '0 0 24 24')
   expect(await gem.locator('use').evaluate(element => (element as SVGUseElement).getBBox().width)).toBeGreaterThan(0)

@@ -13,9 +13,10 @@ import { advanceReveal, finishOpening, openBooster } from '../storage/services'
 import { useGame } from '../components/useGame'
 import { BoosterSectionHeading } from '../components/BoosterSectionHeading'
 import { BoosterCarousel } from '../components/BoosterCarousel'
-import { DropRates } from '../components/DropRates'
+import { RatesViewer } from '../components/RatesViewer'
+import { resolveBoosterRates } from '../game/boosterRates'
 import { CollectibleCard } from '../components/CollectibleCard'
-import { EmptyState, ErrorNotice, Modal } from '../components/ui'
+import { EmptyState, ErrorNotice } from '../components/ui'
 import { errorText, formatDuration } from '../components/format'
 import { updateSettings, useSettings } from '../settings/useSettings'
 import { preloadImages } from '../components/preloadImages'
@@ -24,6 +25,8 @@ import { CardBackdrop } from '../components/CardBackdrop'
 import { FinishDot } from '../components/FinishDot'
 import { useDeadlineReached, useNow } from '../components/useNow'
 import { priorWeeklyBoosters, WEEKLY_BOOSTER_COLORS, WEEKLY_BOOSTER_ID, WEEKLY_BOOSTER_TITLE } from '../game/weeklyShop'
+import { dailyDefinition } from '../game/dailyShop'
+import { openDailyBooster } from '../storage/dailyShop'
 import '../styles/christmas.css'
 
 function RechargeClock({ at }: { at: number }) { const now = useNow(); return <span className="recharge-clock"><Clock3 size={12} />{formatDuration(at - now, { hours: false })}</span> }
@@ -31,7 +34,7 @@ const openingCard = (cardId: string) => (cardById.get(cardId) ?? christmasCardBy
 const PACK_OPENING_MS = 960 // Fan transition plus the longest stagger in booster-pack.css.
 
 export function BoostersPage() {
-  const { player, pendingOpening, boosterStock, drops, weeklyShop } = useGame()
+  const { player, pendingOpening, boosterStock, drops, weeklyShop, dailyShop } = useGame()
   const settings = useSettings()
   const { selectedBoosterId } = settings
   const christmasActive = isChristmasEventActive(settings)
@@ -42,17 +45,31 @@ export function BoostersPage() {
   const inFlight = useRef(false), revealRoot = useRef<HTMLElement>(null), preloadedOpening = useRef<string | null>(null)
   const weeklyExpired = useDeadlineReached(weeklyShop?.rerollAt, player.maxObservedClockAt)
   const weekly = weeklyExpired ? undefined : weeklyShop
+  const dailyExpired = useDeadlineReached(dailyShop?.renewAt, player.maxObservedClockAt)
+  const daily = !dailyExpired ? dailyShop : undefined
+  const dailyPacks = useMemo(() => {
+    if (!daily) return []
+    const quantities = new Map<string, number>()
+    for (const batch of [...(daily.priorBundles ?? []), daily.bundle]) {
+      if (batch.owned > 0) quantities.set(batch.boosterId, (quantities.get(batch.boosterId) ?? 0) + batch.owned)
+    }
+    return [...quantities].map(([boosterId, owned]) => {
+      const source = dailyDefinition(boosterId)!
+      return { boosterId, owned, definition: { ...source, id: `daily-${daily.dayStart}-${boosterId}`, title: `${source.title} · Lot du jour`, access: { type: 'shop' as const, price: daily.bundle.unitPrice, listed: false } } }
+    })
+  }, [daily])
   const weeklyDefinition = weekly && (priorWeeklyBoosters(weekly)[0]?.definition ?? weekly.booster.definition)
-  const stockRows = useMemo(() => weekly ? [...boosterStock, {
+  const stockRows = useMemo(() => [...boosterStock, ...dailyPacks.map(p => ({ boosterId: p.definition.id, quantity: p.owned, updatedAt: daily!.dayStart })), ...(weekly ? [{
     boosterId: WEEKLY_BOOSTER_ID,
     quantity: priorWeeklyBoosters(weekly).reduce((total, batch) => total + batch.owned, weekly.booster.owned),
     updatedAt: weekly.weekStart,
-  }] : boosterStock, [boosterStock, weekly])
+  }] : [])], [boosterStock, weekly, daily, dailyPacks])
   const choices = useMemo(() => [
     ...availableBoosters(boosters, stockRows),
     ...availableBoosters(weeklyDefinition ? [weeklyDefinition] : [], stockRows),
     ...availableBoosters(christmasActive ? [christmasBooster] : [], stockRows),
-  ], [stockRows, weeklyDefinition, christmasActive])
+    ...dailyPacks.map(p => p.definition),
+  ], [stockRows, weeklyDefinition, christmasActive, dailyPacks])
   const booster = choices.find(choice => choice.id === selectedBoosterId) || choices[0]
   const [openingView, setOpeningView] = useState<{ choices: BoosterDefinition[]; selectedId: string; quantity: number } | null>(null)
   const stageChoices = tearing && openingView ? openingView.choices : choices
@@ -84,7 +101,8 @@ export function BoostersPage() {
     if (inFlight.current || !canOpen || !booster) return
     inFlight.current = true; setBusy(true); setError(''); setTearing(true); setRecap(null)
     setOpeningView({ choices, selectedId: booster.id, quantity: purchasedQuantity(booster.id, stockRows) })
-    try { const record = await openBooster(booster.id); preloadedOpening.current = record.id; void preloadImages(record.results.map(card => openingCard(card.cardId).artwork[card.artVariant])); await new Promise(resolve => setTimeout(resolve, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : PACK_OPENING_MS)) }
+    const dailyChoice = dailyPacks.find(p => p.definition.id === booster.id)
+    try { const record = daily && dailyChoice ? await openDailyBooster(daily.dayStart, dailyChoice.boosterId) : await openBooster(booster.id); preloadedOpening.current = record.id; void preloadImages(record.results.map(card => openingCard(card.cardId).artwork[card.artVariant])); await new Promise(resolve => setTimeout(resolve, matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : PACK_OPENING_MS)) }
     catch (e) { setError(errorText(e)) }
     finally { setTearing(false); setOpeningView(null); setBusy(false); inFlight.current = false }
   }
@@ -133,6 +151,6 @@ export function BoostersPage() {
     <BoosterSectionHeading title={<>Vos <em>boosters</em></>} linkTo="/boutique" linkLabel="Boutique" onShowRates={stageBooster ? () => setShowRates(true) : undefined} />
     {stageBooster ? <div className="phantom-stage"><div className="phantom-shadow" /><BoosterCarousel choices={stageChoices} selectedId={stageBooster.id} onSelect={select} onOpen={open} disabled={busy} canOpen={canOpen} tearing={tearing} /><div className="pack-status"><div className="phantom-stock" aria-label={stageBooster.access.type === 'free' ? `${stock.freePackStock} boosters disponibles sur ${FREE_PACK_CAPACITY}` : `${reserve} boosters achetés`}>{stageBooster.access.type === 'free' && <div className="stock-meter">{Array.from({ length: FREE_PACK_CAPACITY }, (_, i) => <span key={i} className={i < stock.freePackStock ? 'charged' : ''} />)}</div>}<span className="booster-stock-count">{stageBooster.access.type === 'free' && <><strong>{stock.freePackStock}</strong> / {FREE_PACK_CAPACITY}</>}{reserve > 0 && <span className="purchased-pack-reserve" aria-label={`${reserve} boosters achetés`}>+ {reserve}</span>}</span>{stageBooster.access.type === 'free' && stock.nextFreePackAt !== null && <RechargeClock at={stock.nextFreePackAt} />}</div></div></div> : <EmptyState icon={<PackageOpen size={25} />} title="Aucun booster disponible." action={<Link to="/boutique" className="secondary-button">Boutique <ArrowRight size={14} /></Link>}>Vos prochains paquets apparaîtront ici.</EmptyState>}
     <ErrorNotice error={error} />
-    {showRates && stageBooster && <Modal title="Taux de drop" onClose={() => setShowRates(false)}><DropRates booster={stageBooster} /></Modal>}
+    {showRates && stageBooster && <RatesViewer entries={[{ id: stageBooster.id, title: stageBooster.title, meta: `${stageBooster.cardsPerPack} cartes par booster`, rates: resolveBoosterRates(stageBooster) }]} onClose={() => setShowRates(false)} />}
   </section>
 }

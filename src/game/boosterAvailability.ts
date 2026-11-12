@@ -9,11 +9,11 @@ export function shopOffer(booster: BoosterDefinition) {
   return booster.access.type === 'shop' ? booster.access : booster.access.shop
 }
 export function availableBoosters(definitions: readonly BoosterDefinition[], stock: readonly BoosterStockRow[]) {
-  return definitions.filter(booster => booster.enabled && (booster.access.type === 'free' || purchasedQuantity(booster.id, stock) > 0)).sort(byOrder)
+  return definitions.filter(booster => booster.enabled && !booster.dailyOnly && (booster.access.type === 'free' || purchasedQuantity(booster.id, stock) > 0)).sort(byOrder)
 }
 export function shopBoosters(definitions: readonly BoosterDefinition[]) {
   return definitions.filter(booster => {
     const offer = shopOffer(booster)
-    return booster.enabled && offer && offer.listed !== false
+    return booster.enabled && !booster.dailyOnly && offer && offer.listed !== false
   }).sort(byOrder)
 }

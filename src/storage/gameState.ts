@@ -1,8 +1,8 @@
 import { db } from './database'
 
 export async function readGameState(database = db) {
-  const [player, drops, last, boosterStock, weeklyShop] = await Promise.all([database.player.get('local'), database.drops.where('status').anyOf('owned', 'outgoing').toArray(), database.openings.orderBy('openedAt').last(), database.boosterStock.toArray(), database.weeklyShop.get('current')])
+  const [player, drops, last, boosterStock, weeklyShop, dailyShop] = await Promise.all([database.player.get('local'), database.drops.where('status').anyOf('owned', 'outgoing').toArray(), database.openings.orderBy('openedAt').last(), database.boosterStock.toArray(), database.weeklyShop.get('current'), database.dailyShop.get('current')])
   // Equal monotonic timestamps are possible after a clock rollback: inspect all tied rows.
   const pendingOpening = last && (await database.openings.where('openedAt').equals(last.openedAt).toArray()).find(opening => !opening.revealComplete)
-  return player ? { player, drops, pendingOpening, boosterStock, weeklyShop } : undefined
+  return player ? { player, drops, pendingOpening, boosterStock, weeklyShop, dailyShop } : undefined
 }

@@ -2,9 +2,7 @@
 
 La route `/boutique` (également `/boutique/`) affiche la boutique hebdomadaire validée, incluse dans le build de production. Elle réunit lucky boost, la vitrine, les boosters permanents et les bonus de la semaine ; les achats dépensent les fragments de la partie locale. L’ancienne page indépendante et la route `/test` sont supprimées.
 
-La page affiche le titre « Boutique » et trois rubriques espacées : « Cette semaine », « Boosters permanents » et « Bonus de la semaine ». La sélection hebdomadaire réunit lucky boost et les 1 à 5 cartes de la vitrine dans un seul carrousel, le booster en première position. Les cartes ne sont pas cliquables et n’ouvrent plus d’aperçu. Le bouton d’achat fixe affiche le prix et la disponibilité de l’offre sélectionnée ; un produit épuisé prend le même effet atténué qu’un booster gratuit indisponible. Après un achat, le bouton affiche brièvement « Ajouté » avec la même animation que les boosters permanents, puis indique « Épuisé » ou « Épuisée » si le stock est vide.
-
-Lucky boost est inscrit sur deux lignes sur le sachet. Une pilule près du titre affiche le renouvellement en jours/heures/minutes, puis en heures/minutes/secondes sous 24 heures. Le stock restant de lucky boost apparaît dans le titre « Cette semaine · X restants ». Les barres sont retirées ; le bouton d’achat suit directement les points avec le même écart que les boosters permanents. Les positions verticales restent fixes entre le booster et les cartes. Chaque séparateur aligne son titre à gauche et « ⓘ Taux de drop » à droite, reliés par un trait fin. Le bouton hebdomadaire affiche les taux de lucky boost ou les taux boostés de la vitrine selon l’offre sélectionnée. Le sachet lucky boost indique la taille de son pool. Dans Vos boosters, les taux et le nombre de cartes correspondent au prochain exemplaire à ouvrir. Lucky boost est toujours listé après les boosters classiques dans cet onglet. Aucun achat de cette boutique ne crée de toast de succès.
+Depuis la refonte du 12 novembre 2026, la page comporte Aujourd’hui, Cette semaine et Permanents. Lucky Boost et la vitrine occupent deux panneaux voisins ; les bonus s’affichent dans un carrousel à bouton fixe et les permanents en grille. Le dialogue « Taux de drop » près du titre regroupe toutes les éditions et vitrines. Les règles de tirage hebdomadaire restent inchangées ; le reroll renouvelle également le lot et les cartes du jour. Voir [la boutique journalière](boutique-journaliere.md).
 
 Chaque partie génère son propre tirage avec le générateur aléatoire sécurisé existant. Aucun serveur ni tâche distante n’est nécessaire. La première visite crée la boutique ; les suivantes conservent le tirage. Une seule ligne `weeklyShop/current` est conservée dans IndexedDB. Elle référence les identifiants du catalogue sans recopier les illustrations.
 
@@ -23,10 +21,10 @@ Les prix reprennent le simulateur fourni : valeur de base de rareté × 3 × mul
 
 ## Bonus de la semaine
 
-Le troisième carrousel reprend le visuel des cartes de réception de fragments et propose deux articles, chacun disponible une fois par semaine :
+Le carrousel de bonus propose deux articles, chacun disponible une fois par semaine avant crédits cadeaux. Le titre affiche le stock du bonus sélectionné, crédits cadeaux inclus :
 
-- **Reroll** à 150 fragments. Chaque reroll remplace toute la vitrine et tire un nouveau pool, de nouveaux taux, un nouveau prix et un stock de 1 à 4 Lucky Boost. Les boosters achetés et encore fermés conservent leur pool dans `priorBoosters` et s’ouvrent dans l’ordre des lots. Leur nombre est indépendant du nouveau stock en vente. Une offre affichée avant un reroll est refusée à l’achat.
-- **Carte fragments** gratuite. Au clic, deux entiers indépendants sont tirés uniformément entre 10 et 300. La moyenne arrondie à la dizaine la plus proche est créditée immédiatement. Le montant apparaît sur le bouton, puis la carte est marquée « Réclamée ».
+- **Reroll** à 150 fragments. Chaque reroll renouvelle aussi la boutique journalière, remplace toute la vitrine et tire un nouveau pool, de nouveaux taux, un nouveau prix et un stock de 1 à 4 Lucky Boost. Les boosters achetés et encore fermés conservent leur pool dans `priorBoosters` et s’ouvrent dans l’ordre des lots. Leur nombre est indépendant du nouveau stock en vente. Une offre affichée avant un reroll est refusée à l’achat.
+- **Carte fragments** gratuite. Au clic, deux entiers indépendants sont tirés uniformément entre 10 et 300. La moyenne arrondie à la dizaine la plus proche est créditée immédiatement. Le montant apparaît deux secondes sur le bouton, puis « Réclamée » lorsque le stock est épuisé.
 
 Le reroll ne modifie pas la carte fragments. Les deux disponibilités sont enregistrées dans la ligne de la semaine courante et se réinitialisent le lundi. Le montant réclamé n’est pas archivé.
 
@@ -42,4 +40,4 @@ Les cartes acquises, les boosters payés non ouverts et les ouvertures inachevé
 
 Le booster **merry xmas** est préparé mais masqué en production. Son activation sera publiée séparément. En développement, **Options → Développement** propose **Événement toujours actif** et **Fragments illimités** pour le tester localement.
 
-Quand l’événement est actif, le booster apparaît en deuxième position du carrousel, à côté de Lucky Boost. Il coûte 30 fragments, sans limite d’achat. Chaque ouverture révèle une seule carte événementielle, mate et classique. Elle disparaît à la fermeture du récapitulatif et ne rejoint pas la collection.
+Quand l’événement est actif, le booster apparaît dans un groupe Événement de Noël, sous la grille permanente. Il coûte 30 fragments, sans limite d’achat. Chaque ouverture révèle une seule carte événementielle, mate et classique. Elle disparaît à la fermeture du récapitulatif et ne rejoint pas la collection.

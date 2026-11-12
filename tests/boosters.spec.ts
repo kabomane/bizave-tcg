@@ -1,152 +1,34 @@
 import { expect, test } from '@playwright/test'
 import animaIds from '../src/data/pools/anima-isekai.json' with { type: 'json' }
 
-test('boutique : aucun achat pendant le mouvement, puis achat du paquet affiché', async ({ page }) => {
-  await page.emulateMedia({ reducedMotion: 'no-preference' })
-  await page.setViewportSize({ width: 390, height: 844 })
+test('grille permanente : prix, achats distincts, double clic et absence d’historique', async ({ page }) => {
   await page.goto('/boutique')
-  await expect(page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })).toBeVisible()
-  await page.evaluate(async () => {
-    const modulePath = '/src/storage/database.ts'
-    const { db } = await import(modulePath)
-    await db.player.update('local', { fragments: 200 })
-  })
-  const button = page.locator('.weekly-daily .shop-buy'), carousel = page.locator('.weekly-daily .booster-carousel-track')
-  await expect(button).toBeEnabled()
-  await page.setViewportSize({ width: 390, height: 600 })
-  await button.evaluate(el => {
-    el.setAttribute('data-vertical-locks', '0')
-    const observer = new MutationObserver(() => {
-      if (el.hasAttribute('disabled') || el.getAttribute('aria-busy') === 'true') el.setAttribute('data-vertical-locks', '1')
-    })
-    observer.observe(el, { attributes: true, attributeFilter: ['disabled', 'aria-busy'] })
-    el.addEventListener('end-vertical-probe', () => observer.disconnect(), { once: true })
-  })
-  await carousel.hover()
-  await page.mouse.wheel(0, 180)
-  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(0)
-  await carousel.evaluate(el => {
-    for (const [type, y] of [['touchstart', 100], ['touchmove', 180], ['touchend', 180]] as const) {
-      const event = new Event(type, { bubbles: true })
-      Object.defineProperty(event, 'touches', { value: type === 'touchend' ? [] : [{ clientX: 100, clientY: y }] })
-      el.dispatchEvent(event)
-    }
-  })
-  // Include React's paint so a transient disable cannot escape the observer.
-  await page.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))))
-  await expect(button).toHaveAttribute('data-vertical-locks', '0')
-  await expect(button).toBeEnabled()
-  await button.evaluate(el => el.dispatchEvent(new Event('end-vertical-probe')))
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }))
-  await page.setViewportSize({ width: 390, height: 844 })
-  // Dispatch both clicks in the same task, before React can paint the disabled button.
-  await page.evaluate(() => {
-    document.querySelector<HTMLButtonElement>('.weekly-daily .carousel-next')!.click()
-    document.querySelector<HTMLButtonElement>('.weekly-daily .shop-buy')!.click()
-  })
-  await expect(button).toBeDisabled()
-  await expect(button).toHaveAttribute('aria-busy', 'true')
-  await expect(button.locator('.shop-switch-spinner')).toBeVisible()
-  await expect(button.locator('.shop-switch-spinner')).toHaveCSS('animation-name', 'shopSwitchSpin')
-  await expect(button).toHaveAccessibleName('Acheter Anima Isekai pour 50 fragments')
-  await expect(button).toBeEnabled()
-  await expect.poll(() => carousel.evaluate(el => Math.abs(el.scrollLeft - el.clientWidth))).toBeLessThanOrEqual(1)
-
-  await carousel.evaluate(el => {
-    for (const [type, x] of [['touchstart', 180], ['touchmove', 100]] as const) {
-      const event = new Event(type, { bubbles: true })
-      Object.defineProperty(event, 'touches', { value: [{ clientX: x, clientY: 100 }] })
-      el.dispatchEvent(event)
-    }
-    el.scrollTo({ left: 0, behavior: 'smooth' })
-    document.querySelector<HTMLButtonElement>('.weekly-daily .shop-buy')!.click()
-  })
-  await expect.poll(() => carousel.evaluate(el => el.scrollLeft)).toBeLessThanOrEqual(1)
-  await expect(button).toBeDisabled()
-  await carousel.evaluate(el => el.dispatchEvent(new Event('touchend', { bubbles: true })))
-  await expect(button).toHaveAccessibleName('Acheter Memory Frame pour 70 fragments')
-  await expect(button).toBeEnabled()
-
-  await carousel.press('End')
-  await carousel.press('Home')
-  await carousel.press('ArrowRight')
-  await expect(button).toBeDisabled()
-  await expect(button).toHaveAccessibleName('Acheter Anima Isekai pour 50 fragments')
-  await expect(button).toBeEnabled()
-  const before = await page.evaluate(async () => {
-    const modulePath = '/src/storage/database.ts'
-    const { db } = await import(modulePath)
-    return { purchases: await db.boosterPurchases.count(), player: await db.player.get('local') }
-  })
-  expect(before.purchases).toBe(0)
-  expect(before.player.fragments).toBe(200)
-  await button.click()
-  await expect(button).toHaveAccessibleName('Anima Isekai ajouté')
-  const after = await page.evaluate(async () => {
-    const modulePath = '/src/storage/database.ts'
-    const { db } = await import(modulePath)
-    return { purchases: await db.boosterPurchases.toArray(), stock: await db.boosterStock.toArray(), player: await db.player.get('local') }
-  })
-  expect(after.purchases).toHaveLength(0)
-  expect(after.stock).toHaveLength(1)
-  expect(after.stock[0]).toMatchObject({ boosterId: 'anima-isekai', quantity: 1 })
-  expect(after.player.fragments).toBe(150)
+  await expect(page.locator('.permanent-grid .shop-buy')).toHaveCount(4)
+  await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); await db.player.update('local', { fragments: 200 }) })
+  const memory = page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })
+  const anima = page.getByRole('button', { name: 'Acheter Anima Isekai pour 50 fragments', exact: true })
+  await expect(memory).toBeEnabled(); await expect(anima).toBeEnabled()
+  await expect(page.getByRole('button', { name: 'Acheter rarity only pour 400 fragments', exact: true })).toBeDisabled()
+  await anima.evaluate(el => { (el as HTMLButtonElement).click(); (el as HTMLButtonElement).click() })
+  await expect(page.getByRole('button', { name: 'Anima Isekai ajouté', exact: true })).toBeDisabled()
+  await memory.click()
+  const actual = await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); return { player: await db.player.get('local'), stock: await db.boosterStock.toArray(), history: await db.boosterPurchases.count() } })
+  expect(actual.player.fragments).toBe(80)
+  expect(actual.stock.map((s: { boosterId: string; quantity: number }) => [s.boosterId, s.quantity]).sort()).toEqual([['anima-isekai', 1], ['phantom-blood', 1]])
+  expect(actual.history).toBe(0)
 })
 
-test('Anima Isekai : gratuit, boutique à 50 fragments et réserve', async ({ page }) => {
+test('Anima Isekai : achat permanent à 50 puis ouverture sans stock gratuit', async ({ page }) => {
   await page.emulateMedia({ reducedMotion: 'reduce' })
-  await page.goto('/')
-  await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeEnabled()
-  await page.getByRole('button', { name: 'Booster suivant', exact: true }).click()
-  await expect(page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true })).toBeEnabled()
-  const packSizes = new Map<number, { width: number; height: number }>()
-  for (const width of [320, 390, 768, 1440]) {
-    await page.setViewportSize({ width, height: 900 })
-    const box = await page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack').boundingBox()
-    packSizes.set(width, { width: box!.width, height: box!.height })
-  }
-  await page.getByRole('link', { name: 'Boutique', exact: true }).click()
+  await page.goto('/boutique')
   const buy = page.getByRole('button', { name: 'Acheter Anima Isekai pour 50 fragments', exact: true })
-  await expect(page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })).toBeDisabled()
-  await expect(buy).toHaveCount(0)
-  await page.evaluate(async () => {
-    const modulePath = '/src/storage/database.ts'
-    const { db } = await import(modulePath)
-    await db.player.update('local', { fragments: 50 })
-  })
-  await expect(page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })).toBeDisabled()
-  const carousel = page.locator('.weekly-daily .booster-carousel-track')
-  const buyGeometry = () => page.locator('.weekly-daily .shop-buy').evaluate(el => {
-    const box = el.getBoundingClientRect()
-    return { x: box.x, y: box.y + scrollY, width: box.width, height: box.height }
-  })
-  for (const width of [320, 390, 768, 1440]) {
-    await page.setViewportSize({ width, height: 900 })
-    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
-    const before = await buyGeometry()
-    const pack = await page.locator('.weekly-daily .booster-carousel-slide[aria-hidden="false"] .booster-pack').boundingBox()
-    expect(pack!.width).toBeCloseTo(packSizes.get(width)!.width, 0)
-    expect(pack!.height).toBeCloseTo(packSizes.get(width)!.height, 0)
-    expect(pack!.x + pack!.width / 2).toBeCloseTo(before!.x + before!.width / 2, 0)
-    await page.getByRole('button', { name: 'Booster suivant', exact: true }).click()
-    await expect(buy).toBeEnabled()
-    const after = await buyGeometry()
-    for (const key of ['x', 'y', 'width', 'height'] as const) expect(after![key]).toBeCloseTo(before![key], 0)
-    await carousel.press('Home')
-    await expect(page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })).toBeDisabled()
-  }
-  await page.setViewportSize({ width: 390, height: 844 })
-  await carousel.evaluate(el => el.scrollTo({ left: el.clientWidth, behavior: 'instant' }))
-  await expect(buy).toBeEnabled()
-  await page.screenshot({ path: 'artifacts/boosters-boutique-mobile.png', fullPage: true })
+  await expect(buy).toBeDisabled()
+  await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); await db.player.update('local', { fragments: 50, freePackStock: 0, nextFreePackAt: Date.now() + 600000 }) })
   await buy.click()
   await expect(page.getByRole('button', { name: 'Anima Isekai ajouté', exact: true })).toBeVisible()
-  await page.evaluate(async () => {
-    const modulePath = '/src/storage/database.ts'
-    const { db } = await import(modulePath)
-    await db.player.update('local', { freePackStock: 0, nextFreePackAt: Date.now() + 600_000 })
-  })
   await page.getByRole('link', { name: 'Vos boosters', exact: true }).click()
+  await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeVisible()
+  await page.locator('.booster-carousel-track').press('End')
   await page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true }).click()
   await page.getByRole('button', { name: 'Révéler la première carte', exact: true }).click()
   await expect(page.locator('.reveal-progress')).toHaveAttribute('aria-label', '1 cartes révélées sur 5')
@@ -156,17 +38,8 @@ test('Anima Isekai : gratuit, boutique à 50 fragments et réserve', async ({ pa
   }
   await page.locator('.opening-card-area .card').click()
   await expect(page.locator('.recap-grid .card')).toHaveCount(5)
-  const state = await page.evaluate(async () => {
-    const modulePath = '/src/storage/database.ts'
-    const { db } = await import(modulePath)
-    return { player: await db.player.get('local'), stock: await db.boosterStock.get('anima-isekai'), drops: await db.drops.toArray() }
-  })
-  expect(state.player).toMatchObject({ fragments: 0, freePackStock: 0 })
-  expect(state.stock.quantity).toBe(0)
-  expect(state.drops).toHaveLength(5)
-  expect(state.drops.every((drop: { cardId: string }) => animaIds.includes(drop.cardId))).toBe(true)
-  await page.goto('/')
-  await expect(page.getByRole('button', { name: 'Ouvrir le booster Anima Isekai', exact: true })).toBeDisabled()
-  await page.locator('.booster-carousel-track').press('Home')
-  await expect(page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true })).toBeDisabled()
+  const actual = await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); return { player: await db.player.get('local'), stock: await db.boosterStock.get('anima-isekai'), drops: await db.drops.toArray() } })
+  expect(actual.player).toMatchObject({ fragments: 0, freePackStock: 0 })
+  expect(actual.stock.quantity).toBe(0)
+  expect(actual.drops.every((d: { cardId: string }) => animaIds.includes(d.cardId))).toBe(true)
 })

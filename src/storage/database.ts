@@ -3,10 +3,11 @@ import type { AccountStateRow, InstallationRow, UsedSaveTransferRow } from './ac
 import type { UsedGiftCodeRow } from '../gifts/types'
 import type { FavoriteRow } from '../game/types'
 import type { WeeklyShopRow } from '../game/weeklyShop'
+import type { DailyShopRow } from '../game/dailyShop'
 import type { RecycledCardRow } from '../game/types'
 import type { BoosterPurchaseRow, BoosterStockRow, CardDefinition, CardDiscoveryRow, CardDropRow, FriendContactRow, LocalIdentityRow, OpenRecord, OutgoingTransferRow, PlayerStateRow, RecyclingRecord, UsedTransferRow } from '../game/types'
 
-export const DATABASE_SCHEMA_VERSION = 12
+export const DATABASE_SCHEMA_VERSION = 13
 const DATABASE_NAME = 'bizave-tcg'
 export type DatabaseVersionRow = { id: 'local'; schemaVersion: number; ready: boolean }
 export class BizaveDatabase extends Dexie {
@@ -23,6 +24,7 @@ export class BizaveDatabase extends Dexie {
   boosterStock!: Table<BoosterStockRow, string>
   boosterPurchases!: Table<BoosterPurchaseRow, string>
   weeklyShop!: Table<WeeklyShopRow, string>
+  dailyShop!: Table<DailyShopRow, string>
   accountState!: Table<AccountStateRow, string>
   usedSaveTransfers!: Table<UsedSaveTransferRow, string>
   installation!: Table<InstallationRow, string>
@@ -92,6 +94,11 @@ export class BizaveDatabase extends Dexie {
     })
     // Keep the beta markers until the player confirms the release reset.
     this.version(12).stores({})
+    this.version(13).stores({ dailyShop: '&id' }).upgrade(async tx => {
+      // Preserve beta markers: AccountGate must still offer the release reset.
+      await tx.table('player').toCollection().modify(row => { if (row.schemaVersion >= 12) row.schemaVersion = 13 })
+      await tx.table('version').toCollection().modify(row => { if (row.schemaVersion >= 12) row.schemaVersion = 13 })
+    })
     this.versionInfo = this.table('version')
   }
 }

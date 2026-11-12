@@ -1,13 +1,13 @@
 import { expect, test } from '@playwright/test'
 
-test('swipe tactile natif depuis le booster, l’illustration et le texte des cartes', async ({ browser, browserName }) => {
+test('swipe tactile natif depuis l’illustration et le texte des cartes', async ({ browser, browserName }) => {
   test.skip(browserName !== 'chromium', 'Le geste tactile natif est injecté via CDP.')
   const context = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })
   const page = await context.newPage()
   try {
     await page.clock.setFixedTime(new Date('2026-11-06T12:00:00Z'))
     await page.goto('http://localhost:5173/boutique')
-    const selection = page.locator('.weekly-selection'), buy = selection.locator('.shop-buy')
+    const selection = page.locator('#weekly .card-zone'), buy = selection.locator('.shop-buy')
     await expect(buy).toBeVisible()
     await page.evaluate(async () => {
       const path = '/src/storage/database.ts', { db } = await import(path), cardsPath = '/src/data/cards.ts', { cards } = await import(cardsPath)
@@ -28,9 +28,7 @@ test('swipe tactile natif depuis le booster, l’illustration et le texte des ca
       }
       await client.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] })
     }
-    await swipe('.booster-pack', -220)
     await expect(buy).toHaveText('Acheter 100')
-    await expect(buy).toBeEnabled()
     await swipe('.custom-art', -220)
     await expect(buy).toHaveText('Acheter 200')
     await expect(buy).toBeEnabled()

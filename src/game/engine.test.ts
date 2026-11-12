@@ -15,16 +15,16 @@ import type { ArtVariant, BoosterDefinition, Finish, Rarity } from './types'
 const minute = 60_000
 describe('catalogue et configuration', () => {
   it('publie Memory Frame et Anima Isekai avec leurs accès et leurs pools distincts', () => {
-    expect(publishedBoosters).toHaveLength(4)
-    expect(publishedBoosters[0]).toMatchObject({ id: 'phantom-blood', title: 'Memory Frame', subtitle: '190 cartes', access: { type: 'free', shop: { price: 70 } }, enabled: true })
+    expect(publishedBoosters).toHaveLength(5)
+    expect(publishedBoosters[0]).toMatchObject({ id: 'phantom-blood', title: 'Memory Frame', subtitle: '220 cartes', access: { type: 'free', shop: { price: 70 } }, enabled: true })
     expect(publishedBoosters[1]).toMatchObject({ id: 'anima-isekai', title: 'Anima Isekai', subtitle: '143 cartes', access: { type: 'free', shop: { price: 50 } }, enabled: true })
-    expect(publishedBoosters[2]).toMatchObject({ id: 'epico-stellari', title: 'epico stellari', subtitle: '57 cartes', access: { type: 'shop', price: 700 }, cardsPerPack: 5, enabled: true })
+    expect(publishedBoosters[2]).toMatchObject({ id: 'epico-stellari', title: 'epico stellari', subtitle: '58 cartes', access: { type: 'shop', price: 700 }, cardsPerPack: 5, enabled: true })
     expect(publishedBoosters[3]).toMatchObject({ id: 'rarity-only', title: 'rarity only', subtitle: '62 cartes', access: { type: 'shop', price: 400 }, cardsPerPack: 5, enabled: true })
     expect(new Set(resolveBoosterPool(publishedBoosters[0], cards).map(entry => entry.card.id))).toEqual(new Set(memoryFrameIds))
     expect(new Set(resolveBoosterPool(publishedBoosters[1], cards).map(entry => entry.card.id))).toEqual(new Set(animaIsekaiIds))
-    expect(memoryFrameIds).toHaveLength(190)
+    expect(memoryFrameIds).toHaveLength(220)
     expect(animaIsekaiIds).toHaveLength(143)
-    expect(new Set([...memoryFrameIds, ...animaIsekaiIds]).size).toBe(333)
+    expect(new Set([...memoryFrameIds, ...animaIsekaiIds]).size).toBe(363)
     expect(new Set([...memoryFrameIds, ...animaIsekaiIds])).toEqual(new Set(cards.filter(card => !card.promoNumber).map(card => card.id)))
   })
   it('respecte les raretés des deux carnets et valide les illustrations du catalogue complet', () => {
@@ -33,10 +33,11 @@ describe('catalogue et configuration', () => {
       return Object.fromEntries(Object.keys(DEFAULT_RARITY_RATES).map(r => [r, pool.filter(entry => entry.card.rarity === r).length]))
     })
     expect(counts).toEqual([
-      { common: 65, uncommon: 46, rare: 41, epic: 21, legendary: 17 },
+      { common: 83, uncommon: 57, rare: 41, epic: 22, legendary: 17 },
       { common: 69, uncommon: 34, rare: 21, epic: 13, legendary: 6 },
-      { common: 0, uncommon: 0, rare: 0, epic: 34, legendary: 23 },
+      { common: 0, uncommon: 0, rare: 0, epic: 35, legendary: 23 },
       { common: 0, uncommon: 0, rare: 62, epic: 0, legendary: 0 },
+      { common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 23 },
     ])
     for (const card of cards) {
       expect(existsSync(resolve('public', card.artwork.standard.slice(1)))).toBe(true)
@@ -171,7 +172,7 @@ describe('économie', () => {
     for (const r of rarities) for (const f of finishes) for (const a of variants) mean += DEFAULT_RARITY_RATES[r] * DEFAULT_FINISH_RATES[f] * DEFAULT_ART_VARIANT_RATES[a] / 1_000_000 * getRecycleFragments(r, f, a)
     expect(mean).toBeCloseTo(4.149816, 8)
     expect(mean * 5).toBeCloseTo(20.74908, 8)
-    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(31140)
+    expect(cards.reduce((sum, c) => sum + variants.flatMap(a => finishes.map(f => getRecycleFragments(c.rarity, f, a))).reduce((a, b) => a + b), 0)).toBe(32263)
     for (const booster of [...boosters, ...publishedBoosters]) {
       const offer = shopOffer(booster)
       if (!offer) continue

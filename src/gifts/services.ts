@@ -29,7 +29,7 @@ export async function redeemGiftCode(code: string, database = db, now?: number) 
   const grants = reward.type === 'booster' ? [reward] : reward.type === 'boosters' ? reward.boosters : []
   if (!Array.isArray(grants) || reward.type === 'boosters' && !grants.length || new Set(grants.map(item => item.boosterId)).size !== grants.length) throw new Error('Ce cadeau est indisponible.')
   for (const grant of grants) {
-    if (!boosters.some(item => item.id === grant.boosterId && item.enabled)) throw new Error('Le booster de ce cadeau est indisponible.')
+    if (!boosters.some(item => item.id === grant.boosterId && item.enabled && !item.dailyOnly)) throw new Error('Le booster de ce cadeau est indisponible.')
     if (!Number.isSafeInteger(grant.quantity) || grant.quantity <= 0) throw new Error('Ce cadeau est indisponible.')
   }
   const fragments = reward.type === 'fragments' ? reward.amount : reward.type === 'booster' ? reward.fragments ?? 0 : 0

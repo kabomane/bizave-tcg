@@ -7,6 +7,7 @@ type ChangelogEntry = {
 
 // Curated history, newest first. Entries are supplied by the owner, not generated from Git.
 export const changelog: readonly ChangelogEntry[] = [
+  { id: 'v151', title: 'Version 1.5.1', detail: 'Nouvelle boutique avec sélection journalière, lots remisés, legenda completa, reroll commun aux deux boutiques et taux de drop en plein écran. 30 nouvelles cartes Memory Frame, soit 220 modèles.' },
   { id: 'v150', title: 'Version 1.5.0', detail: 'Ouverture après la bêta, nouvelle partie au passage en 1.5.0, boosters en volume et boîte acrylique de Merry Xmas à 30 fragments. Nouvelle illustration de PR-001 et codes promos en Classique, finition Alternative.' },
   { id: 'v145', title: 'Version 1.4.5', detail: '22 nouvelles cartes Memory Frame, promo Bizave TCG bêta, stock de lucky boost renouvelé au reroll et codes cadeaux pour les bonus de la semaine.' },
   { id: 'v144', title: 'Version 1.4.4', detail: 'Bonus hebdomadaires avec reroll et carte fragments gratuite, taux de lucky boost visibles, deux nouvelles cartes Memory Frame et page de découverte actualisée.' },

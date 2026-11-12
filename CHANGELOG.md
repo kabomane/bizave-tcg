@@ -1,5 +1,19 @@
 # Historique des versions
 
+## bizave-tcg.v1.5.1 — 12 novembre 2026
+
+- Trois rubriques : Aujourd’hui, Cette semaine et Permanents, selon la maquette fournie.
+- Lot journalier personnel de 5 à 10 boosters identiques, remise de 5 à 20 %, et 0 à 3 cartes aux taux standards.
+- Legenda completa, exclusif au quotidien : 1 600 fragments avant remise, cinq légendaires garanties.
+- Renouvellement à minuit Europe/Paris, stock quotidien séparé et reprise des ouvertures engagées.
+- Migration Dexie 13 sans remise à zéro des parties 1.5.0 ; import/export compatibles. Archive du code précédent dans `archive/boutique-2026-11-12`.
+
+- 30 nouvelles cartes Memory Frame (220 modèles), 365 modèles dans le catalogue, anciens modèles et illustrations conservés.
+- Bonus en carrousel avec stock cadeaux, gain temporaire sur le bouton et taux de drop en plein écran.
+- Version 1.5.1, compteur d’annonce 9 et landing actualisée.
+
+[Note de version 1.5.1](docs/releases/bizave-tcg.v1.5.1.md).
+
 ## bizave-tcg.v1.5.0 — 11 novembre 2026
 
 - Passage de la bêta à une nouvelle partie après confirmation, avec le code de compensation PR-001 affiché avant la réinitialisation.

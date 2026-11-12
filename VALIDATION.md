@@ -1,4 +1,35 @@
-# Validation — bizave-tcg.v1.5.0
+# Validation — bizave-tcg.v1.5.1
+
+## Publication 1.5.1 — 12 novembre 2026
+
+- Documentation courante relue et corrigée (bonus en carrousel, stock cadeaux, reroll commun, taux en plein écran, suppression du lien Ouvrir le lot, Dexie 13). Les 27 fichiers Markdown parcourus ne contiennent aucun lien local manquant. Les archives et notes historiques restent identifiées comme telles.
+- Version npm, lockfile, métadonnée HTML, landing, écran de sortie de bêta et changelog mis à jour en 1.5.1. Compteur d’annonce 9 et note exacte avec une ligne vide avant le code fourni.
+- Landing actualisée : 220 Memory Frame, lot journalier remisé, cartes du jour, legenda completa et reroll commun aux deux sélections.
+- `npm run check` réussi : ESLint, **274 tests Vitest dans 32 fichiers**, TypeScript et build. **16 parcours Chromium** réussis pour la migration, la landing, les annonces, les achats, le swipe, les bonus, les taux et les renouvellements.
+- Build de production vérifié avant publication dans un contexte isolé : migration réelle d’une sauvegarde Dexie 12 vers 13, fragments, crédit gratuit, cartes et réserve préservés ; annonce 9 et code de deux Memory Frame utilisable ; options de développement masquées ; bonus et reroll commun fonctionnels.
+- Firebase Hosting déployé sur `bizave-tcg`. Build **8ad6f51f-5990-4ba6-ad4a-eafea865a9be**, version 1.5.1, `betaClosed: false`.
+- Contrôles après publication réussis sur **https://bizave-tcg.web.app** et **https://bizave-tcg.kabomane.me** : mêmes parcours isolés de migration, annonce, cadeau, boutique et landing, sans erreur JavaScript.
+- **53 ressources comparées par SHA-256 sur chaque domaine** : HTML, routes Boutique/Landing, manifeste, JavaScript et CSS compilés, ressources de landing, purge du cache et 30 nouvelles illustrations. Toutes identiques au build local ; `/version.json` servi avec `Cache-Control: no-store`.
+
+
+## Import Memory Frame — 12 novembre 2026, intégré en 1.5.1
+
+- 30 nouvelles cartes et illustrations importées depuis le carnet et le ZIP fournis : 18 communes, 11 peu communes et une épique. Memory Frame compte 220 modèles ; catalogue actif de 365 modèles, dont deux promos.
+- Les 80 PNG déjà présents sont identiques aux originaux et ignorés. Vérification avant/après : 335 définitions, anciens numéros, 355 illustrations publiées et 335 originaux inchangés (SHA-256 et dates de modification des images). Aucun doublon de Merry Wifemas / PR-002.
+- `npm run check` réussi : ESLint, 274 tests dans 32 fichiers, TypeScript et build. Les attentes de taille de pool et de valeur totale du catalogue ont été actualisées ; les taux et prix des boosters restent inchangés.
+- Deux parcours Chromium réussis : ouverture gratuite, reprise et collection persistante ; landing avec compteur Memory Frame actualisé. Les 30 nouveaux WebP se décodent dans le navigateur en 900 × 1200 ; grille complète et aperçu détaillé de Thomas mangaka inspectés, recherche et description longue vérifiées.
+- Manifestes et correspondances dans `illustrations/imports/2026-11-12/manifest.json`. Captures dans `artifacts/memory-frame-import-2026-11-12.png` et `artifacts/thomas-mangaka-import-2026-11-12.png`.
+
+## Refonte de la boutique — 12 novembre 2026, intégrée en 1.5.1
+
+- `npm run check` réussi : ESLint, **273 tests Vitest dans 32 fichiers**, TypeScript et build de production.
+- **40 parcours ciblés validés** sur Chromium (14), Firefox (13) et WebKit (13), avec relance des échecs après correction des attentes de navigation et de persistance des tests. Le swipe CDP est exécuté sur Chromium et ignoré sur les deux autres moteurs.
+- Vérifications : lot quotidien et ouverture séparée, cartes achetables une fois, renouvellement à minuit sans perte des cartes, absence de vitrine vide fictive, grille permanente, bonus et reroll, taux standards/hebdomadaires, Noël temporaire, migration de partie et de bêta.
+- Moteur : probabilités exactes des catégories et éditions, remises/quantités, dates Paris de 23/25 heures, concurrence entre deux connexions Dexie, annulation transactionnelle, garde de compte exporté, sauvegarde transférée avant/après expiration et reprise d’ouverture.
+- Captures plein écran inspectées sur bureau et mobile. Aucun débordement horizontal aux largeurs 320, 390, 768 et 1440 px. Captures dans `artifacts/new-shop-*.png`.
+- Archive ZIP précédente vérifiée : 165 entrées, comprenant les sources, fichiers npm et documentation hebdomadaire. Aucun déploiement effectué pour cette refonte.
+
+[Fonctionnement et paramètres provisoires](docs/boutique-journaliere.md).
 
 ## Publication 1.5.0 — 11 novembre 2026
 

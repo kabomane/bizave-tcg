@@ -36,10 +36,10 @@ export function priorWeeklyBoosters(shop: WeeklyShopRow) {
 }
 
 const parisDate = new Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Paris', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' })
-function parisParts(time: number) {
+export function parisParts(time: number) {
   return Object.fromEntries(parisDate.formatToParts(time).filter(p => p.type !== 'literal').map(p => [p.type, Number(p.value)]))
 }
-function parisMidnight(calendarDate: number) {
+export function parisMidnight(calendarDate: number) {
   let result = calendarDate
   for (let i = 0; i < 3; i++) {
     const p = parisParts(result)
@@ -73,6 +73,9 @@ function rollRates<T extends string>(defaults: Record<T, number>, rng: Rng, elig
 }
 function cardValue(rarity: Rarity, finish: Finish = 'normal', art: ArtVariant = 'standard') {
   return 3 * RECYCLE_BASE_FRAGMENTS[rarity] * FINISH_MULTIPLIER_TENTHS[finish] * ART_MULTIPLIER_TENTHS[art] / 100
+}
+export function showcasePrice(rarity: Rarity, finish: Finish, art: ArtVariant, rng: Rng) {
+  return round10(cardValue(rarity, finish, art) * 2.75 * variation(rng))
 }
 function shuffle<T>(items: T[], rng: Rng) {
   const shuffled = [...items]
@@ -113,7 +116,7 @@ export function rollWeeklyShowcase(catalogue: CardDefinition[], rng: Rng = secur
     const r = weightedPick(redistributeRates(WEEKLY_SHOWCASE_RATES.rarity, availableRarities), rng)
     const choices = available.filter(c => c.rarity === r), card = choices[int(0, choices.length - 1, rng)]
     const f = weightedPick(WEEKLY_SHOWCASE_RATES.finish, rng), a = weightedPick(WEEKLY_SHOWCASE_RATES.illustration, rng)
-    offers.push({ id: String(i), cardId: card.id, finish: f, artVariant: a, price: round10(cardValue(r, f, a) * 2.75 * variation(rng)), sold: false })
+    offers.push({ id: String(i), cardId: card.id, finish: f, artVariant: a, price: showcasePrice(r, f, a, rng), sold: false })
     available.splice(available.findIndex(c => c.id === card.id), 1)
   }
   return offers

@@ -2,7 +2,11 @@
 
 ## Bonus de la semaine
 
+Le titre du carrousel affiche le stock du bonus sélectionné, quota de la semaine et crédits cadeaux compris. Le reroll renouvelle les sélections journalière et hebdomadaire.
+
 Chaque code de bonus ajoute des rerolls gratuits ou des cartes fragments mystère au compteur correspondant dans **Boutique → Bonus de la semaine**. Les codes sont utilisables une fois par sauvegarde. Les crédits restent disponibles jusqu’à leur utilisation, y compris après le renouvellement hebdomadaire.
+
+La note de mise à jour 9 publie `Z5YW-2G99-6JR8-CEEH`, un code existant donnant deux Memory Frame, utilisable une fois par sauvegarde jusqu’au 1er janvier 2027 à 00 h, heure de Paris. Aucun nouveau code n’est généré pour cette publication.
 
 Le lot du 8 novembre 2026 contient deux codes de deux rerolls et deux codes de deux cartes mystère. Il expire le 1er janvier 2027 à 00 h, heure de Paris. Un code de reroll est publié dans la note de mise à jour 8. Les trois autres sont dans les lots privés.
 
@@ -24,7 +28,7 @@ Les anciens lots suivants sont désormais invalides (historique) :
 - 20 codes donnant chacun 10 boosters **Anima Isekai** ;
 - 10 codes donnant chacun **500 fragments**.
 
-Le lot historique du 29 octobre ajoutait **10 codes donnant chacun 2 boosters epico stellari**, soit **60 codes** au total. Ces codes sont également invalides. Leur liste de distribution reste dans les fichiers privés locaux ; le catalogue public actif est vide.
+Le lot historique du 29 octobre ajoutait **10 codes donnant chacun 2 boosters epico stellari**, soit **60 codes** au total. Ces codes sont également invalides. Leur liste de distribution reste dans les fichiers privés locaux ; ces anciens lots ont été retirés du catalogue public.
 
 Les boosters cadeaux rejoignent `boosterStock`, la même réserve que les paquets achetés. Ils ne consomment aucun fragment, n’augmentent pas les crédits gratuits et ne modifient pas leur recharge. Aucun achat fictif n’est ajouté à `boosterPurchases`. Les taux d’ouverture restent ceux du booster. Memory Frame consomme ses crédits gratuits avant sa réserve achetée, comme auparavant.
 

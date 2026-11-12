@@ -17,6 +17,7 @@ export type BoosterDefinition = {
   access: { type: 'free'; shop?: BoosterShopOffer } | ({ type: 'shop' } & BoosterShopOffer)
   cardsPerPack: number; sources: CardPoolSource[]; enabled: boolean; order: number
   showInFilters?: boolean
+  dailyOnly?: boolean
   rates?: {
     rarity?: 'default' | Record<Rarity, number>
     finish?: 'default' | Record<Finish, number>

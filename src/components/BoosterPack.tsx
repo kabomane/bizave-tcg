@@ -63,7 +63,7 @@ export function BoosterPack({ booster, tearing = false, flat = false }: { booste
   const source = booster.sources[0]
   const subtitle = booster.sources.length === 1 && source?.type === 'cards' ? `${source.cardIds.length} cartes` : booster.subtitle
   const visibleCards = Math.max(1, Math.min(booster.cardsPerPack, DESIGNS[design].maxVisibleCards))
-  const face = { title: booster.title, subtitle, emoji }
+  const face = { title: booster.id.startsWith('daily-') ? booster.title.replace(' · Lot du jour', '') : booster.title, subtitle, emoji }
   const bloc = design === 'bloc'
   const style = {
     '--pack-primary': colors.primary, '--pack-secondary': colors.secondary, '--pack-shine': colors.shine, '--pack-glow': colors.glow,

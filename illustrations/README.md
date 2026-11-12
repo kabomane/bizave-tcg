@@ -15,7 +15,17 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **334 cartes**, toutes **illustrées en WebP versionné**. Les 334 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **365 cartes**, toutes **illustrées en WebP versionné**. Les 365 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 12 novembre 2026
+
+Ajout de **30 cartes Memory Frame** depuis le carnet fourni et le ZIP de 110 PNG : 18 communes, 11 peu communes et une épique. Memory Frame passe de 190 à **220 modèles**, numérotés **334 à 363** pour les ajouts. Le catalogue actif atteint **365 modèles**, promos comprises.
+
+Les **80 illustrations déjà présentes** sont identiques aux originaux et ignorées. Les **335 définitions existantes**, les 355 illustrations publiées (cartes permanentes et Noël), les originaux, les anciens numéros et le pool Anima Isekai restent inchangés. Vérification SHA-256 et dates de modification effectuée avant/après import. Merry Wifemas est déjà PR-002 sous l’ID `merry-wifemas` ; aucun doublon `noel-merry-wifemas` n’est créé.
+
+Seules les descriptions `FICHES.description` des nouvelles cartes sont importées. Les textes de création du carnet ne sont pas exécutés. Les PNG sont conservés à l’identique et convertis avec les paramètres habituels (WebP 900 × 1200, qualité 85, sRGB), partagés entre Classique et Full Art.
+
+Correspondances, empreintes et bilan de conservation : `imports/2026-11-12/manifest.json`. Carnet archivé dans `references/carnet-memory-frame-2026-11-12.jsx`.
 
 ## Import du 8 novembre 2026
 

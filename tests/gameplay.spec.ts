@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test'
 test('le booster hebdomadaire disparaît à son échéance sans rechargement', async ({ page }) => {
   await page.clock.install({ time: new Date('2026-11-08T22:59:30Z') })
   await page.goto('/boutique')
-  await expect(page.locator('.weekly-selection .shop-buy')).toBeVisible()
+  await expect(page.locator('.weekly-lucky .primary-button')).toBeVisible()
   await page.evaluate(async () => {
     const path = '/src/storage/database.ts', { db } = await import(path)
     const shop = await db.weeklyShop.get('current')
@@ -31,7 +31,7 @@ test('boosters gratuits ; ouverture au clic, reprise et collection persistante',
   await expect(page.locator('.pack-interaction')).toHaveCount(2)
   const pack = page.locator('.booster-carousel-slide[aria-hidden="false"] .booster-pack')
   await expect(pack).toContainText('Memory Frame')
-  await expect(pack).toContainText('190 cartes')
+  await expect(pack).toContainText('220 cartes')
   await expect(pack).toHaveClass(/pack-sachet.*pack-volume/)
   await expect(pack.locator('.pack-card-back')).toHaveCount(3)
   await page.getByRole('button', { name: 'Ouvrir le booster Memory Frame', exact: true }).click()

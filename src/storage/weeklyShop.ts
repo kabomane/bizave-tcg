@@ -1,3 +1,5 @@
+import { createDailyShop } from '../game/dailyShop'
+import { settleDailyShop } from './dailyShop'
 import { cards } from '../data/cards'
 import { createWeeklyShop, rerollWeeklyOffers, rollFragmentReward, SALES_CLOSE_MS, WEEKLY_REROLL_PRICE, weeklyPeriod, weeklyRerollCount } from '../game/weeklyShop'
 import type { WeeklyBonusKind } from '../game/types'
@@ -59,7 +61,7 @@ export async function buyWeeklyOffer(weekStart: number, offerId: string, databas
 }
 
 export async function claimWeeklyBonus(weekStart: number, kind: WeeklyBonusKind, database = db, now = Date.now(), expectedRerollPrice?: number) {
-  return database.transaction('rw', [database.player, database.weeklyShop, database.accountState], async () => {
+  return database.transaction('rw', [database.player, database.weeklyShop, database.dailyShop, database.accountState], async () => {
     const { player, shop, time } = await readActiveWeeklyShop(database, weekStart, now)
     const credits = player.weeklyBonusCredits?.[kind] ?? 0
     if (kind === 'reroll') {
@@ -71,6 +73,11 @@ export async function claimWeeklyBonus(weekStart: number, kind: WeeklyBonusKind,
       const next = rerollWeeklyOffers(shop, cards)
       if (price > 0) next.rerollUsed = true
       else player.weeklyBonusCredits = { ...player.weeklyBonusCredits, reroll: credits - 1 }
+      const daily = await settleDailyShop(database, time, true)
+      const nextDaily = createDailyShop(cards, time)
+      nextDaily.rerollCount = (daily!.rerollCount ?? 0) + 1
+      nextDaily.priorBundles = [...(daily!.priorBundles ?? []), ...(daily!.bundle.owned > 0 ? [{ boosterId: daily!.bundle.boosterId, owned: daily!.bundle.owned }] : [])]
+      await database.dailyShop.put(nextDaily)
       await database.weeklyShop.put(next)
       await database.player.put({ ...player, fragments: player.fragments - cost, maxObservedClockAt: time })
       return undefined

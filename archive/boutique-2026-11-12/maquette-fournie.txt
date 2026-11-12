@@ -1,0 +1,728 @@
+import React, { useState, useEffect, useRef, useCallback } from "react";
+
+const CSS = `.bz {
+  color-scheme:light;
+  --page:#f3f1eb; --paper-raised:#faf9f5; --modal-surface:#f8f6f0;
+  --ink:#242523; --muted:#85857f; --accent:#8e3040; --line:color-mix(in srgb,var(--ink) 10%,transparent);
+  --soft-line:color-mix(in srgb,var(--ink) 5%,transparent); --positive:#3e6a52; --primary-ink:#faf8f2;
+  --shadow:0 18px 56px #30282e10; --surface-hover:#ece8e1;
+  font-family:'Segoe UI',Inter,ui-sans-serif,system-ui,sans-serif; -webkit-font-smoothing:antialiased;
+}
+.bz[data-theme='dark']{color-scheme:dark;--page:#191a1c;--paper-raised:#242527;--modal-surface:#222326;--ink:#efede6;--muted:#aca89f;--accent:#d68c9a;--line:color-mix(in srgb,var(--ink) 10%,transparent);--soft-line:color-mix(in srgb,var(--ink) 5%,transparent);--positive:#8fc7a5;--primary-ink:#191a1c;--shadow:0 18px 56px #0003;--surface-hover:#303134}
+*{box-sizing:border-box}.bz{min-height:100vh;min-width:320px;margin:0;color:var(--ink);background:var(--page)}button,input,select{font:inherit}button{cursor:pointer;-webkit-tap-highlight-color:transparent}button:disabled{cursor:not-allowed;opacity:.46}a{color:inherit;text-decoration:none}svg{width:18px;height:18px;flex-shrink:0;stroke-width:1.7;vertical-align:middle}button:focus-visible,a:focus-visible,select:focus-visible,[role='tab']:focus-visible{outline:2px solid var(--accent);outline-offset:4px}::selection{background:color-mix(in srgb,var(--accent) 20%,transparent)}
+.app-shell{max-width:1512px;margin:auto;padding:0 72px}.site-header{height:108px;display:grid;grid-template-columns:1fr auto 1fr;gap:30px;align-items:center;border-bottom:1px solid var(--line)}
+.brand{display:inline-flex;align-items:baseline;justify-self:start;font-size:33px;font-weight:800;letter-spacing:-.07em;line-height:1}.brand span{font-size:8px;font-weight:700;letter-spacing:.1em;margin-left:8px;align-self:center;margin-top:2px}.brand i{width:5px;height:5px;background:var(--accent);border-radius:50%;margin:5px 0 0 3px;align-self:flex-start}
+.desktop-nav{height:100%;display:flex;align-items:center;gap:35px}.desktop-nav a{height:100%;position:relative;display:grid;place-items:center;color:var(--muted);font-size:12px;font-weight:500}.desktop-nav a.active{color:var(--ink)}.desktop-nav a.active::after{content:'';position:absolute;bottom:-1px;height:2px;background:var(--ink);left:0;right:0}.desktop-nav a:hover{color:var(--ink)}
+.header-actions{justify-self:end;display:flex;align-items:center;gap:12px}.fragment-wallet{border:1px solid var(--line);border-radius:30px;padding:9px 13px;display:flex;align-items:center;gap:9px;font-size:12px;color:var(--muted)}.fragment-wallet strong{color:var(--ink);font-size:12px;font-weight:600;font-variant-numeric:tabular-nums}.fragment-wallet svg{height:16px;width:16px;color:var(--ink)}
+.main-content{min-height:calc(100svh - 108px);padding:55px 0 70px}.page-heading{display:flex;justify-content:space-between;gap:20px;align-items:start;margin-bottom:46px}.booster-section-heading h1{font:400 clamp(42px,5.8vw,88px)/.98 Georgia,'Times New Roman',serif;letter-spacing:-.075em;margin:0}.back-link{display:inline-flex;align-items:center;gap:8px;font-size:11px;color:var(--muted);margin-top:16px;min-height:27px}.back-link svg{width:13px;height:13px}.back-link:hover{color:var(--accent)}
+.prototype-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:end}.prototype-label{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-right:6px}.icon-only{height:36px;width:36px;display:grid;place-items:center;border:1px solid var(--line);color:var(--muted);background:transparent;border-radius:50%}.icon-only:hover{color:var(--ink);border-color:var(--accent)}.icon-only svg{width:16px;height:16px}.demo-select{height:36px;border:1px solid var(--line);border-radius:5px;background:var(--page);color:var(--ink);font-size:11px;padding:0 10px;max-width:190px}.text-utility{background:transparent;color:var(--muted);border:0;padding:8px 5px;font-size:11px}.text-utility:hover{color:var(--accent)}
+.shop-tabs{display:flex;gap:34px;border-bottom:1px solid var(--line);margin-bottom:38px;overflow-x:auto;scrollbar-width:none}.shop-tabs::-webkit-scrollbar{display:none}.shop-tab{white-space:nowrap;position:relative;border:0;background:transparent;color:var(--muted);font-size:13px;font-weight:500;min-height:53px;padding:0 3px;display:inline-flex;gap:9px;align-items:center}.shop-tab::after{content:'';position:absolute;height:2px;bottom:-1px;left:0;right:0;background:transparent}.shop-tab[aria-selected='true']{color:var(--ink)}.shop-tab[aria-selected='true']::after{background:var(--accent)}.shop-tab .dot{width:5px;height:5px;border-radius:50%;background:var(--accent)}.tab-content{animation:rise .28s ease-out}@keyframes rise{from{opacity:.4;transform:translateY(5px)}to{opacity:1;transform:none}}[hidden]{display:none!important}
+.section-line{display:flex;align-items:center;gap:14px;min-width:0;margin-bottom:22px}.section-line h2{font-size:11px;font-weight:500;white-space:nowrap;color:var(--muted);margin:0;line-height:1.5}.section-line::after{content:'';order:1;height:1px;flex:1;background:var(--line)}.section-line .right-side{order:2;display:flex;align-items:center;gap:10px;font-size:11px;color:var(--muted);white-space:nowrap}.section-line svg{height:14px;width:14px}.inline-button{border:0;background:transparent;display:inline-flex;align-items:center;gap:5px;color:var(--muted);font-size:11px;padding:6px 0}.inline-button:hover{color:var(--accent)}
+.daily-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(320px,.92fr);gap:42px;align-items:start}.daily-grid.has-no-cards{grid-template-columns:1fr}.daily-grid.has-no-cards .hero-offer{max-width:980px}.featured-offer{min-width:0}.hero-offer{border:1px solid var(--line);background:var(--paper-raised);border-radius:4px;display:grid;grid-template-columns:47% 53%;min-height:428px;overflow:hidden;position:relative}.hero-visual{position:relative;isolation:isolate;min-height:385px;display:grid;place-items:center;background:radial-gradient(ellipse 80% 67% at 48% 50%,color-mix(in srgb,var(--accent) 5%,transparent),transparent 77%);padding:26px 10px}.hero-visual:after{content:'';position:absolute;width:52%;height:20px;bottom:45px;left:23%;border-radius:50%;background:#1f17231a;filter:blur(20px);z-index:-1}.pack-stack{position:relative;width:clamp(150px,15vw,218px);aspect-ratio:2 / 3;filter:drop-shadow(9px 18px 13px #21131c20)}.pack-stack:before,.pack-stack:after{content:'';position:absolute;inset:2%;background:#6d5665;border:1px solid #f6eac066;transform:translate(10px,-9px) rotate(8deg);box-shadow:5px 4px 8px #0002;clip-path:polygon(0 1%,10% 0,20% 1%,30% 0,40% 1%,50% 0,60% 1%,70% 0,80% 1%,90% 0,100% 1%,100% 99%,90% 100%,80% 99%,70% 100%,60% 99%,50% 100%,40% 99%,30% 100%,20% 99%,10% 100%,0 99%)}.pack-stack:after{transform:translate(-10px,-5px) rotate(-9deg);background:#291a24;z-index:-1}.pack-stack:before{z-index:-1}
+.pack{--pack-primary:#641e2c;--pack-secondary:#170f15;--pack-shine:#e9dcc6;--pack-glow:#a83b4c;position:relative;width:100%;aspect-ratio:2/3;overflow:hidden;isolation:isolate;color:var(--pack-shine);background:linear-gradient(100deg,#0008,transparent 15% 85%,#0008),radial-gradient(ellipse at 74% 15%,var(--pack-glow),transparent 50%),linear-gradient(155deg,color-mix(in srgb,var(--pack-primary) 55%,var(--pack-secondary)),var(--pack-secondary) 77%);clip-path:polygon(0 1%,10% 0,20% 1%,30% 0,40% 1%,50% 0,60% 1%,70% 0,80% 1%,90% 0,100% 1%,100% 99%,90% 100%,80% 99%,70% 100%,60% 99%,50% 100%,40% 99%,30% 100%,20% 99%,10% 100%,0 99%);box-shadow:inset 0 0 18px #0005}.pack::before{content:'';position:absolute;inset:0;pointer-events:none;background:linear-gradient(112deg,transparent 15%,#fff1 22%,transparent 28%,#fff1 51%,transparent 58% 70%,#fff2 78%,transparent 85%),repeating-linear-gradient(90deg,transparent 0 2px,#ffffff09 2px 3px);mix-blend-mode:screen}.pack::after{content:'';position:absolute;inset:11% 8%;border:1px solid color-mix(in srgb,var(--pack-shine) 32%,transparent);pointer-events:none}.pack-crimp-top,.pack-crimp-bottom{position:absolute;left:0;right:0;height:8%;z-index:1;background:repeating-linear-gradient(90deg,#0008 0 1px,#fff2 1px 2px,transparent 2px 4px),linear-gradient(color-mix(in srgb,var(--pack-shine) 36%,var(--pack-secondary)),color-mix(in srgb,var(--pack-primary) 25%,var(--pack-secondary)));opacity:.68}.pack-crimp-top{top:0}.pack-crimp-bottom{bottom:0;transform:rotate(180deg)}.pack-ring{position:absolute;left:19%;top:16%;width:62%;aspect-ratio:1;border:1px solid color-mix(in srgb,var(--pack-shine) 45%,transparent);border-radius:50%;display:grid;place-items:center}.pack-ring::before{content:'';position:absolute;inset:8%;border:1px dotted color-mix(in srgb,var(--pack-shine) 55%,transparent);border-radius:50%}.pack-emblem{font:normal clamp(34px,4vw,60px)/1 'Apple Color Emoji','Segoe UI Emoji',sans-serif;filter:drop-shadow(0 2px 3px #0007)}.pack-wordmark{position:absolute;bottom:17%;left:8%;right:8%;text-transform:uppercase;text-align:center;font:400 clamp(24px,3vw,47px)/.95 Georgia,'Times New Roman',serif;letter-spacing:-.04em;text-shadow:0 1px 2px #0005}.pack-subtitle{position:absolute;bottom:12%;left:5%;right:5%;text-align:center;text-transform:uppercase;font-size:clamp(6px,.7vw,9px);letter-spacing:.22em;opacity:.73}.pack[data-small] .pack-wordmark{font-size:clamp(14px,2vw,27px)}
+.hero-meta{min-width:0;padding:42px 35px 36px 0;display:flex;flex-direction:column;justify-content:center;align-items:start}.eyebrow{text-transform:uppercase;letter-spacing:.17em;font-size:10px;color:var(--muted);font-weight:600}.hero-name{font:400 clamp(27px,3vw,43px)/1.1 Georgia,'Times New Roman',serif;letter-spacing:-.05em;margin:17px 0 9px;overflow-wrap:anywhere}.hero-description{color:var(--muted);font-size:12px;line-height:1.65;margin:0 0 20px}.sale-meta{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.discount{display:inline-flex;align-items:center;gap:4px;color:var(--accent);font-size:11px;font-weight:650;border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);border-radius:3px;padding:5px 8px}.sale-meta .quantity{font-size:11px;color:var(--muted)}.price-block{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px;margin:22px 0 19px}.price-value{font:400 33px/.9 Georgia,serif;letter-spacing:-.06em;font-variant-numeric:tabular-nums}.price-units{font-size:10px;color:var(--muted)}.old-price{font-size:12px;color:var(--muted);text-decoration:line-through}.price-saving{width:100%;font-size:11px;color:var(--positive);margin-top:3px}.primary-button,.secondary-button{min-height:44px;display:inline-flex;gap:8px;align-items:center;justify-content:center;border-radius:5px;font-size:12px;font-weight:500;padding:11px 17px;transition:background .15s,border-color .15s}.primary-button{color:var(--primary-ink);background:var(--ink);border:1px solid transparent}.primary-button:hover:not(:disabled){background:color-mix(in srgb,var(--ink) 83%,var(--page))}.secondary-button{color:var(--ink);background:transparent;border:1px solid color-mix(in srgb,var(--ink) 16%,transparent)}.secondary-button:hover:not(:disabled){border-color:color-mix(in srgb,var(--ink) 42%,transparent);background:color-mix(in srgb,var(--ink) 3%,transparent)}.hero-meta .primary-button{width:100%}.footnote{color:var(--muted);font-size:10px;line-height:1.6;margin:11px 0 0}
+.card-zone{min-width:0}.mini-buy{font-size:10px;padding:7px 12px;min-height:30px;margin-top:3px}
+.art-card{display:block;position:relative;width:100%;aspect-ratio:326/540;border-radius:8px;overflow:hidden;border:2px solid #c6bfae;background:linear-gradient(145deg,#ded9cd,#c5baaa);color:#27231f;box-shadow:0 7px 13px #261b2114}.art-card[data-rarity='rare']{border-color:#86b8df}.art-card[data-rarity='epic']{border-color:#c9b3da}.art-card[data-rarity='legendary']{border-color:#cdb36b}.card-name{height:18%;background:linear-gradient(#f8f4eb,#e6dfd1);display:flex;align-items:center;padding:0 7%;gap:3px;color:#292623;font:700 clamp(7px,.8vw,12px)/1.1 Georgia,serif;letter-spacing:-.02em;overflow:hidden}.card-name span{flex:1;white-space:normal}.card-image{height:60%;position:relative;background:radial-gradient(circle at 35% 36%,#c7c4b6,#7e7b6f);overflow:hidden}.card-image::before{content:'B';font:italic 700 55px Georgia,serif;color:#faf9f420;position:absolute;inset:0;display:grid;place-items:center}.card-image img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}.art-fallback{position:absolute;inset:0;width:100%;height:100%;display:block}.card-footer{height:22%;background:linear-gradient(#f4f0e5,#ece4d4);padding:7% 8%;display:flex;flex-direction:column;justify-content:space-between}.card-footer::before{content:'BIZAVE · TCG';font-size:clamp(5px,.6vw,9px);font-weight:600;letter-spacing:.09em}.card-footer::after{content:'COLLECTION';font-size:clamp(4px,.5vw,7px);letter-spacing:.12em;opacity:.6}.art-card[data-rarity='legendary'] .card-footer{background:linear-gradient(#f6edd4,#e8d7b2)}
+.section-block{margin-top:42px}.weekly-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:44px}.weekly-lucky{min-width:0}.lucky-preview{border:1px solid var(--line);background:var(--paper-raised);padding:23px;display:grid;grid-template-columns:minmax(112px,38%) 1fr;gap:24px;align-items:center;min-height:306px}.lucky-pack{width:clamp(105px,14vw,171px);margin:auto;filter:drop-shadow(9px 13px 12px #0002)}.lucky-pack .pack-wordmark{font-size:clamp(20px,2.7vw,35px)}.lucky-details h3{font:400 34px/1 Georgia,serif;letter-spacing:-.05em;margin:10px 0}.lucky-details p{font-size:11px;line-height:1.7;color:var(--muted);margin:0 0 14px}.lucky-details .price-value{font-size:27px}.lucky-details .price-block{margin:14px 0}.lucky-details .primary-button{width:100%}.bonus-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.bonus-box{border:1px solid var(--line);background:var(--paper-raised);padding:22px;display:flex;align-items:center;gap:16px;min-width:0}.bonus-icon{width:52px;height:64px;background:linear-gradient(140deg,color-mix(in srgb,var(--accent) 13%,var(--paper-raised)),var(--paper-raised));border:1px solid var(--line);display:grid;place-items:center;color:var(--accent);flex-shrink:0}.bonus-icon svg{width:23px;height:23px}.bonus-copy{min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:5px;flex:1}.bonus-copy strong{font-weight:500;font-size:13px}.bonus-copy small{font-size:11px;color:var(--muted)}.bonus-copy button{margin-top:6px}
+.permanent-intro{display:flex;justify-content:space-between;gap:20px;align-items:center;margin-bottom:23px}.permanent-intro p{font-size:12px;color:var(--muted);line-height:1.7;max-width:550px;margin:0}.permanent-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px}.permanent-tile{background:var(--paper-raised);border:1px solid var(--line);min-width:0;padding:28px 20px 22px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:11px;transition:transform .15s,border-color .15s}.permanent-tile:hover{border-color:color-mix(in srgb,var(--ink) 28%,transparent);transform:translateY(-2px)}.permanent-tile .pack{width:min(100%,166px);filter:drop-shadow(7px 13px 10px #0002)}.permanent-tile .pack-wordmark{font-size:clamp(19px,2.4vw,35px)}.permanent-tile h3{font:400 21px/1.1 Georgia,serif;letter-spacing:-.04em;margin:10px 0 0}.permanent-tile small{font-size:10px;color:var(--muted)}.permanent-tile strong{font-size:12px;font-weight:500}.permanent-tile .secondary-button{margin-top:5px;width:100%}
+.toast{position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:120;border:1px solid color-mix(in srgb,var(--accent) 26%,var(--line));background:var(--paper-raised);color:var(--ink);box-shadow:var(--shadow);padding:13px 20px;max-width:calc(100vw - 32px);font-size:12px;border-radius:6px;text-align:center;line-height:1.5}.mobile-nav{display:none}.site-footer{border-top:1px solid var(--line);padding:25px 0 45px;display:flex;justify-content:space-between;gap:25px;font-size:10px;color:var(--muted)}.footer-link{color:var(--accent)}
+/* Tablet landscape and compact desktop */
+@media(max-width:1199px){.app-shell{padding:0 45px}.site-header{height:95px}.desktop-nav{gap:26px}.daily-grid{gap:25px;grid-template-columns:minmax(0,1.5fr) minmax(295px,.95fr)}.hero-meta{padding:29px 24px 26px 0}.pack-stack{width:clamp(145px,18vw,197px)}.hero-offer{min-height:380px}.hero-visual{min-height:357px}.weekly-layout{gap:26px}.permanent-grid{gap:12px}.permanent-tile{padding:22px 15px 18px}}
+@media(max-width:899px){.app-shell{padding:0 30px}.site-header{height:90px;grid-template-columns:1fr auto auto;gap:28px}.brand{font-size:29px}.desktop-nav{gap:23px}.desktop-nav a{font-size:11px}.main-content{padding:45px 0 60px}.fragment-wallet{padding:8px 10px}.daily-grid{grid-template-columns:1fr;gap:37px}.hero-offer{grid-template-columns:45% 55%;min-height:390px}.hero-visual{min-height:363px}.hero-meta{padding:34px 30px 30px 0}.pack-stack{width:200px}.hero-name{font-size:40px}.weekly-layout{grid-template-columns:1fr;gap:43px}.lucky-preview{grid-template-columns:170px 1fr}.lucky-pack{width:145px}.bonus-grid{gap:12px}.permanent-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.permanent-tile .pack{width:160px}}
+@media(max-width:599px){.app-shell{padding:0 24px}.site-header{height:80px;display:flex;justify-content:space-between;gap:20px}.brand{font-size:29px}.brand span{font-size:7px}.desktop-nav{display:none}.main-content{padding:32px 0 calc(110px + env(safe-area-inset-bottom))}.page-heading{margin-bottom:26px;align-items:flex-start;flex-wrap:wrap;gap:12px}.booster-section-heading h1{font-size:clamp(40px,11vw,57px)}.back-link{margin-top:9px;font-size:10px}.prototype-controls{width:100%;justify-content:space-between;border-top:1px solid var(--soft-line);padding-top:12px}.prototype-label{display:none}.demo-select{max-width:min(55vw,190px);font-size:10px}.text-utility{font-size:10px}.shop-tabs{gap:0;margin-bottom:27px;justify-content:space-between}.shop-tab{font-size:11px;min-height:49px;padding:0 3px}.shop-tab .dot{width:4px;height:4px}.section-line{gap:9px;margin-bottom:16px}.section-line h2{font-size:10px}.section-line .right-side{font-size:9px;gap:5px}.section-line svg{width:12px;height:12px}.hero-offer{grid-template-columns:41% 59%;min-height:auto}.hero-visual{padding:25px 6px;min-height:255px}.pack-stack{width:min(100%,112px)}.hero-meta{padding:22px 15px 20px 3px}.eyebrow{font-size:8px}.hero-name{font-size:27px;margin:9px 0}.hero-description{font-size:10px;margin-bottom:10px;line-height:1.5}.discount{font-size:9px;padding:4px 6px}.sale-meta .quantity{font-size:10px}.price-block{margin:13px 0 13px;gap:5px 7px}.price-value{font-size:28px}.price-units,.old-price,.price-saving{font-size:9px}.hero-meta .primary-button{font-size:10px;min-height:39px;padding:8px 7px}.hero-meta .primary-button svg{width:13px;height:13px}.footnote{font-size:9px;margin-top:8px}.pack-emblem{font-size:34px}.pack-wordmark{font-size:clamp(20px,6vw,28px)}.pack-subtitle{font-size:6px}.daily-grid{gap:32px}.section-block{margin-top:34px}.lucky-preview{grid-template-columns:38% minmax(0,1fr);gap:14px;padding:16px;min-height:236px}.lucky-pack{width:100%;max-width:126px}.lucky-pack .pack-wordmark{font-size:23px}.lucky-details h3{font-size:25px;margin:6px 0}.lucky-details p{font-size:10px}.lucky-details .price-block{margin:10px 0}.lucky-details .price-value{font-size:24px}.lucky-details .primary-button{font-size:10px;padding:9px 5px;min-height:38px}.bonus-grid{grid-template-columns:1fr;gap:10px}.bonus-box{padding:14px}.bonus-icon{width:47px;height:54px}.bonus-copy strong{font-size:12px}.bonus-copy small{font-size:10px}.bonus-copy button{margin-top:3px}.permanent-intro{margin-bottom:19px}.permanent-grid{gap:10px}.permanent-tile{padding:18px 11px 15px}.permanent-tile .pack{width:min(100%,133px)}.permanent-tile .pack-wordmark{font-size:25px}.permanent-tile h3{font-size:18px}.permanent-tile .secondary-button{font-size:10px;padding:8px;min-height:38px}.mobile-nav{position:fixed;display:flex;align-items:center;justify-content:space-around;z-index:40;left:0;right:0;bottom:0;height:calc(69px + env(safe-area-inset-bottom));padding:6px 10px calc(6px + env(safe-area-inset-bottom));border-top:1px solid var(--line);background:var(--page)}.mobile-nav a{width:24%;height:52px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:7px;color:#ada597;font-size:9px;position:relative}.mobile-nav a.active{color:var(--ink)}.mobile-nav a.active::before{content:'';position:absolute;top:-6px;width:15px;height:2px;background:var(--accent)}.mobile-nav svg{width:18px;height:18px}.toast{bottom:calc(84px + env(safe-area-inset-bottom))}.site-footer{display:none}}
+@media(max-width:359px){.app-shell{padding:0 18px}.hero-offer{grid-template-columns:39% 61%}.hero-visual{min-height:242px}.pack-stack{width:97px}.hero-meta{padding:17px 12px 15px 2px}.hero-name{font-size:24px}.hero-description{font-size:9px}.price-value{font-size:24px}.lucky-preview{gap:10px;padding:11px}.lucky-details h3{font-size:23px}.lucky-details .primary-button{font-size:9px}.section-line h2{font-size:9px}}
+@media(max-height:600px) and (min-width:600px){.site-header{height:75px}.main-content{padding:30px 0}.page-heading{margin-bottom:24px}.shop-tabs{margin-bottom:24px}.hero-offer{min-height:290px}.hero-visual{min-height:290px}.pack-stack{width:145px}.hero-meta{padding-top:20px;padding-bottom:20px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+/* --- Refonte : page unique en trois rubriques, cartes en carrousel, achat direct, taux de drop en libellé discret --- */
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.offer-card{border:1px solid var(--line);background:var(--paper-raised);border-radius:4px;overflow:hidden;min-width:0}
+.offer-card .hero-offer,.offer-card .lucky-preview{border:0;background:transparent;border-radius:0}
+.daily-grid.has-no-cards .offer-card{max-width:980px}
+.booster-title-group{flex:1;min-width:0}
+.title-row{display:flex;align-items:center;justify-content:space-between;gap:16px}
+.title-row .rates-trigger{flex:none}
+.main-content>.prototype-controls{margin-bottom:28px;padding-bottom:14px;border-bottom:1px solid var(--soft-line)}
+.rates-trigger{border:0;background:transparent;display:inline-flex;align-items:center;gap:7px;color:var(--muted);font-size:11px;padding:0;min-height:27px}
+.rates-trigger svg{width:13px;height:13px}
+.rates-trigger:hover{color:var(--accent)}
+.rd-backdrop{position:fixed;inset:0;z-index:90;background:#09090d9e;display:flex;align-items:center;justify-content:center;padding:20px;animation:rd-fade .18s ease-out}
+.rd{width:min(100%,860px);max-height:min(88svh,720px);display:flex;flex-direction:column;background:var(--modal-surface);border:1px solid var(--line);border-radius:10px;box-shadow:0 28px 84px #0004;overflow:hidden;animation:rd-rise .22s ease-out}
+.rd-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:28px 30px 22px;border-bottom:1px solid var(--line)}
+.rd-head h2{font:400 32px/1 Georgia,'Times New Roman',serif;letter-spacing:-.05em;margin:0}
+.rd-head p{margin:9px 0 0;font-size:11px;color:var(--muted);line-height:1.6}
+.rd-close{border:1px solid var(--line);background:transparent;color:var(--muted);width:36px;height:36px;border-radius:50%;display:grid;place-items:center;flex:none;padding:0}
+.rd-close:hover{color:var(--ink);border-color:var(--accent)}
+.rd-close svg{width:16px;height:16px}
+.rd-body{display:grid;grid-template-columns:220px minmax(0,1fr);min-height:0;flex:1}
+.rd-nav{border-right:1px solid var(--line);padding:18px 12px;overflow-y:auto;display:grid;align-content:start;gap:20px}
+.rd-nav-group{display:grid;gap:2px}
+.rd-nav-title{font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600;padding:0 10px 6px}
+.rd-nav button{border:0;background:transparent;text-align:left;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 10px;border-radius:5px;color:var(--muted);font-size:12px}
+.rd-nav button:hover{color:var(--ink);background:var(--surface-hover)}
+.rd-nav button[aria-pressed='true']{color:var(--ink);background:color-mix(in srgb,var(--accent) 7%,var(--paper-raised));box-shadow:inset 2px 0 0 var(--accent)}
+.rd-nav button small{font-size:9px;color:var(--accent);white-space:nowrap}
+.rd-nav button span::first-letter{text-transform:uppercase}
+.rd-detail{overflow-y:auto;padding:26px 30px 30px;animation:rise .2s ease-out}
+.rd-intro{display:flex;align-items:center;gap:20px;padding-bottom:22px;border-bottom:1px solid var(--soft-line)}
+.rd-thumb{width:64px;flex:none}
+.rd-thumb .pack{filter:drop-shadow(4px 8px 7px #0002)}
+.rd-thumb .pack[data-small] .pack-wordmark{font-size:8.5px;letter-spacing:0;bottom:14%;left:4%;right:4%}
+.rd-thumb .pack-emblem{font-size:18px}
+.rd-thumb .pack-subtitle{display:none}
+.rd-thumb-cards{aspect-ratio:2/3;display:grid;place-items:center;border:1px solid var(--line);border-radius:6px;background:linear-gradient(140deg,color-mix(in srgb,var(--accent) 10%,var(--paper-raised)),var(--paper-raised));color:var(--accent)}
+.rd-thumb-cards svg{width:24px;height:24px}
+.rd-intro h3{font:400 28px/1.05 Georgia,'Times New Roman',serif;letter-spacing:-.05em;margin:7px 0 6px}
+.rd-intro h3::first-letter{text-transform:uppercase}
+.rd-intro p{margin:0;font-size:11px;color:var(--muted)}
+.rd-tables{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:26px 34px;padding-top:24px}
+.rd-table:first-child{grid-row:span 2}
+.rd-table h4{margin:0 0 8px;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.rd-table dl{margin:0}
+.rd-table dl>div{display:grid;grid-template-columns:minmax(0,1fr) 54px 46px;align-items:center;gap:12px;padding:9px 0;border-bottom:1px solid var(--soft-line);font-size:12px}
+.rd-table dt{color:var(--ink);min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.rd-table dd{margin:0;text-align:right;font-variant-numeric:tabular-nums;color:var(--ink)}
+.rd-track{height:1px;background:var(--line);position:relative}
+.rd-track i{position:absolute;left:0;top:-.5px;height:2px;background:var(--ink);border-radius:1px}
+.rd-table .is-zero dt,.rd-table .is-zero dd{color:color-mix(in srgb,var(--muted) 70%,transparent)}
+.rd-note{margin:24px 0 0;font-size:11px;line-height:1.7;color:var(--muted)}
+@keyframes rd-fade{from{opacity:0}}
+@keyframes rd-rise{from{opacity:0;transform:translateY(10px)}}
+@media(max-width:719px){
+.rd-backdrop{align-items:flex-end;padding:0}
+.rd{width:100%;max-height:90svh;border-radius:14px 14px 0 0;border-bottom:0;animation-name:rd-sheet}
+.rd-head{padding:22px 20px 16px}
+.rd-head h2{font-size:27px}
+.rd-body{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr)}
+.rd-nav{border-right:0;border-bottom:1px solid var(--line);padding:12px 20px;display:flex;gap:6px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none}
+.rd-nav::-webkit-scrollbar{display:none}
+.rd-nav-group{display:flex;gap:6px}
+.rd-nav-group+.rd-nav-group{padding-left:8px;border-left:1px solid var(--line)}
+.rd-nav-title{display:none}
+.rd-nav button{white-space:nowrap;border:1px solid var(--line);border-radius:18px;padding:7px 12px;font-size:11px}
+.rd-nav button[aria-pressed='true']{box-shadow:none;border-color:var(--accent)}
+.rd-detail{padding:20px 20px calc(28px + env(safe-area-inset-bottom))}
+.rd-intro{gap:16px;padding-bottom:18px}
+.rd-thumb{width:52px}
+.rd-intro h3{font-size:24px}
+.rd-tables{grid-template-columns:1fr;gap:22px;padding-top:18px}
+.rd-table:first-child{grid-row:auto}
+}
+@keyframes rd-sheet{from{transform:translateY(40px);opacity:0}}
+.permanent-tile .shop-buy{margin-top:auto;width:100%;min-width:0}
+.shop-stage{border:1px solid var(--line);background:var(--paper-raised);border-radius:4px;padding:20px 16px 22px;display:flex;flex-direction:column;align-items:center;gap:16px;min-width:0}
+.carousel{position:relative;width:100%;min-width:0}
+.carousel-track{display:flex;width:100%;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scrollbar-width:none;outline-offset:-2px}
+.carousel-track::-webkit-scrollbar{display:none}
+.carousel-track:focus-visible{outline:2px solid var(--accent)}
+.carousel-slide{flex:0 0 100%;min-width:0;display:flex;align-items:center;justify-content:center;padding:8px 52px 16px;scroll-snap-align:center;scroll-snap-stop:always}
+.stage-card{width:min(100%,178px);transition:opacity .2s,filter .2s}
+.stage-card.is-sold{opacity:.42;filter:grayscale(.6)}
+.stage-card .card-name{font-size:12px}
+.carousel-prev,.carousel-next{position:absolute;top:calc(50% - 30px);width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:color-mix(in srgb,var(--page) 60%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);color:var(--muted);display:grid;place-items:center;padding:0}
+.carousel-prev{left:0}.carousel-next{right:0}
+.carousel-prev:hover:not(:disabled),.carousel-next:hover:not(:disabled){color:var(--ink);border-color:var(--accent)}
+.carousel-dots{display:flex;align-items:center;justify-content:center;gap:7px;min-height:16px}
+.carousel-dots span{width:5px;height:5px;border-radius:50%;background:color-mix(in srgb,var(--ink) 18%,transparent)}
+.carousel-dots .is-current{background:var(--accent)}
+.stage-info{display:grid;gap:6px;text-align:center;min-width:0;max-width:100%}
+.stage-info h3{font:400 22px/1.15 Georgia,'Times New Roman',serif;letter-spacing:-.04em;margin:0;overflow-wrap:anywhere}
+.stage-info small{font-size:10px;color:var(--muted)}
+.stage-info small:empty{display:none}
+.stock-label{font-variant-numeric:tabular-nums}
+.shop-buy{border-radius:22px;min-width:200px;gap:12px}
+.shop-buy.is-added:disabled{opacity:1;color:var(--accent);border-color:color-mix(in srgb,var(--accent) 35%,var(--line))}
+.shop-price{display:inline-flex;gap:6px;align-items:center;padding-left:12px;border-left:1px solid var(--line);font-variant-numeric:tabular-nums}
+.shop-price svg{width:13px;height:13px}
+.inline-button[aria-expanded='true']{color:var(--accent)}
+.hero-meta .hero-name{margin-top:0}
+.hero-meta .hero-description{margin-bottom:0}
+.lucky-details h3{margin-top:0}
+.permanent-tile .shop-buy{margin-top:14px}
+.shop-tab:hover{color:var(--ink)}
+.section-line h3{font-size:11px;font-weight:500;white-space:nowrap;color:var(--muted);margin:0;line-height:1.5}
+.shop-section{scroll-margin-top:20px}
+.shop-section+.shop-section{margin-top:76px;padding-top:46px;border-top:1px solid var(--line)}
+.shop-section-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:30px}
+.shop-section-head h2{font:400 clamp(30px,3.2vw,44px)/1 Georgia,'Times New Roman',serif;letter-spacing:-.055em;margin:0}
+.section-timer{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:18px;padding:8px 12px;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.section-timer svg{width:14px;height:14px}
+.section-note{font-size:11px;color:var(--muted);white-space:nowrap}
+.weekly-showcase,.card-zone,.weekly-lucky{min-width:0}
+@media(max-width:899px){.weekly-layout,.daily-grid{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:599px){.main-content>.prototype-controls{border-top:0;padding-top:0;margin-bottom:22px}.section-line h3{font-size:10px}.shop-section+.shop-section{margin-top:54px;padding-top:34px}.shop-section-head{margin-bottom:22px}.shop-section-head h2{font-size:30px}.section-timer,.section-note{font-size:10px}.section-timer{padding:7px 10px}.shop-stage{padding:14px 10px 18px;gap:13px}.carousel-slide{padding:6px 46px 12px}.stage-card{width:min(100%,160px)}.stage-info h3{font-size:20px}.shop-buy{font-size:11px;min-height:40px}.permanent-tile .shop-buy{padding:8px 6px;gap:7px}.permanent-tile .shop-price{padding-left:7px}}
+`;
+
+const ICONS = {
+  gem: <><path d="m6 3-4 7 10 11 10-11-4-7H6Z" fill="none" stroke="currentColor" strokeLinejoin="round"/><path d="M2 10h20M6 3l6 18 6-18M6 3l6 7 6-7" stroke="currentColor" fill="none"/></>,
+  back: <path d="m15 18-6-6 6-6M9 12h12" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  arrow: <path d="M4 12h15m-6-6 6 6-6 6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  clock: <><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor"/><path d="M12 7v5l4 2" fill="none" stroke="currentColor" strokeLinecap="round"/></>,
+  info: <><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor"/><path d="M12 11v5M12 7.5h.01" fill="none" stroke="currentColor" strokeLinecap="round"/></>,
+  moon: <path d="M20 15A8.5 8.5 0 0 1 9 4 8.5 8.5 0 1 0 20 15Z" fill="none" stroke="currentColor" strokeLinejoin="round"/>,
+  sun: <><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor"/><path d="M12 2v2m0 16v2M4 12H2m20 0h-2M4.93 4.93l1.4 1.4m11.34 11.34 1.4 1.4m0-14.14-1.4 1.4M6.33 17.67l-1.4 1.4" fill="none" stroke="currentColor" strokeLinecap="round"/></>,
+  refresh: <path d="M20 11a8 8 0 0 0-14-5L3 9m0-6v6h6M4 13a8 8 0 0 0 14 5l3-3m0 6v-6h-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  check: <path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  close: <path d="M18 6 6 18M6 6l12 12" fill="none" stroke="currentColor" strokeLinecap="round"/>,
+  package: <path d="M3 8.5 12 3l9 5.5V19l-9 5-9-5V8.5ZM3 8.5l9 5 9-5M12 13.5V24" fill="none" stroke="currentColor" strokeLinejoin="round"/>,
+  layers: <path d="m12 3 9 5-9 5-9-5 9-5Zm-9 10 9 5 9-5M3 18l9 5 9-5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  recycle: <path d="m7 6 2-3h6l2 4m-1-3 2 3-4 1M5 10l-2 4 3 5h5m-5-3v4m0-4 4 1m7-9 4 6-3 5h-5m3-3-3 3 3 3" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  chevronLeft: <path d="m15 18-6-6 6-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  chevronRight: <path d="m9 18 6-6-6-6" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round"/>,
+  users: <><circle cx="9" cy="8" r="3.5" fill="none" stroke="currentColor"/><path d="M2 21v-3a7 7 0 0 1 14 0v3H2Zm14-17a3.5 3.5 0 0 1 0 7m2 3a6 6 0 0 1 4 6v1h-4" fill="none" stroke="currentColor"/></>,
+};
+const Icon = ({ name }) => <svg viewBox="0 0 24 24" aria-hidden="true">{ICONS[name]}</svg>;
+
+const IMAGES_BASE = "https://raw.githubusercontent.com/kabomane/bizave-tcg/main/public";
+const CATALOGUE = [
+  { id: "t-etudiant", name: "Thomas étudiant", rarity: "rare", src: "/assets/cards/t-etudiant/illustration.825bb9b0e4.webp" },
+  { id: "nana-office-lady", name: "Nana Office Lady", rarity: "rare", src: "/assets/cards/nana-office-lady/illustration.3db9e34061.webp" },
+  { id: "nana-diff", name: "Nana Diff", rarity: "epic", src: "/assets/cards/nana-diff/illustration.71d009263b.webp" },
+  { id: "t-classique", name: "Thomas classique", rarity: "common", src: "/assets/cards/t-classique/illustration.d9167c4e44.webp" },
+  { id: "t-voyageur", name: "Thomas voyageur", rarity: "uncommon", src: "/assets/cards/t-voyageur/illustration.1534571b76.webp" },
+  { id: "mamushi-chan", name: "Chez Mamushi-chan", rarity: "uncommon", src: "/assets/cards/mamushi-chan/illustration.91b3c68c69.webp" },
+  { id: "nana-arabe", name: "Nana arabe", rarity: "legendary", src: "/assets/cards/nana-arabe/illustration.5def57e6f9.webp" },
+  { id: "eli-hockey", name: "Eli hockey", rarity: "uncommon", src: "/assets/cards/eli-hockey/illustration.3466439166.webp" },
+];
+const PACKS = [
+  { id: "memory", name: "Memory Frame", category: "classique", weight: 1, price: 70, pool: 190, icon: "🎞️", colors: ["#641e2c", "#170f15", "#e9dcc6", "#a83b4c"], rarity: { common: 57, uncommon: 24, rare: 12, epic: 5, legendary: 2 } },
+  { id: "anima", name: "Anima Isekai", category: "classique", weight: 1, price: 50, pool: 143, icon: "⛩️", colors: ["#34224e", "#121426", "#e7d9be", "#7562b5"], rarity: { common: 57, uncommon: 24, rare: 12, epic: 5, legendary: 2 } },
+  { id: "rarity", name: "rarity only", category: "special", weight: 20, price: 400, pool: 62, icon: "💎", colors: ["#87b9f0", "#101f39", "#c9dffc", "#87b9f0"], rarity: { common: 0, uncommon: 0, rare: 100, epic: 0, legendary: 0 } },
+  { id: "epico", name: "epico stellari", category: "special", weight: 5, price: 700, pool: 57, icon: "🌟", colors: ["#be9bef", "#21122f", "#e3c17c", "#e3c17c"], rarity: { common: 0, uncommon: 0, rare: 0, epic: 91, legendary: 9 } },
+  { id: "legenda", name: "legenda completa", category: "special", weight: 1, price: 1600, pool: 23, icon: "👑", colors: ["#866833", "#201a14", "#fff2bd", "#cfaa4b"], rarity: { common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 100 } },
+  { id: "merry", name: "merry xmas", category: "event", weight: 1, price: 30, pool: 20, icon: "🎁", colors: ["#a4373e", "#102f26", "#f5dba2", "#407c57"], rarity: { common: 33, uncommon: 24, rare: 19, epic: 14, legendary: 10 } },
+];
+const LUCKY_PACK = { name: "lucky boost", pool: 64, icon: "🍀", colors: ["#446658", "#15271f", "#e5d6aa", "#8bad8a"] };
+const RARITY_NAMES = { common: "Commune", uncommon: "Peu commune", rare: "Rare", epic: "Épique", legendary: "Légendaire" };
+const PRICE_REF = { common: 1, uncommon: 3, rare: 7, epic: 12, legendary: 19 };
+const QUANTITIES = [{ n: 5, w: 30 }, { n: 6, w: 25 }, { n: 7, w: 20 }, { n: 8, w: 12 }, { n: 9, w: 8 }, { n: 10, w: 5 }];
+const WEEKLY_RATES = { common: 30, uncommon: 25, rare: 20, epic: 13, legendary: 12 };
+
+const format = (n) => new Intl.NumberFormat("fr-FR").format(n);
+const round10 = (n) => Math.max(10, Math.round(n / 10) * 10);
+const rand = (a, b) => Math.floor(Math.random() * (b - a + 1)) + a;
+const weightedPick = (choices) => {
+  const total = choices.reduce((s, c) => s + c.w, 0);
+  let v = Math.random() * total;
+  for (const c of choices) { v -= c.w; if (v < 0) return c.value; }
+  return choices[choices.length - 1].value;
+};
+const choose = (items) => items[rand(0, items.length - 1)];
+
+function selectedBooster(scenario) {
+  if (scenario === "classic") return choose(PACKS.filter((x) => x.category === "classique"));
+  if (scenario === "rare") return PACKS.find((x) => x.id === "rarity");
+  if (scenario === "epic") return PACKS.find((x) => x.id === "epico");
+  if (scenario === "legendary") return PACKS.find((x) => x.id === "legenda");
+  if (scenario === "event") return PACKS.find((x) => x.id === "merry");
+  if (scenario === "empty") return PACKS[0];
+  const cat = weightedPick([{ value: "classique", w: 89.6 }, { value: "special", w: 10.4 }]);
+  return weightedPick(PACKS.filter((p) => p.category === cat).map((p) => ({ value: p, w: p.weight })));
+}
+
+function generateDaily(scenario = "classic") {
+  const pack = selectedBooster(scenario);
+  const qty = weightedPick(QUANTITIES.map((x) => ({ value: x.n, w: x.w })));
+  const discount = rand(5, 20);
+  const normal = pack.price * qty;
+  const price = Math.floor((normal * (100 - discount)) / 100);
+  const n = scenario === "empty" ? 0 : scenario === "classic" ? 2 : rand(0, 3);
+  const used = new Set();
+  const cards = Array.from({ length: n }, (_, i) => {
+    const rarity = weightedPick(Object.entries({ common: 57, uncommon: 24, rare: 12, epic: 5, legendary: 2 }).map(([value, w]) => ({ value, w })));
+    let eligible = CATALOGUE.filter((c) => c.rarity === rarity && !used.has(c.id));
+    if (!eligible.length) eligible = CATALOGUE.filter((c) => !used.has(c.id));
+    const card = choose(eligible);
+    used.add(card.id);
+    const finish = weightedPick([{ value: { type: "normal", mult: 1 }, w: 81 }, { value: { type: "glossy", mult: 2.3 }, w: 15 }, { value: { type: "alternative", mult: 3.2 }, w: 4 }]);
+    const fullArt = Math.random() < 0.08;
+    const base = 3 * PRICE_REF[card.rarity] * finish.mult * (fullArt ? 1.9 : 1);
+    const variation = 0.8 + (Math.random() + Math.random()) * 0.2;
+    return { ...card, offerId: i, finish: finish.type, fullArt, price: round10(base * 2.75 * variation), sold: false };
+  });
+  return { daily: { pack, qty, discount, normal, price, sold: false }, cards };
+}
+
+function generateWeekly() {
+  const available = [...CATALOGUE];
+  return Array.from({ length: 4 }, (_, i) => {
+    const rarity = weightedPick(Object.entries(WEEKLY_RATES).map(([value, w]) => ({ value, w })));
+    const eligible = available.filter((c) => c.rarity === rarity);
+    const c = choose(eligible.length ? eligible : available);
+    available.splice(available.indexOf(c), 1);
+    const finish = weightedPick([{ value: { type: "normal", mult: 1 }, w: 70 }, { value: { type: "glossy", mult: 2.3 }, w: 22 }, { value: { type: "alternative", mult: 3.2 }, w: 8 }]);
+    const fullArt = Math.random() < 0.15;
+    return { ...c, index: i, finish: finish.type, fullArt, price: round10(3 * PRICE_REF[c.rarity] * finish.mult * (fullArt ? 1.9 : 1) * 2.75 * (0.8 + (Math.random() + Math.random()) * 0.2)), sold: false };
+  });
+}
+
+function fallbackArt(c) {
+  const pal = { common: ["#d8c5a9", "#809a9c", "#55605d"], uncommon: ["#ced7d1", "#7098a7", "#2d5268"], rare: ["#d0dced", "#7a8cb8", "#313d6b"], epic: ["#e1cadd", "#9971a7", "#3b315a"], legendary: ["#f3dd9a", "#b37b70", "#65402f"] }[c.rarity];
+  const shop = c.id === "mamushi-chan", travel = c.id === "t-voyageur", sports = c.id === "eli-hockey", evening = c.id === "nana-diff";
+  const nana = c.id.includes("nana");
+  const subject = shop
+    ? `<path d="M25 123h110l-6 57H31Z" fill="#483a3b"/><path d="M17 110 80 80l63 30-8 12H25Z" fill="#6d3f4a"/><path d="M40 123h80v57H40Z" fill="#a97765"/><path d="M65 138h30v42H65Z" fill="#342a38"/><path d="M20 99h120v9H20Z" fill="#452a32"/>`
+    : travel
+    ? `<path d="M0 144 38 108 78 150 125 110 160 145v35H0Z" fill="#436069"/><path d="M38 110v70M108 118v62" stroke="#d6e6dd" stroke-width="4"/><circle cx="82" cy="94" r="21" fill="#dcae92"/><path d="M62 85q20-29 41 0l-1-11q-15-22-38-3Z" fill="#3e3031"/><path d="M44 180q0-65 38-63 38 0 38 63" fill="#5a3038"/>`
+    : sports
+    ? `<path d="M18 180q7-70 62-71 55 1 62 71" fill="#44556a"/><circle cx="80" cy="83" r="23" fill="#e5ba9a"/><path d="M57 77q12-36 47-16l-5-10-20-10-22 14Z" fill="#353039"/><path d="m10 30 55 122" stroke="#d0aa68" stroke-width="5"/><path d="M65 151q10 8 18-2" stroke="#d0aa68" stroke-width="5" fill="none"/>`
+    : `<path d="M0 180q12-61 78-65 65 2 82 65Z" fill="${evening ? "#573b55" : "#37475a"}"/><path d="M55 116q-24-42 4-66 20-17 45 1 23 28-2 66Z" fill="${nana ? "#24273e" : "#4a3530"}"/><ellipse cx="80" cy="85" rx="24" ry="33" fill="#edc1a2"/><path d="M53 82q2-42 29-43 31 0 30 48l-8-15q-15-17-45 3Z" fill="${nana ? "#262039" : "#4a322c"}"/><path d="M63 113q13 10 29 0" stroke="#c78576" stroke-width="2" fill="none"/><path d="M43 180q5-44 37-43t37 43" fill="${nana ? "#856178" : "#9b7468"}"/>`;
+  return `<svg class="art-fallback" viewBox="0 0 160 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="bg-${c.id}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${pal[0]}"/><stop offset=".5" stop-color="${pal[1]}"/><stop offset="1" stop-color="${pal[2]}"/></linearGradient></defs><rect width="160" height="180" fill="url(#bg-${c.id})"/><circle cx="112" cy="51" r="43" fill="#fff" opacity=".12"/><path d="M-15 146C20 119 55 154 86 129s58-31 90-14v65H0Z" fill="#1d2333" opacity=".19"/>${subject}<path d="M0 173h160" stroke="#fff" opacity=".4"/></svg>`;
+}
+
+function Pack({ p, small }) {
+  const [primary, secondary, shine, glow] = p.colors;
+  return (
+    <div className="pack" data-small={small ? "true" : undefined} role="img" aria-label={`Booster ${p.name}`}
+      style={{ "--pack-primary": primary, "--pack-secondary": secondary, "--pack-shine": shine, "--pack-glow": glow }}>
+      <span className="pack-crimp-top" /><span className="pack-crimp-bottom" />
+      <span className="pack-ring"><span className="pack-emblem">{p.icon}</span></span>
+      <span className="pack-wordmark">{p.name.split(" ").map((w, i) => <React.Fragment key={i}>{i > 0 && <br />}{w}</React.Fragment>)}</span>
+      <span className="pack-subtitle">{p.pool} CARTES</span>
+    </div>
+  );
+}
+
+function ArtCard({ c }) {
+  const [imgOk, setImgOk] = useState(true);
+  return (
+    <div className="art-card" data-rarity={c.rarity}>
+      <div className="card-name"><span>{c.name}</span></div>
+      <div className="card-image">
+        <span dangerouslySetInnerHTML={{ __html: fallbackArt(c) }} />
+        {imgOk && <img loading="lazy" alt={`Illustration de ${c.name}`} src={IMAGES_BASE + c.src} onError={() => setImgOk(false)} />}
+      </div>
+      <div className="card-footer" />
+    </div>
+  );
+}
+
+const FINISH_NAMES = { normal: "Mate", glossy: "Holographique", alternative: "Alternative" };
+const ART_NAMES = { standard: "Classique", fullArt: "Full Art" };
+const DEFAULT_FINISH = { normal: 81, glossy: 15, alternative: 4 };
+const DEFAULT_ART = { standard: 92, fullArt: 8 };
+const DAILY_CARD_RATES = { rarity: { common: 57, uncommon: 24, rare: 12, epic: 5, legendary: 2 }, finish: DEFAULT_FINISH, illustration: DEFAULT_ART };
+const WEEKLY_CARD_RATES = { rarity: WEEKLY_RATES, finish: { normal: 70, glossy: 22, alternative: 8 }, illustration: { standard: 85, fullArt: 15 } };
+// Valeurs reprises de src/game/config.ts (kabomane/bizave-tcg) ; merry xmas ne révèle qu'une carte mate et classique.
+const packRates = (p) => ({
+  rarity: p.rarity,
+  finish: p.id === "merry" ? { normal: 100, glossy: 0, alternative: 0 } : DEFAULT_FINISH,
+  illustration: p.id === "merry" ? { standard: 100, fullArt: 0 } : DEFAULT_ART,
+});
+
+// Lucky Boost : chaque palier de rareté, finition et illustration est présent à 70 %,
+// les pourcentages absents sont redistribués proportionnellement (docs/boutique-hebdomadaire.md).
+function redistribute(base) {
+  const all = Object.keys(base);
+  let keys = all.filter(() => Math.random() < 0.7);
+  if (!keys.length) keys = [all[0]];
+  const total = keys.reduce((t, k) => t + base[k], 0);
+  const out = Object.fromEntries(all.map((k) => [k, 0]));
+  keys.forEach((k) => { out[k] = Math.round((base[k] * 100) / total); });
+  out[keys[0]] += 100 - keys.reduce((t, k) => t + out[k], 0);
+  return out;
+}
+const generateLuckyRates = () => ({ rarity: redistribute(DAILY_CARD_RATES.rarity), finish: redistribute(DEFAULT_FINISH), illustration: redistribute(DEFAULT_ART) });
+
+/* Fenêtre unique des taux de drop : une source à gauche, son détail à droite. */
+function RateTable({ title, names, rates }) {
+  return (
+    <section className="rd-table">
+      <h4>{title}</h4>
+      <dl>
+        {Object.keys(names).map((k) => {
+          const v = rates[k] || 0;
+          return (
+            <div key={k} className={v ? undefined : "is-zero"}>
+              <dt>{names[k]}</dt>
+              <span className="rd-track" aria-hidden="true"><i style={{ width: `${v}%` }} /></span>
+              <dd>{v ? `${v} %` : "—"}</dd>
+            </div>
+          );
+        })}
+      </dl>
+    </section>
+  );
+}
+
+function RatesDialog({ groups, onClose }) {
+  const all = groups.flatMap((g) => g.items);
+  const [id, setId] = useState(all[0].id);
+  const src = all.find((x) => x.id === id) || all[0];
+  const closeRef = useRef(null);
+  useEffect(() => {
+    closeRef.current?.focus();
+    const prev = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const onKey = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", onKey);
+    return () => { document.body.style.overflow = prev; document.removeEventListener("keydown", onKey); };
+  }, [onClose]);
+  return (
+    <div className="rd-backdrop" onClick={(e) => { if (e.target === e.currentTarget) onClose(); }}>
+      <section className="rd" role="dialog" aria-modal="true" aria-labelledby="rd-title">
+        <header className="rd-head">
+          <div>
+            <h2 id="rd-title">Taux de drop</h2>
+            <p>Taux par carte. Rareté, finition et illustration sont tirées indépendamment.</p>
+          </div>
+          <button ref={closeRef} type="button" className="rd-close" aria-label="Fermer" onClick={onClose}><Icon name="close" /></button>
+        </header>
+        <div className="rd-body">
+          <nav className="rd-nav" aria-label="Choisir une offre">
+            {groups.map((g) => (
+              <div key={g.title} className="rd-nav-group">
+                <span className="rd-nav-title">{g.title}</span>
+                {g.items.map((x) => (
+                  <button key={x.id} type="button" aria-pressed={x.id === src.id} onClick={() => setId(x.id)}>
+                    <span>{x.name}</span>{x.flag && <small>{x.flag}</small>}
+                  </button>
+                ))}
+              </div>
+            ))}
+          </nav>
+          <div className="rd-detail" key={src.id}>
+            <div className="rd-intro">
+              <div className="rd-thumb">{src.pack ? <Pack p={src.pack} small /> : <span className="rd-thumb-cards"><Icon name="layers" /></span>}</div>
+              <div>
+                <span className="eyebrow">{src.kicker}</span>
+                <h3>{src.name}</h3>
+                <p>{src.meta}</p>
+              </div>
+            </div>
+            <div className="rd-tables">
+              <RateTable title="Rareté" names={RARITY_NAMES} rates={src.rates.rarity} />
+              <RateTable title="Finition" names={FINISH_NAMES} rates={src.rates.finish} />
+              <RateTable title="Illustration" names={ART_NAMES} rates={src.rates.illustration} />
+            </div>
+            {src.note && <p className="rd-note">{src.note}</p>}
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+/* Carrousel une offre à la fois, repris de ShopCarousel (kabomane/bizave-tcg) :
+   défilement natif à crans, flèches, points, clavier. */
+function Carousel({ count, index, onIndex, label, children }) {
+  const track = useRef(null), timer = useRef(), current = useRef(index);
+  current.current = index;
+  const multiple = count > 1;
+  useEffect(() => {
+    const el = track.current;
+    if (!el) return;
+    const left = index * el.clientWidth;
+    if (Math.abs(el.scrollLeft - left) > 1) el.scrollTo({ left, behavior: "smooth" });
+  }, [index, count]);
+  useEffect(() => {
+    const el = track.current;
+    if (!el || typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(() => { el.scrollLeft = current.current * el.clientWidth; });
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  const clamp = (n) => Math.max(0, Math.min(count - 1, n));
+  const onScroll = () => {
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => {
+      const el = track.current;
+      if (!el || !el.clientWidth) return;
+      const n = clamp(Math.round(el.scrollLeft / el.clientWidth));
+      if (n !== current.current) onIndex(n);
+    }, 120);
+  };
+  const onKey = (e) => {
+    if (!multiple || !["ArrowLeft", "ArrowRight", "Home", "End"].includes(e.key)) return;
+    e.preventDefault();
+    onIndex(e.key === "Home" ? 0 : e.key === "End" ? count - 1 : clamp(index + (e.key === "ArrowRight" ? 1 : -1)));
+  };
+  return (
+    <div className="carousel" role={multiple ? "region" : undefined} aria-roledescription={multiple ? "carrousel" : undefined} aria-label={multiple ? label : undefined}>
+      <div ref={track} className="carousel-track" tabIndex={multiple ? 0 : -1} onScroll={onScroll} onKeyDown={onKey}>
+        {React.Children.map(children, (child, i) => <div className="carousel-slide" aria-hidden={i !== index}>{child}</div>)}
+      </div>
+      {multiple && <>
+        <button type="button" className="carousel-prev" aria-label="Offre précédente" disabled={index === 0} onClick={() => onIndex(index - 1)}><Icon name="chevronLeft" /></button>
+        <button type="button" className="carousel-next" aria-label="Offre suivante" disabled={index === count - 1} onClick={() => onIndex(index + 1)}><Icon name="chevronRight" /></button>
+        <div className="carousel-dots" aria-hidden="true">{Array.from({ length: count }, (_, i) => <span key={i} className={i === index ? "is-current" : undefined} />)}</div>
+        <span className="sr-only" role="status">{index + 1} sur {count}</span>
+      </>}
+    </div>
+  );
+}
+
+/* Bouton d'achat direct, prix intégré (repris de ShopBuyButton). */
+function ShopBuy({ label = "Acheter", price, disabled, added, onClick }) {
+  return (
+    <button type="button" className={`secondary-button shop-buy${added ? " is-added" : ""}`} disabled={disabled || added} onClick={onClick}>
+      {added ? <><Icon name="check" /> Ajouté</> : <>{label}{price != null && <span className="shop-price">{format(price)} <Icon name="gem" /></span>}</>}
+    </button>
+  );
+}
+
+/* Scène « carrousel + infos + achat » commune aux cartes du jour et à la vitrine. */
+function CardStage({ cards, index, onIndex, balance, onBuy, label, soldLabel }) {
+  const c = cards[index] || cards[0];
+  return (
+    <div className="shop-stage">
+      <Carousel count={cards.length} index={index} onIndex={onIndex} label={label}>
+        {cards.map((card) => <div key={card.id} className={`stage-card${card.sold ? " is-sold" : ""}`}><ArtCard c={card} /></div>)}
+      </Carousel>
+      <ShopBuy label={c.sold ? soldLabel : "Acheter"} price={c.sold ? null : c.price} disabled={c.sold || balance < c.price} onClick={() => onBuy(index)} />
+    </div>
+  );
+}
+
+function parisClock() {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-GB", { timeZone: "Europe/Paris", weekday: "short", hour: "2-digit", minute: "2-digit", second: "2-digit", hour12: false })
+    .formatToParts(new Date()).filter((t) => t.type !== "literal").map((t) => [t.type, t.value]));
+  const secs = (23 - Number(p.hour)) * 3600 + (59 - Number(p.minute)) * 60 + (60 - Number(p.second));
+  const hh = String(Math.max(0, Math.floor(secs / 3600))).padStart(2, "0");
+  const mm = String(Math.max(0, Math.floor((secs % 3600) / 60))).padStart(2, "0");
+  const day = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].indexOf(p.weekday);
+  const days = day === -1 ? 0 : (8 - day) % 7;
+  return { daily: `${hh} h ${mm} min`, weekly: `${days === 0 ? 7 : days} j ${hh} h` };
+}
+
+const SECTIONS = [["daily", "Aujourd'hui"], ["weekly", "Cette semaine"], ["permanent", "Permanents"]];
+
+export default function BizaveBoutique() {
+  const [theme, setTheme] = useState("light");
+  const [balance, setBalance] = useState(2650);
+  const [scenario, setScenario] = useState("random");
+  const [{ daily, cards: dailyCards }, setDailyState] = useState(() => generateDaily("classic"));
+  const [dailyIndex, setDailyIndex] = useState(0);
+  const [weeklyCards, setWeeklyCards] = useState(generateWeekly);
+  const [weeklyIndex, setWeeklyIndex] = useState(0);
+  const [luckyRates, setLuckyRates] = useState(generateLuckyRates);
+  const [luckyRemaining, setLuckyRemaining] = useState(3);
+  const [fragmentClaimed, setFragmentClaimed] = useState(false);
+  const [rerollUsed, setRerollUsed] = useState(false);
+  const [ratesOpen, setRatesOpen] = useState(false);
+  const closeRates = useCallback(() => setRatesOpen(false), []);
+  const [addedId, setAddedId] = useState(null);
+  const [toastMsg, setToastMsg] = useState(null);
+  const [clock, setClock] = useState(parisClock);
+
+  useEffect(() => { const t = setInterval(() => setClock(parisClock()), 30000); return () => clearInterval(t); }, []);
+  useEffect(() => { if (!toastMsg) return; const t = setTimeout(() => setToastMsg(null), 3400); return () => clearTimeout(t); }, [toastMsg]);
+  useEffect(() => { if (!addedId) return; const t = setTimeout(() => setAddedId(null), 1600); return () => clearTimeout(t); }, [addedId]);
+
+  const toast = (m) => setToastMsg({ m, k: Date.now() });
+  const spend = (price) => {
+    if (balance < price) { toast("Fragments insuffisants pour cet achat fictif."); return false; }
+    setBalance((b) => b - price);
+    return true;
+  };
+
+  const onScenario = (v) => { setScenario(v); setDailyState(generateDaily(v)); setDailyIndex(0); toast("Nouveau tirage fictif généré."); };
+  const buyDaily = () => {
+    if (daily.sold || !spend(daily.price)) return;
+    setDailyState((s) => ({ ...s, daily: { ...s.daily, sold: true } }));
+    toast(`${daily.qty} boosters ${daily.pack.name} ajoutés à votre réserve fictive.`);
+  };
+  const buyDailyCard = (i) => {
+    const c = dailyCards[i];
+    if (c.sold || !spend(c.price)) return;
+    setDailyState((s) => ({ ...s, cards: s.cards.map((x, j) => (j === i ? { ...x, sold: true } : x)) }));
+    toast(`${c.name} ajoutée à votre collection fictive.`);
+  };
+  const buyWeeklyCard = (i) => {
+    const c = weeklyCards[i];
+    if (c.sold || !spend(c.price)) return;
+    setWeeklyCards((w) => w.map((x, j) => (j === i ? { ...x, sold: true } : x)));
+    toast(`${c.name} ajoutée à votre collection fictive.`);
+  };
+  const buyLucky = () => { if (luckyRemaining < 1 || !spend(120)) return; setLuckyRemaining((n) => n - 1); toast("Lucky Boost ajouté à votre réserve fictive."); };
+  const buyReroll = () => {
+    if (rerollUsed || !spend(150)) return;
+    setRerollUsed(true); setLuckyRemaining(rand(1, 4)); setLuckyRates(generateLuckyRates()); setWeeklyCards(generateWeekly()); setWeeklyIndex(0);
+    toast("Nouvelle sélection hebdomadaire fictive.");
+  };
+  const claimFragments = () => { if (fragmentClaimed) return; setFragmentClaimed(true); setBalance((b) => b + 160); toast("+160 fragments fictifs."); };
+  const refill = () => { setBalance((b) => b + 10000); toast("+10 000 fragments fictifs pour tester les achats."); };
+  const buyPerm = (p) => { if (!spend(p.price)) return; setAddedId(p.id); };
+
+  const sections = { daily: useRef(null), weekly: useRef(null), permanent: useRef(null) };
+  const goTo = (id) => sections[id].current?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const { pack, qty, discount, normal, price, sold } = daily;
+  const packAvailability = (p) => p.id === pack.id ? "Lot du jour" : ["memory", "anima", "rarity", "epico"].includes(p.id) ? null : p.category === "event" ? "Événement" : "Lot du jour seulement";
+  const rateGroups = [
+    { title: "Offres en cours", items: [
+      { id: "lucky", name: "lucky boost", kicker: "Cette semaine", pack: LUCKY_PACK, rates: luckyRates, meta: `5 cartes par booster · pool de ${LUCKY_PACK.pool} modèles`, note: "Tirés pour cette semaine : chaque palier est présent à 70 %, les taux absents sont redistribués. Renouvelés le lundi et au reroll." },
+      { id: "daily-cards", name: "Cartes du jour", kicker: "Aujourd'hui", rates: DAILY_CARD_RATES, meta: "0 à 3 cartes par jour · 1 exemplaire chacune", note: "Taux utilisés pour composer la sélection du jour." },
+      { id: "weekly-cards", name: "Vitrine de la semaine", kicker: "Cette semaine", rates: WEEKLY_CARD_RATES, meta: "4 cartes par semaine · 1 exemplaire chacune", note: "Plus généreuse que les cartes du jour sur les raretés hautes et les finitions." },
+    ] },
+    { title: "Boosters", items: PACKS.map((p) => ({
+      id: p.id, name: p.name, pack: p, rates: packRates(p), flag: p.id === pack.id ? "aujourd'hui" : undefined,
+      kicker: packAvailability(p) || "Permanent",
+      meta: p.id === "merry" ? `1 carte par ouverture · pool de ${p.pool} modèles` : `5 cartes par booster · pool de ${p.pool} modèles`,
+      note: p.id === "merry" ? "Carte événementielle, mate et classique, qui ne rejoint pas la collection." : p.id === "legenda" ? "Uniquement en lot du jour, et rarement." : undefined,
+    })) },
+  ];
+  const noCards = dailyCards.length === 0;
+  const offers = (n) => `${n} offre${n > 1 ? "s" : ""}`;
+  const stock = (c) => (c?.sold ? "épuisée" : "1 exemplaire");
+  const dailyShown = dailyCards[Math.min(dailyIndex, dailyCards.length - 1)];
+  const weeklyShown = weeklyCards[weeklyIndex];
+  const category = pack.category === "classique" ? "Édition classique" : pack.category === "special" ? "Édition spéciale" : "Édition événement";
+  const description = `Un lot de ${qty} booster${qty > 1 ? "s" : ""}, disponible aujourd’hui seulement à\u00a0−${discount}\u00a0%.`;
+
+  return (
+    <div className="bz" data-theme={theme}>
+      <style>{CSS}</style>
+      <div className="app-shell">
+        <header className="site-header">
+          <a className="brand" href="#" aria-label="Bizave TCG" onClick={(e) => e.preventDefault()}>bizave<span>TCG</span><i /></a>
+          <nav className="desktop-nav" aria-label="Navigation principale">
+            {["Boosters", "Collection", "Atelier", "Amis"].map((l, i) => <a key={l} className={i === 0 ? "active" : undefined} href="#" onClick={(e) => e.preventDefault()}>{l}</a>)}
+          </nav>
+          <div className="header-actions">
+            <div className="fragment-wallet" title="Solde fictif de la maquette"><Icon name="gem" /><strong>{format(balance)}</strong></div>
+          </div>
+        </header>
+
+        <main className="main-content">
+          <div className="prototype-controls">
+              <span className="prototype-label">Maquette interactive</span>
+              <select className="demo-select" value={scenario} onChange={(e) => onScenario(e.target.value)} aria-label="Choisir un scénario à afficher">
+                <option value="random">Simuler une offre</option>
+                <option value="classic">Offre classique</option>
+                <option value="rare">Rarity only</option>
+                <option value="epic">Epico stellari</option>
+                <option value="legendary">Legenda completa</option>
+                <option value="event">Événement</option>
+                <option value="empty">Aucune carte du jour</option>
+              </select>
+              <button className="icon-only" title="Basculer le thème" aria-label="Basculer le thème" onClick={() => setTheme((t) => (t === "dark" ? "light" : "dark"))}>
+                <Icon name={theme === "dark" ? "sun" : "moon"} />
+              </button>
+              <button className="text-utility" onClick={refill}>+ fragments (test)</button>
+            </div>
+          <div className="page-heading booster-section-heading">
+            <div className="booster-title-group">
+              <div className="title-row">
+                <h1>Boutique</h1>
+                <button type="button" className="rates-trigger" aria-haspopup="dialog" onClick={() => setRatesOpen(true)}><Icon name="info" />Taux de drop</button>
+              </div>
+              <a className="back-link" href="#" onClick={(e) => e.preventDefault()}><Icon name="back" />Vos boosters</a>
+            </div>
+          </div>
+
+          <nav className="shop-tabs" aria-label="Rubriques de la boutique">
+            {SECTIONS.map(([id, label]) => <button key={id} type="button" className="shop-tab" onClick={() => goTo(id)}>{label}</button>)}
+          </nav>
+
+          <section className="shop-section" ref={sections.daily}>
+              <div className="shop-section-head"><h2>Aujourd'hui</h2><span className="section-timer"><Icon name="clock" /><span>{clock.daily}</span></span></div>
+              <div className={`daily-grid${noCards ? " has-no-cards" : ""}`}>
+                <section className="featured-offer">
+                  <div className="section-line"><h3>Le lot du jour</h3></div>
+                  <div className="offer-card">
+                    <div className="hero-offer">
+                      <div className="hero-visual"><div className="pack-stack"><Pack p={pack} /></div></div>
+                      <div className="hero-meta">
+                        <h3 className="hero-name">{category}</h3>
+                        <p className="hero-description">{description}</p>
+                        <div className="price-block">
+                          <span className="price-value">{format(price)}</span><span className="price-units">fragments</span>
+                          <span className="old-price">{format(normal)}</span>
+                        </div>
+                        <button className="primary-button" disabled={sold || balance < price} onClick={buyDaily}>
+                          {sold ? <><Icon name="check" /> Lot acheté</> : <>Acheter le lot <Icon name="arrow" /></>}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                {!noCards && (
+                  <section className="card-zone">
+                    <div className="section-line">
+                      <h3>Cartes du jour · {offers(dailyCards.length)} · <span className="stock-label">{stock(dailyShown)}</span></h3>
+                    </div>
+                    <CardStage cards={dailyCards} index={Math.min(dailyIndex, dailyCards.length - 1)} onIndex={setDailyIndex} balance={balance} onBuy={buyDailyCard} label="Choisir une carte du jour" soldLabel="Achetée" />
+                  </section>
+                )}
+              </div>
+          </section>
+
+          <section className="shop-section" ref={sections.weekly}>
+              <div className="shop-section-head"><h2>Cette semaine</h2><span className="section-timer"><Icon name="clock" /><span>{clock.weekly}</span></span></div>
+              <div className="weekly-layout">
+                <section className="weekly-lucky">
+                  <div className="section-line"><h3>Lucky Boost · {luckyRemaining} restant{luckyRemaining > 1 ? "s" : ""}</h3></div>
+                  <div className="offer-card">
+                    <div className="lucky-preview">
+                      <div className="lucky-pack"><Pack p={LUCKY_PACK} /></div>
+                      <div className="lucky-details">
+                        <h3>Tirage personnalisé</h3>
+                        <p>Un booster aux probabilités et au pool uniques, renouvelé chaque lundi.</p>
+                        <div className="price-block"><span className="price-value">120</span><span className="price-units">fragments</span></div>
+                        <button className="primary-button" disabled={luckyRemaining <= 0 || balance < 120} onClick={buyLucky}>
+                          {luckyRemaining <= 0 ? "Épuisé" : <>Acheter <Icon name="arrow" /></>}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </section>
+                <section className="weekly-showcase">
+                  <div className="section-line">
+                    <h3>Vitrine de la semaine · {offers(weeklyCards.length)} · <span className="stock-label">{stock(weeklyShown)}</span></h3>
+                  </div>
+                  <CardStage cards={weeklyCards} index={weeklyIndex} onIndex={setWeeklyIndex} balance={balance} onBuy={buyWeeklyCard} label="Choisir une carte de la vitrine" soldLabel="Épuisée" />
+                </section>
+              </div>
+              <section className="section-block">
+                <div className="section-line"><h3>Bonus de la semaine</h3></div>
+                <div className="bonus-grid">
+                  <div className="bonus-box">
+                    <div className="bonus-icon"><Icon name="refresh" /></div>
+                    <div className="bonus-copy"><strong>Reroll</strong><small>Renouveler Lucky Boost et la vitrine</small>
+                      <button className="secondary-button mini-buy" disabled={rerollUsed || balance < 150} onClick={buyReroll}>
+                        {rerollUsed ? "Déjà utilisé" : <>Reroll · 150 <Icon name="gem" /></>}
+                      </button>
+                    </div>
+                  </div>
+                  <div className="bonus-box">
+                    <div className="bonus-icon"><Icon name="gem" /></div>
+                    <div className="bonus-copy"><strong>Carte fragments</strong><small>Une récompense gratuite cette semaine</small>
+                      <button className="secondary-button mini-buy" disabled={fragmentClaimed} onClick={claimFragments}>{fragmentClaimed ? "Réclamée" : "Réclamer gratuitement"}</button>
+                    </div>
+                  </div>
+                </div>
+              </section>
+          </section>
+
+          <section className="shop-section" ref={sections.permanent}>
+              <div className="shop-section-head"><h2>Permanents</h2><span className="section-note">Toujours disponibles</span></div>
+              <div className="permanent-grid">
+                {PACKS.filter((p) => ["memory", "anima", "rarity", "epico"].includes(p.id)).map((p) => (
+                  <article className="permanent-tile" key={p.id}>
+                    <Pack p={p} small />
+                    <ShopBuy price={p.price} disabled={balance < p.price} added={addedId === p.id} onClick={() => buyPerm(p)} />
+                  </article>
+                ))}
+              </div>
+          </section>
+        </main>
+
+        <footer className="site-footer">
+          <span>Bizave TCG · Prototype JSX indépendant · Aucun achat réel</span>
+          <span>Conception basée sur les styles du dépôt <a className="footer-link" href="https://github.com/kabomane/bizave-tcg" target="_blank" rel="noreferrer">kabomane/bizave-tcg</a></span>
+        </footer>
+      </div>
+
+      <nav className="mobile-nav" aria-label="Navigation mobile">
+        {[["package", "Boosters"], ["layers", "Collection"], ["recycle", "Atelier"], ["users", "Amis"]].map(([ic, l], i) => (
+          <a key={l} className={i === 0 ? "active" : undefined} href="#" onClick={(e) => e.preventDefault()}><Icon name={ic} /><span>{l}</span></a>
+        ))}
+      </nav>
+
+      {ratesOpen && <RatesDialog groups={rateGroups} onClose={closeRates} />}
+
+      {toastMsg && <div className="toast" role="status" aria-live="polite" key={toastMsg.k}>{toastMsg.m}</div>}
+    </div>
+  );
+}

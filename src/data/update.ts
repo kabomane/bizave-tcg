@@ -1,5 +1,5 @@
 // Increment this counter and replace the note before each announced deployment.
-export const UPDATE_VERSION = 8
-export const UPDATE_NOTE = `ajouts de quelques cartes dans Memory Frame, modification du reroll payant
+export const UPDATE_VERSION = 9
+export const UPDATE_NOTE = `nouvelle version de la boutique , ajout d’une sélection journalière . ajout de nouvelles cartes dans memory frame.
 
-WFSJ-CB4K-B8ZJ-9SBH`
+Z5YW-2G99-6JR8-CEEH`

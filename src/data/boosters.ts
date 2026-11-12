@@ -39,4 +39,11 @@ export const boosters: BoosterDefinition[] = [{
   rates: { rarity: { common: 0, uncommon: 0, rare: 100, epic: 0, legendary: 0 }, finish: 'default', illustration: 'default' },
   enabled: true, order: 2,
   showInFilters: false,
+}, {
+  id: 'legenda-completa', title: 'legenda completa', subtitle: `${packCards.filter(card => card.rarity === 'legendary').length} cartes`, description: '',
+  artwork: { emoji: '👑', colors: { primary: '#866833', secondary: '#201a14', shine: '#fff2bd', glow: '#cfaa4b' } },
+  access: { type: 'shop', price: 1600, listed: false }, cardsPerPack: 5,
+  sources: [{ type: 'rarities', rarities: ['legendary'] }],
+  rates: { rarity: { common: 0, uncommon: 0, rare: 0, epic: 0, legendary: 100 }, finish: 'default', illustration: 'default' },
+  enabled: true, order: 5, showInFilters: false, dailyOnly: true,
 }]

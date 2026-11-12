@@ -1,12 +1,16 @@
-# bizave-tcg.v1.5.0
+# bizave-tcg.v1.5.1
 
-Version **bizave-tcg.v1.5.0** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 190 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 57 cartes partagées, et **rarity only**, 62 cartes rares. Le catalogue compte 334 modèles illustrés, dont la promo Bizave TCG bêta (PR-001).
+Version **bizave-tcg.v1.5.1** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 220 cartes, **Anima Isekai**, 143 cartes, **epico stellari**, 58 cartes partagées, et **rarity only**, 62 cartes rares. Le catalogue compte 365 modèles illustrés, dont les promos Bizave TCG bêta (PR-001) et Merry Wifemas (PR-002).
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
+## Version 1.5.1 — refonte de la boutique
+
+La boutique réunit **Aujourd’hui / Cette semaine / Permanents** : lot journalier de 5 à 10 boosters identiques remisé de 5 à 20 %, 0 à 3 cartes aux taux standards, et **legenda completa** exclusif au quotidien (cinq légendaires garanties). Renouvellement à minuit Europe/Paris, stock séparé et ouvertures récupérables. [Fonctionnement et paramètres provisoires](docs/boutique-journaliere.md). L’ancienne boutique est conservée dans `archive/boutique-2026-11-12`.
+
 ## Passage en 1.5.0
 
-Les joueurs de la bêta retrouvent le code de compensation PR-001 avant de réinitialiser leur partie. Le code offre une carte au format Classique, finition Alternative. Le bouton d’entrée remplace la sauvegarde bêta par une sauvegarde neuve au schéma 12. Voir [le parcours de réouverture](docs/mises-a-jour.md#passage-en-version-150).
+Les joueurs de la bêta retrouvent le code de compensation PR-001 avant de réinitialiser leur partie. Le code offre une carte au format Classique, finition Alternative. Le bouton d’entrée remplace la sauvegarde bêta par une sauvegarde neuve au schéma 13. Voir [le parcours de réouverture](docs/mises-a-jour.md#passage-en-version-150).
 
 ## Version 1.4.5
 
@@ -14,11 +18,11 @@ Memory Frame accueille 22 cartes de la vague 2 et la promo PR-001 rejoint le cat
 
 ## Éditions actuelles
 
-**Memory Frame** remplace le nom Phantom Blood et réunit désormais 190 cartes, toutes illustrées. Son pool est défini explicitement dans `src/data/pools/memory-frame.json` ; son identifiant technique `phantom-blood` conserve les stocks et ouvertures existants. Il utilise les crédits gratuits et reste achetable à 70 fragments.
+**Memory Frame** remplace le nom Phantom Blood et réunit désormais 220 cartes, toutes illustrées. Son pool est défini explicitement dans `src/data/pools/memory-frame.json` ; son identifiant technique `phantom-blood` conserve les stocks et ouvertures existants. Il utilise les crédits gratuits et reste achetable à 70 fragments.
 
 **Anima Isekai** propose les 143 cartes de son carnet, dans `src/data/pools/anima-isekai.json`. Il utilise le stock gratuit commun et reste disponible en boutique à **50 fragments** pour cinq cartes. Ses 143 illustrations sont intégrées. Les pools Memory Frame et Anima Isekai sont distincts et utilisent les mêmes taux de tirage par défaut.
 
-**epico stellari** est disponible uniquement en boutique à **700 fragments** pour cinq cartes. Son pool compte 34 épiques et 23 légendaires éligibles aux tirages. Chaque carte a 91 % de chance d’être épique et 9 % légendaire. Les finitions et illustrations suivent les taux par défaut.
+**epico stellari** est disponible uniquement en boutique à **700 fragments** pour cinq cartes. Son pool compte 35 épiques et 23 légendaires éligibles aux tirages. Chaque carte a 91 % de chance d’être épique et 9 % légendaire. Les finitions et illustrations suivent les taux par défaut.
 
 L’interface utilise une DA ivoire, encre et bordeaux indépendante du cahier de référence. Le sachet se clique directement ; chaque carte révélée se clique pour passer à la suivante. Après la cinquième, un clic affiche le récapitulatif. Les gabarits Fusion/Gundam et la limite de 20° restent inchangés.
 
@@ -72,9 +76,9 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 
 ## Ce qui est livré
 
-- Memory Frame : **190 modèles** (65 communs, 46 peu communs, 41 rares, 21 épiques, 17 légendaires), gratuits ou achetables à 70 fragments.
+- Memory Frame : **220 modèles** (83 communs, 57 peu communs, 41 rares, 22 épiques, 17 légendaires), gratuits ou achetables à 70 fragments.
 - Anima Isekai : **143 modèles** (69 communs, 34 peu communs, 21 rares, 13 épiques, 6 légendaires), gratuits ou en boutique à 50 fragments.
-- **334 illustrations WebP versionnées**, pour 334 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
+- **365 illustrations WebP versionnées**, pour 365 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
 - Stock gratuit global **5**, recharge **1/15 min** hors jeu, plafond strict. Les dépenses partielles ne déplacent pas la prochaine échéance.
@@ -138,13 +142,13 @@ Une collection éditoriale n’est pas un booster : plusieurs boosters peuvent p
 
 Le fonctionnement complet est documenté dans [docs/boosters.md](docs/boosters.md).
 
-Les définitions sont dans `src/data/boosters.ts`. Chaque paquet possède son pool, son habillage, son ordre et son accès. Un paquet gratuit consomme le stock commun. Un paquet `access: { type: 'shop', price: 60 }` s’achète en boutique avant d’être ouvert depuis un stock séparé. Les trois profils `rates.rarity`, `rates.finish` et `rates.illustration` valent `default` ou une distribution complète personnalisée ; une propriété absente hérite des valeurs par défaut. Le moteur et les panneaux « Taux de drop » utilisent le même résolveur pour le booster sélectionné, sans ajouter son nom au panneau.
+Les définitions sont dans `src/data/boosters.ts`. Chaque paquet possède son pool, son habillage, son ordre et son accès. Un paquet gratuit consomme le stock commun. Un paquet `access: { type: 'shop', price: 60 }` s’achète en boutique avant d’être ouvert depuis un stock séparé. Les trois profils `rates.rarity`, `rates.finish` et `rates.illustration` valent `default` ou une distribution complète personnalisée ; une propriété absente hérite des valeurs par défaut. Le moteur et la vue plein écran « Taux de drop » utilisent le même résolveur ; les tags sélectionnent l’édition et le carrousel affiche Rareté, Finition ou Illustration.
 
 Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement si plusieurs paquets sont disponibles ; Memory Frame et Anima Isekai sont toujours sélectionnables. Ils utilisent d’abord les crédits gratuits, puis leur réserve achetée lorsque le gratuit est vide. Le compteur réunit les deux stocks sous la forme « 0 / 5 + n » ; l’invitation « Toucher pour ouvrir » est retirée. epico stellari apparaît dans Vos boosters lorsqu’un exemplaire est détenu et consomme uniquement sa réserve achetée.
 
-Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 190 et 143 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires éligibles aux tirages. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
+Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 220 et 143 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires éligibles aux tirages. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
 
-La boutique reprend le carrousel tactile et clavier de Vos boosters, avec les mêmes dimensions de sachets. Seul le paquet défile ; le bouton d’achat reste fixe et adapte son prix, sa disponibilité et son action au paquet sélectionné. Pendant le déplacement horizontal, il est désactivé et affiche une flèche tournante jusqu’à l’alignement du nouveau paquet et de son offre. Le défilement vertical de la page ne déclenche pas ce verrou.
+La boutique affiche le lot quotidien et Lucky Boost chacun à côté de son carrousel de cartes ; les éditions permanentes sont présentées en grille. Les boutons des carrousels restent fixes et sont désactivés pendant le déplacement horizontal, jusqu’à l’alignement de la carte affichée. Le défilement vertical ne déclenche pas ce verrou. Les taux de toutes les éditions et vitrines sont réunis près du titre Boutique.
 
 ## Stock, taux et économie
 
@@ -170,7 +174,7 @@ Chaque build publie un identifiant technique indépendant des notes. Un bandeau 
 
 ### Page de mise à jour
 
-`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 8) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note. Le passage en 1.5.0 a son propre écran de transition.
+`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 9) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note. Le passage en 1.5.0 a son propre écran de transition.
 
 Au chargement uniquement, avant l’initialisation de la sauvegarde, l’app distingue un nouveau joueur d’une partie déjà existante. Un nouveau joueur sans clé reçoit directement le compteur actuel dans `localStorage.updated` et entre dans le jeu. Un joueur existant dont `updated` est absent, invalide ou inférieur au compteur passe par `/mise-a-jour`. Cette page autonome affiche « Bizave TCG a été mis à jour », la note et un bouton Continuer centré en bas. Continuer mémorise le compteur et redirige vers Boosters ; recharger avant confirmation présente à nouveau la page. Une valeur supérieure au compteur courant est conservée, notamment en cas de retour à une ancienne version.
 
@@ -178,7 +182,7 @@ La clé `updated` reste hors d’IndexedDB et des transferts de sauvegarde. Aucu
 
 Quand les outils de développement sont disponibles (`VITE_DEV_CATALOG`), Options propose un interrupteur **Page de mise à jour**, identique au Mode dev : activé, il remet `updated` à 0 ; désactivé, il mémorise le compteur actuel. Aucune navigation immédiate : recharger permet de tester la page. Comme le Mode dev, cet interrupteur est masqué dans le build de production actuel.
 
-Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 12. Le schéma 11 a ajouté la boutique hebdomadaire personnelle dans `weeklyShop` (sur `/boutique`). La table `boosterPurchases` est conservée pour la compatibilité des sauvegardes. Les achats n’y ajoutent plus de lignes. Voir [la boutique hebdomadaire](docs/boutique-hebdomadaire.md). La base canonique reste bizave-tcg. Les mises à jour ordinaires conservent les cartes détenues, les fragments et les ouvertures en cours. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
+Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 13. Il ajoute la boutique journalière dans `dailyShop/current`, sans historique. Voir [le quotidien](docs/boutique-journaliere.md). Le schéma 11 a ajouté la boutique hebdomadaire personnelle dans `weeklyShop` (sur `/boutique`). La table `boosterPurchases` est conservée pour la compatibilité des sauvegardes. Les achats n’y ajoutent plus de lignes. Voir [la boutique hebdomadaire](docs/boutique-hebdomadaire.md). La base canonique reste bizave-tcg. Les mises à jour ordinaires conservent les cartes détenues, les fragments et les ouvertures en cours. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
 
 Une variante est `(cardId, finish, artVariant)`. Un exemplaire possède un `dropId` UUID v4 permanent. Les découvertes restent enregistrées après recyclage ou envoi. Les statuts `outgoing` et `recycled` empêchent les réutilisations incohérentes.
 
@@ -239,7 +243,7 @@ src/pages/          pages du jeu et options
 src/styles/        thème UI et CSS de carte de référence
 tests/             parcours navigateur Playwright
 references/        carnets actuels du 1er novembre, références historiques et démo des finitions
-public/assets/     334 WebP versionnés
+public/assets/     365 WebP versionnés
 ```
 
 Références de stack vérifiées : [Tailwind/Vite](https://tailwindcss.com/docs/installation/using-vite), [Dexie useLiveQuery](https://dexie.org/docs/dexie-react-hooks/useLiveQuery()), [Vite réseau](https://vite.dev/config/server-options).
@@ -256,7 +260,7 @@ Le logo Bizave ouvre les options. Le thème suit le système par défaut ; les c
 
 Apparence propose aussi **Main dominante** : Droitier par défaut place les croix de fermeture à droite dans toutes les fenêtres ; Gaucher les place à gauche. En aperçu à deux actions, Favori et Partager occupent le côté opposé. Ce choix est enregistré sous `bizave.preferences.v1`, comme le thème.
 
-Le mode dev affiche les 334 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
+Le mode dev affiche les 365 modèles et leurs six variantes, sans écrire dans Dexie. Les aperçus ne peuvent être envoyés ni recyclés. Le module temporaire est isolé dans `src/dev/catalogPreview.ts`. Pour la sortie, définir `VITE_DEV_CATALOG=false` dans `.env.production` avant le build : le réglage et la projection sont désactivés, même si une ancienne préférence les activait.
 
 La page `/fragments` s’ouvre depuis le compteur de l’en-tête. Le choix du destinataire partage `FriendPicker` avec le don de carte. Le montant se règle à l’unité, par boutons accélérés, curseur quadratique ou clavier ; un clic sur Envoyer confirme. Aucun remboursement automatique si le code reste inutilisé.
 

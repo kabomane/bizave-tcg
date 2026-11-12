@@ -93,7 +93,7 @@ it('importe les anciennes sauvegardes du schéma 6 sans favoris ni ouvertures te
   const card = await copy(), identity = await ensureIdentity(db)
   const envelope = JSON.parse(await exportSave((await ensureInstallation(other)).installationId, DEFAULT_PREFERENCES, db))
   const payload = JSON.parse(envelope.payload)
-  payload.schemaVersion = 6; payload.tables.player[0].schemaVersion = 6; delete payload.tables.weeklyShop; delete payload.tables.favorites; delete payload.tables.recycledCards
+  payload.schemaVersion = 6; payload.tables.player[0].schemaVersion = 6; delete payload.tables.dailyShop; delete payload.tables.weeklyShop; delete payload.tables.favorites; delete payload.tables.recycledCards
   payload.tables.openings.push({ id: crypto.randomUUID(), boosterId: 'phantom-blood', openedAt: 1, payment: 'free', fragmentsSpent: 0, results: [card], revealComplete: true, revealedCount: 1 })
   envelope.payload = JSON.stringify(payload)
   envelope.signature = base64url(new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, canonicalSavePayload(envelope.payload))))

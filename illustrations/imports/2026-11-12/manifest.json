@@ -1,0 +1,1025 @@
+{
+  "date": "2026-11-12",
+  "archive": "vague 2 - 110 cartes.zip",
+  "carnet": "references/carnet-memory-frame-2026-11-12.jsx",
+  "illustrations": [
+    {
+      "cardId": "insh-allah-airline",
+      "title": "Insh'Allah Airline",
+      "number": 334,
+      "sourceEntry": "inshallah_airline.png",
+      "original": {
+        "path": "illustrations/originals/insh-allah-airline.png",
+        "sha256": "b185d969541f5df8d836ab69ce98a30b452a7d00ac36bd3e620b959a7287ec6f",
+        "bytes": 2819991,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/insh-allah-airline/illustration.015c64a898.webp",
+        "sha256": "015c64a898dd17a90ad368b105f32ed7e4e21a746ef182707e2894a6b678da42",
+        "bytes": 209320,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gras-thomas",
+      "title": "Thogras",
+      "number": 335,
+      "sourceEntry": "thogras.png",
+      "original": {
+        "path": "illustrations/originals/gras-thomas.png",
+        "sha256": "76b98f1c9f8d81423ecf2213552643401d963bb0cd7ff08d25fd678a5269400d",
+        "bytes": 3972648,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gras-thomas/illustration.8141aa77a8.webp",
+        "sha256": "8141aa77a88ee8da2d21622e5b3a49e8c20de298032c19506345cdcba8d7b3e3",
+        "bytes": 219930,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gras-matthieu",
+      "title": "Gratthieu",
+      "number": 336,
+      "sourceEntry": "gratthieu.png",
+      "original": {
+        "path": "illustrations/originals/gras-matthieu.png",
+        "sha256": "9264e0384060a9a22a159c05fec0bd186a3ec1530e7840b64493d2a731a7844c",
+        "bytes": 2789989,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gras-matthieu/illustration.fb7c3eb0f5.webp",
+        "sha256": "fb7c3eb0f56779f9d749002795f36ef2e97753b274f3e07963537d985790d1d7",
+        "bytes": 205022,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gras-eli",
+      "title": "Élidiabète",
+      "number": 337,
+      "sourceEntry": "elidiabete.png",
+      "original": {
+        "path": "illustrations/originals/gras-eli.png",
+        "sha256": "31d8cb2413735512d0ebd0d80030a0989e2a89dab9a40243be232040132ef4d5",
+        "bytes": 4054621,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gras-eli/illustration.7438da5d61.webp",
+        "sha256": "7438da5d6195123fb5481a8ce186fdbef2816a664a495ef03127cbfe2ddfa3a0",
+        "bytes": 254180,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gras-dorian",
+      "title": "Grorian",
+      "number": 338,
+      "sourceEntry": "grorian.png",
+      "original": {
+        "path": "illustrations/originals/gras-dorian.png",
+        "sha256": "7939e5a02cbca6182c1a85f571902292feac071b5ca3daa128bd92c2f48c655d",
+        "bytes": 2871180,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gras-dorian/illustration.3a81783a1c.webp",
+        "sha256": "3a81783a1c58fcb9bc000d44d9a3c79ef4d17fb142bb17d0b7f5e532709ae67a",
+        "bytes": 201306,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gras-nana",
+      "title": "Nangras",
+      "number": 339,
+      "sourceEntry": "nangras.png",
+      "original": {
+        "path": "illustrations/originals/gras-nana.png",
+        "sha256": "c6c152eee2e75ad9f233bc8a788cb71cf0c2ab60822fb17b7923de99389ad544",
+        "bytes": 3080065,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gras-nana/illustration.64cba0e07b.webp",
+        "sha256": "64cba0e07ba807074e7a5d080c0b1a1b5038283ea7a888ada98dfee6ea2009ae",
+        "bytes": 252192,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pres-thomas",
+      "title": "Président Thomas",
+      "number": 340,
+      "sourceEntry": "thomas_president.png",
+      "original": {
+        "path": "illustrations/originals/pres-thomas.png",
+        "sha256": "e3bd6e135f7cfcb624bd961c122ccaf325df645cd836474fe5f2ecd6557d738b",
+        "bytes": 2966529,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pres-thomas/illustration.d34188ca06.webp",
+        "sha256": "d34188ca06045154f7c2547fca7e8588503e2dc9c4a29dc9b86a0803e88ab8eb",
+        "bytes": 209266,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pres-matthieu",
+      "title": "Président Matthieu",
+      "number": 341,
+      "sourceEntry": "matthieu_president.png",
+      "original": {
+        "path": "illustrations/originals/pres-matthieu.png",
+        "sha256": "5549ec8e9b2be0b301b9bbc02340e6321567b7366b1e0b217576203eb254d06b",
+        "bytes": 3932657,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pres-matthieu/illustration.823f6c7084.webp",
+        "sha256": "823f6c7084f385b8ae3ad2dfa3f129474e9d4cb67fa46a1acd1f01e827ef9f87",
+        "bytes": 207854,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pres-dorian",
+      "title": "Président Dorian",
+      "number": 342,
+      "sourceEntry": "dorian_president.png",
+      "original": {
+        "path": "illustrations/originals/pres-dorian.png",
+        "sha256": "f7518c72b13bb4dbb2da425b6335cc6cfb255f3327a51648c4c12b1ca1ccb851",
+        "bytes": 3894375,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pres-dorian/illustration.9b2aa6ddfb.webp",
+        "sha256": "9b2aa6ddfb02f1f147fc36bfe77d3ad8723254b73c82c277a4bd7f53c6ea89ab",
+        "bytes": 199638,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pres-eli",
+      "title": "Première ministre Eli",
+      "number": 343,
+      "sourceEntry": "ministre_eli.png",
+      "original": {
+        "path": "illustrations/originals/pres-eli.png",
+        "sha256": "67ab84f32a271aa45be5a33acf993bd780bacd160b30680afd5049f6d164707c",
+        "bytes": 4126216,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pres-eli/illustration.58b3a32f8f.webp",
+        "sha256": "58b3a32f8fe549641ffe11ef3af0c1f2ce985c05bd5cedade486c8549825e55b",
+        "bytes": 289928,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "pres-nana",
+      "title": "Première ministre Nana",
+      "number": 344,
+      "sourceEntry": "ministre_nana.png",
+      "original": {
+        "path": "illustrations/originals/pres-nana.png",
+        "sha256": "6cda436e6a3a4c9c7060f3846647f36aaa25c9a1e5ad1e660b452e417f52bd37",
+        "bytes": 3775126,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/pres-nana/illustration.1cbf9564cf.webp",
+        "sha256": "1cbf9564cf33ae8c06ba513c99b410513140ee0b2ab23300411c75d3b2e21270",
+        "bytes": 187784,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-zelda",
+      "title": "Matthieu Zelda",
+      "number": 345,
+      "sourceEntry": "matthieu_zelda.png",
+      "original": {
+        "path": "illustrations/originals/m-zelda.png",
+        "sha256": "4dc643505d3e5fe6ced0bc79e4bf6f7d64aca5b9b00ee05be1ae62d88ee8a135",
+        "bytes": 4182402,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-zelda/illustration.a115ca0d36.webp",
+        "sha256": "a115ca0d36d6c9e84b18023aba157d0b236b81a7619b02b96563ae99a71c9e86",
+        "bytes": 249620,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-link",
+      "title": "Eli Link",
+      "number": 346,
+      "sourceEntry": "eli_link.png",
+      "original": {
+        "path": "illustrations/originals/eli-link.png",
+        "sha256": "ab0cb9eab5d89432cc2286981b936233a985d1b56406209630dbe11a6ddbadeb",
+        "bytes": 4352489,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-link/illustration.eb98753936.webp",
+        "sha256": "eb98753936fb228de9a0c69f2901fbffe37dac1bfbe748f9f4e8a806dc843f7b",
+        "bytes": 324982,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-paiement",
+      "title": "Eli paiement refusé",
+      "number": 347,
+      "sourceEntry": "eli_paiement_refuse.png",
+      "original": {
+        "path": "illustrations/originals/eli-paiement.png",
+        "sha256": "8de50746b6d2f7364948baebf12b398192c25ced226be92eac6995f2dae8ac16",
+        "bytes": 2858127,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-paiement/illustration.353b5a4fc9.webp",
+        "sha256": "353b5a4fc9d839b0f5d8ab3cb64773febc28e1a14478c03e6be52b373379d5ec",
+        "bytes": 195498,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-pigeons",
+      "title": "Eli passion pigeon",
+      "number": 348,
+      "sourceEntry": "eli_passion_pigeon.png",
+      "original": {
+        "path": "illustrations/originals/eli-pigeons.png",
+        "sha256": "c013e464ad17c92aaba9274d2c3609688d66aec9fafc8928708e9875cf14dc8f",
+        "bytes": 3312275,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-pigeons/illustration.4fa409afb5.webp",
+        "sha256": "4fa409afb57e1dcfb7cd3991cc0d0a62592ab23cb0c9a1f62b6986cc3c8b8122",
+        "bytes": 285356,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-chat",
+      "title": "Chat d'Eli",
+      "number": 349,
+      "sourceEntry": "chat_eli.png",
+      "original": {
+        "path": "illustrations/originals/eli-chat.png",
+        "sha256": "74807e2f32030a353782914f2f2cb4fa46374dc4b369a5ff7af70f4d7d2f68f5",
+        "bytes": 2856333,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-chat/illustration.6bf1f74db2.webp",
+        "sha256": "6bf1f74db2f8cab8a01edd751c1b98d3f1c33281521464d9aac286b975b619ea",
+        "bytes": 193736,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-perd-tout",
+      "title": "Eli perd tout",
+      "number": 350,
+      "sourceEntry": "eli_perd_tout.png",
+      "original": {
+        "path": "illustrations/originals/eli-perd-tout.png",
+        "sha256": "0904e6c9265e6c37add493f015eab0b266258f0dc7720e2da6b95e00e7816b37",
+        "bytes": 2946498,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-perd-tout/illustration.48a2d5ca84.webp",
+        "sha256": "48a2d5ca84839a1a89e235a7dd6195073e9955c4f9b62f626230a5ba8ed6c332",
+        "bytes": 219668,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eli-supporter",
+      "title": "Eli supporter",
+      "number": 351,
+      "sourceEntry": "eli_supporter.png",
+      "original": {
+        "path": "illustrations/originals/eli-supporter.png",
+        "sha256": "5d0d9870e0e9d135d94c3bd4049050b58c0c401ace43e1284694f80f7b1b1d4a",
+        "bytes": 3322483,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eli-supporter/illustration.3ec515265c.webp",
+        "sha256": "3ec515265cf861780cf7a62941e453500e9ddb615c059f7df21ce86b7a3c4bca",
+        "bytes": 301222,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "m-photographe",
+      "title": "Matthieu photographe",
+      "number": 352,
+      "sourceEntry": "matthieu_photographe.png",
+      "original": {
+        "path": "illustrations/originals/m-photographe.png",
+        "sha256": "723cdbb28b9732b9b42e09e9e80c7e2029987025fd40eec8abad61959edb9176",
+        "bytes": 4087739,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/m-photographe/illustration.72ed5fea0f.webp",
+        "sha256": "72ed5fea0fc2303bc441d39b99b1bf695a0a335afd1b8efaf642d6e573394f6a",
+        "bytes": 236206,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sel-chambre",
+      "title": "Sel de chambre",
+      "number": 353,
+      "sourceEntry": "sel_de_chambre.png",
+      "original": {
+        "path": "illustrations/originals/sel-chambre.png",
+        "sha256": "6bbcb393e8c8cf7445612a24c7407c7568e274ffc71438ef2333cfcf96b8668f",
+        "bytes": 2774523,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sel-chambre/illustration.83c560cf09.webp",
+        "sha256": "83c560cf0935f7c001eaafd8c1af63f12bd73832d1acca462ee9594e8a6d969b",
+        "bytes": 191944,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "la-bresilienne",
+      "title": "La Brésilienne",
+      "number": 354,
+      "sourceEntry": "bresiliennes.png",
+      "original": {
+        "path": "illustrations/originals/la-bresilienne.png",
+        "sha256": "e31669c44092d9d11f80fb4aab879960153ac8bd205b783c68ebe3247edd0c4d",
+        "bytes": 3896940,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/la-bresilienne/illustration.a8ac5ef2e2.webp",
+        "sha256": "a8ac5ef2e2adea9278a28acaeed92e10da850b9d7c7bffd8ce5877cadf0d2946",
+        "bytes": 231076,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-import",
+      "title": "Thomas import",
+      "number": 355,
+      "sourceEntry": "thomas_import.png",
+      "original": {
+        "path": "illustrations/originals/t-import.png",
+        "sha256": "fb43ef429610880636e2a674611c5a50947be91e0515244ef1124ab3ab4f5c80",
+        "bytes": 3979218,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-import/illustration.c5dc7a275c.webp",
+        "sha256": "c5dc7a275c4ccc01576ab74b9231b350a29949cbf3ac8eac96eb815d6ab04c37",
+        "bytes": 204178,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "le-douanier",
+      "title": "Le douanier",
+      "number": 356,
+      "sourceEntry": "le_douanier.png",
+      "original": {
+        "path": "illustrations/originals/le-douanier.png",
+        "sha256": "ccc627bb926bfc9968cc65f8bd3c809437843e8dd931164920bd4ebc9ca3dd8d",
+        "bytes": 3293887,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/le-douanier/illustration.9674f6acfb.webp",
+        "sha256": "9674f6acfb0d805ef1f1a3212f4ad3c81c07ee05bed0c981de2e72a62cfe6bee",
+        "bytes": 274350,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nana-bouffonne",
+      "title": "Nana costume bouffonne",
+      "number": 357,
+      "sourceEntry": "nana_bouffonne.png",
+      "original": {
+        "path": "illustrations/originals/nana-bouffonne.png",
+        "sha256": "c92cd0e7f7a0aa42e47290675fc74a61f2feeb4bdca662dcaee0b17ce1cb9e29",
+        "bytes": 2899372,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nana-bouffonne/illustration.241f768c16.webp",
+        "sha256": "241f768c1665b48a6852434c737f58a6c4872c7ff6f1efe6b4fa36db7a78eb9a",
+        "bytes": 209484,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nana-modele",
+      "title": "Nana modèle",
+      "number": 358,
+      "sourceEntry": "nana_modele.png",
+      "original": {
+        "path": "illustrations/originals/nana-modele.png",
+        "sha256": "774da10dee577344c03dad50d464fc0305269d8e484286b3632fee61bcfc51dd",
+        "bytes": 4219241,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nana-modele/illustration.33b3071179.webp",
+        "sha256": "33b307117967bb794639957c1b29377b4532fb1997e56c469ac181ca8a0d4bf9",
+        "bytes": 254372,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "village-hors-du-temps",
+      "title": "Le village médiéval",
+      "number": 359,
+      "sourceEntry": "village_medieval.png",
+      "original": {
+        "path": "illustrations/originals/village-hors-du-temps.png",
+        "sha256": "d95bcc5f788d2aa2f3516c3b7648204b3204ef7750a623c1b681cb4774e588c6",
+        "bytes": 3302224,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/village-hors-du-temps/illustration.f748ec3f8c.webp",
+        "sha256": "f748ec3f8c229d2466ae1228307ef35cbfc1fbedecd5043e8e357a7720e704d4",
+        "bytes": 308978,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nana-bourre",
+      "title": "Nana à la bourre",
+      "number": 360,
+      "sourceEntry": "nana_la_bourre.png",
+      "original": {
+        "path": "illustrations/originals/nana-bourre.png",
+        "sha256": "9b6ff0e63d2e52e27895c8f6f0a7fe0cd32569d7c5006d0fb314a69b3348c63b",
+        "bytes": 3152551,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nana-bourre/illustration.c9556eca8d.webp",
+        "sha256": "c9556eca8dbccf664ed4fc8a720c48787fe3bc5c8eeab890f084a0617d2681b1",
+        "bytes": 230740,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "t-mangaka",
+      "title": "Thomas mangaka",
+      "number": 361,
+      "sourceEntry": "thomas_mangaka.png",
+      "original": {
+        "path": "illustrations/originals/t-mangaka.png",
+        "sha256": "a923d10f1fe4c46596949d5d38478cbada3c2d04412ed2ad481144a54de9cb4d",
+        "bytes": 3971938,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/t-mangaka/illustration.b27e09a6de.webp",
+        "sha256": "b27e09a6ded8deb6bffb911a91e1b314772f210f92d8d625f823a50d49e0b7fd",
+        "bytes": 231308,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nana-pause",
+      "title": "Nana en pause",
+      "number": 362,
+      "sourceEntry": "nana_en_pause.png",
+      "original": {
+        "path": "illustrations/originals/nana-pause.png",
+        "sha256": "ae1e284d9c10f6f8e9a1a0a269881b41800e453a2e37d3f0299f543e70754464",
+        "bytes": 3781543,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nana-pause/illustration.9e52333864.webp",
+        "sha256": "9e52333864399b94703eaf63e46baced1e21c5d04760b59a6d47dd5288ad3b8b",
+        "bytes": 159222,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "nana-tanuki",
+      "title": "Nana vs la tanuki",
+      "number": 363,
+      "sourceEntry": "nana_vs_tanuki.png",
+      "original": {
+        "path": "illustrations/originals/nana-tanuki.png",
+        "sha256": "e96bc3934b72338996581723d836453922dc718a5a5cdedbae9a5d04510f72e1",
+        "bytes": 4161367,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/nana-tanuki/illustration.26965f99b6.webp",
+        "sha256": "26965f99b630be87cd092e2cbfad2785abbd06ea82483d11d6fe2cc8c5901b03",
+        "bytes": 274730,
+        "width": 900,
+        "height": 1200
+      }
+    }
+  ],
+  "ignored": [
+    {
+      "file": "matthieu_reparateur.png",
+      "sha256": "88eb88af297b6e1211881286808a3f844aa89dab7debc5232907a080f8e7a5bb",
+      "existing": "m-reparateur.png"
+    },
+    {
+      "file": "resto_de_poutine.png",
+      "sha256": "e9297d49b248fed473657d8711e639a4d4dad481b149566e52189bc29acab5ae",
+      "existing": "resto-poutine.png"
+    },
+    {
+      "file": "date_a_aquarium.png",
+      "sha256": "03aed2250226f02ce8da3da9af416950292295930588e5f63030541e51bb855f",
+      "existing": "date-aquarium.png"
+    },
+    {
+      "file": "words_2024.png",
+      "sha256": "f4b52c44d20a199c4a03033fd506d0ca026cda82d67658468482b6fd383db99a",
+      "existing": "worlds-lcs.png"
+    },
+    {
+      "file": "eli_arabe.png",
+      "sha256": "f0dd5c83ab327f49af9fbd392fd64fe22aeff9dd78b396c40696b7da964a414d",
+      "existing": "eli-arabe.png"
+    },
+    {
+      "file": "nana_arabe.png",
+      "sha256": "92ea09b46357b454ab91418155ce9b57d05b1d5cba9d40df00227041f4050397",
+      "existing": "nana-arabe.png"
+    },
+    {
+      "file": "micro_ondes_pizza.png",
+      "sha256": "6e2b0c2cc920710cb1b4c1082bb4e5b2842140ec308fea15a4a267462985068b",
+      "existing": "micro-ondes-pizza.png"
+    },
+    {
+      "file": "cest_pas_loin.png",
+      "sha256": "aa75169b55184c7e6189075e332de6ca329b2114a5c63bd23f3e0357aff155b2",
+      "existing": "c-est-pas-loin.png"
+    },
+    {
+      "file": "ubigi_esim.png",
+      "sha256": "a0f8ff964a04e6d87220d11d1cd7318d87c58f7a5690ab8eef19836ccd79d04a",
+      "existing": "ubigi-esim.png"
+    },
+    {
+      "file": "cafe_glace_mcdo.png",
+      "sha256": "ff7ad1458e54d0579947f76194c478fb6a34bb4cace0bb481f47b3ef36369c8d",
+      "existing": "cafe-glace-mcdo.png"
+    },
+    {
+      "file": "pgw_2023.png",
+      "sha256": "aa7d75fd3151b75e1a4676c4ce22e0dbe6b1ce586d0ee1dc078cdf6dc641ae75",
+      "existing": "pgw-2023.png"
+    },
+    {
+      "file": "thomas_romantique.png",
+      "sha256": "f5aa788bbfc0b6b5326b640d36fae3ddcf11f3892061846da723bb56b1244b88",
+      "existing": "t-romantique.png"
+    },
+    {
+      "file": "dorian_parisien.png",
+      "sha256": "aa509c8019b44100bc46dc2e868825497be8932a9e95e78fbcdefe9f9ce59343",
+      "existing": "d-parisien.png"
+    },
+    {
+      "file": "dorian_romantique.png",
+      "sha256": "32596b3db4075727b566a4aa9ab30af9e46957062f68b66bca2caca4e83cd1fb",
+      "existing": "d-romantique.png"
+    },
+    {
+      "file": "dorian_motard.png",
+      "sha256": "e4d455cc7d6d93e8d778974788bb3104105e4727b5555a556e4cde58e91dbd03",
+      "existing": "d-motard.png"
+    },
+    {
+      "file": "dorian_viandard.png",
+      "sha256": "9380f226b0cea5bd054f2ef82ddf11781277a2e575d9e17854a5ea76c1798adb",
+      "existing": "d-viandard.png"
+    },
+    {
+      "file": "dorian_classique.png",
+      "sha256": "a452a46042d3230778c7b4cc8a3117845aa6b8b4febfe90f5b23def1fc6611bc",
+      "existing": "d-classique.png"
+    },
+    {
+      "file": "dorian_bouffon.png",
+      "sha256": "c6f64cfdbe3cee498552f69c622ed19e2da167891df49264afcdf0cdad68a495",
+      "existing": "d-bouffon.png"
+    },
+    {
+      "file": "dorian_pas_muscle.png",
+      "sha256": "e815d83a33b5aa89fea4d9e383d60dc148b774e5ef6ee26ce6ca6723747f1278",
+      "existing": "d-pas-muscle.png"
+    },
+    {
+      "file": "dorian_chamelier.png",
+      "sha256": "49d0f668bd563610d8c2e867a164ac02b5dad4ca081477213e7574c0596809c2",
+      "existing": "d-chamelier.png"
+    },
+    {
+      "file": "dorian_a_la_bourre.png",
+      "sha256": "fcc86bac7fb9d57967f58d7c6e6f5b0f3582674f49873b149c15b43070900337",
+      "existing": "d-bourre.png"
+    },
+    {
+      "file": "dorian_lutosa.png",
+      "sha256": "9be46c5e0209db930a49d7c908330cae14e040d38a7460ded3055e0482373616",
+      "existing": "d-lutoza.png"
+    },
+    {
+      "file": "dorian_mma.png",
+      "sha256": "0bf6eeaa85f962902d50941ab1581f57692781cd341f74cd224ceb89b3b0a7db",
+      "existing": "d-mma.png"
+    },
+    {
+      "file": "eli_bilingue.png",
+      "sha256": "e83d4b111cfaba51e8983cde8218b26984db19b5dd25e81d092155fd44265680",
+      "existing": "eli-bilingue.png"
+    },
+    {
+      "file": "eli_traitresse.png",
+      "sha256": "9ce035e19c056439406a9f140af35c37420808813d3ca0d3d45c8779155a283e",
+      "existing": "eli-traitresse.png"
+    },
+    {
+      "file": "dorian_la_mer.png",
+      "sha256": "f443697e7f8b9684914d6747b8e93c1d9e92771cb71c53beb4da6a9f39865243",
+      "existing": "d-mer.png"
+    },
+    {
+      "file": "matthieu_caca_de_chien.png",
+      "sha256": "418c20ee75f45f3c6dfded363d31303574508ac3688401043a6020dfe2a6372f",
+      "existing": "m-caca-chien.png"
+    },
+    {
+      "file": "thomas_motard.png",
+      "sha256": "4059ca1e3fd903a2be9a8b2c56cab6dece302aa4bbfab8a8627bd722d04cc7d1",
+      "existing": "t-motard.png"
+    },
+    {
+      "file": "matthieu_passion_yoga.png",
+      "sha256": "aa83f4eb367bcf5971e9ff6ff6b80f39f9daae75844461cec687523c8e010a0a",
+      "existing": "m-yoga.png"
+    },
+    {
+      "file": "dorian_arabe.png",
+      "sha256": "42c04a637cf0314bc2747bc4f5b207ef630123859090b7c4287be31bba6efc5d",
+      "existing": "d-arabe.png"
+    },
+    {
+      "file": "dorian_vs_ubigi.png",
+      "sha256": "685a7118a801eed1bcc36a8f3fad2634d83f83050c4952ef7b59b329d558d7a3",
+      "existing": "d-vs-ubigi.png"
+    },
+    {
+      "file": "eli_bouffonne.png",
+      "sha256": "3dbda0c878c78d80fba35d48047b7ac8399dd02e6f43667224cbb47ae121f596",
+      "existing": "eli-bouffonne.png"
+    },
+    {
+      "file": "thomas_la_mer.png",
+      "sha256": "69139d493cfce09d9a1d976de2014bcea844597e3aa4adf9a0597a3507dcd332",
+      "existing": "t-mer.png"
+    },
+    {
+      "file": "statue_de_nana.png",
+      "sha256": "11d11569a38adca816be50fea0399cac05d036a5e3355989de811ad94a238eb4",
+      "existing": "statue-nana.png"
+    },
+    {
+      "file": "statue_de_matthieu.png",
+      "sha256": "cd9f54f55c88c8f45eefa12d8902920f7b498aae96f88826001cb8482ee32c78",
+      "existing": "statue-matthieu.png"
+    },
+    {
+      "file": "statue_de_thomas.png",
+      "sha256": "9a08b19a7cf02f74f9db5b46ba9bc1c6dcd9d8dd465a6c9797bd3333c9bc3cff",
+      "existing": "statue-thomas.png"
+    },
+    {
+      "file": "statue_de_eli.png",
+      "sha256": "4512f8f00f589407cbd570d0b1b089d6481ce49ea091f6a6a1a3d7bc911a8251",
+      "existing": "statue-eli.png"
+    },
+    {
+      "file": "statue_de_dorian.png",
+      "sha256": "6a19f03100ca0c3048c1fe63cfa2d6a63b134fd239425e2b48b6ccc751ec63fe",
+      "existing": "statue-dorian.png"
+    },
+    {
+      "file": "thomas_bizave.png",
+      "sha256": "f805825d9c929bff02ee1db9e88f6120d12abc58243cacb9cea7a7f8334128cd",
+      "existing": "t-bizave.png"
+    },
+    {
+      "file": "eli_veilleuse_de_nuit.png",
+      "sha256": "c9bb23e48af3c7b120df817557d371ce9a8c42b1628d304021cead3898e91179",
+      "existing": "eli-veilleuse.png"
+    },
+    {
+      "file": "nana_office_lady.png",
+      "sha256": "aaf742757b44b32d3633e02a74e55a7ac8b832f7c5d60d77ee9c812cb972a0ca",
+      "existing": "nana-office-lady.png"
+    },
+    {
+      "file": "chatgpt_bizave.png",
+      "sha256": "989d28878729d12acd4bff75683cc9c8f99034fc80a87a232dbe03f082a63d01",
+      "existing": "chatgpt-bizave.png"
+    },
+    {
+      "file": "claude_bizave.png",
+      "sha256": "c8ebb74ecd390ecae6641f0d4d789bd2195f007a15bbdf824f3b713015a63c38",
+      "existing": "claude-bizave.png"
+    },
+    {
+      "file": "salvatore_le_buisson.png",
+      "sha256": "dbb2524dd7130cd1f4d4e3f6dc791325a63210378a1891ecd18f91f931937831",
+      "existing": "salvatore-buisson.png"
+    },
+    {
+      "file": "crotte_du_buisson.png",
+      "sha256": "5cb64d272bd0e936546b85d6ccf8a3865fbe90ceb02c1b61e7e9f75d7524f5a2",
+      "existing": "crotte-buisson.png"
+    },
+    {
+      "file": "matthieu_correspondant.png",
+      "sha256": "b238277533bd8ec223dc87a64dbfa560c0c039829754933d396706db3f2fa200",
+      "existing": "m-correspondant.png"
+    },
+    {
+      "file": "ciel_bleu.png",
+      "sha256": "f691d6efc601feba672d8a6b44a193d3ceeb3dc5505b9cf4676db34e69ec6a67",
+      "existing": "ciel-bleu.png"
+    },
+    {
+      "file": "le_bus.png",
+      "sha256": "d408812311843749ff82069aad3f275cf2e7e0c6bafb6777b66965d816f3487c",
+      "existing": "le-bus.png"
+    },
+    {
+      "file": "thomafia_comptable.png",
+      "sha256": "3bedd10b38d9c48c461dfd5b1016e92fa842970a3511f23f057ca03ea2bafa37",
+      "existing": "thomafia-comptable.png"
+    },
+    {
+      "file": "thomafia_parrain.png",
+      "sha256": "b30269e63c3201ca16270caf855b6f3a263cdcc52d8bd98ab71813a3ee400d82",
+      "existing": "thomafia-parrain.png"
+    },
+    {
+      "file": "thomafia_negociatrice.png",
+      "sha256": "0b88d789bd907fb2fb59b17f709109c02d7464212f4f09eaeea23a5d033ea1eb",
+      "existing": "thomafia-negociatrice.png"
+    },
+    {
+      "file": "thomafia_gros_bras.png",
+      "sha256": "8a9d17cee216b7480b5f1e87b42a11c99c54630435933d736d392310a60c3ce1",
+      "existing": "thomafia-gros-bras.png"
+    },
+    {
+      "file": "thomafia_consigliere.png",
+      "sha256": "bf69441e1df05d7435864906351f8de759accfb89dcd39b5447e6107e2714cb9",
+      "existing": "thomafia-consigliere.png"
+    },
+    {
+      "file": "mattyakuza_informatrice.png",
+      "sha256": "79c17e3fff5779c7b304edb35f9549be08eb06df3965f8119600281d24a57240",
+      "existing": "mattyakuza-informatrice.png"
+    },
+    {
+      "file": "mattyakuza_tatoue.png",
+      "sha256": "d06802d6410b83ba34ff853aedef7948a4dbafdbd3cb0a5755baf6ededa39551",
+      "existing": "mattyakuza-tatoue.png"
+    },
+    {
+      "file": "mattyakuza_wakagashira.png",
+      "sha256": "b1aa4af52cbf192666b95e3985e3a50acea627de4e7b16d8e920a348ed405735",
+      "existing": "mattyakuza-wakagashira.png"
+    },
+    {
+      "file": "mattyakuza_ane_san.png",
+      "sha256": "2664187d528441be60c643c0571c2b17073366060adb009c2c82c1019baa70c7",
+      "existing": "mattyakuza-anesan.png"
+    },
+    {
+      "file": "mattyakuza_oyabun.png",
+      "sha256": "7d3f094cf7623b6d67a1481943cf74b38f02ed245e55afe92cd52681cea2fa22",
+      "existing": "mattyakuza-oyabun.png"
+    },
+    {
+      "file": "thomas_cable_management.png",
+      "sha256": "a2dcdfdb7601ba07f9f90a89209f9f5267d34c8687ce18e7d83b6630e803c3f2",
+      "existing": "t-cables.png"
+    },
+    {
+      "file": "thomas_jetlag.png",
+      "sha256": "c640e3d1610260e98be6586c66e03c8bdd78ff276ea7a778e571e48b00856a23",
+      "existing": "t-jetlag.png"
+    },
+    {
+      "file": "thomas_kombini.png",
+      "sha256": "9396fd1f5a2015e5873f8c644ab553601591db89c006198e5ccfc735597013c5",
+      "existing": "t-konbini.png"
+    },
+    {
+      "file": "thomas_parapluie_vole.png",
+      "sha256": "868ca4f6e6ebbd84a42b37b14a4fc69da3f7f23e18507162275d4acbafb50b63",
+      "existing": "t-parapluie.png"
+    },
+    {
+      "file": "matthieu_hockey.png",
+      "sha256": "5bdf583ee4a159d2176b8b2523f91ecaddd269848cb547496e3017eab9b37b1f",
+      "existing": "m-hockey.png"
+    },
+    {
+      "file": "eli_hockey.png",
+      "sha256": "2f5e18a51052dc6fd99f789603b5aeae4220a062c0387a1a50abe06d5212c3c8",
+      "existing": "eli-hockey.png"
+    },
+    {
+      "file": "matthieu_depanneur.png",
+      "sha256": "e892aa2e6f99f6693201dc2e6643498a35a639703ebacc2e70c8e3fa44896c81",
+      "existing": "m-depanneur.png"
+    },
+    {
+      "file": "matthieu_pelle_neige.png",
+      "sha256": "558324a43a4daa8b3f1f46f478f9b85c1c035af0a8554103605abefd1f633a0c",
+      "existing": "m-pelle-neige.png"
+    },
+    {
+      "file": "dorian_souk.png",
+      "sha256": "629213a16cf49aff34f2e731fcc2c608bce2b5bbb9cef0e8f518f0e850d44cd9",
+      "existing": "d-souk.png"
+    },
+    {
+      "file": "dorian_motive.png",
+      "sha256": "07df8bc52fd01c50a52839d6804d6157447ed194559cc4adbb066221fe3aa4fe",
+      "existing": "d-motive.png"
+    },
+    {
+      "file": "eli_ptit_plats.png",
+      "sha256": "77fccad5d862fb82f067eeddbd18aa5166a0be7dea853a37a13e5fe5be49d186",
+      "existing": "eli-bons-plats.png"
+    },
+    {
+      "file": "thomas_ramen.png",
+      "sha256": "5801e466e6578ab4e91be94fbc49237d4e550b8d90d6e901ba844d2b2f8809ab",
+      "existing": "t-ramen.png"
+    },
+    {
+      "file": "eli_kpop_star.png",
+      "sha256": "70371b686ee4b879ea05c90bba809a07716634e464b99d87fb6ebfa7d05f2550",
+      "existing": "eli-kpop.png"
+    },
+    {
+      "file": "matthieu_en_belgique.png",
+      "sha256": "30bec49ebdf5e3cb246ea346812d325b9f1340090c3201a0ef56454b7d9fac06",
+      "existing": "m-belgique.png"
+    },
+    {
+      "file": "matthieu_infirmier.png",
+      "sha256": "f83d5999eb6ccc2c06d681bcfd69782274f432d82a6a8d484536aa515e565ed3",
+      "existing": "m-infirmier.png"
+    },
+    {
+      "file": "matthieu_arabe.png",
+      "sha256": "4150ffa82bf34c360c39e177d79deb1f7a761c244a25d3bfad0960f0b9b6e747",
+      "existing": "m-arabe.png"
+    },
+    {
+      "file": "matthieu_destination_quebec.png",
+      "sha256": "82c97bdf0684f1a005428e79c470bb7f835ed1f40cc9a938bf70fd15c632a54b",
+      "existing": "m-dest-quebec.png"
+    },
+    {
+      "file": "thomas_conducteur.png",
+      "sha256": "46b50ff7fd734645327df33b02b7722f9130db1a77575bc66482dc2afc93cd04",
+      "existing": "t-conducteur.png"
+    },
+    {
+      "file": "thomas_vs_immigration.png",
+      "sha256": "4f0f40251fe3636e2cf531838d6a019682c39ef693bdb19533cc9e8df1eace2e",
+      "existing": "t-immigration.png"
+    },
+    {
+      "file": "petit_thomas.png",
+      "sha256": "831d11e47d2b5ae8603fa8d5a6ed37a0b1fccde04f44c5c228acd8891780f142",
+      "existing": "t-petit.png"
+    },
+    {
+      "file": "thomas_arabe.png",
+      "sha256": "d33a6daf2f90278a78a31f859b38be2e9d17d6095ad32c3799a3fe14de474d02",
+      "existing": "t-arabe.png"
+    },
+    {
+      "file": "thomas_spotteur.png",
+      "sha256": "20af7588dbc69a0e95907b4490307d46bb353e29b24a25621bf76dd15c6fa7e2",
+      "existing": "t-spotteur.png"
+    }
+  ],
+  "aliasesPreserved": [
+    {
+      "carnetId": "noel-merry-wifemas",
+      "existingId": "merry-wifemas",
+      "promoNumber": "PR-002"
+    }
+  ],
+  "verification": {
+    "existingDefinitionsPreserved": 335,
+    "existingAssetsPreserved": 355,
+    "existingOriginalsPreserved": 335,
+    "oldNumberingPreserved": true,
+    "previousMemoryPoolLength": 190,
+    "newMemoryPoolLength": 220,
+    "newCatalogueLength": 365
+  }
+}

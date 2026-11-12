@@ -19,3 +19,7 @@ Validation : tests unitaires du moniteur (polling, visibilité, absence longue, 
 Au démarrage, la page de fin de bêta s’affiche si IndexedDB contient une sauvegarde antérieure au schéma 12. La lecture se fait avant les migrations. Un nouveau joueur ou une sauvegarde de version 12 entre directement dans le jeu.
 
 La page présente trois variantes de PR-001. Le code cadeau offre un exemplaire au format Classique, finition Alternative. Le joueur peut copier le code et l’utiliser dans **Options → Code cadeau** après la transition. Le bouton d’entrée demande à Firebase de purger le cache HTTP sur les navigateurs compatibles et vide Cache Storage. Une transaction remplace ensuite les données bêta par une sauvegarde neuve au schéma 12. Le manifeste annonce `betaClosed: false` et `appVersion: "1.5.0"`.
+
+## Version 1.5.1 — 12 novembre 2026
+
+Le compteur d’annonce passe à 9. La note présente la nouvelle boutique, la sélection journalière, les nouvelles cartes Memory Frame et le code `Z5YW-2G99-6JR8-CEEH`, qui donne deux Memory Frame. Une ligne vide sépare le texte du code. La version applicative passe à 1.5.1 et le stockage à Dexie 13 sans réinitialiser les parties 1.5.0. Les sauvegardes bêta (schéma ≤ 11) conservent leur parcours de transition ; le nouveau joueur et les parties de schéma ≥ 12 entrent directement en jeu.
