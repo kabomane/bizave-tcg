@@ -1,4 +1,16 @@
-# Validation — bizave-tcg.v1.5.1
+# Validation — bizave-tcg.v1.5.2
+
+## Publication 1.5.2 — 14 novembre 2026
+
+- Version npm, lockfile, HTML, écran de sortie de bêta, changelog et landing : **1.5.2**. Compteur d’annonce **10**, note exacte avec deux retours à la ligne avant le code fourni.
+- 77 nouvelles cartes Anima Isekai (220 modèles) et 12 cartes événement permanentes (454 modèles au total). Les 365 anciennes définitions, 363 anciens numéros et illustrations restent inchangés ; 89 nouveaux originaux et WebP vérifiés par empreinte, dimensions et format. Planche de contrôle inspectée.
+- Hunger Games et Nouvel An désactivés par défaut ; cartes exclues des boosters et vitrines courants, prix de 30 fragments, une carte permanente par ouverture, raretés 90/10 et finitions/illustrations habituelles. Noël conserve son fonctionnement temporaire.
+- Raccourci Boutique dans le menu sur Boosters, lien Boosters ailleurs, vérifié à 390 et 1440 px. Métadonnée HTML color-scheme ajoutée.
+- `npm run check` : ESLint, **282 tests dans 33 fichiers**, TypeScript et build réussis. Parcours événements validés sur Chromium et WebKit, avec animation d’une carte, reprise et collection permanente.
+- Validation de publication Chromium : 12 parcours (boosters, migration bêta, événements, landing et annonces). Une ambiguïté du sélecteur Anima Isekai a été corrigée et le test relancé avec succès.
+- Build de production **faa8e7b7-a1f4-4ece-b690-c087e541ae15** vérifié en contexte isolé : annonce 10 et note exacte, partie 1.5.x préservée, cadeau de deux Anima Isekai, événements masqués, paramètres de développement absents, raccourci et compteurs de landing conformes ; aucune erreur JavaScript.
+- Firebase Hosting publié sur **https://bizave-tcg.web.app** et **https://bizave-tcg.kabomane.me**. Les mêmes parcours de production passent sur les deux domaines, sans erreur JavaScript.
+- **111 ressources comparées par SHA-256 sur chaque domaine**, dont les 89 nouvelles illustrations, les routes HTML, la landing, les JavaScript/CSS compilés et le manifeste : identiques au build local. `/version.json` est servi avec `Cache-Control: no-store`.
 
 ## Publication 1.5.1 — 12 novembre 2026
 

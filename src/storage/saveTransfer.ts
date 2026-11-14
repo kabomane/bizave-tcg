@@ -77,10 +77,11 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   for (const definition of definitions.values()) {
     assert(!christmasCardById.has(definition.id))
     assert(definition.promoNumber === undefined || (typeof definition.promoNumber === 'string' && /^PR-\d{3}$/.test(definition.promoNumber)))
+    assert(definition.eventId === undefined || id(definition.eventId))
   }
   for (const current of [...cards, ...archivedCards]) {
     const definition = definitions.get(current.id)
-    assert(!definition || (definition.rarity === current.rarity && definition.promoNumber === current.promoNumber))
+    assert(!definition || (definition.rarity === current.rarity && definition.promoNumber === current.promoNumber && definition.eventId === current.eventId))
   }
   assert((s.weeklyShop ?? []).length <= 1 && (s.weeklyShop ?? []).every(row => validWeeklyShop(row, [...definitions.values()])))
   assert((s.dailyShop ?? []).length <= 1 && (s.dailyShop ?? []).every(row => validDailyShop(row, cards)))

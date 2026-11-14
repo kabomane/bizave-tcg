@@ -64,7 +64,7 @@ export function rollDailyBundle(entries: DailyEntry[], eventWeight: number = DAI
   return { boosterId, category, quantity, unitPrice, discountPercent, normalPrice, price, purchased: false, owned: 0 }
 }
 export function rollDailyCards(catalogue: CardDefinition[], rng: Rng = secureRandom): WeeklyOffer[] {
-  const available = catalogue.filter(c => !c.promoNumber), offers: WeeklyOffer[] = []
+  const available = catalogue.filter(c => !c.promoNumber && !c.eventId), offers: WeeklyOffer[] = []
   const count = Math.min(Number(weightedPick(DAILY_CARD_COUNT_WEIGHTS, rng)), available.length)
   for (let i = 0; i < count; i++) {
     const rarities = (Object.keys(DEFAULT_RARITY_RATES) as Rarity[]).filter(r => available.some(c => c.rarity === r))
@@ -94,6 +94,6 @@ export function validDailyShop(value: unknown, catalogue: CardDefinition[]): val
     if (![b.quantity, b.discountPercent, b.normalPrice, b.price, b.owned].every(integer) || b.quantity < 5 || b.quantity > 10 || b.discountPercent < 5 || b.discountPercent > 20) return false
     if (b.normalPrice !== b.quantity * b.unitPrice || b.price !== Math.round(b.normalPrice * (100 - b.discountPercent) / 100) || typeof b.purchased !== 'boolean' || b.owned > b.quantity || (!b.purchased && b.owned !== 0)) return false
     if (!Array.isArray(row.cards) || row.cards.length > 3 || new Set(row.cards.map(o => o.cardId)).size !== row.cards.length) return false
-    return row.cards.every((o, i) => o.id === String(i) && catalogue.some(c => c.id === o.cardId && !c.promoNumber) && Object.hasOwn(DEFAULT_FINISH_RATES, o.finish) && Object.hasOwn(DEFAULT_ART_VARIANT_RATES, o.artVariant) && integer(o.price) && o.price > 0 && o.price % 10 === 0 && typeof o.sold === 'boolean')
+    return row.cards.every((o, i) => o.id === String(i) && catalogue.some(c => c.id === o.cardId && !c.promoNumber && !c.eventId) && Object.hasOwn(DEFAULT_FINISH_RATES, o.finish) && Object.hasOwn(DEFAULT_ART_VARIANT_RATES, o.artVariant) && integer(o.price) && o.price > 0 && o.price % 10 === 0 && typeof o.sold === 'boolean')
   } catch { return false }
 }

@@ -35,7 +35,7 @@ test('affiche PR-001 avant la réinitialisation explicite de la partie bêta', a
   await expect(gate.locator('.beta-fan .card')).toHaveCount(3)
   const code = (await gate.locator('code').textContent())!
   expect(code).toMatch(/^(?:[A-Z2-9]{4}-){3}[A-Z2-9]{4}$/)
-  const entry = gate.getByRole('button', { name: 'Réinitialiser et entrer en 1.5.1' })
+  const entry = gate.getByRole('button', { name: 'Réinitialiser et entrer en 1.5.2' })
 
   const cacheResetPath = '**/release-cache-reset.json'
   await page.route(cacheResetPath, route => route.fulfill({ status: 503 }))

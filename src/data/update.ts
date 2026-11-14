@@ -1,5 +1,5 @@
 // Increment this counter and replace the note before each announced deployment.
-export const UPDATE_VERSION = 9
-export const UPDATE_NOTE = `nouvelle version de la boutique , ajout d’une sélection journalière . ajout de nouvelles cartes dans memory frame.
+export const UPDATE_VERSION = 10
+export const UPDATE_NOTE = `ajouts de nouvelles cartes dans anima isekai et ajouts d'accès rapide pour la boutique dans le menu
 
-Z5YW-2G99-6JR8-CEEH`
+D9MB-66JX-LLLT-KNUT`

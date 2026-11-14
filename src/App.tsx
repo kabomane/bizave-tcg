@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import { useLiveQuery } from 'dexie-react-hooks'
-import { Gem, Layers3, PackageOpen, Recycle, Users, X } from 'lucide-react'
+import { Gem, Layers3, PackageOpen, Recycle, Store, Users, X } from 'lucide-react'
 import { Link, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { db } from './storage/database'
 import { readGameState } from './storage/gameState'
@@ -66,19 +66,21 @@ function ActiveApp() {
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(''), 5000); return () => clearTimeout(timer) }, [toast])
   if (!state || !context) return <div className="boot-screen"><span className="brand-glyph">b.</span></div>
   const nav = [
-    { to: '/', label: 'Boosters', icon: <PackageOpen size={19} /> },
+    pathname === '/'
+      ? { to: '/boutique', label: 'Boutique', icon: <Store size={19} /> }
+      : { to: '/', label: 'Boosters', icon: <PackageOpen size={19} /> },
     { to: '/collection', label: 'Collection', icon: <Layers3 size={19} /> },
     { to: '/atelier', label: 'Atelier', icon: <Recycle size={19} /> },
     { to: '/echanges', label: 'Amis', icon: <Users size={19} /> },
   ]
-  const currentSection = (to: string) => pathname === to || (to === '/' && pathname.replace(/\/$/, '') === '/boutique')
+  const currentSection = (to: string) => pathname === to || (to === '/boutique' && pathname === '/') || (to === '/' && pathname.replace(/\/$/, '') === '/boutique')
   return <GameContext.Provider value={context}><CardSvgDefinitions /><div className="app-shell">
     <header className="site-header"><Link to="/parametres" className="brand" aria-label={optionsView ? 'Option TCG, paramètres' : 'Bizave TCG, paramètres'}>{optionsView ? 'option' : 'bizave'}<span>TCG</span><i /></Link>
-      <nav className="desktop-nav" aria-label="Navigation principale">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={currentSection(item.to) ? 'page' : undefined}>{item.label}</Link>)}</nav>
+      <nav className="desktop-nav" aria-label="Navigation principale">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={pathname === item.to ? 'page' : undefined}>{item.label}</Link>)}</nav>
       <div className="header-actions"><>{optionsView ? <span className="header-player-id" aria-label={`ID joueur : ${headerIdentity?.playerUuid ?? 'Chargement…'}`}><small>ID</small><strong data-testid="player-id">{headerIdentity?.playerUuid ?? '…'}</strong></span> : <Link to="/fragments" className={`fragment-wallet ${pathname === '/fragments' ? 'active' : ''}`} aria-current={pathname === '/fragments' ? 'page' : undefined} aria-label={unlimitedFragments ? 'Fragments illimités' : `${state.player.fragments} fragments`} title="Fragments"><Gem size={16} /><strong>{unlimitedFragments ? '∞' : state.player.fragments}</strong></Link>}</></div>
     </header>
     <main className="main-content"><Suspense fallback={null}><Routes><Route path="/" element={<BoostersPage />} /><Route path="/mise-a-jour" element={<Navigate to="/" replace />} /><Route path="/boutique" element={<ShopPage />} /><Route path="/parametres" element={<SettingsPage />} /><Route path="/changelog" element={<ChangelogPage />} /><Route path="/collection" element={<CollectionPage />} /><Route path="/atelier" element={<AtelierPage />} /><Route path="/envoyer/:dropId" element={<SendCardPage />} /><Route path="/fragments" element={<FragmentsPage />} /><Route path="/echanges" element={<ExchangesPage />} /><Route path="*" element={<div className="empty-state"><h1>Page introuvable.</h1><Link to="/" className="primary-button">Retour</Link></div>} /></Routes></Suspense></main>
-    <nav className="mobile-nav" aria-label="Navigation mobile">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={currentSection(item.to) ? 'page' : undefined}>{item.icon}<span>{item.label}</span></Link>)}</nav>
+    <nav className="mobile-nav" aria-label="Navigation mobile">{nav.map(item => <Link key={item.to} to={item.to} className={currentSection(item.to) ? 'active' : undefined} aria-current={pathname === item.to ? 'page' : undefined}>{item.icon}<span>{item.label}</span></Link>)}</nav>
   </div>
     {toast && <div className="toast" role="status"><span>{toast}</span><button className="icon-button" aria-label="Masquer le message" onClick={() => setToast('')}><X size={15} /></button></div>}
   </GameContext.Provider>

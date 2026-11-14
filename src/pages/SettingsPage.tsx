@@ -67,7 +67,7 @@ export function SettingsPage() {
           <button type="button" className="setting-switch" role="switch" aria-checked={settings.devUnlimitedFragments} aria-label="Fragments illimités" aria-describedby="unlimited-fragments-description" onClick={() => change({ devUnlimitedFragments: !settings.devUnlimitedFragments })}><span /></button>
         </div>
         <div className="settings-dev">
-          <div><h3>Événement toujours actif</h3><p className="settings-note" id="always-active-event-description">Afficher le booster de Noël dans la boutique pour le tester.</p></div>
+          <div><h3>Événement toujours actif</h3><p className="settings-note" id="always-active-event-description">Afficher les boosters de Noël, Hunger Games et du Nouvel An dans la boutique pour les tester.</p></div>
           <button type="button" className="setting-switch" role="switch" aria-checked={settings.devEventAlwaysActive} aria-label="Événement toujours actif" aria-describedby="always-active-event-description" onClick={() => change({ devEventAlwaysActive: !settings.devEventAlwaysActive })}><span /></button>
         </div>
       </>}

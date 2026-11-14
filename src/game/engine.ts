@@ -21,7 +21,7 @@ export function weightedPick<T extends string>(rates: Record<T, number>, rng: Rn
 }
 type PoolEntry = { card: CardDefinition; weight: number }
 export function resolveBoosterPool(booster: BoosterDefinition, catalogue: CardDefinition[]): PoolEntry[] {
-  const eligible = catalogue.filter(card => !card.promoNumber)
+  const eligible = catalogue.filter(card => !card.promoNumber && (!card.eventId || card.eventId === booster.eventId))
   const result = new Map<string, PoolEntry>()
   for (const source of booster.sources) {
     const multiplier = source.multiplier ?? 1

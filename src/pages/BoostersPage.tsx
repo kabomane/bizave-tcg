@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { boosters } from '../data/boosters'
 import { cardById } from '../data/cards'
 import { christmasBooster, christmasCardById, isChristmasEventActive } from '../data/christmas'
+import { activeEventBoosters, eventBoosters } from '../data/events'
 import { FREE_PACK_CAPACITY } from '../game/config'
 import { settleFreePackRecharge } from '../game/engine'
 import type { BoosterDefinition, OpenRecord } from '../game/types'
@@ -68,8 +69,9 @@ export function BoostersPage() {
     ...availableBoosters(boosters, stockRows),
     ...availableBoosters(weeklyDefinition ? [weeklyDefinition] : [], stockRows),
     ...availableBoosters(christmasActive ? [christmasBooster] : [], stockRows),
+    ...availableBoosters(activeEventBoosters(settings), stockRows),
     ...dailyPacks.map(p => p.definition),
-  ], [stockRows, weeklyDefinition, christmasActive, dailyPacks])
+  ], [stockRows, weeklyDefinition, christmasActive, settings, dailyPacks])
   const booster = choices.find(choice => choice.id === selectedBoosterId) || choices[0]
   const [openingView, setOpeningView] = useState<{ choices: BoosterDefinition[]; selectedId: string; quantity: number } | null>(null)
   const stageChoices = tearing && openingView ? openingView.choices : choices
@@ -118,8 +120,9 @@ export function BoostersPage() {
   if (pending && !tearing) {
     const count = pending.revealedCount, card = pending.results[Math.max(0, count - 1)]
     const christmas = pending.boosterId === christmasBooster.id
+    const singleCard = pending.results.length === 1
     const weeklyOpening = pending.boosterId === WEEKLY_BOOSTER_ID
-    const definition = christmas ? christmasBooster : boosters.find(choice => choice.id === pending.boosterId)
+    const definition = christmas ? christmasBooster : [...boosters, ...eventBoosters].find(choice => choice.id === pending.boosterId)
     const title = christmas ? christmasBooster.title : weeklyOpening ? WEEKLY_BOOSTER_TITLE : pending.boosterTitle || definition?.title || 'Booster'
     const colors = pending.boosterColors ?? (weeklyOpening ? WEEKLY_BOOSTER_COLORS : definition?.artwork.colors)
     const backStyle = colors && {
@@ -128,15 +131,15 @@ export function BoostersPage() {
       '--back-shine': colors.shine,
       '--back-glow': colors.glow,
     } as CSSProperties
-    return <section ref={revealRoot} className={`opening-view${christmas ? ' christmas-opening' : ''}`} aria-label="Ouverture du booster">
+    return <section ref={revealRoot} className={`opening-view${christmas ? ' christmas-opening' : ''}${singleCard ? ' event-opening' : ''}`} aria-label="Ouverture du booster">
       <CardBackdrop className="opening-backdrop" rarity={count > 0 ? openingCard(card.cardId).rarity : undefined} /><div className="opening-spacer" aria-hidden="true" />
-      <div className="opening-card-area" key={count}>{count === 0 ? <button className="card-back" style={backStyle} onClick={next} disabled={busy} aria-label={christmas ? 'Révéler la carte' : 'Révéler la première carte'}><span className="back-ornament" /><span className="back-monogram">B</span><span className="back-wordmark">BIZAVE</span><span className="back-star">✦</span></button> : <CollectibleCard card={card} definition={openingCard(card.cardId)} onActivate={next} activationLabel={christmas ? 'Voir le récapitulatif' : count < pending.results.length ? 'Carte suivante' : 'Voir les cartes obtenues'} />}</div>
-      <div className="opening-bottom"><div className="reveal-progress" aria-label={`${count} ${christmas ? 'carte révélée' : 'cartes révélées'} sur ${pending.results.length}`}>{pending.results.map((result, i) => i < count ? <FinishDot key={i} card={result} revealed active={i === count - 1} /> : <span key={i} className="finish-dot" />)}</div><div className="opening-meta"><span>{title}</span></div></div><ErrorNotice error={error} />
+      <div className="opening-card-area" key={count}>{count === 0 ? <button className="card-back" style={backStyle} onClick={next} disabled={busy} aria-label={singleCard ? 'Révéler la carte' : 'Révéler la première carte'}><span className="back-ornament" /><span className="back-monogram">B</span><span className="back-wordmark">BIZAVE</span><span className="back-star">✦</span></button> : <CollectibleCard card={card} definition={openingCard(card.cardId)} onActivate={next} activationLabel={singleCard ? 'Voir le récapitulatif' : count < pending.results.length ? 'Carte suivante' : 'Voir les cartes obtenues'} />}</div>
+      <div className="opening-bottom"><div className="reveal-progress" aria-label={`${count} ${singleCard ? 'carte révélée' : 'cartes révélées'} sur ${pending.results.length}`}>{pending.results.map((result, i) => i < count ? <FinishDot key={i} card={result} revealed active={i === count - 1} /> : <span key={i} className="finish-dot" />)}</div><div className="opening-meta"><span>{title}</span></div></div><ErrorNotice error={error} />
     </section>
   }
   if (recap) {
     const christmas = recap.boosterId === christmasBooster.id
-    return <section className={`opening-recap${christmas ? ' christmas-opening' : ''}`}>
+    return <section className={`opening-recap${christmas ? ' christmas-opening' : ''}${recap.results.length === 1 ? ' event-opening' : ''}`}>
       <div className="page-heading"><h1 className="page-title">{christmas ? christmasBooster.title : 'Dans votre collection.'}</h1>
         <span className="recap-check"><Check size={15} /> {christmas ? 'Carte temporaire' : `${recap.results.length} carte${recap.results.length > 1 ? 's' : ''}`}</span></div>
       <div className="recap-grid">{recap.results.map((card, index) => <div key={card.dropId}>
@@ -151,6 +154,6 @@ export function BoostersPage() {
     <BoosterSectionHeading title={<>Vos <em>boosters</em></>} linkTo="/boutique" linkLabel="Boutique" onShowRates={stageBooster ? () => setShowRates(true) : undefined} />
     {stageBooster ? <div className="phantom-stage"><div className="phantom-shadow" /><BoosterCarousel choices={stageChoices} selectedId={stageBooster.id} onSelect={select} onOpen={open} disabled={busy} canOpen={canOpen} tearing={tearing} /><div className="pack-status"><div className="phantom-stock" aria-label={stageBooster.access.type === 'free' ? `${stock.freePackStock} boosters disponibles sur ${FREE_PACK_CAPACITY}` : `${reserve} boosters achetés`}>{stageBooster.access.type === 'free' && <div className="stock-meter">{Array.from({ length: FREE_PACK_CAPACITY }, (_, i) => <span key={i} className={i < stock.freePackStock ? 'charged' : ''} />)}</div>}<span className="booster-stock-count">{stageBooster.access.type === 'free' && <><strong>{stock.freePackStock}</strong> / {FREE_PACK_CAPACITY}</>}{reserve > 0 && <span className="purchased-pack-reserve" aria-label={`${reserve} boosters achetés`}>+ {reserve}</span>}</span>{stageBooster.access.type === 'free' && stock.nextFreePackAt !== null && <RechargeClock at={stock.nextFreePackAt} />}</div></div></div> : <EmptyState icon={<PackageOpen size={25} />} title="Aucun booster disponible." action={<Link to="/boutique" className="secondary-button">Boutique <ArrowRight size={14} /></Link>}>Vos prochains paquets apparaîtront ici.</EmptyState>}
     <ErrorNotice error={error} />
-    {showRates && stageBooster && <RatesViewer entries={[{ id: stageBooster.id, title: stageBooster.title, meta: `${stageBooster.cardsPerPack} cartes par booster`, rates: resolveBoosterRates(stageBooster) }]} onClose={() => setShowRates(false)} />}
+    {showRates && stageBooster && <RatesViewer entries={[{ id: stageBooster.id, title: stageBooster.title, meta: `${stageBooster.cardsPerPack} carte${stageBooster.cardsPerPack > 1 ? 's' : ''} par booster`, rates: resolveBoosterRates(stageBooster) }]} onClose={() => setShowRates(false)} />}
   </section>
 }

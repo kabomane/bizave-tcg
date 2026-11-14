@@ -1,5 +1,5 @@
 .christmas-opening .card .description { white-space: pre-line; }
-.christmas-opening .recap-grid {
+.event-opening .recap-grid {
   grid-template-columns: minmax(0, min(240px, 68vw));
   justify-content: center;
 }

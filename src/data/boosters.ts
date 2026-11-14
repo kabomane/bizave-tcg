@@ -4,7 +4,7 @@ import animaIsekaiCards from './pools/anima-isekai.json'
 import { cards } from './cards'
 import { RARITY_COLORS } from '../game/config'
 
-const packCards = cards.filter(card => !card.promoNumber)
+const packCards = cards.filter(card => !card.promoNumber && !card.eventId)
 
 export const boosters: BoosterDefinition[] = [{
   // Keep the original ID so purchased packs and pending openings survive the rename.

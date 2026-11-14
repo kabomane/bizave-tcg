@@ -1,6 +1,7 @@
 import { cards, cardById, archivedCards } from '../data/cards'
 import { boosters } from '../data/boosters'
 import { christmasBooster, christmasCards, isChristmasEventActive } from '../data/christmas'
+import { eventBoosters, isEventBoosterActive } from '../data/events'
 import { FREE_PACK_CAPACITY, FREE_PACK_INITIAL_STOCK, FREE_PACK_RECHARGE_MS } from '../game/config'
 import { shopOffer } from '../game/boosterAvailability'
 import { consumeFreePack, drawPack, getRecycleFragments, settleFreePackRecharge, uuid, variantKey, validateConfiguration } from '../game/engine'
@@ -15,10 +16,10 @@ import { settleDailyShop } from './dailyShop'
 import { priorWeeklyBoosters, WEEKLY_BOOSTER_ID } from '../game/weeklyShop'
 import { fragmentPurchaseCost } from '../settings/development'
 
-const purchasableBoosters: BoosterDefinition[] = [...boosters, christmasBooster]
+const purchasableBoosters: BoosterDefinition[] = [...boosters, christmasBooster, ...eventBoosters]
 
 export async function initializeDatabase(database = db, now = Date.now()) {
-  validateConfiguration(cards, boosters)
+  validateConfiguration(cards, [...boosters, ...eventBoosters])
   validateConfiguration(christmasCards, [christmasBooster])
   const active = await database.transaction('rw', [database.player, database.definitions, database.accountState, database.versionInfo], async () => {
     await database.versionInfo.put({ id: 'local', schemaVersion: DATABASE_SCHEMA_VERSION, ready: true })
@@ -62,6 +63,7 @@ export async function buyBooster(boosterId: string, database = db, now = Date.no
   return database.transaction('rw', [database.player, database.boosterStock, database.accountState], async () => {
     await assertAccountActive(database)
     if (boosterId === christmasBooster.id && !isChristmasEventActive()) throw new Error('Ce booster n’est pas disponible en boutique.')
+    if (eventBoosters.some(event => event.id === boosterId) && !isEventBoosterActive(boosterId)) throw new Error('Ce booster n’est pas disponible en boutique.')
     const player = await database.player.get('local')
     if (!player) throw new Error('La sauvegarde locale est indisponible.')
     const fragmentsSpent = fragmentPurchaseCost(price)
@@ -82,6 +84,7 @@ export async function openBooster(boosterId: string, database = db, now = Date.n
     const pending = await database.openings.filter(opening => !opening.revealComplete).first()
     if (pending) return pending
     if (boosterId === christmasBooster.id && !isChristmasEventActive()) throw new Error('Ce booster est indisponible.')
+    if (eventBoosters.some(event => event.id === boosterId) && !isEventBoosterActive(boosterId)) throw new Error('Ce booster est indisponible.')
     const raw = await database.player.get('local')
     if (!raw) throw new Error('La sauvegarde locale est indisponible.')
     const time = observedTime(raw, now)

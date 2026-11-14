@@ -1,5 +1,16 @@
 # Historique des versions
 
+## bizave-tcg.v1.5.2 — 14 novembre 2026
+
+- 77 nouvelles cartes illustrées Anima Isekai : 220 modèles. Catalogue permanent de 454 modèles ; anciens numéros et illustrations conservés.
+- Accès rapide Boutique dans le menu sur la page Boosters, puis retour au lien Boosters sur les autres pages, sur mobile et PC.
+- Préparation de Hunger Games et Nouvel An : six cartes permanentes chacun, boosters à 30 fragments et une carte, modèle et animation de Noël. Événements désactivés, cartes exclues des boosters et vitrines courants.
+- Taux des événements : commune 90 %, légendaire 10 %, finitions et illustrations habituelles. Noël conserve ses cartes temporaires.
+- Déclaration HTML des thèmes clair et sombre via `color-scheme`. Landing et documentation actualisées.
+- Version **1.5.2**, annonce **10**, note fournie et code de deux Anima Isekai.
+
+[Note de version 1.5.2](docs/releases/bizave-tcg.v1.5.2.md).
+
 ## bizave-tcg.v1.5.1 — 12 novembre 2026
 
 - Trois rubriques : Aujourd’hui, Cette semaine et Permanents, selon la maquette fournie.

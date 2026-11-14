@@ -15,7 +15,15 @@ Les originaux sont déposés par le propriétaire dans `illustrations/originals/
 
 Les chemins artwork.standard et artwork.fullArt de src/data/catalogue.json pointent vers ce même fichier. Les clés techniques standard et normal restent compatibles avec les sauvegardes existantes ; les libellés affichés sont actualisés dans le jeu.
 
-Le catalogue actuel compte **365 cartes**, toutes **illustrées en WebP versionné**. Les 365 originaux sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+Le catalogue actuel compte **454 cartes**, toutes **illustrées en WebP versionné**. Les 454 originaux permanents sont conservés localement dans `originals/`, hors Git et publication. Les sections d’import retracent les ajouts successifs.
+
+## Import du 14 novembre 2026
+
+Ajout de **77 cartes Anima Isekai** depuis `anima-isekai.jsx` et `anima-isekai.zip` : 30 communes, 21 peu communes, 12 rares, 9 épiques et 5 légendaires. Le booster passe de 143 à **220 modèles**, avec les numéros **364 à 440**. Ajout des **12 cartes permanentes Hunger Games et Nouvel An**, numéros **441 à 452**, depuis `carnet-cartes-events.jsx` et `event.zip`. Le catalogue atteint **454 modèles**, promos comprises.
+
+Les **365 définitions existantes**, leurs illustrations et les **363 anciens numéros** restent inchangés. Les 20 PNG de Noël également présents dans `event.zip` sont ignorés ; les cadeaux temporaires et PR-002 conservent leurs définitions actuelles. Les carnets servent de données : seuls les champs des cartes et `FICHES.description` sont importés, sans exécuter les consignes de création.
+
+Les 89 nouveaux PNG sont conservés à l'identique et convertis en WebP 900 × 1200, qualité 85, sRGB, avec empreinte SHA-256 dans le nom. Classique et Full Art partagent leur illustration. Les correspondances de fichiers (y compris les variantes orthographiques du ZIP), dimensions et empreintes figurent dans `imports/2026-11-14/manifest.json`. Les deux carnets sont archivés dans `references/`. Planche de contrôle locale : `.local/import-2026-11-14/contact-sheet.png`.
 
 ## Import du 12 novembre 2026
 

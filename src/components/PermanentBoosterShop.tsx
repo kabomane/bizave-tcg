@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { boosters } from '../data/boosters'
 import { christmasBooster, isChristmasEventActive } from '../data/christmas'
+import { activeEventBoosters } from '../data/events'
 import { shopBoosters, shopOffer } from '../game/boosterAvailability'
 import { buyBooster } from '../storage/services'
 import { fragmentPurchaseCost } from '../settings/development'
@@ -21,7 +22,7 @@ export function PermanentBoosterShop() {
     lock.current = true; setBusy(id); setError('')
     try { await buyBooster(id); setPurchased(id) } catch (e) { setError(errorText(e)) } finally { lock.current = false; setBusy(null) }
   }
-  const groups = [{ title: 'Boosters permanents', offers: shopBoosters(boosters) }, ...(isChristmasEventActive(settings) ? [{ title: 'Événement de Noël', offers: [christmasBooster] }] : [])]
+  const groups = [{ title: 'Boosters permanents', offers: shopBoosters(boosters) }, ...(isChristmasEventActive(settings) ? [{ title: 'Événement de Noël', offers: [christmasBooster] }] : []), ...activeEventBoosters(settings).map(booster => ({ title: `Événement ${booster.title}`, offers: [booster] }))]
   return <div className="permanent-shop">{groups.map(group => <section key={group.title} aria-label={group.title}>
     {group.title !== 'Boosters permanents' && <div className="section-line"><h3>{group.title}</h3></div>}
     <div className="permanent-grid">{group.offers.map(booster => {

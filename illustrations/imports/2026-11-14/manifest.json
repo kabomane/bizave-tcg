@@ -1,0 +1,1828 @@
+{
+  "date": "2026-11-14",
+  "archives": [
+    "anima-isekai.zip",
+    "event.zip"
+  ],
+  "references": [
+    "references/carnet-anima-isekai-2026-11-14.jsx",
+    "references/carnet-cartes-events-2026-11-14.jsx"
+  ],
+  "previousCatalogueSha256": "6e5d7e028a5235c3d16e35133c760f5c73189e6bb33c88f2544e09f5b198daa8",
+  "illustrations": [
+    {
+      "cardId": "apo-nana",
+      "title": "Nana Maomao",
+      "number": 364,
+      "sourceEntry": "nana_maomao.png",
+      "original": {
+        "path": "illustrations/originals/apo-nana.png",
+        "sha256": "a6737bf9f13e8e757eb81e8b0c7f50ab46fffa5194a6caf8410c7c5c0924fbe4",
+        "bytes": 2915578,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/apo-nana/illustration.ef11da13b5.webp",
+        "sha256": "ef11da13b55de160948457d8e3b09267376b13d6bf601112479976c7dffa8220",
+        "bytes": 195402,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "apo-thomas",
+      "title": "Thomas Jinshi",
+      "number": 365,
+      "sourceEntry": "thomas_jinshi.png",
+      "original": {
+        "path": "illustrations/originals/apo-thomas.png",
+        "sha256": "d6f31aa1990cdbe9aaf908ad1481993bc39f0cb87e81971fda8ae00dc219d761",
+        "bytes": 2891850,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/apo-thomas/illustration.d48072cb84.webp",
+        "sha256": "d48072cb8402a7425aab0132bbe5a467d9ad5a17e97e0c3ae17e0eafd8f501ba",
+        "bytes": 182822,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eva-matthieu",
+      "title": "Matthieu Ikari",
+      "number": 366,
+      "sourceEntry": "matthieu_ikari.png",
+      "original": {
+        "path": "illustrations/originals/eva-matthieu.png",
+        "sha256": "e82a3e1c8def29ade9b7a14cb866408b4f81a8e482c50dcd061f7d8c7f1b1d35",
+        "bytes": 2966659,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eva-matthieu/illustration.8e1416932b.webp",
+        "sha256": "8e1416932b19059c626d39f755dbf2691192f989944ff95c500515921cdf97ce",
+        "bytes": 200416,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eva-eli",
+      "title": "Eli Sōryū",
+      "number": 367,
+      "sourceEntry": "eli_soryu.png",
+      "original": {
+        "path": "illustrations/originals/eva-eli.png",
+        "sha256": "558d2998056d2a600793aa0677d93fae458789f072c492ebcd45b700674690e9",
+        "bytes": 2888616,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eva-eli/illustration.f7a4bb97da.webp",
+        "sha256": "f7a4bb97da2a300216f1e74bfb50461d84f3b50d70ddd8fbefccacb7b071f56c",
+        "bytes": 186416,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eva-thomas",
+      "title": "Thomas Nagisa",
+      "number": 368,
+      "sourceEntry": "thomas_nagisa.png",
+      "original": {
+        "path": "illustrations/originals/eva-thomas.png",
+        "sha256": "3c853497618ab424b679b03afcfc9c1a626eae9a140feaad6a7002168a726e6d",
+        "bytes": 3660999,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eva-thomas/illustration.f1fb87a2b0.webp",
+        "sha256": "f1fb87a2b03f03cc39d17f37912253c32cf23e63aa7b0b726a00194809580a2f",
+        "bytes": 147974,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "eva-nana",
+      "title": "Nana Ayanami",
+      "number": 369,
+      "sourceEntry": "nana_ayanami.png",
+      "original": {
+        "path": "illustrations/originals/eva-nana.png",
+        "sha256": "c58ee3cd0f2b1a757c970bda615a93f71731911bab09513ea7935a9175ef29d7",
+        "bytes": 3833583,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/eva-nana/illustration.eb8c8098f2.webp",
+        "sha256": "eb8c8098f29eb4c191d8ad77436096862ec38bb7a98841190ab34da13443fb29",
+        "bytes": 192024,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bla-thomas",
+      "title": "Thomas Okajima",
+      "number": 370,
+      "sourceEntry": "thomas_okajima.png",
+      "original": {
+        "path": "illustrations/originals/bla-thomas.png",
+        "sha256": "b4521d5d8e7e84eaed2f0c25d254e9eb1d3df72df81e8f57ac0e2a0d25b1bfbd",
+        "bytes": 3871906,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bla-thomas/illustration.b90af85f09.webp",
+        "sha256": "b90af85f09136c020885a1edf1db63ffb06756d04767fce2c0ac174bb5ad43f6",
+        "bytes": 191982,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bla-nana",
+      "title": "Nana Revy",
+      "number": 371,
+      "sourceEntry": "nana_revy.png",
+      "original": {
+        "path": "illustrations/originals/bla-nana.png",
+        "sha256": "297b1925c1c234352255d5f8a63d95140cebb375b6ce756ca6583d1ff25ed480",
+        "bytes": 3011725,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bla-nana/illustration.6949814665.webp",
+        "sha256": "69498146655317974b2cede844fcdbff3fa8e6d4ada16a919551cd52249b1ba1",
+        "bytes": 236604,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bla-matthieu",
+      "title": "Matthieu Benny",
+      "number": 372,
+      "sourceEntry": "matthieu_benny.png",
+      "original": {
+        "path": "illustrations/originals/bla-matthieu.png",
+        "sha256": "04defa9fc3e4b61ae20049ea8d8942bc767d68d5bf17dbbd7e574b2f40a69781",
+        "bytes": 4036578,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bla-matthieu/illustration.8e88fd2bd0.webp",
+        "sha256": "8e88fd2bd012d3cf90b429d4e626666e4c5df6cbe72060e741d94313ae810756",
+        "bytes": 222732,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "bla-eli",
+      "title": "Eli Balalaïka",
+      "number": 373,
+      "sourceEntry": "eli_balalaika.png",
+      "original": {
+        "path": "illustrations/originals/bla-eli.png",
+        "sha256": "73c1f8ceaa6ce6ad4055edd86b5db60ed14ce885d748243f349d86d1abe4b19f",
+        "bytes": 2652287,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/bla-eli/illustration.801cb8e7f3.webp",
+        "sha256": "801cb8e7f38d3f3e1e140598a1d0257a7d623e440792acb4f1ca21cbb8061603",
+        "bytes": 148406,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "btr-nana",
+      "title": "Nana Gotō",
+      "number": 374,
+      "sourceEntry": "nana_goto.png",
+      "original": {
+        "path": "illustrations/originals/btr-nana.png",
+        "sha256": "7ff56e67afa6967b70405bdf72e57ec80e4b20a8bf4d61d9f225218990fca3ed",
+        "bytes": 3893014,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/btr-nana/illustration.d2c59f9703.webp",
+        "sha256": "d2c59f970365e34eb025f32f2fcf45d9daa8e5df62c0950290ba7106cce1ad4f",
+        "bytes": 218380,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "btr-thomas",
+      "title": "Thomas Ijichi",
+      "number": 375,
+      "sourceEntry": "thomas_ijichi.png",
+      "original": {
+        "path": "illustrations/originals/btr-thomas.png",
+        "sha256": "cb837dfa3a794804cf66fedbc0eda48be7701f2b9c3a1df324ad86872efa1a05",
+        "bytes": 3884823,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/btr-thomas/illustration.6c1feed3fb.webp",
+        "sha256": "6c1feed3fbdcf5098569fe4049817f60af915781a51c29ca9268e3f6c6dcf519",
+        "bytes": 188456,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "btr-matthieu",
+      "title": "Matthieu Yamada",
+      "number": 376,
+      "sourceEntry": "matthieu_yamada.png",
+      "original": {
+        "path": "illustrations/originals/btr-matthieu.png",
+        "sha256": "6f0771d51afc077f4285e98aa073ba4cf9fb0efcc6360d67e58e6a6ea8170203",
+        "bytes": 2795301,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/btr-matthieu/illustration.d0a4045fb6.webp",
+        "sha256": "d0a4045fb6e22b9e707aa3568860f896af766e4ca79ee6373057fe2853a302ae",
+        "bytes": 166990,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "btr-eli",
+      "title": "Eli Kita",
+      "number": 377,
+      "sourceEntry": "eli_kita.png",
+      "original": {
+        "path": "illustrations/originals/btr-eli.png",
+        "sha256": "dd3777a5c8db9f463cd49270a4de0341bd6ff7e9df98ecb9a42161d1c4e8463c",
+        "bytes": 3700899,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/btr-eli/illustration.7b040c341d.webp",
+        "sha256": "7b040c341d7ceaeee0748e7a50222fddb42bd75326255cce305a0ab52dc58874",
+        "bytes": 185258,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "wha-thomas",
+      "title": "Thomas Agott",
+      "number": 378,
+      "sourceEntry": "thomas_agott.png",
+      "original": {
+        "path": "illustrations/originals/wha-thomas.png",
+        "sha256": "e60f1015bbe624a430937ac74bee0a3308e50688771cbd1be756e6f4081ba2f0",
+        "bytes": 3104016,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/wha-thomas/illustration.2c2aa7f44c.webp",
+        "sha256": "2c2aa7f44c237af1725f0502fcdd3b6bb54511b0179afea87de92260597ab0c0",
+        "bytes": 225632,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "wha-matthieu",
+      "title": "Matthieu Richeh",
+      "number": 379,
+      "sourceEntry": "matthieu_richeh.png",
+      "original": {
+        "path": "illustrations/originals/wha-matthieu.png",
+        "sha256": "c421ca4ced3a5660f135cf3c0d674bb63bef6ba39885a1f1aa4bb25b2a2331dc",
+        "bytes": 4129877,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/wha-matthieu/illustration.23a1e09e08.webp",
+        "sha256": "23a1e09e0812eea949a88db0278c69f8d225993588fb539d13408423a04d6b61",
+        "bytes": 235902,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "wha-eli",
+      "title": "Eli Tetia",
+      "number": 380,
+      "sourceEntry": "eli_tetia.png",
+      "original": {
+        "path": "illustrations/originals/wha-eli.png",
+        "sha256": "1522bedb8a480c02b6f557007431c5470803a1d684e26c8017a08afcb9efc645",
+        "bytes": 4183435,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/wha-eli/illustration.12861c6414.webp",
+        "sha256": "12861c641441bfc1461cf62b67fa39b09233f9ad23501fa77c5ee2057a50521a",
+        "bytes": 259082,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "wha-nana",
+      "title": "Nana Coco",
+      "number": 381,
+      "sourceEntry": "nana_coco.png",
+      "original": {
+        "path": "illustrations/originals/wha-nana.png",
+        "sha256": "f3aac190958ac70bf605bef195a7f94778ff136b408000920ba49bd0372c0246",
+        "bytes": 2776993,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/wha-nana/illustration.95c5625ae2.webp",
+        "sha256": "95c5625ae276be164335441c83e31fef40a3f7fc8e8fa774fd165ca892a15a5d",
+        "bytes": 186990,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "rlm-eli",
+      "title": "Eli Suzunomiya",
+      "number": 382,
+      "sourceEntry": "eli_suzunomiya.png",
+      "original": {
+        "path": "illustrations/originals/rlm-eli.png",
+        "sha256": "d4a482426cf6503370ed9dd7776ef4f47df17701d0ee975c45e636eb5a108078",
+        "bytes": 2698940,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/rlm-eli/illustration.b15872f6cb.webp",
+        "sha256": "b15872f6cb16d75cff5d52c28c51a446641433fc3671aa95e48b2b89a8bdf614",
+        "bytes": 164978,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "rlm-nana",
+      "title": "Nana Kurogane",
+      "number": 383,
+      "sourceEntry": "nana_kurogane.png",
+      "original": {
+        "path": "illustrations/originals/rlm-nana.png",
+        "sha256": "0e69a916fbd50e2cffc7359bb6877b10ec3c7396affc35f2c78c3162a447bc7d",
+        "bytes": 3173484,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/rlm-nana/illustration.ec9d6af9f7.webp",
+        "sha256": "ec9d6af9f725731406ca4bb58dee5f7140630c1aa6bb73836cbab02e65fdbe9c",
+        "bytes": 252468,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kon-matthieu",
+      "title": "Matthieu Hirasawa",
+      "number": 384,
+      "sourceEntry": "matthieu_hirasawa.png",
+      "original": {
+        "path": "illustrations/originals/kon-matthieu.png",
+        "sha256": "363d1ddbcccc64ff0bce3c4f1174abe44a9c4bae533e6de1e541e1d5be44b426",
+        "bytes": 3812223,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kon-matthieu/illustration.bbbfab75d0.webp",
+        "sha256": "bbbfab75d0ab6cc1dfc7947380efa62e53ea8d8d33a2e75f06ac7a8793629648",
+        "bytes": 192872,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kon-thomas",
+      "title": "Thomas Akiyama",
+      "number": 385,
+      "sourceEntry": "thomas_akiyama.png",
+      "original": {
+        "path": "illustrations/originals/kon-thomas.png",
+        "sha256": "135ec28a09441112d697d2398f94666ee0841c7f4bb6debb3d1a27290db9b0db",
+        "bytes": 2786363,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kon-thomas/illustration.2b1968bc13.webp",
+        "sha256": "2b1968bc1370e49aafb0f44281b8b0d1b255226a27c6d320aefdc6c3160cb507",
+        "bytes": 164182,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kon-eli",
+      "title": "Eli Kotobuki",
+      "number": 386,
+      "sourceEntry": "eli_kotobuki.png",
+      "original": {
+        "path": "illustrations/originals/kon-eli.png",
+        "sha256": "8a1322316a96d41a386f28f52c4b1893eb7cf484d3da8ed4dcf30eefd704d6b7",
+        "bytes": 2934800,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kon-eli/illustration.26ebcd5d76.webp",
+        "sha256": "26ebcd5d760f52e7dfd644fdb1c54da0aacfcf74d8ad5dbb0afc4b7fe9534536",
+        "bytes": 204870,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kon-nana",
+      "title": "Nana Tainaka",
+      "number": 387,
+      "sourceEntry": "nana_tainaka.png",
+      "original": {
+        "path": "illustrations/originals/kon-nana.png",
+        "sha256": "58d8115e152d85aca6886744e4c65dc1ec930691b100ecaa5788b066d48d4d00",
+        "bytes": 4107602,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kon-nana/illustration.31d71886e3.webp",
+        "sha256": "31d71886e3f1e6848792a021987bce9f4dcda7b54e20a9a143f228abb95e3409",
+        "bytes": 234184,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "roi-nana",
+      "title": "Nana Hikawa",
+      "number": 388,
+      "sourceEntry": "nana_hikawa.png",
+      "original": {
+        "path": "illustrations/originals/roi-nana.png",
+        "sha256": "79b3a7a3ff6175a65fcbc16b69371f872d80c16c44e2813f480bf09b2b3c2e77",
+        "bytes": 2833507,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/roi-nana/illustration.94b2713a20.webp",
+        "sha256": "94b2713a2046bdb507d9e173ecc5876d05efb4bd805f42fdd92ba5163a66c3c1",
+        "bytes": 170898,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "roi-thomas",
+      "title": "Thomas Amamiya",
+      "number": 389,
+      "sourceEntry": "thomas_amamiya.png",
+      "original": {
+        "path": "illustrations/originals/roi-thomas.png",
+        "sha256": "06838926884b030f194c402adb5498928fd3dd5190ea9429e046d0ffd2b7384a",
+        "bytes": 4034716,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/roi-thomas/illustration.aaf56521eb.webp",
+        "sha256": "aaf56521eb647906189d4fca638cd310a0e7092731585e2eb8b8420762590d73",
+        "bytes": 205548,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "roi-eli",
+      "title": "Eli Yasumura",
+      "number": 390,
+      "sourceEntry": "eli_yasumura.png",
+      "original": {
+        "path": "illustrations/originals/roi-eli.png",
+        "sha256": "bda9e19d1721f6a2b02b9b66bc66474cc4df38c86b32b78e61660ce7a0ca1682",
+        "bytes": 3828276,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/roi-eli/illustration.e8d02f25a2.webp",
+        "sha256": "e8d02f25a2f58ed9e2230b366edf5142fd474b3df0895a16f31619c397339f80",
+        "bytes": 168744,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "roi-matthieu",
+      "title": "Matthieu Hinase",
+      "number": 391,
+      "sourceEntry": "matthieu_hinase.png",
+      "original": {
+        "path": "illustrations/originals/roi-matthieu.png",
+        "sha256": "12f6add3e64e866ff4e17a971264958110c9f2060dd2945761a25493cbc7cd0e",
+        "bytes": 3831240,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/roi-matthieu/illustration.d7aa169f83.webp",
+        "sha256": "d7aa169f83372b797eae649d84279031a4177a816781711ef935e87d6dbc761f",
+        "bytes": 200018,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "zls-thomas",
+      "title": "Thomas Tatsumi",
+      "number": 392,
+      "sourceEntry": "thomas_tatsumi.png",
+      "original": {
+        "path": "illustrations/originals/zls-thomas.png",
+        "sha256": "4a592dbd9a6957de5178c4c320c02857f4460fd61a12fb61a3e23dc40605f68b",
+        "bytes": 3801820,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/zls-thomas/illustration.5e7cf2e908.webp",
+        "sha256": "5e7cf2e9086c0f186dac7b03aee07ba60a887ede0e1d5cb13be78f25a4bea6ef",
+        "bytes": 171604,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "zls-nana",
+      "title": "Nana Minamoto",
+      "number": 393,
+      "sourceEntry": "nana_minamoto.png",
+      "original": {
+        "path": "illustrations/originals/zls-nana.png",
+        "sha256": "c92def90740dd1f07e478fa5fa5c9c0049b80b3a5d8d2011b78002f88643efc6",
+        "bytes": 3137334,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/zls-nana/illustration.bdcda01817.webp",
+        "sha256": "bdcda0181796d4f058b12daf4958530b81efb9908e44ffa5d772032ed28df2b4",
+        "bytes": 245494,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "zls-eli",
+      "title": "Eli Mizuno",
+      "number": 394,
+      "sourceEntry": "eli_mizuno.png",
+      "original": {
+        "path": "illustrations/originals/zls-eli.png",
+        "sha256": "caf919f4cac1a0f4753a01ee6f83ca898063acaaf38eec6cb90d13575906eaa1",
+        "bytes": 3004839,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/zls-eli/illustration.29e4d8304c.webp",
+        "sha256": "29e4d8304cdc2c09504f37c72e957d5e65f04b25fbbb504cfb16125d683e1e80",
+        "bytes": 213786,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "zls-matthieu",
+      "title": "Matthieu Tae",
+      "number": 395,
+      "sourceEntry": "matthieu_tae.png",
+      "original": {
+        "path": "illustrations/originals/zls-matthieu.png",
+        "sha256": "06b7e51d68f26b10337f5dc7b1bba3d9ef1e31fadf559ffc2a82e85709c66478",
+        "bytes": 2487779,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/zls-matthieu/illustration.9cb59bb30c.webp",
+        "sha256": "9cb59bb30ce17f6730705c977b1c4b4fa18b519f392b50162f31f12dc9f1dbd8",
+        "bytes": 134122,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "tsk-thomas",
+      "title": "Thomas Tempest",
+      "number": 396,
+      "sourceEntry": "thomas_tempest.png",
+      "original": {
+        "path": "illustrations/originals/tsk-thomas.png",
+        "sha256": "92807062574518eb459f6f42dc0cee22508e7f8b29f67562ce25b9cb84cec83f",
+        "bytes": 4133456,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/tsk-thomas/illustration.4a55eb0058.webp",
+        "sha256": "4a55eb0058a7e7f2b6a95d49525264d790dd63c5f93249b7d6821391d61f5cd8",
+        "bytes": 246164,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "tsk-nana",
+      "title": "Nana Nava",
+      "number": 397,
+      "sourceEntry": "nana_nava.png",
+      "original": {
+        "path": "illustrations/originals/tsk-nana.png",
+        "sha256": "0d0e0f8cf8e3ce1d8ce91af0862141433563b2199f7c708c04a552388594ffd4",
+        "bytes": 4224525,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/tsk-nana/illustration.93ff306894.webp",
+        "sha256": "93ff306894f23be920f4c3b933b6b7c3276759b14657e61e9e3b167dca0d866c",
+        "bytes": 265634,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "tsk-matthieu",
+      "title": "Matthieu Gobta",
+      "number": 398,
+      "sourceEntry": "matthieu_gobta.png",
+      "original": {
+        "path": "illustrations/originals/tsk-matthieu.png",
+        "sha256": "a34afa9b9fa54a4f50929e2ca680d3f9fc5690b003496433450c4917e3dfa6b8",
+        "bytes": 4149714,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/tsk-matthieu/illustration.13b6b16d80.webp",
+        "sha256": "13b6b16d80b468a8b3fa4f2ad4ca104623662508ba95ef24579c3307764a0547",
+        "bytes": 264784,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "tsk-eli",
+      "title": "Eli Shuna",
+      "number": 399,
+      "sourceEntry": "eli_shuna.png",
+      "original": {
+        "path": "illustrations/originals/tsk-eli.png",
+        "sha256": "3b2386cb943214a6c7fa8dadc187f22a02c29e2521ec67fa52bd48cd3e036017",
+        "bytes": 4103180,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/tsk-eli/illustration.b1467d94d2.webp",
+        "sha256": "b1467d94d201f5c8e521146661564cd10309cabc3a999bfff944a2cce0d86397",
+        "bytes": 210730,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "lh-thomas",
+      "title": "Thomas Shiroe",
+      "number": 400,
+      "sourceEntry": "thomas_shiroe.png",
+      "original": {
+        "path": "illustrations/originals/lh-thomas.png",
+        "sha256": "73eaa865aa38b93a7ca3f2d28df090393cf2ea20e439faaab8905b94db537693",
+        "bytes": 4117440,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/lh-thomas/illustration.47b0d8b9d4.webp",
+        "sha256": "47b0d8b9d47dba11004720d44e642206df7599ba77f4f556844bb851f1417906",
+        "bytes": 228302,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "lh-nana",
+      "title": "Nana Akatsuki",
+      "number": 401,
+      "sourceEntry": "nana_akatsuki.png",
+      "original": {
+        "path": "illustrations/originals/lh-nana.png",
+        "sha256": "9cc85d9918a6c06616078409702cdbdea3c59e5e1572b7162dab005b46d89a75",
+        "bytes": 4016813,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/lh-nana/illustration.3ad0c27e0b.webp",
+        "sha256": "3ad0c27e0b736e90a4df477a62a4146bbe25764583d93193e066612f1c18dc56",
+        "bytes": 228216,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "lh-matthieu",
+      "title": "Matthieu Naotsugu",
+      "number": 402,
+      "sourceEntry": "matthieu_naotsugu.png",
+      "original": {
+        "path": "illustrations/originals/lh-matthieu.png",
+        "sha256": "5505f8e9d88fa3a311ff980e5e207a075c209a57dc5204aa24846e0b32bfad1e",
+        "bytes": 3128542,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/lh-matthieu/illustration.301a1f0dd6.webp",
+        "sha256": "301a1f0dd6d93a972b346ba3fdca396bad075e11084cabddf092383bfc8638ea",
+        "bytes": 258228,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "lh-eli",
+      "title": "Eli Marielle",
+      "number": 403,
+      "sourceEntry": "eli_marielle.png",
+      "original": {
+        "path": "illustrations/originals/lh-eli.png",
+        "sha256": "b4855f96c1185a4351532fe4044efa12378bdb5349ed64064bfb8b882deb2809",
+        "bytes": 2897772,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/lh-eli/illustration.8c5f586d3b.webp",
+        "sha256": "8c5f586d3ba47b260482abd4fc036d2aab8f827c671688fd02a1961a2af84d7b",
+        "bytes": 198962,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ld-matthieu",
+      "title": "Matthieu Fujii",
+      "number": 404,
+      "sourceEntry": "matthieu_fujii.png",
+      "original": {
+        "path": "illustrations/originals/ld-matthieu.png",
+        "sha256": "31a282c6febb9274c22fc17dd128ff84411231e5d30fc2b9a1d24233f293289f",
+        "bytes": 2894945,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ld-matthieu/illustration.6ca68b7141.webp",
+        "sha256": "6ca68b7141ad90e5579b4873937feea37d64b473dfd521a2c903f591a259faa1",
+        "bytes": 188966,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ld-eli",
+      "title": "Eli Tachibana",
+      "number": 405,
+      "sourceEntry": "eli_tachibana.png",
+      "original": {
+        "path": "illustrations/originals/ld-eli.png",
+        "sha256": "93e196549cbe6b562dfa4f316b228bdecd9018664df276fa4e40773fd449b7ad",
+        "bytes": 2691150,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ld-eli/illustration.78172b9e13.webp",
+        "sha256": "78172b9e13b78e920896dd253de726c85c816276a2882739b578ec04f8bb8d6e",
+        "bytes": 149890,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ld-nana",
+      "title": "Nana Tachibana",
+      "number": 406,
+      "sourceEntry": "nana_tachibana.png",
+      "original": {
+        "path": "illustrations/originals/ld-nana.png",
+        "sha256": "cd23be82aebfd4e746db3059f6a6ce74dd615df06b256f562e318a80eabe411c",
+        "bytes": 3825354,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ld-nana/illustration.ae14434d87.webp",
+        "sha256": "ae14434d87fbf7adca4c36914b2b8693b9c0372beac8a45b26107c5ea44d215f",
+        "bytes": 159486,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ld-thomas",
+      "title": "Thomas Kiriya",
+      "number": 407,
+      "sourceEntry": "thomas_kiriya.png",
+      "original": {
+        "path": "illustrations/originals/ld-thomas.png",
+        "sha256": "48494e7b0a6ad999e971d0303fbc573b22f0efc22513291e34c2c34788ae10b5",
+        "bytes": 3836669,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ld-thomas/illustration.ea3f4cd9fe.webp",
+        "sha256": "ea3f4cd9fef9af66b517c5401f9d8764771fa8d73b895e24c2d5f05bcbd7b61d",
+        "bytes": 191474,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sao-matthieu",
+      "title": "Matthieu Kirito",
+      "number": 408,
+      "sourceEntry": "matthier_kirito.png",
+      "original": {
+        "path": "illustrations/originals/sao-matthieu.png",
+        "sha256": "22118b17aafddc99f9bda091f486feeddea35e5bd21d22ab57d6dbacd1cf3175",
+        "bytes": 3880653,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sao-matthieu/illustration.aa6f92a693.webp",
+        "sha256": "aa6f92a6930b05835b75aed6077acd9e69de34ad8de0d425af88c8b3f7a462ac",
+        "bytes": 217256,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sao-eli",
+      "title": "Eli Yūki",
+      "number": 409,
+      "sourceEntry": "eli_yuki.png",
+      "original": {
+        "path": "illustrations/originals/sao-eli.png",
+        "sha256": "90a971e3f02a7d31178a452d5d6cae5db36b20b39c9a6560a0e790992f9be633",
+        "bytes": 3124558,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sao-eli/illustration.5f5c11a2c5.webp",
+        "sha256": "5f5c11a2c547f4e0313dea50ff30ee02e8014b3b8131c5b3e3df86068865be65",
+        "bytes": 231172,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sao-thomas",
+      "title": "Thomas Agil",
+      "number": 410,
+      "sourceEntry": "thomas_agil.png",
+      "original": {
+        "path": "illustrations/originals/sao-thomas.png",
+        "sha256": "1c0817fb1abfaf7c6042c9f96b4027a38e5d83c0eace5bf13bb153ba632255ff",
+        "bytes": 2926511,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sao-thomas/illustration.04508b071f.webp",
+        "sha256": "04508b071f490c34f73488feb2110036ea1d3b005d9c1a5be20e87685b72c490",
+        "bytes": 212482,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "sao-nana",
+      "title": "Nana Sinon",
+      "number": 411,
+      "sourceEntry": "nana_sinon.png",
+      "original": {
+        "path": "illustrations/originals/sao-nana.png",
+        "sha256": "4c2a059c2bdb5d09495efc9bd2d1d0a480f2a131525e996fa8aac9f376b3439a",
+        "bytes": 3938441,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/sao-nana/illustration.cc57a67df3.webp",
+        "sha256": "cc57a67df39f8afac07b1aa6ad48ff021131d51350469410b7bb37faf1598090",
+        "bytes": 218722,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "lb-thomas",
+      "title": "Thomas Fujino",
+      "number": 412,
+      "sourceEntry": "thomas_fujino.png",
+      "original": {
+        "path": "illustrations/originals/lb-thomas.png",
+        "sha256": "0ace8bfda8e357d192621e6da060686d84573a00ff21abc36c0c7ce533a605dd",
+        "bytes": 2315473,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/lb-thomas/illustration.3a92ee5338.webp",
+        "sha256": "3a92ee5338f62a6b4e0688a61a3840d4c3a2556c53da0f37c6cd4c1f4c698626",
+        "bytes": 124080,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "lb-nana",
+      "title": "Nana Kyomoto",
+      "number": 413,
+      "sourceEntry": "nana_kyomoto.png",
+      "original": {
+        "path": "illustrations/originals/lb-nana.png",
+        "sha256": "c044d3691ab00d3d336e1716628c745f320ae8005a965fd25bb54b6feb5661a7",
+        "bytes": 3115166,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/lb-nana/illustration.d34a32782e.webp",
+        "sha256": "d34a32782e42b357f2487b0a8be34949436c4af84ccfa06413cab5a61d8f0f13",
+        "bytes": 221178,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hnk-thomas",
+      "title": "Thomas Hanako",
+      "number": 414,
+      "sourceEntry": "thomas_hanako.png",
+      "original": {
+        "path": "illustrations/originals/hnk-thomas.png",
+        "sha256": "445f76835c89175c7e3f812f0be823774b6ae2bc3d7677aafd7d602673b32a14",
+        "bytes": 3767191,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hnk-thomas/illustration.8a10e75d3d.webp",
+        "sha256": "8a10e75d3d69ac6b1cb8d7c2739c745146906ed787e018faf27aa2c08dbfa148",
+        "bytes": 158242,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hnk-nana",
+      "title": "Nana Yashiro",
+      "number": 415,
+      "sourceEntry": "nana_yashiro.png",
+      "original": {
+        "path": "illustrations/originals/hnk-nana.png",
+        "sha256": "3affa7311f1d68a490dddcdeeb4e500b61b35036021339d35e1be442bd008455",
+        "bytes": 4057128,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hnk-nana/illustration.b807ff4f34.webp",
+        "sha256": "b807ff4f3444c76b57be4178f8fb9050540fd6dd9fa28ef1f7f21d92f2591a54",
+        "bytes": 204044,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "isp-matthieu",
+      "title": "Matthieu Sakuragawa",
+      "number": 416,
+      "sourceEntry": "matthieu_sakuragawa.png",
+      "original": {
+        "path": "illustrations/originals/isp-matthieu.png",
+        "sha256": "0adc5b30c5ebf4a092f47038193ebfdccc0a71f205b4b8f7b5619ea1f4c3d577",
+        "bytes": 4002375,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/isp-matthieu/illustration.699c7fe641.webp",
+        "sha256": "699c7fe6416cbf71cc1d67071e5180b7a3abf99168c1eae8cad0163524a6ab83",
+        "bytes": 235602,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "isp-eli",
+      "title": "Eli Iwanaga",
+      "number": 417,
+      "sourceEntry": "eli_iwanara.png",
+      "original": {
+        "path": "illustrations/originals/isp-eli.png",
+        "sha256": "5130674cca14a80f48b176b7906360085e816974328ea396e7978c8361af91f3",
+        "bytes": 3055087,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/isp-eli/illustration.3f44821fcf.webp",
+        "sha256": "3f44821fcf871622b5e010b1098f1a8a349e298404c303177aff6f3a2f506981",
+        "bytes": 241384,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kkg-nana",
+      "title": "Nana Jabami",
+      "number": 418,
+      "sourceEntry": "nana_jabami.png",
+      "original": {
+        "path": "illustrations/originals/kkg-nana.png",
+        "sha256": "39202779cf0f3157d6ef59131dd94e6b2384a718a4fa515335e51ad7b4e2f37a",
+        "bytes": 3912120,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kkg-nana/illustration.f7f4205b3e.webp",
+        "sha256": "f7f4205b3e2cdfa9399ea6a17529ddfd0eb3f2b1c17a69e7355f01986e62a8e4",
+        "bytes": 208710,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kkg-thomas",
+      "title": "Thomas Momobami",
+      "number": 419,
+      "sourceEntry": "thomas_momobami.png",
+      "original": {
+        "path": "illustrations/originals/kkg-thomas.png",
+        "sha256": "178792deaa90fcbfaa4a02fb8a00db56d947e2f703d7e35bbb9a049652d876df",
+        "bytes": 2679667,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kkg-thomas/illustration.a98a71948c.webp",
+        "sha256": "a98a71948c310114dc9f6833f0201f76a1a73812f494cc37181fa9ca49308095",
+        "bytes": 152082,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kkg-eli",
+      "title": "Eli Saotome",
+      "number": 420,
+      "sourceEntry": "eli_satome.png",
+      "original": {
+        "path": "illustrations/originals/kkg-eli.png",
+        "sha256": "cf443b199736e85ded9a1814a7ef92649b8bda6e7bbd137bf4e2b6ac7f950cef",
+        "bytes": 2833692,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kkg-eli/illustration.3469951eff.webp",
+        "sha256": "3469951eff94a4982a77c05cdfac95fab15e8bffc3f805a9743a38ad6389e80f",
+        "bytes": 194784,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "kkg-matthieu",
+      "title": "Matthieu Suzui",
+      "number": 421,
+      "sourceEntry": "matthieu_suzui.png",
+      "original": {
+        "path": "illustrations/originals/kkg-matthieu.png",
+        "sha256": "5b5ec117c85a9c80f37476a71e1f527dbe173bdece999b95ddf794ae9140b73d",
+        "bytes": 2901915,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/kkg-matthieu/illustration.8caa6058a4.webp",
+        "sha256": "8caa6058a42c6ac8f368e09e8efaf9964020410b9e77867d58677c1ea12d8962",
+        "bytes": 196636,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "uzk-eli",
+      "title": "Eli Uzaki",
+      "number": 422,
+      "sourceEntry": "eli_uzaki.png",
+      "original": {
+        "path": "illustrations/originals/uzk-eli.png",
+        "sha256": "a4c6aeec7d02fdbd4509c528cd571ae512799d4736c034f116a6182b30ec4504",
+        "bytes": 2825006,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/uzk-eli/illustration.91958ee840.webp",
+        "sha256": "91958ee8405f6affc72f76d4cace9265ebc043a491b5e32eee0b8537927ffef6",
+        "bytes": 202462,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "uzk-matthieu",
+      "title": "Matthieu Sakurai",
+      "number": 423,
+      "sourceEntry": "matthieu_sakurai.png",
+      "original": {
+        "path": "illustrations/originals/uzk-matthieu.png",
+        "sha256": "5e90d8d9051538a881bfe55ee16b1f4537c4e45b7a2e6713e702e7deea987719",
+        "bytes": 4035204,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/uzk-matthieu/illustration.8f9c007077.webp",
+        "sha256": "8f9c007077b9080e4f8ed23ae2e901c3a7d20d83e5ce74c3cfb83fbe56a89d51",
+        "bytes": 209726,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "dtc-matthieu",
+      "title": "Matthieu Nagumo",
+      "number": 424,
+      "sourceEntry": "matthieu_nagumo.png",
+      "original": {
+        "path": "illustrations/originals/dtc-matthieu.png",
+        "sha256": "a80d8399e13ce3e32eecab1ced40f2534995123a33c12aef37090e28d068b616",
+        "bytes": 2754808,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/dtc-matthieu/illustration.07c048748b.webp",
+        "sha256": "07c048748b3d76feb690c15db306301a1c38dd35eac219de067ad58902b9bd3a",
+        "bytes": 175352,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "dtc-eli",
+      "title": "Eli Nakanishi",
+      "number": 425,
+      "sourceEntry": "eli_nakanishi.png",
+      "original": {
+        "path": "illustrations/originals/dtc-eli.png",
+        "sha256": "6c8fbc99731978db989145359c1bbf3f41085f138df3bd62da83ef2ccfbe4ad5",
+        "bytes": 2934541,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/dtc-eli/illustration.d0869e1a18.webp",
+        "sha256": "d0869e1a181515c625fd43ee33d0218a2d3d7884450196d2dd24cfaacf078418",
+        "bytes": 205870,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "dtc-thomas",
+      "title": "Thomas Asunaro",
+      "number": 426,
+      "sourceEntry": "thomas_asunaro.png",
+      "original": {
+        "path": "illustrations/originals/dtc-thomas.png",
+        "sha256": "8816c497f11d57dab5ca904dd15b0a1973c394596631342e11020a3c122f6caa",
+        "bytes": 3966357,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/dtc-thomas/illustration.6e6a8ef6dc.webp",
+        "sha256": "6e6a8ef6dc5a35f500268c993f1e5dc2c2de92d0de9b56da0f07baab80f56f38",
+        "bytes": 200892,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "dtc-nana",
+      "title": "Nana Kazamaki",
+      "number": 427,
+      "sourceEntry": "nana_kazamaki.png",
+      "original": {
+        "path": "illustrations/originals/dtc-nana.png",
+        "sha256": "20276dadbf6fa5753f3d8c59a1be00184f6ab18fe315588e4815e3a51e98d38a",
+        "bytes": 2859419,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/dtc-nana/illustration.c2441185f8.webp",
+        "sha256": "c2441185f8d0c9afd03d1e8f8b22564c0d2eb8b877dcde7796d6d2d3761805c1",
+        "bytes": 186978,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gbc-nana",
+      "title": "Nana Iseri",
+      "number": 428,
+      "sourceEntry": "nana_iseri.png",
+      "original": {
+        "path": "illustrations/originals/gbc-nana.png",
+        "sha256": "589d4402c7b77cd6b2dc36f606be73337e6e037dae95fc6f2fba04132596fe68",
+        "bytes": 2899475,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gbc-nana/illustration.626d039eb4.webp",
+        "sha256": "626d039eb4db713998f835a32f9ecc02f3d21caf0bf2104a94b9c09d42fc8fd1",
+        "bytes": 202332,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gbc-thomas",
+      "title": "Thomas Kawaragi",
+      "number": 429,
+      "sourceEntry": "thomas_kawaragi.png",
+      "original": {
+        "path": "illustrations/originals/gbc-thomas.png",
+        "sha256": "980b1fdde76cb5a5c3c59c3e11c9102a7092a40a387bb1215f9ca0e9c0ea778d",
+        "bytes": 2809247,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gbc-thomas/illustration.c01f756ed0.webp",
+        "sha256": "c01f756ed01336187cc9b33b86528e301215f7313e82b5f98dacfb610a9ffca2",
+        "bytes": 195546,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gbc-eli",
+      "title": "Eli Awa",
+      "number": 430,
+      "sourceEntry": "eli_awa.png",
+      "original": {
+        "path": "illustrations/originals/gbc-eli.png",
+        "sha256": "fb64daa1c027d0c72cdb11f2b3741813f605ed7f6fb5198fa2f5034cf4704567",
+        "bytes": 3850346,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gbc-eli/illustration.515db8efb1.webp",
+        "sha256": "515db8efb10301b8c6edd0e977c3733b7279e11421e505cb41bbd9abb8956681",
+        "bytes": 226806,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "gbc-matthieu",
+      "title": "Matthieu Rupa",
+      "number": 431,
+      "sourceEntry": "matthieu_rupa.png",
+      "original": {
+        "path": "illustrations/originals/gbc-matthieu.png",
+        "sha256": "349672bf458a9cd9c18465fb784b0950ac0acd5c9956604e1a71454cfc04805b",
+        "bytes": 2810426,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/gbc-matthieu/illustration.5e634c6626.webp",
+        "sha256": "5e634c66269d72a08942547e8faa13966580da6591554a4312da36fa0246a762",
+        "bytes": 179882,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ve-nana",
+      "title": "Nana Evergarden",
+      "number": 432,
+      "sourceEntry": "nana_evengarden.png",
+      "original": {
+        "path": "illustrations/originals/ve-nana.png",
+        "sha256": "9aeae686714928303d9457060ea5fec2d56a3d58d333d2773badfe1f50d19c89",
+        "bytes": 4022188,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ve-nana/illustration.961e732fd9.webp",
+        "sha256": "961e732fd95fcf4a5a3295f7b303bbe3cf6ef6c6862d88fca2536025914dbf51",
+        "bytes": 215672,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "slf-matthieu",
+      "title": "Matthieu Sunraku",
+      "number": 433,
+      "sourceEntry": "matthieu_sunraku.png",
+      "original": {
+        "path": "illustrations/originals/slf-matthieu.png",
+        "sha256": "36d7c28c33dfe66a1a146064f788edd9810d5486ea91d032cfe8d397b96a21a2",
+        "bytes": 4199805,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/slf-matthieu/illustration.645ba5d183.webp",
+        "sha256": "645ba5d18308bda52fe7d11cc195ed24539c414e49dd6057de6ff6f16e7024c8",
+        "bytes": 235146,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "slf-eli",
+      "title": "Eli Saiga",
+      "number": 434,
+      "sourceEntry": "eli_saiga.png",
+      "original": {
+        "path": "illustrations/originals/slf-eli.png",
+        "sha256": "4d11b53bb88100cef8b1c082fd393900dab24d7c7cff4e3ee72a1fc62b77238b",
+        "bytes": 3071148,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/slf-eli/illustration.6c4607c2f1.webp",
+        "sha256": "6c4607c2f1774322ad96914e40e0ed8a482ac1cd32c8b4ebe2b38b8d733a3af6",
+        "bytes": 220030,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "slf-thomas",
+      "title": "Thomas Oikatzo",
+      "number": 435,
+      "sourceEntry": "thomas_oikatzo.png",
+      "original": {
+        "path": "illustrations/originals/slf-thomas.png",
+        "sha256": "b06eb0d331248668d17d702faa59d181fed17b8f602c164d34830ee9519bf6a9",
+        "bytes": 2963018,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/slf-thomas/illustration.0b17333e2b.webp",
+        "sha256": "0b17333e2b938bf76813f2042036d34be0b735bd063afef0f7420c04af51ba63",
+        "bytes": 223004,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "slf-nana",
+      "title": "Nana Pencilgon",
+      "number": 436,
+      "sourceEntry": "nana_pencilgon.png",
+      "original": {
+        "path": "illustrations/originals/slf-nana.png",
+        "sha256": "2cf36a8874a2039572536c9f38315b491698be0a11baab9758deb24e6c09e3a1",
+        "bytes": 3258112,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/slf-nana/illustration.2f2a00d317.webp",
+        "sha256": "2f2a00d317fe3aac7592b530280e4c7f26d34baa7ad91c4a506c7630cba70731",
+        "bytes": 287474,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ft-matthieu",
+      "title": "Matthieu Dragneel",
+      "number": 437,
+      "sourceEntry": "matthieu_dragneel.png",
+      "original": {
+        "path": "illustrations/originals/ft-matthieu.png",
+        "sha256": "471e37ad5349c731cb0d5151c80373902519ac74c704caf023f649f2112c5c0b",
+        "bytes": 3186021,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ft-matthieu/illustration.5c8e4d5b63.webp",
+        "sha256": "5c8e4d5b6314975962b17a13297cc08fa8a6fdcbe65b89a875403bfabbce4e4d",
+        "bytes": 273684,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ft-eli",
+      "title": "Eli Heartfilia",
+      "number": 438,
+      "sourceEntry": "eli_heartfilia.png",
+      "original": {
+        "path": "illustrations/originals/ft-eli.png",
+        "sha256": "784e6c313dcfcf97b6d83a60f7f7b00cb8c8585c342bab473ad2510f632e0679",
+        "bytes": 4206594,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ft-eli/illustration.11c505988f.webp",
+        "sha256": "11c505988f3e3f4df5ed1de56a27cc75b4de409ffdb5273df5130d66c4ac5d26",
+        "bytes": 254400,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ft-thomas",
+      "title": "Thomas Fullbuster",
+      "number": 439,
+      "sourceEntry": "thomas_fullbuster.png",
+      "original": {
+        "path": "illustrations/originals/ft-thomas.png",
+        "sha256": "95dc2eb5f42825f98c7d198c68e226130542b9396f56ae3ddc851d0c262dd72f",
+        "bytes": 3886096,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ft-thomas/illustration.6015207b86.webp",
+        "sha256": "6015207b86ee1ffa313e83af055b100cdf84e491e85d5de40a04f8ba46f3216c",
+        "bytes": 172732,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "ft-nana",
+      "title": "Nana Lockser",
+      "number": 440,
+      "sourceEntry": "nana_lockser.png",
+      "original": {
+        "path": "illustrations/originals/ft-nana.png",
+        "sha256": "e21f5a60296dbd5bf8844b6b03a7d34c0d8a9ecf6c1c79e1712fa93edbb9217f",
+        "bytes": 3068741,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/ft-nana/illustration.fe6bc97c7c.webp",
+        "sha256": "fe6bc97c7c05469f5e552840874ef19a6a74e742d42a0ac979d18103e6e32265",
+        "bytes": 249662,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hg-thomas",
+      "title": "Thomas District 3",
+      "number": 441,
+      "eventId": "hunger-games-2026",
+      "sourceEntry": "thomas_district_3.png",
+      "original": {
+        "path": "illustrations/originals/hg-thomas.png",
+        "sha256": "3be3981863c11df4838bd44bcf676f96cd468e00d8ee02d7be73f7e43c2d54c5",
+        "bytes": 2780697,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hg-thomas/illustration.bffb306a91.webp",
+        "sha256": "bffb306a91dc5f7b3e66bd3baf6002f84aee3f8b3882b523e79970b4746cb19f",
+        "bytes": 186704,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hg-dorian",
+      "title": "Dorian District 2",
+      "number": 442,
+      "eventId": "hunger-games-2026",
+      "sourceEntry": "dorian_district_2.png",
+      "original": {
+        "path": "illustrations/originals/hg-dorian.png",
+        "sha256": "3e5a98f1adcc8c4562de14cc4b423fca5e8dff135376b64f50d92021f532265d",
+        "bytes": 2969677,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hg-dorian/illustration.e673f30ea8.webp",
+        "sha256": "e673f30ea8024003e0f40de3fcfbb2b8fbf31d4eb0eaa0141b4ae592cb0e0a2d",
+        "bytes": 228626,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hg-matthieu",
+      "title": "Matthieu District 12",
+      "number": 443,
+      "eventId": "hunger-games-2026",
+      "sourceEntry": "matthieu_district_12.png",
+      "original": {
+        "path": "illustrations/originals/hg-matthieu.png",
+        "sha256": "a4279948e118c4616fd5789731e7eff274c35c75e2f7bbf257859c427372bdb8",
+        "bytes": 3817590,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hg-matthieu/illustration.32bfc54891.webp",
+        "sha256": "32bfc548916915f14845cef35550ff824cc4d0ec88e0c2d871bc5325bcec32b9",
+        "bytes": 209474,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hg-eli",
+      "title": "Eli District 11",
+      "number": 444,
+      "eventId": "hunger-games-2026",
+      "sourceEntry": "eli_district_11.png",
+      "original": {
+        "path": "illustrations/originals/hg-eli.png",
+        "sha256": "13f5e9ba47993a91daf333179236eb9dca2370cabfeb764057d58ca18c3eb7f4",
+        "bytes": 3946520,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hg-eli/illustration.d102c5c14d.webp",
+        "sha256": "d102c5c14dccf8fadad3f49137f577fa1666f53fa82f0c5caf66bf1c77650541",
+        "bytes": 241746,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hg-nana",
+      "title": "Nana District 1",
+      "number": 445,
+      "eventId": "hunger-games-2026",
+      "sourceEntry": "nana_district_1.png",
+      "original": {
+        "path": "illustrations/originals/hg-nana.png",
+        "sha256": "e43862af1c0ed531e02b7f0f73c362ddf3322debe6a110f1d59980599d446c89",
+        "bytes": 3278147,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hg-nana/illustration.877a0a618c.webp",
+        "sha256": "877a0a618c00ecf76902a20efb857753d143b86950c497f7aa5915ccf4acb01e",
+        "bytes": 284630,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "hg-geai-moqueur",
+      "title": "Le Geai moqueur",
+      "number": 446,
+      "eventId": "hunger-games-2026",
+      "sourceEntry": "geai_moqueur.png",
+      "original": {
+        "path": "illustrations/originals/hg-geai-moqueur.png",
+        "sha256": "d71ec4c893c4aa78d1fdb6ce2dff4d13183432703154b4a8428295610cbbe53e",
+        "bytes": 3761346,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/hg-geai-moqueur/illustration.0e4f416399.webp",
+        "sha256": "0e4f4163990274b3d7df1cff35fcbbff8585b83b0683d92da2c381a76059568c",
+        "bytes": 159988,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "na-nana",
+      "title": "Nouvel An : Yokohama",
+      "number": 447,
+      "eventId": "new-year-2027",
+      "sourceEntry": "na_yokohama.png",
+      "original": {
+        "path": "illustrations/originals/na-nana.png",
+        "sha256": "06337f38a0b31a5be3f4767699f2f6db956b1da62a32b9b6a8eea8e11b645a6b",
+        "bytes": 4248297,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/na-nana/illustration.5ad6078049.webp",
+        "sha256": "5ad6078049a8d55d5356fa093b66f1e9999b45b02d3faffba1d300ceeb6fb3a3",
+        "bytes": 327436,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "na-thomas",
+      "title": "Nouvel An : Londres",
+      "number": 448,
+      "eventId": "new-year-2027",
+      "sourceEntry": "na_londres.png",
+      "original": {
+        "path": "illustrations/originals/na-thomas.png",
+        "sha256": "7f69bd300316863d27abeee5a1ec475e403c86a5b2760e936f10322b80b81f49",
+        "bytes": 4111361,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/na-thomas/illustration.cbfe2bd6b6.webp",
+        "sha256": "cbfe2bd6b6d8fe7fe69a06a2df81e93abd7a5356e1cbaba33f6db5970a5f0959",
+        "bytes": 295662,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "na-eli",
+      "title": "Nouvel An : Québec",
+      "number": 449,
+      "eventId": "new-year-2027",
+      "sourceEntry": "na_quebec.png",
+      "original": {
+        "path": "illustrations/originals/na-eli.png",
+        "sha256": "efcc5da3f8e1566a47502f09138f0dea179de5395e02485868f0f553f0329742",
+        "bytes": 3273496,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/na-eli/illustration.9a403c8733.webp",
+        "sha256": "9a403c8733b7ccf0ea796bb8a918ad2dd2daf462f4a6ef934178b6cfd117654a",
+        "bytes": 309368,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "na-matthieu",
+      "title": "Nouvel An : Paris",
+      "number": 450,
+      "eventId": "new-year-2027",
+      "sourceEntry": "na_paris.png",
+      "original": {
+        "path": "illustrations/originals/na-matthieu.png",
+        "sha256": "f315fde6c40d22b686cd8da0b779b489f3bb9d147c1f54f3252b9be4a4fafed4",
+        "bytes": 3811380,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/na-matthieu/illustration.96d64562cd.webp",
+        "sha256": "96d64562cd42653257e871f113b0253ea79bbaed719a46056cd1d4a94c3a4319",
+        "bytes": 216746,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "na-dorian",
+      "title": "Nouvel An : Marrakech",
+      "number": 451,
+      "eventId": "new-year-2027",
+      "sourceEntry": "na_marrakesh.png",
+      "original": {
+        "path": "illustrations/originals/na-dorian.png",
+        "sha256": "503ff90be9af8cceed1b36c9e1969189df4c21bc608b065e7fab6fb31af87fb9",
+        "bytes": 3172357,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/na-dorian/illustration.9abb31dea2.webp",
+        "sha256": "9abb31dea2d5309ea5df88db66773ef25b7cd7f0ffd28e7a0e344360b01bb286",
+        "bytes": 272878,
+        "width": 900,
+        "height": 1200
+      }
+    },
+    {
+      "cardId": "na-bonne-annee",
+      "title": "Vœu de l'année 2027",
+      "number": 452,
+      "eventId": "new-year-2027",
+      "sourceEntry": "veux_annee_2027.png",
+      "original": {
+        "path": "illustrations/originals/na-bonne-annee.png",
+        "sha256": "b03cb7b3a9d31285784bd20c82acb144b61831f3e8dd4118feba8004f0e97b9d",
+        "bytes": 3009703,
+        "width": 1086,
+        "height": 1448
+      },
+      "published": {
+        "path": "public/assets/cards/na-bonne-annee/illustration.79f6d7a279.webp",
+        "sha256": "79f6d7a279608bf59147c8e6e6133b439b9569b4f3389681dae350b915fccb53",
+        "bytes": 247626,
+        "width": 900,
+        "height": 1200
+      }
+    }
+  ],
+  "ignoredEventImages": [
+    "cadeat_flottant.png",
+    "cadeau_crystal.png",
+    "cadeau_pole_nord.png",
+    "grand_cadeau_or.png",
+    "tour_de_cadeau.png",
+    "paquet_sapin.png",
+    "pochette_rayee.png",
+    "paquet_kraft.png",
+    "petit_cube_rouge.png",
+    "tube_vert.png",
+    "coffre_velours.png",
+    "cadeau_sur_luge.png",
+    "cadeau_coeur.png",
+    "boite_etoilee.png",
+    "le_long_ecrin.png",
+    "boite_hexagonale.png",
+    "carton_a_chapeau.png",
+    "boite_a_rennes.png",
+    "paquet_flocon.png",
+    "boite_a_pois.png"
+  ]
+}

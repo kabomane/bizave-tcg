@@ -5,6 +5,7 @@ export type CardDefinition = {
   id: string; title: string; description: string; rarity: Rarity; collectionId: string
   artwork: { standard: string; fullArt: string }; artworkPosition?: Partial<Record<ArtVariant, string>>; weight?: number
   promoNumber?: string
+  eventId?: string
 }
 type CardPoolSource =
   | { type: 'collection'; collectionId: string; excludeCardIds?: string[]; multiplier?: number }
@@ -18,6 +19,7 @@ export type BoosterDefinition = {
   cardsPerPack: number; sources: CardPoolSource[]; enabled: boolean; order: number
   showInFilters?: boolean
   dailyOnly?: boolean
+  eventId?: string
   rates?: {
     rarity?: 'default' | Record<Rarity, number>
     finish?: 'default' | Record<Finish, number>

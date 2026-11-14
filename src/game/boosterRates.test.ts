@@ -63,7 +63,7 @@ describe('taux propres à chaque booster', () => {
       { ...cards[0], id: 'future-common' },
     ]
     const pool = resolveBoosterPool(stellar, [...cards, ...future]).map(entry => entry.card.id)
-    expect(pool).toEqual([...cards.filter(card => !card.promoNumber && (card.rarity === 'epic' || card.rarity === 'legendary')).map(card => card.id), 'future-epic', 'future-legendary'])
+    expect(pool).toEqual([...cards.filter(card => !card.promoNumber && !card.eventId && (card.rarity === 'epic' || card.rarity === 'legendary')).map(card => card.id), 'future-epic', 'future-legendary'])
     expect(new Set(pool).size).toBe(pool.length)
     expect(() => validateConfiguration([...cards, ...future], boosters)).not.toThrow()
   })

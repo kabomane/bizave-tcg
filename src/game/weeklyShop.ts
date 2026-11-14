@@ -83,7 +83,7 @@ function shuffle<T>(items: T[], rng: Rng) {
   return shuffled
 }
 function rollWeeklyBooster(catalogue: CardDefinition[], rng: Rng = secureRandom): WeeklyShopRow['booster'] {
-  const available = catalogue.filter(c => !c.promoNumber)
+  const available = catalogue.filter(c => !c.promoNumber && !c.eventId)
   const eligible = (Object.keys(DEFAULT_RARITY_RATES) as Rarity[]).filter(r => available.some(c => c.rarity === r))
   const rarity = rollRates(DEFAULT_RARITY_RATES, rng, eligible)
   const finish = rollRates(DEFAULT_FINISH_RATES, rng), illustration = rollRates(DEFAULT_ART_VARIANT_RATES, rng)
@@ -108,7 +108,7 @@ function rollWeeklyBooster(catalogue: CardDefinition[], rng: Rng = secureRandom)
 }
 
 export function rollWeeklyShowcase(catalogue: CardDefinition[], rng: Rng = secureRandom): WeeklyOffer[] {
-  const available = catalogue.filter(c => !c.promoNumber), offers: WeeklyOffer[] = []
+  const available = catalogue.filter(c => !c.promoNumber && !c.eventId), offers: WeeklyOffer[] = []
   const eligible = (Object.keys(DEFAULT_RARITY_RATES) as Rarity[]).filter(r => available.some(c => c.rarity === r))
   const count = Math.min(int(1, 5, rng), available.length)
   for (let i = 0; i < count; i++) {
@@ -155,7 +155,7 @@ function validWeeklyBooster(definition: BoosterDefinition, catalogue: CardDefini
 export function validWeeklyShop(value: unknown, catalogue: CardDefinition[]): value is WeeklyShopRow {
   try {
     if (!value || typeof value !== 'object') return false
-    const eligible = catalogue.filter(card => !card.promoNumber)
+    const eligible = catalogue.filter(card => !card.promoNumber && !card.eventId)
     const row = value as WeeklyShopRow, b = row.booster, d = b.definition
     const integer = (n: number) => Number.isSafeInteger(n) && n >= 0
     const price = (n: number) => integer(n) && n > 0 && n % 10 === 0
