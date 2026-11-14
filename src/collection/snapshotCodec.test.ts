@@ -1,10 +1,10 @@
 import { describe, expect, it } from 'vitest'
-import { COLLECTION_LIMITS, collectionBase64, decodeBody, encodeBody, encodePayload, encodeUleb, parseEnvelope, type NumericVariant } from './snapshotCodec'
+import { COLLECTION_BODY_MODES, COLLECTION_LIMITS, collectionBase64, decodeBody, encodeBody, encodePayload, encodeUleb, parseEnvelope, type NumericVariant } from './snapshotCodec'
 
 const header = { senderId: '1234-56-78', issuedAt: 1_700_000_000, registryVersion: 1, bodyMode: 0 as const, cardSlots: 1 }
 const code = (payload: Uint8Array) => 'CL1.' + collectionBase64(new Uint8Array([...payload, ...new Uint8Array(64)]))
 const entries: NumericVariant[] = Array.from({ length: 6 }, (_, variant) => ({ number: 1, variant, quantity: [1, 2, 14, 15, 16, 1_000_000][variant], favorite: variant % 2 === 0 }))
-describe.each([0, 1] as const)('codec de collection mode %i', mode => {
+describe.each(COLLECTION_BODY_MODES)('codec de collection mode %i', mode => {
   it.each([[], entries, Array.from({ length: 4000 }, (_, i) => ({ number: Math.floor(i / 6) + 1, variant: i % 6, quantity: i % 100 + 1, favorite: i % 7 === 0 }))].map(variants => ({ variants })))('restitue les variantes agrégées', ({ variants }) => {
     const slots = 800
     const body = encodeBody(variants, slots, mode)

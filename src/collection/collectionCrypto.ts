@@ -7,7 +7,7 @@ import type { FriendContactRow, LocalIdentityRow } from '../game/types'
 import { aggregateCollection, fromNumericVariants, toNumericVariants } from './collectionSnapshot'
 import type { SharedVariant } from './collectionSnapshot'
 import { collectionCardSlots, collectionRegistryVersion } from './registry'
-import { COLLECTION_LIMITS, collectionBase64, decodeBody, encodePayload, parseEnvelope } from './snapshotCodec'
+import { COLLECTION_BODY_MODES, COLLECTION_LIMITS, collectionBase64, decodeBody, encodePayload, parseEnvelope } from './snapshotCodec'
 
 const domain = new TextEncoder().encode('BizaveTCG/CollectionSnapshot/v3\n')
 function message(payload: Uint8Array) { return new Uint8Array([...domain, ...payload]) }
@@ -16,9 +16,11 @@ export type VerifiedCollection = { code: string; senderId: string; issuedAt: num
 export async function signCollection(identity: LocalIdentityRow, variants: readonly SharedVariant[], issuedAt = Math.floor(Date.now() / 1000)) {
   const entries = toNumericVariants(variants)
   const header = { senderId: identity.playerUuid, issuedAt, registryVersion: collectionRegistryVersion, cardSlots: collectionCardSlots }
-  const bitmap = encodePayload({ ...header, bodyMode: 0 }, entries)
-  const sparse = encodePayload({ ...header, bodyMode: 1 }, entries)
-  const payload = sparse.length < bitmap.length ? sparse : bitmap
+  let payload = encodePayload({ ...header, bodyMode: 0 }, entries)
+  for (const bodyMode of COLLECTION_BODY_MODES.slice(1)) {
+    const candidate = encodePayload({ ...header, bodyMode }, entries)
+    if (candidate.length < payload.length) payload = candidate
+  }
   const signature = new Uint8Array(await subtle().sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, message(payload)))
   if (signature.length !== 64) throw new Error('Signature inattendue.')
   const code = 'CL1.' + collectionBase64(new Uint8Array([...payload, ...signature]))

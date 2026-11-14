@@ -3,6 +3,8 @@ import { createContactCode, generateIdentity, parseContactCode } from '../exchan
 import { signCollection, verifyCollection, memoryDecision } from './collectionCrypto'
 import { COLLECTION_MEMORY_PREFIX, forgetCollection, hasCollectionMemory, purgeCollectionMemory, readCollectionMemory, saveCollectionMemory } from './collectionMemory'
 import { DEFAULT_PREFERENCES, parsePreferences } from '../settings/preferences'
+import { collectionBase64 } from './snapshotCodec'
+import fixture from './fixtures/snapshot-v3.json'
 
 class MemoryStorage implements Storage {
   values = new Map<string, string>(); writes = 0
@@ -13,6 +15,17 @@ class MemoryStorage implements Storage {
   setItem(key: string, value: string) { this.values.set(key, value); this.writes++ }
   removeItem(key: string) { this.values.delete(key) }
 }
+it.each(fixture.vectors)('rouvre une mémoire historique signée de mode $mode sans migration ni réécriture', async vector => {
+  const storage = new MemoryStorage()
+  const friend = await parseContactCode('FR2.' + collectionBase64(new TextEncoder().encode(JSON.stringify({ version: 2, playerUuid: fixture.senderId, signingPublicJwk: fixture.publicJwk }))))
+  storage.setItem(COLLECTION_MEMORY_PREFIX + fixture.senderId, JSON.stringify({ version: 1, code: vector.code, savedAt: 1 }))
+  const writes = storage.writes, saved = readCollectionMemory(fixture.senderId, storage)!
+  const snapshot = await verifyCollection(saved.code, [friend])
+  expect(snapshot.variants).toEqual(fixture.expected)
+  expect(await memoryDecision(snapshot, [friend], storage)).toBe('identical')
+  expect(storage.writes).toBe(writes)
+  expect(readCollectionMemory(fixture.senderId, storage)).toEqual(saved)
+})
 it('désactive par défaut et reste compatible avec les anciennes préférences', () => {
   expect(DEFAULT_PREFERENCES.rememberCollections).toBe(false)
   expect(parsePreferences('{"theme":"dark"}').rememberCollections).toBe(false)

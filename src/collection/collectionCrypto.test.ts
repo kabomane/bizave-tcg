@@ -5,10 +5,10 @@ import { ensureIdentity } from '../exchanges/services'
 import { createContactCode, generateIdentity, parseContactCode } from '../exchanges/crypto'
 import { uuid, variantKey } from '../game/engine'
 import { cards, archivedCards, cardById } from '../data/cards'
-import { collectionCardSlots } from './registry'
-import { aggregateCollection, type SharedVariant } from './collectionSnapshot'
+import { collectionCardSlots, collectionRegistryVersion } from './registry'
+import { aggregateCollection, fromNumericVariants, toNumericVariants, type SharedVariant } from './collectionSnapshot'
 import { exportCollection, signCollection, verifyCollection } from './collectionCrypto'
-import { collectionBase64, encodePayload, parseEnvelope } from './snapshotCodec'
+import { COLLECTION_BODY_MODES, collectionBase64, encodePayload, parseEnvelope } from './snapshotCodec'
 import { collectionFileContents, readCollectionFile } from './collectionFile'
 import { readTransferFile } from '../exchanges/transferFile'
 import { parseSaveFile } from '../storage/saveTransfer'
@@ -63,17 +63,60 @@ it('accepte les collections dépassant l’ancienne limite de 12 000 caractères
   const { identity, friend } = await setup()
   const finishes = ['normal', 'glossy', 'alternative'] as const
   const variants = cards.flatMap(card => Array.from({ length: 6 }, (_, i): SharedVariant => ({ cardId: card.id, finish: finishes[i % 3], artVariant: i >= 3 ? 'fullArt' : 'standard', quantity: 20000, favorite: true })))
-  const code = await signCollection(identity, variants, 1)
+  const payload = encodePayload({ senderId: identity.playerUuid, issuedAt: 1, registryVersion: collectionRegistryVersion, cardSlots: collectionCardSlots, bodyMode: 0 }, toNumericVariants(variants))
+  const code = await rawSigned(identity, payload)
   expect(code.length).toBeGreaterThan(12000)
   expect((await verifyCollection(code, [friend])).variants).toHaveLength(variants.length)
+  const compact = await signCollection(identity, variants, 1)
+  expect(compact.length).toBeLessThan(12000)
+  expect((await verifyCollection(compact, [friend])).variants).toEqual((await verifyCollection(code, [friend])).variants)
 })
-it.each([0, 1] as const)('tolère un registre futur sans carte inconnue en mode %i', async bodyMode => {
+it.each(COLLECTION_BODY_MODES)('tolère un registre futur sans carte inconnue en mode %i', async bodyMode => {
   const { identity, friend } = await setup(), header = { senderId: identity.playerUuid, issuedAt: 1, registryVersion: 100, bodyMode, cardSlots: collectionCardSlots + 50 }
   const payload = encodePayload(header, [{ number: 1, variant: 5, quantity: 99, favorite: true }])
   const code = await rawSigned(identity, payload)
   expect((await verifyCollection(code, [friend])).variants).toMatchObject([{ cardId: cards[0].id, quantity: 99 }])
   const unknown = encodePayload(header, [{ number: collectionCardSlots + 25, variant: 0, quantity: 1, favorite: false }])
   await expect(verifyCollection(await rawSigned(identity, unknown), [friend])).rejects.toThrow('version plus récente')
+})
+it('choisit réellement le minimum des six formats, avec priorité historique en cas d’égalité', async () => {
+  const { identity, friend } = await setup()
+  const all = Array.from({ length: collectionCardSlots * 6 }, (_, p) => ({ number: Math.floor(p / 6) + 1, variant: p % 6, quantity: 1, favorite: p % 7 === 0 }))
+  const cases = [
+    { mode: 1, entries: [] },
+    { mode: 0, entries: all },
+    { mode: 0x80, entries: all.filter((_, p) => p % 2 === 0).map(entry => ({ ...entry, quantity: 2 })) },
+    { mode: 0x81, entries: all.filter(entry => entry.variant === 5).slice(0, 10) },
+    { mode: 0x82, entries: all.filter(entry => entry.variant === 0).slice(0, 200) },
+    { mode: 0x83, entries: all.map(entry => ({ ...entry, quantity: 2 })) },
+  ]
+  for (const { mode, entries } of cases) {
+    const variants = fromNumericVariants(entries)
+    const header = { senderId: identity.playerUuid, issuedAt: 123, registryVersion: collectionRegistryVersion, cardSlots: collectionCardSlots }
+    const candidates = COLLECTION_BODY_MODES.map(bodyMode => encodePayload({ ...header, bodyMode }, entries))
+    const expected = candidates.reduce((best, candidate) => candidate.length < best.length ? candidate : best)
+    const code = await signCollection(identity, variants, header.issuedAt), envelope = parseEnvelope(code)
+    expect(envelope.bodyMode).toBe(mode)
+    expect(envelope.payload).toEqual(expected)
+    expect((await verifyCollection(code, [friend])).variants).toEqual(variants)
+    expect(code.length).toBeLessThanOrEqual(4 + Math.ceil((Math.min(candidates[0].length, candidates[1].length) + 64) * 4 / 3))
+  }
+})
+it.each([0x80, 0x81, 0x82, 0x83] as const)('vérifie la signature avant décodage et protège le corps du mode %i', async bodyMode => {
+  const { identity, friend } = await setup()
+  const entries = toNumericVariants([variant])
+  const header = { senderId: identity.playerUuid, issuedAt: 1, registryVersion: collectionRegistryVersion, cardSlots: collectionCardSlots, bodyMode }
+  const code = await rawSigned(identity, encodePayload(header, entries))
+  expect((await verifyCollection(code, [friend])).variants).toEqual([variant])
+  const envelope = parseEnvelope(code)
+  envelope.payload[envelope.payload.length - 1] ^= 0x80
+  const tampered = 'CL1.' + collectionBase64(new Uint8Array([...envelope.payload, ...envelope.signature]))
+  await expect(verifyCollection(tampered, [friend])).rejects.toThrow('signature')
+  // One extra byte keeps a signed envelope valid but must fail strict body decoding.
+  const malformed = new Uint8Array([...parseEnvelope(code).payload, 0])
+  const unsigned = 'CL1.' + collectionBase64(new Uint8Array([...malformed, ...new Uint8Array(64)]))
+  await expect(verifyCollection(unsigned, [friend])).rejects.toThrow('signature')
+  await expect(verifyCollection(await rawSigned(identity, malformed), [friend])).rejects.toThrow('malformé')
 })
 it('conserve l’affichage des cartes retirées via le catalogue archivé', async () => {
   const { identity, friend } = await setup(), code = await signCollection(identity, [variant], 1), definition = cardById.get(variant.cardId)!
