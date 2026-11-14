@@ -2,10 +2,12 @@ import { useEffect, useLayoutEffect, useRef } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import type { ReactNode } from 'react'
 
-export function ShopCarousel<T extends { id: string; title: string }>({ choices, selectedId, onSelect, onMovingChange, disabled = false, renderChoice, labels }: {
+export function ShopCarousel<T extends { id: string; title: string }>({ choices, selectedId, onSelect, onMovingChange, disabled = false, renderChoice, labels, getDotState, showSingleDot = false }: {
   choices: readonly T[]; selectedId: T['id']; onSelect: (id: T['id']) => void; onMovingChange?: (moving: boolean) => void; disabled?: boolean
   renderChoice: (choice: T, active: boolean) => ReactNode
   labels: { region: string; selection: string; previous: string; next: string }
+  getDotState?: (choice: T) => 'owned' | 'missing'
+  showSingleDot?: boolean
 }) {
   const track = useRef<HTMLDivElement>(null), scrollTimer = useRef<number | undefined>(undefined)
   const moving = useRef(false), touching = useRef(false)
@@ -104,6 +106,9 @@ export function ShopCarousel<T extends { id: string; title: string }>({ choices,
       {choices.map(choice => <div key={choice.id} className="booster-carousel-slide" aria-hidden={choice.id !== selectedId} inert={choice.id !== selectedId}>{renderChoice(choice, choice.id === selectedId)}</div>)}
     </div>
     {multiple && <><button type="button" className="icon-button carousel-previous" aria-label={labels.previous} disabled={disabled || index === 0} onClick={() => select(choices[index - 1].id)}><ChevronLeft size={22} /></button><button type="button" className="icon-button carousel-next" aria-label={labels.next} disabled={disabled || index === choices.length - 1} onClick={() => select(choices[index + 1].id)}><ChevronRight size={22} /></button><span className="visually-hidden" role="status">{choices[index]?.title}, {index + 1} sur {choices.length}</span></>}
-    {multiple && <div className="booster-carousel-dots" aria-hidden="true">{dots.map(choice => <span key={choice.id} className={choice.id === selectedId ? 'is-current' : ''} />)}</div>}
+    {(multiple || showSingleDot) && <div className="booster-carousel-dots" aria-hidden="true">{dots.map(choice => {
+      const state = getDotState?.(choice)
+      return <span key={choice.id} data-ownership={state} className={`${choice.id === selectedId ? 'is-current' : ''}${state ? ` is-${state}` : ''}`} />
+    })}</div>}
   </div>
 }

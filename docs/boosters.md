@@ -22,7 +22,7 @@ Le sachet relief est le modèle par défaut. `artwork.design: 'bloc'` sélection
 
 Les cartes portant un `promoNumber` sont réservées aux récompenses dédiées. Les tirages et la boutique hebdomadaire les excluent.
 
-La propriété `showInFilters` contrôle la présence du booster dans les filtres partagés de Collection et Atelier. Elle vaut `true` par défaut si omise. Memory Frame et Anima Isekai la définissent à `true`, epico stellari à `false`. Elle ne change ni les cartes détenues, ni la boutique, ni les paquets ouvrables.
+La propriété `showInFilters` contrôle la présence du booster dans les filtres partagés de Collection et Atelier. Elle vaut `true` par défaut si omise. Memory Frame et Anima Isekai la définissent à `true`, epico stellari à `false`. Elle ne change ni les cartes détenues, ni la boutique, ni les paquets ouvrables. Les filtres proposent aussi Événement (cartes permanentes avec `eventId`, hors promos) et Promotionnel (`promoNumber`), indépendamment de l’activation des événements.
 
 ## Taux par booster
 

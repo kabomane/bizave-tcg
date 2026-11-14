@@ -16,3 +16,8 @@ export function parseCollectionDisplay(value: unknown): CollectionDisplay {
     pileCover: data.pileCover === 'latest' || data.pileCover === 'leastRare' ? data.pileCover : 'rarest',
   }
 }
+
+export function parseSharedCollectionDisplay(value: unknown): CollectionDisplay {
+  const parsed = parseCollectionDisplay(value)
+  return { ...parsed, sort: parsed.sort === 'obtained' ? 'name' : parsed.sort, direction: value && typeof value === 'object' && (value as Record<string, unknown>).direction === 'desc' ? 'desc' : 'asc', duplicates: 'hide', pileCover: parsed.pileCover === 'latest' ? 'rarest' : parsed.pileCover }
+}

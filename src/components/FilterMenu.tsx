@@ -12,7 +12,16 @@ export function FilterMenu({ label, active = false, count, children }: { label: 
     document.addEventListener('pointerdown', outside)
     return () => document.removeEventListener('pointerdown', outside)
   }, [open])
-  return <div ref={root} className={`filter-menu ${active ? 'filter-active' : ''}`} onBlur={event => { if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) setOpen(false) }}>
+  return <div ref={root} className={`filter-menu ${active ? 'filter-active' : ''}`} onBlur={event => {
+    // Safari focuses the enclosing modal before dispatching a pointer click on a
+    // button. This transient focus change must not close the menu before its click.
+    if (event.relatedTarget === event.currentTarget.closest('dialog')) return
+    if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget)) setOpen(false)
+  }} onClickCapture={event => {
+    if (!event.detail || !(event.target instanceof Element)) return
+    const button = event.target.closest('button')
+    if (button && event.currentTarget.contains(button)) button.focus({ preventScroll: true })
+  }}>
     <button ref={trigger} className="filter-trigger" aria-haspopup="menu" aria-expanded={open} aria-controls={id} onClick={() => setOpen(value => !value)} onKeyDown={event => { if (event.key === 'ArrowDown' || event.key === 'ArrowUp') { event.preventDefault(); setOpen(true) } }}>{label}{count ? <span className="filter-count">{count}</span> : null}<ChevronDown size={14} className={open ? 'chevron-open' : ''} /></button>
     {open && <div ref={panel} id={id} role="menu" aria-label={label} className="filter-panel" onKeyDown={event => {
       if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); setOpen(false); trigger.current?.focus() }

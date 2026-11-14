@@ -13,7 +13,7 @@ export function Modal({ title, children, onClose, wide = false, showTitle = true
     const el = dialog.current!; el.showModal(); el.focus({ preventScroll: true })
     return () => { el.close(); unlock() }
   }, [])
-  return <dialog ref={dialog} tabIndex={-1} className={`modal ${wide ? 'modal-wide' : ''} ${className}`} onCancel={event => { event.preventDefault(); onClose() }} onClick={event => { if (event.target === event.currentTarget) { const r = event.currentTarget.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) onClose() } }} aria-label={title}>
+  return <dialog ref={dialog} tabIndex={-1} className={`modal ${wide ? 'modal-wide' : ''} ${className}`} onCancel={event => { event.preventDefault(); event.stopPropagation(); onClose() }} onClick={event => { if (event.target === event.currentTarget) { const r = event.currentTarget.getBoundingClientRect(); if (event.clientX < r.left || event.clientX > r.right || event.clientY < r.top || event.clientY > r.bottom) onClose() } }} aria-label={title}>
     <div className={`modal-header ${showTitle ? '' : 'modal-header-titleless'} ${headerStart ? 'modal-header-with-start' : ''} ${headerCenter ? 'modal-header-with-center' : ''} ${handedness === 'left' ? 'close-left' : ''}`}>{handedness === 'left' && closeButton}{headerStart}{showTitle && <h2>{title}</h2>}{headerCenter && <div className="modal-header-center">{headerCenter}</div>}<div className="modal-header-end">{headerEnd}{handedness === 'right' && closeButton}</div></div>{children}
   </dialog>
 }

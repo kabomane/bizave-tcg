@@ -1,4 +1,5 @@
 import { compactRecycledData } from './recycledCards'
+import { purgeCollectionMemory } from '../collection/collectionMemory'
 import Dexie from 'dexie'
 import { db, DATABASE_SCHEMA_VERSION, type BizaveDatabase } from './database'
 import { isBetaSave } from './betaSave'
@@ -167,6 +168,7 @@ export async function exportSave(recipientId: string, preferences: Preferences, 
     if (encoder.encode(contents).byteLength > MAX_SAVE_FILE_BYTES) throw new Error('Cette sauvegarde dépasse la limite de 25 Mo. La partie est conservée.')
     // Verify that the generated file can be read before deleting the only playable copy.
     await Dexie.waitFor(parseSaveFile(contents))
+    purgeCollectionMemory()
     // Persist the downloadable file and erase all playable data atomically.
     for (const table of database.tables) await table.clear()
     await database.accountState.put({ id: 'local', status: 'exported', transferId: payload.transferId, recipientId, file: contents })
@@ -184,6 +186,7 @@ export async function importSave(contents: string, database = db) {
     await assertAccountActive(database)
     if ((await database.installation.get('local'))?.installationId !== installation.installationId || installation.installationId !== payload.recipientId) throw new Error('Cette sauvegarde est destinée à un autre appareil.')
     if (await database.usedSaveTransfers.get(payload.transferId)) throw new Error('Cette sauvegarde a déjà été importée.')
+    purgeCollectionMemory()
     const previousRecycled = await database.recycledCards.toArray()
     const previousSaves = await database.usedSaveTransfers.toArray(), previousCards = await database.usedTransfers.toArray(), previousGifts = await database.usedGiftCodes.toArray()
     for (const name of SAVE_TABLES) {
@@ -222,6 +225,7 @@ export async function deleteAccount(database: BizaveDatabase = db, { onlyBeta = 
   const now = Date.now()
   await database.transaction('rw', database.tables, async () => {
     if (onlyBeta && !isBetaSave(await database.player.get('local'), await database.accountState.get('local'), await database.versionInfo.get('local'))) return
+    purgeCollectionMemory()
     for (const table of database.tables) await table.clear()
     await database.identity.add(identity)
     await database.installation.add({ id: 'local', installationId, createdAt: now })

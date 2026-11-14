@@ -24,7 +24,6 @@ export function useCardTilt(enabled: boolean, onActivate?: () => void) {
       const magnitude = Math.hypot(x, y)
       if (magnitude > .5) { x *= .5 / magnitude; y *= .5 / magnitude }
       if (reduced.matches) { x = 0; y = 0 }
-      if (carousel) { x = clamp(x, -.225, .225); y = clamp(y, -.225, .225) }
       el.dataset.interacting = String(pointerActive || Math.abs(state.x - state.tx) + Math.abs(state.y - state.ty) + Math.abs(state.vx) + Math.abs(state.vy) > .002)
       const tilt = clamp(Math.hypot(x, y) * 2.2, 0, 1)
       const vars: Record<string, string> = {

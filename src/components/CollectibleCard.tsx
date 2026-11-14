@@ -24,7 +24,7 @@ export function CardSvgDefinitions() {
 }
 // Reference layouts are shared. Thumbnails use baked foil; details retain the full finish layers.
 type CardPresentation = 'thumbnail' | 'detail'
-type CardProps = { card: Card; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean; suspended?: boolean; presentation?: CardPresentation; interactive?: boolean }
+type CardProps = { card: Omit<Card, 'dropId'> & { dropId?: string }; definition: CardDefinition; onActivate?: () => void; activationLabel?: string; deferred?: boolean; suspended?: boolean; presentation?: CardPresentation; interactive?: boolean }
 type CardFaceProps = Omit<CardProps, 'deferred' | 'suspended' | 'presentation'> & { presentation: CardPresentation }
 
 /** Distant faces are unmounted; the presentation is independent from lazy loading. */

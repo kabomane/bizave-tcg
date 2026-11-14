@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Check, Clock3 } from 'lucide-react'
 import { useGame } from '../components/useGame'
 import { useClockValue, useNow } from '../components/useNow'
@@ -10,6 +10,7 @@ import { CollectibleCard } from '../components/CollectibleCard'
 import { ErrorNotice } from '../components/ui'
 import { errorText, formatShopCountdown } from '../components/format'
 import { cardById } from '../data/cards'
+import { variantKey } from '../game/engine'
 import { SALES_CLOSE_MS, weeklyRerollCount, type WeeklyOffer } from '../game/weeklyShop'
 import { dailyDefinition } from '../game/dailyShop'
 import { buyDailyBundle, buyDailyCard, refreshDailyShop } from '../storage/dailyShop'
@@ -28,6 +29,8 @@ function ShopClock({ at, minimum }: { at: number; minimum: number }) {
 }
 function CardOffers({ offers, title, balance, expired, onBuy }: { offers: WeeklyOffer[]; title: string; balance: number; expired: boolean; onBuy: (id: string) => Promise<void> }) {
   const settings = useSettings()
+  const { drops } = useGame()
+  const owned = useMemo(() => new Set(drops.filter(drop => drop.status === 'owned').map(variantKey)), [drops])
   const [selectedId, setSelectedId] = useState(offers[0]?.id ?? '')
   const [moving, setMoving] = useState(false), [busy, setBusy] = useState(false), [error, setError] = useState('')
   const lock = useRef(false), movingRef = useRef(false)
@@ -42,7 +45,8 @@ function CardOffers({ offers, title, balance, expired, onBuy }: { offers: Weekly
   return <section className="card-zone" aria-label={title}>
     <div className="section-line"><h3>{title} · {offers.length} offre{offers.length > 1 ? 's' : ''} · <span>{selected.sold ? 'épuisée' : '1 exemplaire'}</span></h3></div>
     <div className="shop-stage">
-      <ShopCarousel choices={choices} selectedId={selected.id} onSelect={setSelectedId} onMovingChange={v => { movingRef.current = v; setMoving(v) }} disabled={busy} labels={{ region: `Choisir une carte · ${title}`, selection: title, previous: 'Offre précédente', next: 'Offre suivante' }} renderChoice={o => <div className={`showcase-card booster-size${o.sold ? ' is-sold' : ''}`}><CollectibleCard card={{ ...o, dropId: `preview-${o.id}` }} definition={cardById.get(o.cardId)!} presentation="thumbnail" interactive={false} /></div>} />
+      <ShopCarousel choices={choices} showSingleDot getDotState={offer => owned.has(variantKey(offer)) ? 'owned' : 'missing'} selectedId={selected.id} onSelect={setSelectedId} onMovingChange={v => { movingRef.current = v; setMoving(v) }} disabled={busy} labels={{ region: `Choisir une carte · ${title}`, selection: title, previous: 'Offre précédente', next: 'Offre suivante' }} renderChoice={o => <div className={`showcase-card booster-size${o.sold ? ' is-sold' : ''}`}><CollectibleCard card={{ ...o, dropId: `preview-${o.id}` }} definition={cardById.get(o.cardId)!} presentation="thumbnail" interactive={false} /></div>} />
+      <span className="visually-hidden" role="status">{owned.has(variantKey(selected)) ? 'Cette variante est déjà dans votre collection.' : 'Cette variante n’est pas dans votre collection.'}</span>
       <ShopBuyButton label={expired ? 'Renouvellement…' : selected.sold ? 'Achetée' : 'Acheter'} price={selected.sold ? undefined : selected.price} accessibleLabel={selected.sold ? `${cardById.get(selected.cardId)!.title} achetée` : `Acheter ${cardById.get(selected.cardId)!.title} pour ${selected.price} fragments`} disabled={expired || selected.sold || balance < fragmentPurchaseCost(selected.price, settings)} busy={busy} moving={moving} onClick={() => void buy()} />
       <ErrorNotice error={error} />
     </div>

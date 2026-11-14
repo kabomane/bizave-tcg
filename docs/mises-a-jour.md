@@ -23,3 +23,7 @@ La page présente trois variantes de PR-001. Le code cadeau offre un exemplaire 
 ## Version 1.5.1 — 12 novembre 2026
 
 Le compteur d’annonce passe à 9. La note présente la nouvelle boutique, la sélection journalière, les nouvelles cartes Memory Frame et le code `Z5YW-2G99-6JR8-CEEH`, qui donne deux Memory Frame. Une ligne vide sépare le texte du code. La version applicative passe à 1.5.1 et le stockage à Dexie 13 sans réinitialiser les parties 1.5.0. Les sauvegardes bêta (schéma ≤ 11) conservent leur parcours de transition ; le nouveau joueur et les parties de schéma ≥ 12 entrent directement en jeu.
+
+## Version 1.6.0 — 14 novembre 2026
+
+Annonce 11 : fiches amis et partage de collection par code CL1. ou fichier .btcg. Le stockage reste au schéma Dexie 13 ; les parties existantes sont conservées. [Note de version](releases/bizave-tcg.v1.6.0.md).

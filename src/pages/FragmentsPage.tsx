@@ -11,7 +11,6 @@ import { ErrorNotice, Modal } from '../components/ui'
 import { copyPromisedText, errorText } from '../components/format'
 import { sendFragments } from '../exchanges/services'
 import { MAX_FRAGMENT_TRANSFER } from '../exchanges/crypto'
-import { downloadTransferFile } from '../exchanges/transferFile'
 import type { FriendContactRow, OutgoingTransferRow } from '../game/types'
 
 export function FragmentsPage() {
@@ -31,7 +30,6 @@ export function FragmentsPage() {
       const copying = mode === 'code' ? copyPromisedText(transfer.then(row => row.code)).then(() => true, () => false) : Promise.resolve(false)
       const row = await transfer
       setCreated(row); setDelivery(mode); setCopied(await copying)
-      if (mode === 'file') downloadTransferFile(row)
     } catch (e) { setError(errorText(e)) }
     finally { inFlight.current = false; setBusy(false) }
   }

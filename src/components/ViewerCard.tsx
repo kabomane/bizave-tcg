@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import type { Card, CardDefinition } from '../game/types'
 import { CollectibleCard } from './CollectibleCard'
 
-export function ViewerCard({ card, definition, presentation, ready, onReady, onActivate }: { card: Card; definition: CardDefinition; presentation: 'detail' | 'thumbnail'; ready: boolean; onReady: (source: string) => void; onActivate?: () => void }) {
+export function ViewerCard({ card, definition, presentation, ready, onReady, onActivate }: { card: Omit<Card, 'dropId'> & { dropId?: string }; definition: CardDefinition; presentation: 'detail' | 'thumbnail'; ready: boolean; onReady: (source: string) => void; onActivate?: () => void }) {
   const root = useRef<HTMLDivElement>(null)
   const source = definition.artwork[card.artVariant]
   useEffect(() => {

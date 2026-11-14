@@ -44,3 +44,6 @@
 .settings-group .theme-preference-row .settings-preference-label { flex:0 0 auto; }
 .settings-group .theme-preference-row .settings-segmented { min-width:0; }
 @media (max-width:359px) { .theme-preference-row .settings-segmented button { padding-inline:5px; font-size:10px; gap:2px; } }
+
+.save-dialog-actions.collection-memory-delete-actions { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.9fr); width:100%; align-items:stretch; }
+.save-dialog-actions.collection-memory-delete-actions > button { width:100%; min-width:0; white-space:normal; }

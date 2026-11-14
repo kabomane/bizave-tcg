@@ -1,4 +1,14 @@
-# Validation — bizave-tcg.v1.5.2
+# Validation — bizave-tcg.v1.6.0
+
+## Publication 1.6.0 — 14 novembre 2026
+
+- Version npm, lockfile, HTML, écran de transition, changelog et landing : **1.6.0**. Annonce **11**, avec la note exacte fournie pour les fiches amis et le partage par code ou fichier .btcg.
+- Documentation fonctionnelle et technique actualisée : partage CL1., mode automatique, mémoire locale, préférences d’affichage communes aux amis, méthode d’envoi, filtres événement/promotionnel et points dorés de boutique. **30 documents Markdown**, aucun lien local manquant.
+- `npm run check` : ESLint, **355 tests dans 40 fichiers**, TypeScript et build réussis. Schéma Dexie conservé à **13**.
+- Contrôle ciblé du build de production en contexte Chromium isolé : conservation d’une partie 1.5.x (carte, fragments et schéma), annonce 11, ajout FR2, génération CL1., réception de la collection de test (200 modèles, 212 variantes, 235 exemplaires), lecture seule, filtres, préférences amies indépendantes et landing mobile. Aucune erreur JavaScript.
+- Build **25ac3b5f-809a-4ff9-bd57-0256831fd8f0**, `betaClosed: false`, **513 fichiers**. Aucun fichier .btcg, certificat, clé ou archive dans dist.
+- Firebase Hosting publié sur **https://bizave-tcg.web.app** et **https://bizave-tcg.kabomane.me**. Même contrôle ciblé de production réussi sur chaque domaine, dans des profils temporaires sans toucher aux sauvegardes des utilisateurs.
+- **27 ressources comparées par SHA-256 sur chaque domaine** : HTML, landing, scripts/styles compilés et manifeste. Identiques au build local ; manifeste servi avec `Cache-Control: no-store`.
 
 ## Publication 1.5.2 — 14 novembre 2026
 

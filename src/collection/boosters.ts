@@ -3,6 +3,14 @@ import type { BoosterDefinition, CardDefinition } from '../game/types'
 
 type CollectionBooster = { id: string; title: string; cardIds: Set<string> }
 
+/** Permanent catalogue cards; seasonal temporary cards are not part of this source. */
+export function collectionCategories(cards: CardDefinition[]): CollectionBooster[] {
+  return [
+    { id: 'event', title: 'Événement', cardIds: new Set(cards.filter(card => card.eventId && !card.promoNumber).map(card => card.id)) },
+    { id: 'promotional', title: 'Promotionnel', cardIds: new Set(cards.filter(card => !!card.promoNumber).map(card => card.id)) },
+  ].filter(category => category.cardIds.size > 0)
+}
+
 export function collectionBoosters(boosters: BoosterDefinition[], cards: CardDefinition[]): CollectionBooster[] {
   return boosters.filter(booster => booster.enabled && booster.showInFilters !== false).sort((a, b) => a.order - b.order).map(booster => ({
     id: booster.id, title: booster.title,

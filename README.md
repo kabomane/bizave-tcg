@@ -1,8 +1,12 @@
-# bizave-tcg.v1.5.2
+# bizave-tcg.v1.6.0
 
-Version **bizave-tcg.v1.5.2** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 220 cartes, **Anima Isekai**, 220 cartes, **epico stellari**, 72 cartes partagées, et **rarity only**, 74 cartes rares. Le catalogue compte 454 modèles illustrés, dont 12 cartes événement permanentes et les promos Bizave TCG bêta (PR-001) et Merry Wifemas (PR-002).
+Version **bizave-tcg.v1.6.0** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 220 cartes, **Anima Isekai**, 220 cartes, **epico stellari**, 72 cartes partagées, et **rarity only**, 74 cartes rares. Le catalogue compte 454 modèles illustrés, dont 12 cartes événement permanentes et les promos Bizave TCG bêta (PR-001) et Merry Wifemas (PR-002).
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
+
+## Version 1.6.0 — Fiches amis et partage de collection
+
+Les fiches amis passent en plein écran et permettent de partager sa collection par code **CL1.** ou fichier **.btcg**. Recherche, filtres, piles et aperçu communs à la collection personnelle ; affichage des collections amies indépendant, mémorisé pour tous les amis. L’option **Collection en mémoire**, désactivée par défaut, conserve un instantané signé par ami sur l’appareil. Ajout des filtres **Événement / Promotionnel** et des points dorés en boutique pour les variantes manquantes. Version **1.6.0**, annonce **11**, sans migration Dexie. [Note de version](docs/releases/bizave-tcg.v1.6.0.md) · [Partage de collection](docs/partage-collection.md).
 
 ## Version 1.5.2 — Anima Isekai et accès rapide
 
@@ -81,7 +85,7 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 ## Ce qui est livré
 
 - Memory Frame : **220 modèles** (83 communs, 57 peu communs, 41 rares, 22 épiques, 17 légendaires), gratuits ou achetables à 70 fragments.
-- Anima Isekai : **143 modèles** (69 communs, 34 peu communs, 21 rares, 13 épiques, 6 légendaires), gratuits ou en boutique à 50 fragments.
+- Anima Isekai : **220 modèles**, gratuits ou en boutique à 50 fragments.
 - **454 illustrations WebP versionnées**, pour 454 cartes avec description. Une même illustration sert aux formats Classique et Full Art ; les finitions CSS produisent les six variantes par modèle.
 - Disposition **Fusion** pour les cartes classiques et **Gundam** pour les Full Art. Le CSS de la démo est conservé dans `src/styles/cards-reference.css`. Les autres dispositions ne sont pas utilisées. Le plafond d’inclinaison est **20°**, y compris en diagonale et pendant le rebond.
 - Trois tirages indépendants, avec remise : rareté **57/24/12/5/2**, finition **81/15/4**, illustration **92/8**. Aucun pity, garantie ni bonus implicite.
@@ -152,6 +156,8 @@ Le lien Boutique se trouve sous Vos boosters. Le carrousel apparaît seulement s
 
 Memory Frame et Anima Isekai référencent des listes explicites de modèles : respectivement 220 et 220 cartes. Ajouter un modèle au catalogue ou à un groupe éditorial ne change pas automatiquement ces listes. epico stellari utilise une source dynamique par raretés qui intègre automatiquement les futures épiques et légendaires éligibles aux tirages. Les nouveaux paquets peuvent combiner des cartes existantes et des exclusivités sans dupliquer les modèles.
 
+Les points des cartes à l’unité sont blancs pour les variantes possédées et dorés pour les variantes manquantes ; une offre seule garde un point sans navigation.
+
 La boutique affiche le lot quotidien et Lucky Boost chacun à côté de son carrousel de cartes ; les éditions permanentes sont présentées en grille. Les boutons des carrousels restent fixes et sont désactivés pendant le déplacement horizontal, jusqu’à l’alignement de la carte affichée. Le défilement vertical ne déclenche pas ce verrou. Les taux de toutes les éditions et vitrines sont réunis près du titre Boutique.
 
 ## Stock, taux et économie
@@ -178,7 +184,7 @@ Chaque build publie un identifiant technique indépendant des notes. Un bandeau 
 
 ### Page de mise à jour
 
-`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 10) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note. Le passage en 1.5.0 a son propre écran de transition.
+`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 11) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note. Le passage en 1.5.0 a son propre écran de transition.
 
 Au chargement uniquement, avant l’initialisation de la sauvegarde, l’app distingue un nouveau joueur d’une partie déjà existante. Un nouveau joueur sans clé reçoit directement le compteur actuel dans `localStorage.updated` et entre dans le jeu. Un joueur existant dont `updated` est absent, invalide ou inférieur au compteur passe par `/mise-a-jour`. Cette page autonome affiche « Bizave TCG a été mis à jour », la note et un bouton Continuer centré en bas. Continuer mémorise le compteur et redirige vers Boosters ; recharger avant confirmation présente à nouveau la page. Une valeur supérieure au compteur courant est conservée, notamment en cas de retour à une ancienne version.
 
@@ -186,13 +192,13 @@ La clé `updated` reste hors d’IndexedDB et des transferts de sauvegarde. Aucu
 
 Quand les outils de développement sont disponibles (`VITE_DEV_CATALOG`), Options propose un interrupteur **Page de mise à jour**, identique au Mode dev : activé, il remet `updated` à 0 ; désactivé, il mémorise le compteur actuel. Aucune navigation immédiate : recharger permet de tester la page. Comme le Mode dev, cet interrupteur est masqué dans le build de production actuel.
 
-Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 13. Il ajoute la boutique journalière dans `dailyShop/current`, sans historique. Voir [le quotidien](docs/boutique-journaliere.md). Le schéma 11 a ajouté la boutique hebdomadaire personnelle dans `weeklyShop` (sur `/boutique`). La table `boosterPurchases` est conservée pour la compatibilité des sauvegardes. Les achats n’y ajoutent plus de lignes. Voir [la boutique hebdomadaire](docs/boutique-hebdomadaire.md). La base canonique reste bizave-tcg. Les mises à jour ordinaires conservent les cartes détenues, les fragments et les ouvertures en cours. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, séparément des possessions.
+Dexie `bizave-tcg` conserve `drops`, `discoveries`, `player`, `openings`, `recycledCards`, `identity`, `friends`, `outbox`, `usedTransfers`, `boosterStock`, `boosterPurchases`, `usedGiftCodes`, `favorites` et les définitions d’archive. Les tables `accountState` et `usedSaveTransfers` conservent le verrou, le fichier en attente, les options à appliquer et les migrations reçues ; `installation` conserve l’ID propre à cet appareil. Le schéma courant est la version 13. Il ajoute la boutique journalière dans `dailyShop/current`, sans historique. Voir [le quotidien](docs/boutique-journaliere.md). Le schéma 11 a ajouté la boutique hebdomadaire personnelle dans `weeklyShop` (sur `/boutique`). La table `boosterPurchases` est conservée pour la compatibilité des sauvegardes. Les achats n’y ajoutent plus de lignes. Voir [la boutique hebdomadaire](docs/boutique-hebdomadaire.md). La base canonique reste bizave-tcg. Les mises à jour ordinaires conservent les cartes détenues, les fragments et les ouvertures en cours. Le protocole simplifié utilise une nouvelle base avant publication : les anciennes identités et les formats FR1/TR1 ne sont pas repris. `localStorage` conserve le choix visuel du booster et les options d’interface sous `bizave.preferences.v1`, dont `sharedCollectionDisplay` pour toutes les collections amies. Les codes mémorisés utilisent `bizave.collectionMemory.v1.<playerUuid>`, sans table ni migration.
 
 Une variante est `(cardId, finish, artVariant)`. Un exemplaire possède un `dropId` UUID v4 permanent. Les découvertes restent enregistrées après recyclage ou envoi. Les statuts `outgoing` et `recycled` empêchent les réutilisations incohérentes.
 
 Les transactions sérialisent ouvertures, recyclages, envois et réceptions, y compris entre onglets. Les migrations Dexie sont dans `src/storage/database.ts`. Ne pas changer un schéma publié en place : ajouter une version. Les migrations historiques des découvertes et d’`artVariant` restent testées ; elles ne constituent pas une reprise des anciennes identités ou de l’ancienne base de test dans cette édition.
 
-Pendant le développement fermé, un modèle retiré est supprimé du catalogue, de l’ordre, des pools et des assets ; `archivedCards` reste vide. Après publication auprès de vrais joueurs, conserver sa définition dans `archivedCards` (`src/data/cards.ts`) et ses images. Les snapshots locaux sont également gardés en base. Ils permettent de consulter et recycler les anciennes cartes. Une tentative de changer la rareté d’un ID déjà publié est refusée.
+Les numéros de partage publiés dans `src/data/card-registry.json` sont permanents et verrouillés par `card-registry.lock.json`. Une carte retirée conserve son numéro, sa définition dans `archivedCards` (`src/data/cards.ts`) et ses images, pour que les collections partagées restent lisibles. Les snapshots locaux sont également gardés en base. Ils permettent de consulter et recycler les anciennes cartes. Une tentative de changer la rareté d’un ID déjà publié est refusée.
 
 Le stockage est lié au **navigateur et à l’origine**. Dans les options, les actions discrètes de transfert et de suppression se trouvent en bas de page ; l’ID joueur figure à droite du titre. **Transfert de sauvegarde** déplace la partie vers un ID destinataire avec un fichier `.btcg` signé : la source est effacée et verrouillée sur la page de téléchargement. L’import remplace la partie cible avec l’ID joueur, la clé de signature et les amis de la source, conserve l’ID d’installation destinataire et fusionne les registres anti-réutilisation. Les amis n’ont rien à modifier ; les cartes envoyées avant ou après la migration restent recevables. Le fichier reste téléchargeable sur la source après rechargement. Les boutons Exporter et Importer partagent une même ligne ; les confirmations `TRANSFERER`, `IMPORTER` et `SUPPRIMER` sont insensibles à la casse. Les boutons de confirmation occupent toute la largeur du champ, dans un rapport 1/3–2/3. Ce parcours est une migration, sans fonction de restauration ou de synchronisation. Détails : [docs/sauvegarde.md](docs/sauvegarde.md).
 

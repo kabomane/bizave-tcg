@@ -1,6 +1,6 @@
 import { useLayoutEffect, useRef } from 'react'
 import type { ReactNode } from 'react'
-import { DEFAULT_COLLECTION_DISPLAY } from '../collection/preferences'
+import { DEFAULT_COLLECTION_DISPLAY, parseSharedCollectionDisplay } from '../collection/preferences'
 import type { CollectionDisplay } from '../collection/preferences'
 import { Modal } from './ui'
 
@@ -8,7 +8,7 @@ function Choices<T extends string>({ label, value, options, onChange, className 
   return <fieldset className="display-field"><legend>{label}</legend><div className={`display-segmented ${className}`}>{options.map(option => <button key={option.value} type="button" aria-pressed={value === option.value} className="display-option" onClick={() => onChange(option.value)}>{option.label}</button>)}</div></fieldset>
 }
 
-export function CollectionDisplayOptions({ value, onChange, onClose, anchor, error }: { value: CollectionDisplay; onChange: (value: CollectionDisplay) => void; onClose: () => void; anchor: DOMRect; error: ReactNode }) {
+export function CollectionDisplayOptions({ value, onChange, onClose, anchor, error, shared = false }: { value: CollectionDisplay; onChange: (value: CollectionDisplay) => void; onClose: () => void; anchor: DOMRect; error: ReactNode; shared?: boolean }) {
   const position = useRef<HTMLDivElement>(null)
   useLayoutEffect(() => {
     const dialog = position.current?.closest('dialog')
@@ -18,10 +18,11 @@ export function CollectionDisplayOptions({ value, onChange, onClose, anchor, err
   }, [anchor])
   const directions = value.sort === 'name' ? ['A → Z', 'Z → A'] : value.sort === 'rarity' ? ['Moins rare', 'Plus rare'] : value.sort === 'value' ? ['Plus faible valeur', 'Plus forte valeur'] : ['Plus ancien', 'Plus récent']
   return <Modal title="Affichage" className="collection-display-modal" onClose={onClose}><div ref={position}>
-    <Choices label="Trier par" className="display-sort" value={value.sort} options={[{ value: 'name', label: 'Nom' }, { value: 'rarity', label: 'Rareté' }, { value: 'obtained', label: 'Date' }, { value: 'value', label: 'Valeur' }]} onChange={sort => onChange({ ...value, sort, ...(sort === 'rarity' && value.sort !== 'rarity' ? { direction: 'desc' } : {}) })} />
+    <Choices label="Trier par" className={shared ? 'display-sort display-sort-shared' : 'display-sort'} value={value.sort} options={[{ value: 'name', label: 'Nom' }, { value: 'rarity', label: 'Rareté' }, ...(!shared ? [{ value: 'obtained' as const, label: 'Date' }] : []), { value: 'value', label: 'Valeur' }]} onChange={sort => onChange({ ...value, sort, ...(sort === 'rarity' && value.sort !== 'rarity' ? { direction: 'desc' } : {}) })} />
     <Choices label="Sens" value={value.direction} options={[{ value: 'asc', label: directions[0] }, { value: 'desc', label: directions[1] }]} onChange={direction => onChange({ ...value, direction })} />
     <Choices label="Regrouper" value={value.groupBy} options={[{ value: 'none', label: 'Aucun' }, { value: 'card', label: 'Par carte' }, { value: 'format', label: 'Par carte & format' }]} onChange={groupBy => onChange({ ...value, groupBy })} />
-    <Choices label="Doublons" value={value.duplicates} options={[{ value: 'hide', label: 'Cacher' }, { value: 'show', label: 'Afficher' }]} onChange={duplicates => onChange({ ...value, duplicates })} />
-    {error}<button type="button" className="text-button display-reset" onClick={() => onChange({ ...DEFAULT_COLLECTION_DISPLAY, pileCover: value.pileCover })}>Réinitialiser</button>
+    {!shared && <Choices label="Doublons" value={value.duplicates} options={[{ value: 'hide', label: 'Cacher' }, { value: 'show', label: 'Afficher' }]} onChange={duplicates => onChange({ ...value, duplicates })} />}
+    {shared && <Choices label="Carte sur les piles" value={value.pileCover} options={[{ value: 'rarest', label: 'Plus rare' }, { value: 'leastRare', label: 'Moins rare' }]} onChange={pileCover => onChange({ ...value, pileCover })} />}
+    {error}<button type="button" className="text-button display-reset" onClick={() => onChange(shared ? parseSharedCollectionDisplay(null) : { ...DEFAULT_COLLECTION_DISPLAY, pileCover: value.pileCover })}>Réinitialiser</button>
   </div></Modal>
 }

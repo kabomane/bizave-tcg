@@ -1,13 +1,12 @@
 import { useLiveQuery } from 'dexie-react-hooks'
 import { db } from '../storage/database'
 import { memo, useCallback, useMemo, useState } from 'react'
-import { Gem, Layers3, SlidersHorizontal } from 'lucide-react'
+import { Layers3, SlidersHorizontal } from 'lucide-react'
 import { useGame } from '../components/useGame'
 import { cardById } from '../data/cards'
 import { matchesCardSearch } from '../game/cardSearch'
 import { variantKey } from '../game/engine'
-import type { Card } from '../game/types'
-import { CollectibleCard } from '../components/CollectibleCard'
+import { CollectionCardTile } from '../components/CollectionCardTile'
 import { EmptyState, ErrorNotice } from '../components/ui'
 import { CardFilters } from '../components/CardFilters'
 import { CardSearchRow } from '../components/CardSearchRow'
@@ -16,25 +15,19 @@ import { errorText } from '../components/format'
 
 import { updateSettings, useSettings } from '../settings/useSettings'
 import { createCatalogPreview, DEV_CATALOG_ENABLED } from '../dev/catalogPreview'
-import { cardFragmentValue, collectionView, ownedVariants } from '../collection/view'
+import { collectionView, ownedVariants } from '../collection/view'
 import type { CollectionEntry, CollectionVariant } from '../collection/view'
 import type { CollectionDisplay } from '../collection/preferences'
 import { CollectionDisplayOptions } from '../components/CollectionDisplayOptions'
 
 import { CardViewer } from '../components/CardViewer'
-import { FinishDot } from '../components/FinishDot'
 const catalogPreview: CollectionVariant[] = DEV_CATALOG_ENABLED ? createCatalogPreview().map(group => ({ card: group.card, copies: [] })) : []
 
-function FragmentValue({ card }: { card: Card }) {
-  const value = cardFragmentValue(card)
-  return <span className="card-fragment-value" aria-label={`${value} ${value === 1 ? 'fragment' : 'fragments'} par exemplaire`} title="Valeur de recyclage d’un exemplaire"><Gem size={12} aria-hidden="true" />{value}</span>
-}
-
 const CollectionEntryItem = memo(function CollectionEntryItem({ entry, showValue, onOpen, suspended = false }: { entry: CollectionEntry; showValue: boolean; suspended?: boolean; onOpen: (entry: CollectionEntry) => void }) {
-  return <div className="collection-item"><div className="collection-face"><CollectibleCard deferred suspended={suspended} presentation="thumbnail" card={entry.card} definition={cardById.get(entry.card.cardId)!} onActivate={() => onOpen(entry)} /></div><div className={`card-caption card-caption-single${showValue ? ' card-caption-valued' : ''}`}>{entry.ids.length > 1 && <b>×{entry.ids.length}</b>}{showValue && <FragmentValue card={entry.card} />}</div></div>
+  return <CollectionCardTile card={entry.card} quantity={entry.ids.length} showValue={showValue} suspended={suspended} onOpen={() => onOpen(entry)} />
 })
 const CollectionPileItem = memo(function CollectionPileItem({ item, label, showValue, onOpen, suspended }: { item: ReturnType<typeof collectionView>[number]; label: string; showValue: boolean; suspended: boolean; onOpen: (key: string) => void }) {
-  return <div className="collection-item"><div className="collection-face"><div className="collection-pile"><CollectibleCard deferred suspended={suspended} presentation="thumbnail" card={item.card} definition={cardById.get(item.card.cardId)!} activationLabel={`Ouvrir la pile, ${label}`} onActivate={() => onOpen(item.key)} /></div></div><div className="card-caption"><span className="collection-finish-dots" aria-label={label}>{item.entries.map(entry => <FinishDot key={entry.key} card={entry.card} />)}</span>{showValue ? <FragmentValue card={item.card} /> : <Layers3 size={12} aria-hidden="true" />}</div></div>
+  return <CollectionCardTile card={item.card} quantity={0} pileCards={item.entries.map(entry => entry.card)} label={label} showValue={showValue} suspended={suspended} onOpen={() => onOpen(item.key)} />
 })
 
 export function CollectionPage() {

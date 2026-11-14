@@ -41,3 +41,5 @@ Les cartes acquises, les boosters payés non ouverts et les ouvertures inachevé
 Le booster **merry xmas** est préparé mais masqué en production. Son activation sera publiée séparément. En développement, **Options → Développement** propose **Événement toujours actif** et **Fragments illimités** pour le tester localement.
 
 Quand l’événement est actif, le booster apparaît dans un groupe Événement de Noël, sous la grille permanente. Il coûte 30 fragments, sans limite d’achat. Chaque ouverture révèle une seule carte événementielle, mate et classique. Elle disparaît à la fermeture du récapitulatif et ne rejoint pas la collection.
+
+Les cartes proposées à l’unité indiquent leur possession par le point de carrousel : blanc si la variante exacte (finition et illustration comprises) est détenue, doré avec reflet discret sinon. Seuls les exemplaires actuellement `owned` sont comptés. Une offre seule affiche un point, sans flèches ni défilement.

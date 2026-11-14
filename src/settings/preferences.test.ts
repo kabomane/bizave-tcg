@@ -2,6 +2,14 @@ import { describe, expect, it } from 'vitest'
 import { DEFAULT_PREFERENCES, parsePreferences, resolveTheme } from './preferences'
 
 describe('options locales', () => {
+  it('sépare les réglages des collections amies et exclut les données indisponibles', () => {
+    const own = { ...DEFAULT_PREFERENCES.collectionDisplay, sort: 'value', direction: 'desc', groupBy: 'card' }
+    const parsed = parsePreferences(JSON.stringify({ collectionDisplay: own, sharedCollectionDisplay: { sort: 'rarity', direction: 'asc', groupBy: 'format', duplicates: 'show', pileCover: 'latest' } }))
+    expect(parsed.collectionDisplay).toEqual(own)
+    expect(parsed.sharedCollectionDisplay).toEqual({ sort: 'rarity', direction: 'asc', groupBy: 'format', duplicates: 'hide', pileCover: 'rarest' })
+    expect(parsePreferences(null).sharedCollectionDisplay).toMatchObject({ sort: 'name', direction: 'asc' })
+    expect(parsePreferences('{"sharedCollectionDisplay":{"sort":"obtained"}}').sharedCollectionDisplay.sort).toBe('name')
+  })
   it('place la fermeture à droite par défaut et conserve le mode gaucher', () => {
     expect(parsePreferences('{"handedness":"left"}').handedness).toBe('left')
     for (const handedness of ['right', 'unknown', null, 2]) expect(parsePreferences(JSON.stringify({ handedness })).handedness).toBe('right')

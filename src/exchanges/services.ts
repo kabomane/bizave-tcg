@@ -5,6 +5,7 @@ import type { Card, LocalIdentityRow } from '../game/types'
 import { assertAccountActive } from '../storage/accountGuard'
 import { pruneFavorites } from '../collection/favorites'
 import { assertTransferNotExpired } from './expiry'
+import { forgetCollection } from '../collection/collectionMemory'
 
 export async function ensureIdentity(database = db) {
   await assertAccountActive(database)
@@ -136,6 +137,7 @@ export async function renameFriend(playerUuid: string, label: string, database =
   })
 }
 export async function removeFriend(playerUuid: string, database = db) {
+  forgetCollection(playerUuid)
   await database.transaction('rw', [database.friends, database.accountState], async () => {
     await assertAccountActive(database)
     await database.friends.delete(playerUuid)

@@ -21,3 +21,5 @@ export async function copyPromisedText(text: Promise<string>) {
     await navigator.clipboard.write([new ClipboardItem({ 'text/plain': blob })])
   } else await copyText(await text)
 }
+
+export const snapshotDate = (seconds: number) => new Intl.DateTimeFormat('fr-FR', { dateStyle: 'long', timeStyle: 'short' }).format(seconds * 1000)

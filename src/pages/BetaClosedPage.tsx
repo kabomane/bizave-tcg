@@ -35,7 +35,7 @@ export function BetaClosedPage({ onEnter }: { onEnter: () => Promise<void> }) {
     <span className="brand update-brand">bizave<span>TCG</span><i /></span>
     <header className="beta-closed-heading">
       <h1>La bêta est terminée.</h1>
-      <p>Bienvenue dans <strong>Bizave TCG 1.5.2</strong>.</p>
+      <p>Bienvenue dans <strong>Bizave TCG 1.6.0</strong>.</p>
     </header>
     <CardSvgDefinitions />
     <figure className="beta-fan" aria-label="Trois variantes de PR-001 : mate, holographique et alternative Full Art">
@@ -54,7 +54,7 @@ export function BetaClosedPage({ onEnter }: { onEnter: () => Promise<void> }) {
     <div className="update-actions">
       <p id="beta-reset-warning" className="muted">En entrant, vous effacez définitivement la partie bêta de cet appareil et démarrez une nouvelle sauvegarde.</p>
       <button className="primary-button beta-reopen-button" type="button" onClick={() => void enter()} disabled={busy} aria-describedby="beta-reset-warning" aria-busy={busy}>
-        {busy ? 'Réinitialisation…' : 'Réinitialiser et entrer en 1.5.2'}
+        {busy ? 'Réinitialisation…' : 'Réinitialiser et entrer en 1.6.0'}
       </button>
       <ErrorNotice error={error} />
     </div>

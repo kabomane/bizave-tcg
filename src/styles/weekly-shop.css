@@ -125,3 +125,11 @@
  .redesigned-shop .hero-meta h3,.redesigned-shop .lucky-details h3 { font-size:clamp(16px,4.4vw,22px); }
 }
 @media(max-width:359px) { .redesigned-shop .hero-meta h3,.redesigned-shop .lucky-details h3 { font-size:15px; } }
+
+/* Ownership changes only the dots' finish; existing size, spacing and active scale stay unchanged. */
+.card-zone .booster-carousel-dots > .is-owned { background:var(--ink); }
+.card-zone .booster-carousel-dots > .is-missing { background:linear-gradient(115deg,#bf953f,#fcf6ba,#d9b45b,#fbf5b7,#aa771c,#bf953f); background-size:250% 100%; opacity:1; box-shadow:0 0 5px #d9b45b65; animation:shopMissingDotShimmer 4s ease-in-out infinite; }
+.card-zone .booster-carousel-single .booster-carousel-dots { margin-top:30px; }
+.card-zone .booster-carousel-single .booster-carousel-track { overflow-x:clip; touch-action:pan-y; }
+@keyframes shopMissingDotShimmer { 0%,100% { background-position:0% 50%; } 50% { background-position:100% 50%; } }
+@media(prefers-reduced-motion:reduce) { .card-zone .booster-carousel-dots > .is-missing { animation:none; } }

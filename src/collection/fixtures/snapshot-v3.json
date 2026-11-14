@@ -1,0 +1,40 @@
+{
+  "senderId": "1234-56-78",
+  "issuedAt": 1700000000,
+  "registry": {
+    "t-classique": 1
+  },
+  "publicJwk": {
+    "key_ops": [
+      "verify"
+    ],
+    "ext": true,
+    "kty": "EC",
+    "x": "CCM4p770HpJxcjGZN2tsZBDyJkltBarFgmELEawP_p4",
+    "y": "nSQh0uPSqgGst4tqOXpIrYfQqmJ62RzIjeNttZfqNYU",
+    "crv": "P-256"
+  },
+  "expected": [
+    {
+      "cardId": "t-classique",
+      "finish": "normal",
+      "artVariant": "standard",
+      "quantity": 2,
+      "favorite": true
+    }
+  ],
+  "vectors": [
+    {
+      "mode": 0,
+      "payloadHex": "03123456786553f1000100010101010102",
+      "signatureHex": "c397cdc1b62b53c72fc87ead09e7c5a506c33536e4e6ceaacacc4dda7d067af6ceca6420c8f6c86dbace73b57d14cfe9785d96a58cef9eef5e5cfa4922915d9d",
+      "code": "CL1.AxI0VnhlU_EAAQABAQEBAQLDl83BtitTxy_Ifq0J58WlBsM1NuTmzqrKzE3afQZ69s7KZCDI9shtus5ztX0Uz-l4XZaljO-e715c-kkikV2d"
+    },
+    {
+      "mode": 1,
+      "payloadHex": "03123456786553f100010101010112",
+      "signatureHex": "d5131f78736c299f9e9802e4d8c440769045411eecc6a073a7c3e3fbb9c50d8c77e3442f81a0e9c855daa0f74258ee930cab89fe473dee80c715b2c70339795a",
+      "code": "CL1.AxI0VnhlU_EAAQEBAQES1RMfeHNsKZ-emALk2MRAdpBFQR7sxqBzp8Pj-7nFDYx340QvgaDpyFXaoPdCWO6TDKuJ_kc97oDHFbLHAzl5Wg"
+    }
+  ]
+}

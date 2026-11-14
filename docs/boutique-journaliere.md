@@ -35,3 +35,5 @@ Les tests couvrent les distributions, les changements d’heure, les achats conc
 ## Ajustements après recette
 
 Titres des offres réduits sur une ligne. Les cartes Reroll / Fragments sont réunies dans un carrousel à bouton fixe, sous les offres de la semaine. Le titre affiche le nombre d’utilisations du bonus sélectionné, quota de la semaine et crédits cadeaux compris. Le gain de fragments apparaît deux secondes sur le bouton, puis « Réclamée » lorsque le stock est épuisé. Les stocks des anciens lots achetés sont conservés dans `priorBundles`, au sein de la seule ligne du jour, puis supprimés au renouvellement quotidien. Les rerolls gratuits suivent la même règle que le reroll payant.
+
+Les cartes proposées à l’unité indiquent leur possession par le point de carrousel : blanc si la variante exacte (finition et illustration comprises) est détenue, doré avec reflet discret sinon. Seuls les exemplaires actuellement `owned` sont comptés. Une offre seule affiche un point, sans flèches ni défilement.
