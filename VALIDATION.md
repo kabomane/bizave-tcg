@@ -1,4 +1,15 @@
-# Validation — bizave-tcg.v1.6.0
+# Validation — bizave-tcg.v1.6.1
+
+## Publication silencieuse 1.6.1 — 14 novembre 2026
+
+- Version npm, lockfile, métadonnée HTML, landing et écran de sortie de bêta : **1.6.1**. Compteur d’annonce **11** et note inchangés. Schéma Dexie conservé à **13**.
+- Base62 : **487 tests unitaires dans 42 fichiers** réussis pendant le développement ; lint et build réussis. Vecteurs signés inchangés, zéros initiaux, limites, signatures, destinataires et registres anti-rejeu couverts.
+- **7 configurations** de navigateur/profil vérifiées pour les quatre codes entre Node et le navigateur : Chromium, Firefox, WebKit, Android, iPhone, iPad et tablette Android. Ce sont des profils simulés, sans validation sur appareils physiques ni dans les messageries réelles.
+- Téléchargements : **28 téléchargements sur 7 configurations** réussis, avec noms terminés uniquement par `.btcg` et type `application/octet-stream` pour cartes, fragments, collections et sauvegardes.
+- Retour en haut de Collection vérifié en Chromium à **390 et 1 440 px**, avec conservation de la recherche et de l’historique ; mouvement réduit respecté. Lint et typage vérifiés après les corrections ciblées.
+- Les suites d’interface étendues ont été interrompues à la demande ; plusieurs parcours longs WebKit Windows dépassaient leur délai. Elles ne constituent pas une validation E2E exhaustive de cette publication.
+- Build de publication **15aa2d63-da51-4fce-9437-d4a5549e4e57**, version **1.6.1**, `betaClosed: false`, **513 fichiers**. TypeScript, build et lint ciblé réussis après l’actualisation de version ; aucun changement du compteur d’annonce.
+- Firebase Hosting publié sur [bizave-tcg.web.app](https://bizave-tcg.web.app) et [bizave-tcg.kabomane.me](https://bizave-tcg.kabomane.me). **25 ressources comparées par SHA-256 sur chaque domaine** : HTML du jeu, landing, manifeste, JavaScript et CSS compilés identiques au build local. `/version.json` est servi avec `Cache-Control: no-store`.
 
 ## Publication 1.6.0 — 14 novembre 2026
 

@@ -7,7 +7,8 @@ import type { FriendContactRow, LocalIdentityRow } from '../game/types'
 import { aggregateCollection, fromNumericVariants, toNumericVariants } from './collectionSnapshot'
 import type { SharedVariant } from './collectionSnapshot'
 import { collectionCardSlots, collectionRegistryVersion } from './registry'
-import { COLLECTION_BODY_MODES, COLLECTION_LIMITS, collectionBase64, decodeBody, encodePayload, parseEnvelope } from './snapshotCodec'
+import { COLLECTION_BODY_MODES, COLLECTION_LIMITS, decodeBody, encodePayload, parseEnvelope } from './snapshotCodec'
+import { encodeShareCode, SHARE_CODE_PREFIX } from '../encoding/shareCode'
 
 const domain = new TextEncoder().encode('BizaveTCG/CollectionSnapshot/v3\n')
 function message(payload: Uint8Array) { return new Uint8Array([...domain, ...payload]) }
@@ -23,7 +24,7 @@ export async function signCollection(identity: LocalIdentityRow, variants: reado
   }
   const signature = new Uint8Array(await subtle().sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, message(payload)))
   if (signature.length !== 64) throw new Error('Signature inattendue.')
-  const code = 'CL1.' + collectionBase64(new Uint8Array([...payload, ...signature]))
+  const code = encodeShareCode(SHARE_CODE_PREFIX.collection, new Uint8Array([...payload, ...signature]))
   if (code.length > COLLECTION_LIMITS.text) throw new Error('Cette collection dépasse la taille maximale de partage.')
   return code
 }

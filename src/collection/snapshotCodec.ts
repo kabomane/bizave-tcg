@@ -1,3 +1,5 @@
+import { decodeShareCode, SHARE_CODE_PREFIX } from '../encoding/shareCode'
+
 export const COLLECTION_LIMITS = { text: 32_768, file: 65_536, slots: 8192, quantity: 1_000_000, total: 100_000_000 } as const
 export type NumericVariant = { number: number; variant: number; quantity: number; favorite: boolean }
 export const COLLECTION_BODY_MODES = [0, 1, 0x80, 0x81, 0x82, 0x83] as const
@@ -241,13 +243,10 @@ export function encodePayload(header: SnapshotHeader, entries: readonly NumericV
   const date = new Uint8Array(4); new DataView(date.buffer).setUint32(0, header.issuedAt, false)
   return new Uint8Array([3, ...bcd, ...date, ...encodeUleb(header.registryVersion), header.bodyMode, ...encodeUleb(header.cardSlots), ...encodeBody(entries, header.cardSlots, header.bodyMode)])
 }
-export function collectionBase64(bytes: Uint8Array) { return btoa(Array.from(bytes, b => String.fromCharCode(b)).join('')).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '') }
 export function parseEnvelope(code: string): SnapshotEnvelope {
-  if (code.length > COLLECTION_LIMITS.text || !/^CL1\.[A-Za-z0-9_-]+$/.test(code)) throw invalid()
-  const encoded = code.slice(4)
   let bytes: Uint8Array<ArrayBuffer>
-  try { bytes = Uint8Array.from(atob(encoded.replaceAll('-', '+').replaceAll('_', '/') + '='.repeat((4 - encoded.length % 4) % 4)), c => c.charCodeAt(0)) } catch { throw invalid() }
-  if (collectionBase64(bytes) !== encoded || bytes.length < 77) throw invalid()
+  try { bytes = decodeShareCode(code, SHARE_CODE_PREFIX.collection, COLLECTION_LIMITS.text) } catch { throw invalid() }
+  if (bytes.length < 77) throw invalid()
   const payload = bytes.slice(0, -64), signature = bytes.slice(-64), reader = new Reader(payload)
   if (reader.byte() !== 3) throw invalid()
   let digits = ''

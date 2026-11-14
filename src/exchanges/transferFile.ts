@@ -1,9 +1,10 @@
 import type { OutgoingTransferRow } from '../game/types'
+import { isShareCode, MAX_EXCHANGE_CODE_LENGTH, SHARE_CODE_PREFIX } from '../encoding/shareCode'
 
 export const MAX_TRANSFER_FILE_BYTES = 16_384
 const FORMAT = 'bizave-tcg-transfer'
 function validateCode(code: unknown): asserts code is string {
-  if (typeof code !== 'string' || code.length > 12_000 || !/^(TR2|TF1)\.[A-Za-z0-9_-]+$/.test(code)) throw new Error('Ce fichier ne contient pas de code de transfert valide.')
+  if (!isShareCode(code, SHARE_CODE_PREFIX.card, MAX_EXCHANGE_CODE_LENGTH) && !isShareCode(code, SHARE_CODE_PREFIX.fragments, MAX_EXCHANGE_CODE_LENGTH)) throw new Error('Ce fichier ne contient pas de code de transfert valide.')
 }
 export function serializeTransferFile(code: string): string {
   validateCode(code)

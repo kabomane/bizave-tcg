@@ -6,6 +6,7 @@ import { assertAccountActive } from '../storage/accountGuard'
 import { pruneFavorites } from '../collection/favorites'
 import { assertTransferNotExpired } from './expiry'
 import { forgetCollection } from '../collection/collectionMemory'
+import { SHARE_CODE_PREFIX } from '../encoding/shareCode'
 
 export async function ensureIdentity(database = db) {
   await assertAccountActive(database)
@@ -123,8 +124,8 @@ function sameSigningIdentity(current: LocalIdentityRow | undefined, expected: Lo
 export type Received = { kind: 'card'; card: Card } | { kind: 'fragments'; amount: number; senderId: string; balance: number }
 export async function receiveCode(code: string, database = db): Promise<Received> {
   const text = code.trim()
-  if (text.startsWith('TR2.')) return { kind: 'card', card: await receiveTransfer(text, database) }
-  if (text.startsWith('TF1.')) return { kind: 'fragments', ...await receiveFragments(text, database) }
+  if (text.startsWith(`${SHARE_CODE_PREFIX.card}.`)) return { kind: 'card', card: await receiveTransfer(text, database) }
+  if (text.startsWith(`${SHARE_CODE_PREFIX.fragments}.`)) return { kind: 'fragments', ...await receiveFragments(text, database) }
   throw new Error('Code de transfert non reconnu.')
 }
 

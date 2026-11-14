@@ -1,17 +1,18 @@
+import { base62 } from '../src/encoding/base62'
 import { expect, test } from '@playwright/test'
-import { COLLECTION_BODY_MODES, collectionBase64, encodePayload } from '../src/collection/snapshotCodec'
+import { COLLECTION_BODY_MODES, encodePayload } from '../src/collection/snapshotCodec'
 
 test('les six formats signés hors navigateur se vérifient dans chaque moteur', async ({ page }) => {
   const keys = await crypto.subtle.generateKey({ name: 'ECDSA', namedCurve: 'P-256' }, true, ['sign', 'verify'])
   const publicJwk = await crypto.subtle.exportKey('jwk', keys.publicKey)
   const senderId = '1234-56-78', issuedAt = 1_700_000_000
-  const contact = 'FR2.' + collectionBase64(new TextEncoder().encode(JSON.stringify({ version: 2, playerUuid: senderId, signingPublicJwk: publicJwk })))
+  const contact = 'FR3.' + base62(new TextEncoder().encode(JSON.stringify({ version: 2, playerUuid: senderId, signingPublicJwk: publicJwk })))
   const entries = [{ number: 1, variant: 0, quantity: 10, favorite: true }, { number: 3, variant: 5, quantity: 1_000_000, favorite: false }]
   const codes = await Promise.all(COLLECTION_BODY_MODES.map(async bodyMode => {
     const payload = encodePayload({ senderId, issuedAt, registryVersion: 1, cardSlots: 5, bodyMode }, entries)
     const message = new Uint8Array([...new TextEncoder().encode('BizaveTCG/CollectionSnapshot/v3\n'), ...payload])
     const signature = new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, keys.privateKey, message))
-    return 'CL1.' + collectionBase64(new Uint8Array([...payload, ...signature]))
+    return 'CL2.' + base62(new Uint8Array([...payload, ...signature]))
   }))
   await page.goto('/echanges')
   await expect(page.getByRole('heading', { name: 'Amis', exact: true })).toBeVisible()

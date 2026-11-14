@@ -1,7 +1,7 @@
 {
   "name": "bizave-tcg",
   "private": true,
-  "version": "1.6.0",
+  "version": "1.6.1",
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0 --configLoader native",
@@ -14,6 +14,7 @@
     "test": "vitest run --configLoader native",
     "test:watch": "vitest --configLoader native",
     "test:e2e": "playwright test",
+    "test:codes": "playwright test --config playwright.codes.config.ts",
     "lint": "eslint .",
     "check": "npm run lint && npm test && npm run build",
     "cert:dev": "node scripts/dev-certificate.mjs"

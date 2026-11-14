@@ -34,7 +34,7 @@ Le fichier de sauvegarde contient la clé privée : il doit rester privé. Une p
 
 ## Échanges signés
 
-Les fiches FR2 transportent l’ID joueur et une seule clé publique. L’association est mémorisée à l’ajout d’ami. Une autre clé présentée sous le même ID est refusée. Les transferts TR2 contiennent la carte lisible et sa signature ; la vérification utilise uniquement la clé du contact connu, jamais une clé fournie avec le transfert. Modifier le destinataire, l’expéditeur, l’exemplaire, la carte, la finition, le format, la date ou l’UUID du transfert invalide sa signature. Les formats abandonnés sont rejetés.
+Les fiches FR3 transportent l’ID joueur et une seule clé publique. L’association est mémorisée à l’ajout d’ami. Une autre clé présentée sous le même ID est refusée. Les transferts TR3 contiennent la carte lisible et sa signature ; la vérification utilise uniquement la clé du contact connu, jamais une clé fournie avec le transfert. Modifier le destinataire, l’expéditeur, l’exemplaire, la carte, la finition, le format, la date ou l’UUID du transfert invalide sa signature. Les formats abandonnés sont rejetés.
 
 ## Supprimer le compte
 

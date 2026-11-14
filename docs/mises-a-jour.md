@@ -27,3 +27,7 @@ Le compteur d’annonce passe à 9. La note présente la nouvelle boutique, la s
 ## Version 1.6.0 — 14 novembre 2026
 
 Annonce 11 : fiches amis et partage de collection par code CL1. ou fichier .btcg. Le stockage reste au schéma Dexie 13 ; les parties existantes sont conservées. [Note de version](releases/bizave-tcg.v1.6.0.md).
+
+## Version 1.6.1 silencieuse — 14 novembre 2026
+
+La version applicative passe à **1.6.1**, sans modifier `UPDATE_VERSION` (**11**) ni sa note : aucune nouvelle page d’annonce n’est déclenchée pour les joueurs ayant déjà lu l’annonce 11. Le moniteur habituel détecte le nouveau build. Les codes partagés utilisent désormais Base62, les téléchargements conservent `.btcg` et un second clic sur Collection remonte en haut. Aucun changement du schéma Dexie 13. [Note de version](releases/bizave-tcg.v1.6.1.md).

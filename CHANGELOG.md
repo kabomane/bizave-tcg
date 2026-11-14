@@ -1,5 +1,15 @@
 # Historique des versions
 
+## bizave-tcg.v1.6.1 — 14 novembre 2026
+
+- Mise à jour silencieuse : version applicative 1.6.1, compteur d’annonce 11 et note inchangés.
+- Encodage extérieur Base62 commun aux codes amis `FR3.`, cartes `TR3.`, fragments `TF2.` et collections `CL2.` ; clés, signatures, identités et contacts enregistrés conservés. Les anciens codes ne sont plus reçus.
+- Tous les fichiers de cartes, fragments, collections et sauvegardes utilisent `.btcg` et `application/octet-stream` ; correction du suffixe `.btcg.json` des collections.
+- Un second clic sur **Collection**, depuis cette page, remonte en haut sans réinitialiser les filtres ni ajouter d’entrée à l’historique. Menus mobile et bureau, mouvement réduit respecté.
+- Aucun changement du schéma Dexie 13 et aucune réinitialisation de partie.
+
+[Note de version](docs/releases/bizave-tcg.v1.6.1.md) · [Format Base62](docs/codes-base62.md) · [Validation](VALIDATION.md)
+
 ## bizave-tcg.v1.6.0 — 14 novembre 2026
 
 - Fiches amis en plein écran, partage et réception d’une collection depuis la fiche du contact.

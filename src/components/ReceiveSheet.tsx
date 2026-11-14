@@ -4,7 +4,7 @@ import { ArrowDownLeft, Check, ClipboardPaste, FileUp } from 'lucide-react'
 import { db } from '../storage/database'
 import { receiveCode, type Received } from '../exchanges/services'
 import { readTransferFile } from '../exchanges/transferFile'
-import { unbase64url } from '../exchanges/crypto'
+import { decodeShareCode, MAX_EXCHANGE_CODE_LENGTH, SHARE_CODE_PREFIX } from '../encoding/shareCode'
 import { ErrorNotice, Modal } from './ui'
 import { errorText } from './format'
 import { CardViewer } from './CardViewer'
@@ -25,7 +25,7 @@ export function ReceiveSheet({ onClose, origin }: { onClose: () => void; origin:
     try {
       const result = await receiveCode(code)
       // Only read the sender from a card envelope after receiveCode authenticated it.
-      const senderId = result.kind === 'fragments' ? result.senderId : JSON.parse(new TextDecoder().decode(unbase64url(code.slice(4)))).payload.senderId as string
+      const senderId = result.kind === 'fragments' ? result.senderId : JSON.parse(new TextDecoder().decode(decodeShareCode(code.trim(), SHARE_CODE_PREFIX.card, MAX_EXCHANGE_CODE_LENGTH))).payload.senderId as string
       setSender(friends.find(friend => friend.playerUuid === senderId)?.label || senderId)
       setReceived(result); setCode(''); setSource('')
     } catch (e) { setError(errorText(e)) }

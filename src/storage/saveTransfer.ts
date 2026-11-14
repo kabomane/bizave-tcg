@@ -19,6 +19,7 @@ import type { RecycledCardRow, FavoriteRow, BoosterPurchaseRow, BoosterStockRow,
 import type { UsedSaveTransferRow } from './accountTypes'
 import type { UsedGiftCodeRow } from '../gifts/types'
 import { GIFT_CODE_HASH_PATTERN } from '../gifts/format'
+import { isShareCode, MAX_EXCHANGE_CODE_LENGTH, SHARE_CODE_PREFIX } from '../encoding/shareCode'
 import { validWeeklyShop, type WeeklyShopRow } from '../game/weeklyShop'
 import { settleWeeklyShop } from './weeklyShop'
 import { settleDailyShop } from './dailyShop'
@@ -107,9 +108,11 @@ function validatePayload(value: unknown): asserts value is SavePayload {
   assert((s.favorites ?? []).every(f => card(f) && f.key === variantKey(f) && ownedVariants.has(f.key)))
   assert(s.recycling.every(r => transferId(r.id) && integer(r.createdAt) && integer(r.fragmentsGained) && Array.isArray(r.dropIds) && r.dropIds.every(transferId)))
   assert(s.friends.every(f => playerId(f.playerUuid) && f.playerUuid !== value.sourceId && record(f.signingPublicJwk) && text(f.fingerprint) && integer(f.addedAt) && (f.label === undefined || (text(f.label) && f.label.length <= 80)) && !('encryptionPublicJwk' in f)))
-  assert((tables.outbox as Record<string, unknown>[]).every(o => transferId(o.transferId) && playerId(o.recipientId) && text(o.code) && o.code.length <= 12_000 && integer(o.createdAt) && o.status === 'generated' && (o.recipientLabel === undefined || text(o.recipientLabel)) && (
-    ((o.kind === 'card' || (Number(value.schemaVersion) < 10 && o.kind === undefined)) && transferId(o.dropId) && !('amount' in o) && /^TR2\.[A-Za-z0-9_-]+$/.test(o.code)) ||
-    (o.kind === 'fragments' && integer(o.amount) && o.amount >= 1 && o.amount <= 1_000_000 && !('dropId' in o) && /^TF1\.[A-Za-z0-9_-]+$/.test(o.code))
+  // Keep historical outbox entries importable as archived data, even though
+  // only the new Base62 protocols can be redeemed by the current client.
+  assert((tables.outbox as Record<string, unknown>[]).every(o => transferId(o.transferId) && playerId(o.recipientId) && text(o.code) && o.code.length <= MAX_EXCHANGE_CODE_LENGTH && integer(o.createdAt) && o.status === 'generated' && (o.recipientLabel === undefined || text(o.recipientLabel)) && (
+    ((o.kind === 'card' || (Number(value.schemaVersion) < 10 && o.kind === undefined)) && transferId(o.dropId) && !('amount' in o) && (isShareCode(o.code, SHARE_CODE_PREFIX.card, MAX_EXCHANGE_CODE_LENGTH) || /^TR2\.[A-Za-z0-9_-]+$/.test(o.code))) ||
+    (o.kind === 'fragments' && integer(o.amount) && o.amount >= 1 && o.amount <= 1_000_000 && !('dropId' in o) && (isShareCode(o.code, SHARE_CODE_PREFIX.fragments, MAX_EXCHANGE_CODE_LENGTH) || /^TF1\.[A-Za-z0-9_-]+$/.test(o.code)))
   )))
   assert([...s.usedTransfers, ...s.usedSaveTransfers].every(r => transferId(r.transferId) && integer(r.receivedAt)))
   assert(s.boosterStock.every(r => id(r.boosterId) && !boosters.some(b => b.id === r.boosterId && b.dailyOnly) && integer(r.quantity) && integer(r.updatedAt)))

@@ -1,9 +1,9 @@
+import { base62 } from '../encoding/base62'
 import { expect, it } from 'vitest'
 import { createContactCode, generateIdentity, parseContactCode } from '../exchanges/crypto'
 import { signCollection, verifyCollection, memoryDecision } from './collectionCrypto'
 import { COLLECTION_MEMORY_PREFIX, forgetCollection, hasCollectionMemory, purgeCollectionMemory, readCollectionMemory, saveCollectionMemory } from './collectionMemory'
 import { DEFAULT_PREFERENCES, parsePreferences } from '../settings/preferences'
-import { collectionBase64 } from './snapshotCodec'
 import fixture from './fixtures/snapshot-v3.json'
 
 class MemoryStorage implements Storage {
@@ -15,9 +15,9 @@ class MemoryStorage implements Storage {
   setItem(key: string, value: string) { this.values.set(key, value); this.writes++ }
   removeItem(key: string) { this.values.delete(key) }
 }
-it.each(fixture.vectors)('rouvre une mémoire historique signée de mode $mode sans migration ni réécriture', async vector => {
+it.each(fixture.vectors)('rouvre une mémoire Base62 signée de mode $mode sans réécriture', async vector => {
   const storage = new MemoryStorage()
-  const friend = await parseContactCode('FR2.' + collectionBase64(new TextEncoder().encode(JSON.stringify({ version: 2, playerUuid: fixture.senderId, signingPublicJwk: fixture.publicJwk }))))
+  const friend = await parseContactCode('FR3.' + base62(new TextEncoder().encode(JSON.stringify({ version: 2, playerUuid: fixture.senderId, signingPublicJwk: fixture.publicJwk }))))
   storage.setItem(COLLECTION_MEMORY_PREFIX + fixture.senderId, JSON.stringify({ version: 1, code: vector.code, savedAt: 1 }))
   const writes = storage.writes, saved = readCollectionMemory(fixture.senderId, storage)!
   const snapshot = await verifyCollection(saved.code, [friend])
@@ -55,7 +55,7 @@ it('compare des instantanés revérifiés et ne réécrit pas un code identique'
   expect(() => readCollectionMemory(identity.playerUuid, storage)).toThrow('illisible')
 })
 it('limite à 50 amis et 1 Mio sans effacer une autre collection', () => {
-  const storage = new MemoryStorage(), snapshot = { code: 'CL1.AAAA', senderId: '1234-56-78', issuedAt: 1, variants: [] }
+  const storage = new MemoryStorage(), snapshot = { code: 'CL2.AAAA', senderId: '1234-56-78', issuedAt: 1, variants: [] }
   for (let i = 0; i < 50; i++) storage.setItem(COLLECTION_MEMORY_PREFIX + i, 'x')
   expect(() => saveCollectionMemory(snapshot, storage)).toThrow('impossible')
   expect(storage.length).toBe(50)
@@ -69,7 +69,7 @@ it('limite à 50 amis et 1 Mio sans effacer une autre collection', () => {
   expect(hasCollectionMemory(storage)).toBe(false); expect(storage.getItem('other-setting')).toBe('keep')
 })
 it('signale les échecs de lecture, écriture et effacement', () => {
-  const storage = new MemoryStorage(), snapshot = { code: 'CL1.AAAA', senderId: '1234-56-78', issuedAt: 1, variants: [] }
+  const storage = new MemoryStorage(), snapshot = { code: 'CL2.AAAA', senderId: '1234-56-78', issuedAt: 1, variants: [] }
   storage.setItem = () => { throw new Error('quota') }
   expect(() => saveCollectionMemory(snapshot, storage)).toThrow('impossible')
   storage.getItem = () => { throw new Error('blocked') }

@@ -1,8 +1,12 @@
-# bizave-tcg.v1.6.0
+# bizave-tcg.v1.6.1
 
-Version **bizave-tcg.v1.6.0** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 220 cartes, **Anima Isekai**, 220 cartes, **epico stellari**, 72 cartes partagées, et **rarity only**, 74 cartes rares. Le catalogue compte 454 modèles illustrés, dont 12 cartes événement permanentes et les promos Bizave TCG bêta (PR-001) et Merry Wifemas (PR-002).
+Version **bizave-tcg.v1.6.1** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 220 cartes, **Anima Isekai**, 220 cartes, **epico stellari**, 72 cartes partagées, et **rarity only**, 74 cartes rares. Le catalogue compte 454 modèles illustrés, dont 12 cartes événement permanentes et les promos Bizave TCG bêta (PR-001) et Merry Wifemas (PR-002).
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
+
+## Version 1.6.1 — Correctifs silencieux
+
+Les codes amis, cartes, fragments et collections passent au Base62 (`FR3.`, `TR3.`, `TF2.`, `CL2.`) pour éviter les caractères de mise en forme des messageries. Les téléchargements de cartes, fragments, collections et sauvegardes conservent uniquement l’extension `.btcg`. Un second clic sur le menu **Collection**, depuis cette page, remonte en haut sans effacer les filtres. Le compteur d’annonce **11** et sa note restent inchangés ; aucune migration Dexie. Les anciens codes Base64url ne sont plus reçus, mais les identités et contacts enregistrés sont conservés. [Note de version](docs/releases/bizave-tcg.v1.6.1.md) · [Format Base62](docs/codes-base62.md).
 
 ## Version 1.6.0 — Fiches amis et partage de collection
 
@@ -77,6 +81,7 @@ Sur `http://localhost:5173`, Web Crypto fonctionne car localhost est un contexte
 | `npm test` | Tests Vitest : moteur, économie, Dexie, migrations, cryptographie et concurrence |
 | `npm run test:watch` | Tests en continu |
 | `npm run test:e2e` | Parcours Playwright sur Chromium, Firefox et WebKit |
+| `npm run test:codes` | Codes Base62 sur les trois moteurs et profils mobiles/tablettes |
 | `npm run lint` | ESLint |
 | `npm run check` | Lint, tests unitaires/intégration et build |
 
@@ -93,7 +98,7 @@ Pour les tests de navigateurs, installer leurs exécutables une fois avec `npx p
 - Ouvertures persistées avant leur animation, reprise après fermeture/refresh, inventaire par exemplaire, découvertes par variante.
 - Collection détenue uniquement, trois filtres custom, atelier, protection de la dernière copie, confirmation de recyclage et historique économique. Les découvertes historiques restent conservées en base.
 - Aperçu D en plein écran : carrousel natif, voisines visibles dès 700 px, flèches, clavier, points de finition, date et doublons regroupés/séparés. Favori, Partager, Donner et Recycler dans un îlot vitré ; mode 2 actions dans Options. Confirmation de recyclage alignée sur cet îlot.
-- Identité locale, carnet d’amis, codes FR2, transferts TR2 (cartes) et TF1 (fragments) signés et lisibles, boîte d’envoi et registre antirejeu.
+- Identité locale, carnet d’amis, codes FR3, transferts TR3 (cartes) et TF2 (fragments) signés et lisibles, boîte d’envoi et registre antirejeu.
 - Codes cadeaux courts dans les options, vérifiés hors ligne par empreinte, avec récompenses et registre transférable.
 - Titres Fraunces 700, descriptions Fraunces 500 italique et mentions Barlow Condensed 500, polices hébergées localement.
 - Pile et grande carte réunies en une seule vue, accessible en un toucher. Partage Canvas prégénéré : Story PNG 1080 × 1920 avec les halos du thème actif, ou carte PNG transparente 978 × 1620 ; téléchargement de secours.
@@ -214,13 +219,15 @@ Le jeu publie seulement les empreintes SHA-256 et les récompenses. Les codes en
 
 - Identifiant lisible : huit chiffres, format `1234-56-78`. Il n’est pas secret et ne dérive aucune clé.
 - Une paire **ECDSA P-256/SHA-256**, indépendante de l’ID joueur. La clé privée transférable est stockée comme `CryptoKey` dans IndexedDB et incluse uniquement dans le fichier de migration de sauvegarde.
-- `FR2.` est une fiche publique : version 2, identifiant joueur et clé publique de signature. Import immédiat et unilatéral. Le jeu mémorise la clé de chaque ami : un ID déjà lié à une autre clé est refusé.
+- `FR3.` est une fiche publique : version 2, identifiant joueur et clé publique de signature. Import immédiat et unilatéral. Le jeu mémorise la clé de chaque ami : un ID déjà lié à une autre clé est refusé.
 - Avant le premier transfert, les deux joueurs importent le contact de l’autre. L’interface ne prétend pas savoir si l’autre joueur a effectué cet import.
-- `TR2.` contient la charge utile lisible et sa signature. Les neuf champs, dont expéditeur, destinataire, date, identifiants du transfert et de l’exemplaire, carte, finition et format, sont signés avec le domaine `BizaveTCG/CardTransfer/v2`. Aucun chiffrement ni clé jointe au transfert.
-- `TF1.` transporte six champs signés avec le domaine distinct `BizaveTCG/FragmentTransfer/v1` : version, transferId, senderId, recipientId, issuedAt et amount. Le montant est un entier de 1 à 1 000 000 ; les fragments sont débités dans la même transaction que la création du code, puis crédités une seule fois chez le destinataire.
+- `TR3.` contient la charge utile lisible et sa signature. Les neuf champs, dont expéditeur, destinataire, date, identifiants du transfert et de l’exemplaire, carte, finition et format, sont signés avec le domaine `BizaveTCG/CardTransfer/v2`. Aucun chiffrement ni clé jointe au transfert.
+- `TF2.` transporte six champs signés avec le domaine distinct `BizaveTCG/FragmentTransfer/v1` : version, transferId, senderId, recipientId, issuedAt et amount. Le montant est un entier de 1 à 1 000 000 ; les fragments sont débités dans la même transaction que la création du code, puis crédités une seule fois chez le destinataire.
 - Le destinataire sélectionne le contact déjà enregistré pour l’expéditeur, vérifie sa signature avec cette clé mémorisée et contrôle le destinataire. Il ajoute ensuite le drop et le `transferId` dans une transaction unique.
 - Un envoi devient `outgoing` avec sa boîte d’envoi **avant** d’afficher le code. Il est définitif ; aucune annulation locale et aucun faux accusé de réception.
 - `usedTransfers` conserve uniquement `transferId` et date. Une carte peut revenir avec le même `dropId` et les mêmes propriétés, mais un **nouveau** `transferId`. Un ancien code reste refusé après renvoi ou recyclage.
+
+Les codes `FR3.`, `TR3.`, `TF2.` et `CL2.` utilisent un encodage extérieur Base62 canonique (`0–9A–Za–z`), sans `_`, `-` ni `=` dans le corps. Les clés JWK, empreintes, signatures internes et domaines signés conservent leurs formats. Les anciens codes Base64url ne sont plus acceptés en réception ; les contacts et identités déjà enregistrés restent utilisables. Les sauvegardes contenant une ancienne boîte d’envoi restent importables. Voir [le format Base62](docs/codes-base62.md).
 
 Les codes sont copiés dans une messagerie choisie par le joueur. Le jeu n’envoie aucun message. La signature vérifiée avec la clé mémorisée prouve qu’un contact a signé le contenu ; un jeu statique ne certifie pas mondialement l’honnêteté d’un tirage ou l’absence de modification du client. Une identité perdue après des échanges ne se régénère pas silencieusement.
 
@@ -278,7 +285,7 @@ Amis réunit Recevoir, Ajouter un ami, Codes de cartes envoyés, puis Vos amis, 
 
 La réception des fragments réutilise le fond et l’inclinaison de la visionneuse. La carte porte le montant et l’expéditeur ; le solde défile depuis sa valeur avant réception vers le solde réellement crédité dans la transaction. Boutique ouvre `/boutique`. Depuis Fragments, Terminé ferme la vue ; depuis Amis, Mes fragments ouvre `/fragments`. La croix et Échap ferment la vue. Les animations sont supprimées avec Réduire les animations.
 
-Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR2 ou TF1 exact, sans clé privée. Le fichier de transfert de carte ou fragments est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes et fragments accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
+Le mode d’envoi mémorisé est Copier le code par défaut, ou Télécharger le fichier. Un fichier `.btcg` contient une enveloppe JSON versionnée avec le code TR3 ou TF2 exact, sans clé privée. Le fichier de transfert de carte ou fragments est distinct du fichier de migration de sauvegarde, qui contient l’identité privée et doit rester confidentiel. Les deux transports passent par les mêmes vérifications cryptographiques, de destinataire et d’antirejeu. Dans Amis → Recevoir, coller le code ou importer le fichier puis confirmer Recevoir. L’import des cartes et fragments accepte uniquement le format version 2, avec une limite de 16 Kio. Les téléchargements des envois existants réutilisent leur code sans créer de nouveau transfert.
 
 La boîte d’envoi garde les entrées 24 h ; un fichier déjà téléchargé expire après 24 h, comme un code déjà copié.
 
@@ -326,4 +333,4 @@ Le nom de base reste désormais `bizave-tcg` ; les évolutions passent par les m
 
 La migration ponctuelle depuis `bizave-tcg-v2` est terminée et le correctif de démarrage a été retiré.
 
-Les transferts de cartes TR2 et de fragments TF1 expirent 24 h après la date signée issuedAt, que le destinataire utilise le code ou le fichier .btcg. À l’échéance, aucun crédit n’est effectué.
+Les transferts de cartes TR3 et de fragments TF2 expirent 24 h après la date signée issuedAt, que le destinataire utilise le code ou le fichier .btcg. À l’échéance, aucun crédit n’est effectué.

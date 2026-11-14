@@ -1,3 +1,4 @@
+import { base62 } from '../encoding/base62'
 import { afterEach, expect, it } from 'vitest'
 import { db, BizaveDatabase, DATABASE_SCHEMA_VERSION } from '../storage/database'
 import { initializeDatabase } from '../storage/services'
@@ -8,7 +9,7 @@ import { cards, archivedCards, cardById } from '../data/cards'
 import { collectionCardSlots, collectionRegistryVersion } from './registry'
 import { aggregateCollection, fromNumericVariants, toNumericVariants, type SharedVariant } from './collectionSnapshot'
 import { exportCollection, signCollection, verifyCollection } from './collectionCrypto'
-import { COLLECTION_BODY_MODES, collectionBase64, encodePayload, parseEnvelope } from './snapshotCodec'
+import { COLLECTION_BODY_MODES, encodePayload, parseEnvelope } from './snapshotCodec'
 import { collectionFileContents, readCollectionFile } from './collectionFile'
 import { readTransferFile } from '../exchanges/transferFile'
 import { parseSaveFile } from '../storage/saveTransfer'
@@ -18,7 +19,7 @@ const databases: BizaveDatabase[] = []
 afterEach(async () => { await Promise.all(databases.splice(0).map(database => database.delete())); db.close() })
 const variant: SharedVariant = { cardId: cards[0].id, finish: 'glossy', artVariant: 'fullArt', quantity: 256, favorite: true }
 it.each(fixture.vectors)('lit le vecteur signé publié de mode $mode', async vector => {
-  const contact = await parseContactCode('FR2.' + collectionBase64(new TextEncoder().encode(JSON.stringify({ version: 2, playerUuid: fixture.senderId, signingPublicJwk: fixture.publicJwk }))))
+  const contact = await parseContactCode('FR3.' + base62(new TextEncoder().encode(JSON.stringify({ version: 2, playerUuid: fixture.senderId, signingPublicJwk: fixture.publicJwk }))))
   const decoded = await verifyCollection(vector.code, [contact]), envelope = parseEnvelope(vector.code)
   expect(decoded).toMatchObject({ senderId: fixture.senderId, issuedAt: fixture.issuedAt, variants: fixture.expected })
   expect(Array.from(envelope.payload, byte => byte.toString(16).padStart(2, '0')).join('')).toBe(vector.payloadHex)
@@ -39,7 +40,7 @@ it('choisit automatiquement le mode le plus court avant signature', async () => 
 async function rawSigned(identity: Awaited<ReturnType<typeof generateIdentity>>, payload: Uint8Array) {
   const message = new Uint8Array([...new TextEncoder().encode('BizaveTCG/CollectionSnapshot/v3\n'), ...payload])
   const signature = new Uint8Array(await crypto.subtle.sign({ name: 'ECDSA', hash: 'SHA-256' }, identity.signingPrivateKey, message))
-  return 'CL1.' + collectionBase64(new Uint8Array([...payload, ...signature]))
+  return 'CL2.' + base62(new Uint8Array([...payload, ...signature]))
 }
 it('vérifie avec la clé épinglée et rejette une modification, autre clé ou contact absent', async () => {
   const { identity, friend } = await setup(), code = await signCollection(identity, [variant], 1)
@@ -49,13 +50,13 @@ it('vérifie avec la clé épinglée et rejette une modification, autre clé ou 
   const other = await setup()
   await expect(verifyCollection(code, [{ ...other.friend, playerUuid: friend.playerUuid }])).rejects.toThrow('signature')
   const envelope = parseEnvelope(code); envelope.payload[envelope.payload.length - 1] ^= 1
-  const tampered = 'CL1.' + collectionBase64(new Uint8Array([...envelope.payload, ...envelope.signature]))
+  const tampered = 'CL2.' + base62(new Uint8Array([...envelope.payload, ...envelope.signature]))
   await expect(verifyCollection(tampered, [friend])).rejects.toThrow('signature')
 })
 it('vérifie la signature avant de décoder un corps invalide', async () => {
   const { identity, friend } = await setup(), envelope = parseEnvelope(await signCollection(identity, [], 1))
   envelope.payload[envelope.payload.length - 1] = 128
-  const unsigned = 'CL1.' + collectionBase64(new Uint8Array([...envelope.payload, ...new Uint8Array(64)]))
+  const unsigned = 'CL2.' + base62(new Uint8Array([...envelope.payload, ...new Uint8Array(64)]))
   await expect(verifyCollection(unsigned, [friend])).rejects.toThrow('signature')
   await expect(verifyCollection(await rawSigned(identity, envelope.payload), [friend])).rejects.toThrow('malformé')
 })
@@ -99,7 +100,7 @@ it('choisit réellement le minimum des six formats, avec priorité historique en
     expect(envelope.bodyMode).toBe(mode)
     expect(envelope.payload).toEqual(expected)
     expect((await verifyCollection(code, [friend])).variants).toEqual(variants)
-    expect(code.length).toBeLessThanOrEqual(4 + Math.ceil((Math.min(candidates[0].length, candidates[1].length) + 64) * 4 / 3))
+    expect(code).toMatch(/^CL2\.[A-Za-z0-9]+$/)
   }
 })
 it.each([0x80, 0x81, 0x82, 0x83] as const)('vérifie la signature avant décodage et protège le corps du mode %i', async bodyMode => {
@@ -110,11 +111,11 @@ it.each([0x80, 0x81, 0x82, 0x83] as const)('vérifie la signature avant décodag
   expect((await verifyCollection(code, [friend])).variants).toEqual([variant])
   const envelope = parseEnvelope(code)
   envelope.payload[envelope.payload.length - 1] ^= 0x80
-  const tampered = 'CL1.' + collectionBase64(new Uint8Array([...envelope.payload, ...envelope.signature]))
+  const tampered = 'CL2.' + base62(new Uint8Array([...envelope.payload, ...envelope.signature]))
   await expect(verifyCollection(tampered, [friend])).rejects.toThrow('signature')
   // One extra byte keeps a signed envelope valid but must fail strict body decoding.
   const malformed = new Uint8Array([...parseEnvelope(code).payload, 0])
-  const unsigned = 'CL1.' + collectionBase64(new Uint8Array([...malformed, ...new Uint8Array(64)]))
+  const unsigned = 'CL2.' + base62(new Uint8Array([...malformed, ...new Uint8Array(64)]))
   await expect(verifyCollection(unsigned, [friend])).rejects.toThrow('signature')
   await expect(verifyCollection(await rawSigned(identity, malformed), [friend])).rejects.toThrow('malformé')
 })

@@ -1,5 +1,6 @@
+import { base62 } from '../encoding/base62'
 import { expect, it } from 'vitest'
-import { COLLECTION_BODY_MODES, decodeBody, encodeBody, encodePayload, collectionBase64, parseEnvelope, type CollectionBodyMode, type NumericVariant } from './snapshotCodec'
+import { COLLECTION_BODY_MODES, decodeBody, encodeBody, encodePayload, parseEnvelope, type CollectionBodyMode, type NumericVariant } from './snapshotCodec'
 
 const hex = (value: string) => Uint8Array.from(value.split(' '), byte => parseInt(byte, 16))
 const sample: NumericVariant[] = [
@@ -58,13 +59,13 @@ it.each(COLLECTION_BODY_MODES)('restitue les limites de registre et de total en 
 })
 it.each(COLLECTION_BODY_MODES)('accepte l’enveloppe du mode %i', bodyMode => {
   const payload = encodePayload({ senderId: '1234-56-78', issuedAt: 1, registryVersion: 1, cardSlots: 5, bodyMode }, sample)
-  const code = 'CL1.' + collectionBase64(new Uint8Array([...payload, ...new Uint8Array(64)]))
+  const code = 'CL2.' + base62(new Uint8Array([...payload, ...new Uint8Array(64)]))
   expect(parseEnvelope(code).bodyMode).toBe(bodyMode)
 })
 it.each([2, 3, 0x7f, 0x84, 0xff])('refuse le mode inconnu %i', bodyMode => {
   const payload = encodePayload({ senderId: '1234-56-78', issuedAt: 1, registryVersion: 1, cardSlots: 5, bodyMode: 0 }, sample)
   payload[10] = bodyMode
-  expect(() => parseEnvelope('CL1.' + collectionBase64(new Uint8Array([...payload, ...new Uint8Array(64)])))).toThrow('malformé')
+  expect(() => parseEnvelope('CL2.' + base62(new Uint8Array([...payload, ...new Uint8Array(64)])))).toThrow('malformé')
 })
 
 // The string lists bits in wire order (least significant bit first).

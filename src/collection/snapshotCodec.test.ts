@@ -1,8 +1,9 @@
+import { base62 } from '../encoding/base62'
 import { describe, expect, it } from 'vitest'
-import { COLLECTION_BODY_MODES, COLLECTION_LIMITS, collectionBase64, decodeBody, encodeBody, encodePayload, encodeUleb, parseEnvelope, type NumericVariant } from './snapshotCodec'
+import { COLLECTION_BODY_MODES, COLLECTION_LIMITS, decodeBody, encodeBody, encodePayload, encodeUleb, parseEnvelope, type NumericVariant } from './snapshotCodec'
 
 const header = { senderId: '1234-56-78', issuedAt: 1_700_000_000, registryVersion: 1, bodyMode: 0 as const, cardSlots: 1 }
-const code = (payload: Uint8Array) => 'CL1.' + collectionBase64(new Uint8Array([...payload, ...new Uint8Array(64)]))
+const code = (payload: Uint8Array) => 'CL2.' + base62(new Uint8Array([...payload, ...new Uint8Array(64)]))
 const entries: NumericVariant[] = Array.from({ length: 6 }, (_, variant) => ({ number: 1, variant, quantity: [1, 2, 14, 15, 16, 1_000_000][variant], favorite: variant % 2 === 0 }))
 describe.each(COLLECTION_BODY_MODES)('codec de collection mode %i', mode => {
   it.each([[], entries, Array.from({ length: 4000 }, (_, i) => ({ number: Math.floor(i / 6) + 1, variant: i % 6, quantity: i % 100 + 1, favorite: i % 7 === 0 }))].map(variants => ({ variants })))('restitue les variantes agrégées', ({ variants }) => {
@@ -43,13 +44,13 @@ it.each([
   [1, 1, 15, 14], [2, 1, 1, 0, 1], [2, 1, 33, 0, 1],
   [1, 2, 1], [0x80, 0], [7],
 ])('rejette une liste différentielle hostile %j', (...bytes) => { expect(() => decodeBody(new Uint8Array(bytes), 1, 1)).toThrow() })
-it('rejette en-tête, BCD, mode, version et Base64 non canoniques', () => {
+it('rejette en-tête, BCD, mode, version et Base62 non canoniques', () => {
   const payload = encodePayload(header, [])
   for (const [index, value] of [[0, 2], [1, 0xaf], [10, 2], [11, 0]]) {
     const changed = payload.slice(); changed[index] = value
     expect(() => parseEnvelope(code(changed))).toThrow()
   }
-  for (const text of ['CL1.', code(payload) + '=', code(payload) + ' ', 'CL1.' + 'A'.repeat(COLLECTION_LIMITS.text), 'TR2.abc']) expect(() => parseEnvelope(text)).toThrow()
+  for (const text of ['CL2.', code(payload) + '=', code(payload) + ' ', code(payload) + '\n', code(payload) + '_', code(payload) + '-', code(payload).replace('CL2.', 'CL1.'), 'CL2.' + 'A'.repeat(COLLECTION_LIMITS.text), 'TR3.abc']) expect(() => parseEnvelope(text)).toThrow()
   expect(() => parseEnvelope(code(payload).slice(0, 30))).toThrow()
   expect(encodeUleb(0xffffffff)).toEqual([255, 255, 255, 255, 15])
 })

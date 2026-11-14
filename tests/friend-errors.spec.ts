@@ -29,7 +29,7 @@ test('ami : codes invalides successifs puis ajout valide sans fenêtre bloquée'
   const codes = await setup(page)
   const dialog = page.getByRole('dialog', { name: 'Ajouter un ami' })
   const paste = dialog.getByRole('button', { name: 'Coller son code ami' })
-  for (const value of ['', 'invalide', 'TR2.abc', 'FR2.***', 'FR2.eyJ2ZXJzaW9uIjoyfQ', codes.self]) {
+  for (const value of ['', 'invalide', 'TR3.abc', 'FR3.***', 'FR3.eyJ2ZXJzaW9uIjoyfQ', codes.self]) {
     await clipboard(page, value)
     await paste.click()
     await expect(dialog.getByRole('alert')).toBeVisible()
@@ -73,7 +73,7 @@ test('Safari mobile tactile : erreur puis correction, ajout et fermeture', async
     const page = await context.newPage()
     const codes = await setup(page)
     const dialog = page.getByRole('dialog', { name: 'Ajouter un ami' })
-    for (const value of ['FR2.***', codes.self, 'TR2.abc']) {
+    for (const value of ['FR3.***', codes.self, 'TR3.abc']) {
       await clipboard(page, value)
       await dialog.getByRole('button', { name: 'Coller son code ami' }).tap()
       await expect(dialog.getByRole('alert')).toBeVisible()

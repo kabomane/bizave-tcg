@@ -3,12 +3,13 @@ import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES } from '../game/config'
 import { secureRandom, uuid } from '../game/engine'
 import type { FragmentTransferPayload, FriendContactRow, LocalIdentityRow, TransferPayload } from '../game/types'
 import { assertTransferNotExpired } from './expiry'
+import { decodeShareCode, encodeShareCode, MAX_EXCHANGE_CODE_LENGTH, SHARE_CODE_PREFIX } from '../encoding/shareCode'
 
 const encoder = new TextEncoder()
 const decoder = new TextDecoder('utf-8', { fatal: true })
 export const PLAYER_UUID_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-const MAX_CODE_LENGTH = 12_000
+const MAX_CODE_LENGTH = MAX_EXCHANGE_CODE_LENGTH
 const signingAlgorithm = { name: 'ECDSA', namedCurve: 'P-256' }
 const signatureAlgorithm = { name: 'ECDSA', hash: 'SHA-256' }
 function subtle() {
@@ -26,11 +27,11 @@ export function unbase64url(value: string): Uint8Array<ArrayBuffer> {
   if (base64url(bytes) !== value) throw new Error('Encodage du code invalide.')
   return bytes
 }
-function pack(prefix: string, value: unknown) { return `${prefix}.${base64url(encoder.encode(JSON.stringify(value)))}` }
+function pack(prefix: string, value: unknown) { return encodeShareCode(prefix, encoder.encode(JSON.stringify(value))) }
 function unpack(code: string, prefix: string): unknown {
   const text = code.trim()
   if (text.length > MAX_CODE_LENGTH || !text.startsWith(`${prefix}.`)) throw new Error(`Code ${prefix} invalide.`)
-  try { return JSON.parse(decoder.decode(unbase64url(text.slice(prefix.length + 1)))) } catch { throw new Error('Code malformé ou corrompu.') }
+  try { return JSON.parse(decoder.decode(decodeShareCode(text, prefix, MAX_CODE_LENGTH))) } catch { throw new Error('Code malformé ou corrompu.') }
 }
 function record(value: unknown): value is Record<string, unknown> { return !!value && typeof value === 'object' && !Array.isArray(value) }
 export function signingPublicKey(value: unknown): JsonWebKey {
@@ -65,10 +66,10 @@ export async function importPortableIdentity(value: unknown): Promise<LocalIdent
   return { id: 'local', playerUuid: value.playerUuid, signingPrivateKey: privateKey, signingPublicJwk: publicJwk, createdAt: value.createdAt }
 }
 export function createContactCode(identity: LocalIdentityRow) {
-  return pack('FR2', { version: 2, playerUuid: identity.playerUuid, signingPublicJwk: signingPublicKey(identity.signingPublicJwk) })
+  return pack(SHARE_CODE_PREFIX.contact, { version: 2, playerUuid: identity.playerUuid, signingPublicJwk: signingPublicKey(identity.signingPublicJwk) })
 }
 export async function parseContactCode(code: string): Promise<FriendContactRow> {
-  const data = unpack(code, 'FR2')
+  const data = unpack(code, SHARE_CODE_PREFIX.contact)
   if (!record(data) || data.version !== 2 || typeof data.playerUuid !== 'string' || !PLAYER_UUID_PATTERN.test(data.playerUuid) || Object.keys(data).sort().join(',') !== 'playerUuid,signingPublicJwk,version') throw new Error('Format du contact invalide.')
   const signingPublicJwk = signingPublicKey(data.signingPublicJwk)
   return { playerUuid: data.playerUuid, signingPublicJwk, fingerprint: await signingFingerprint(signingPublicJwk), addedAt: Date.now() }
@@ -80,14 +81,14 @@ export async function signTransfer(identity: LocalIdentityRow, friend: FriendCon
   if (identity.playerUuid === friend.playerUuid) throw new Error('Impossible de transférer une carte à vous-même.')
   const payload: TransferPayload = { dropId: card.dropId, cardId: card.cardId, finish: card.finish, artVariant: card.artVariant, version: 2, transferId: uuid(), senderId: identity.playerUuid, recipientId: friend.playerUuid, issuedAt: Date.now() }
   const signature = base64url(new Uint8Array(await subtle().sign(signatureAlgorithm, identity.signingPrivateKey, canonicalPayload(payload))))
-  return { payload, code: pack('TR2', { payload, signature }) }
+  return { payload, code: pack(SHARE_CODE_PREFIX.card, { payload, signature }) }
 }
 function validatePayload(data: unknown): TransferPayload {
   if (!record(data) || data.version !== 2 || typeof data.dropId !== 'string' || !uuidPattern.test(data.dropId) || typeof data.transferId !== 'string' || !uuidPattern.test(data.transferId) || typeof data.senderId !== 'string' || !PLAYER_UUID_PATTERN.test(data.senderId) || typeof data.recipientId !== 'string' || !PLAYER_UUID_PATTERN.test(data.recipientId) || typeof data.issuedAt !== 'number' || !Number.isSafeInteger(data.issuedAt) || data.issuedAt < 0 || typeof data.cardId !== 'string' || !cardById.has(data.cardId) || typeof data.finish !== 'string' || !Object.hasOwn(DEFAULT_FINISH_RATES, data.finish) || typeof data.artVariant !== 'string' || !Object.hasOwn(DEFAULT_ART_VARIANT_RATES, data.artVariant) || Object.keys(data).length !== 9) throw new Error('Le contenu de la carte est invalide.')
   return data as TransferPayload
 }
 export async function verifyTransfer(code: string, identity: LocalIdentityRow, friends: FriendContactRow[]): Promise<TransferPayload> {
-  const signed = unpack(code, 'TR2')
+  const signed = unpack(code, SHARE_CODE_PREFIX.card)
   if (!record(signed) || typeof signed.signature !== 'string' || Object.keys(signed).sort().join(',') !== 'payload,signature') throw new Error('Signature absente ou invalide.')
   const payload = validatePayload(signed.payload)
   const friend = friends.find(contact => contact.playerUuid === payload.senderId)
@@ -113,10 +114,10 @@ export async function signFragmentTransfer(identity: LocalIdentityRow, friend: F
   if (identity.playerUuid === friend.playerUuid) throw new Error('Impossible de transférer des fragments à vous-même.')
   const payload = validateFragmentPayload({ version: 1, transferId: uuid(), senderId: identity.playerUuid, recipientId: friend.playerUuid, issuedAt: Date.now(), amount })
   const signature = base64url(new Uint8Array(await subtle().sign(signatureAlgorithm, identity.signingPrivateKey, canonicalFragmentPayload(payload))))
-  return { payload, code: pack('TF1', { payload, signature }) }
+  return { payload, code: pack(SHARE_CODE_PREFIX.fragments, { payload, signature }) }
 }
 export async function verifyFragmentTransfer(code: string, identity: LocalIdentityRow, friends: FriendContactRow[]): Promise<FragmentTransferPayload> {
-  const signed = unpack(code, 'TF1')
+  const signed = unpack(code, SHARE_CODE_PREFIX.fragments)
   if (!record(signed) || typeof signed.signature !== 'string' || Object.keys(signed).sort().join(',') !== 'payload,signature') throw new Error('Signature absente ou invalide.')
   const payload = validateFragmentPayload(signed.payload)
   const friend = friends.find(contact => contact.playerUuid === payload.senderId)

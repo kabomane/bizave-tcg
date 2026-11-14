@@ -154,7 +154,7 @@ test('échanges : contacts, transfert signé et antirejeu avec le parcours actue
     await page.getByRole('button', { name: 'Donner à B', exact: true }).click()
     await expect(page.getByRole('heading', { name: 'Code de transfert copié !', exact: true })).toBeVisible()
     const transfer = await page.evaluate(() => navigator.clipboard.readText())
-    expect(transfer).toMatch(/^TR2\./)
+    expect(transfer).toMatch(/^TR3\./)
     await second.bringToFront()
     await second.getByRole('button', { name: 'Recevoir', exact: true }).click()
     await second.evaluate(value => navigator.clipboard.writeText(value), transfer)

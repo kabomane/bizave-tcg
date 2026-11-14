@@ -1,10 +1,11 @@
+import { base62, unbase62 } from '../encoding/base62'
 import Dexie from 'dexie'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { BizaveDatabase } from '../storage/database'
 import { initializeDatabase } from '../storage/services'
 import { uuid } from '../game/engine'
 import { addContact, ensureIdentity, ownContact, receiveCode, receiveFragments, sendFragments } from './services'
-import { base64url, canonicalFragmentPayload, signFragmentTransfer, signTransfer, unbase64url, validateFragmentPayload, verifyFragmentTransfer, verifyTransfer } from './crypto'
+import { canonicalFragmentPayload, signFragmentTransfer, signTransfer, validateFragmentPayload, verifyFragmentTransfer, verifyTransfer } from './crypto'
 import { parseTransferFile, readTransferFile, serializeTransferFile } from './transferFile'
 import { pruneOutbox, OUTBOX_RETENTION_MS } from './outbox'
 
@@ -18,7 +19,7 @@ beforeEach(async () => {
 })
 afterEach(async () => { vi.restoreAllMocks(); await Promise.all([a.delete(), b.delete(), c.delete()]) })
 
-describe('protocole TF1', () => {
+describe('protocole TF2', () => {
   it.each(['card', 'fragments'])('refuse un code ou fichier %s après 24 h sans crédit ni consommation', async kind => {
     const identity = await ensureIdentity(a), friend = (await a.friends.toArray())[0]
     const transfer = kind === 'card'
@@ -35,6 +36,8 @@ describe('protocole TF1', () => {
   it('signe six champs dans un domaine distinct, avec aller-retour .btcg', async () => {
     const identity = await ensureIdentity(a), friend = (await a.friends.toArray())[0]
     const { code, payload } = await signFragmentTransfer(identity, friend, 137)
+    expect(code).toMatch(/^TF2\.[A-Za-z0-9]+$/)
+    await expect(receiveCode(code.replace('TF2.', 'TF1.'), b)).rejects.toThrow()
     expect(new TextDecoder().decode(canonicalFragmentPayload(payload))).toBe('BizaveTCG/FragmentTransfer/v1\n' + JSON.stringify(payload))
     expect(Object.keys(payload)).toHaveLength(6)
     expect(await verifyFragmentTransfer(code, await ensureIdentity(b), await b.friends.toArray())).toEqual(payload)
@@ -42,12 +45,12 @@ describe('protocole TF1', () => {
     expect(parseTransferFile(await file.text())).toBe(code)
     expect(await readTransferFile(file)).toBe(code)
   })
-  it('refuse altération, destinataire incorrect, expéditeur inconnu et substitution TR2/TF1', async () => {
+  it('refuse altération, destinataire incorrect, expéditeur inconnu et substitution TR3/TF2', async () => {
     const identity = await ensureIdentity(a), friend = (await a.friends.toArray())[0]
     const { code, payload } = await signFragmentTransfer(identity, friend, 80)
-    const envelope = JSON.parse(new TextDecoder().decode(unbase64url(code.slice(4))))
+    const envelope = JSON.parse(new TextDecoder().decode(unbase62(code.slice(4))))
     envelope.payload.amount++
-    const tampered = 'TF1.' + base64url(new TextEncoder().encode(JSON.stringify(envelope)))
+    const tampered = 'TF2.' + base62(new TextEncoder().encode(JSON.stringify(envelope)))
     await expect(receiveCode(tampered, b)).rejects.toThrow(/signature/)
     await expect(receiveCode(code, c)).rejects.toThrow(/contact/)
     await addContact(await ownContact(a), 'Eli', c)
@@ -55,12 +58,12 @@ describe('protocole TF1', () => {
     const card = await signTransfer(identity, friend, { dropId: uuid(), cardId: 't-classique', finish: 'normal', artVariant: 'standard' })
     await expect(verifyFragmentTransfer(card.code, await ensureIdentity(b), await b.friends.toArray())).rejects.toThrow()
     await expect(verifyTransfer(code, await ensureIdentity(b), await b.friends.toArray())).rejects.toThrow()
-    await expect(receiveCode(card.code.replace('TR2.', 'TF1.'), b)).rejects.toThrow()
-    await expect(receiveCode(code.replace('TF1.', 'TR2.'), b)).rejects.toThrow()
+    await expect(receiveCode(card.code.replace('TR3.', 'TF2.'), b)).rejects.toThrow()
+    await expect(receiveCode(code.replace('TF2.', 'TR3.'), b)).rejects.toThrow()
     for (const patch of [{ amount: 0 }, { amount: -1 }, { amount: 1.5 }, { amount: Number.MAX_SAFE_INTEGER }, { amount: 1_000_001 }, { version: 2 }, { senderId: 'invalid' }, { transferId: 'invalid' }, { issuedAt: -1 }, { extra: 1 }]) expect(() => validateFragmentPayload({ ...payload, ...patch })).toThrow()
     expect(await b.usedTransfers.count()).toBe(0)
     expect((await b.player.get('local'))?.fragments).toBe(0)
-    await expect(receiveCode('FR2.anything', b)).rejects.toThrow('Code de transfert non reconnu.')
+    await expect(receiveCode('FR3.anything', b)).rejects.toThrow('Code de transfert non reconnu.')
   })
 })
 
@@ -127,7 +130,7 @@ it('migre les envois v9 en cartes sans modifier leurs codes ou leur solde', asyn
   const name = uuid(), legacy = new Dexie(name)
   const schema = Object.fromEntries(a.tables.map(table => [table.name, [table.schema.primKey.src, ...table.schema.indexes.map(index => index.src)].join(',')]))
   legacy.version(9).stores(schema)
-  const old = { transferId: uuid(), dropId: uuid(), recipientId: '1234-56-78', code: 'TR2.keep', createdAt: 5, status: 'generated' }
+  const old = { transferId: uuid(), dropId: uuid(), recipientId: '1234-56-78', code: 'TR3.keep', createdAt: 5, status: 'generated' }
   await legacy.table('outbox').add(old)
   await legacy.table('player').put({ ...(await a.player.get('local'))!, schemaVersion: 9 })
   await legacy.table('version').put({ id: 'local', schemaVersion: 9, ready: true })
