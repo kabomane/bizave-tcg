@@ -7,6 +7,7 @@ type ChangelogEntry = {
 
 // Curated history, newest first. Entries are supplied by the owner, not generated from Git.
 export const changelog: readonly ChangelogEntry[] = [
+  { id: 'v162', title: 'Version 1.6.2', detail: 'Comparaison des collections amies : toutes les cartes, variantes en commun et manquantes. Retour en haut dans les collections amies et au second clic sur Atelier ou Amis. Affichage des collections mémorisées harmonisé. Mise à jour silencieuse.' },
   { id: 'v161', title: 'Version 1.6.1', detail: 'Codes de partage en Base62, correction des téléchargements .btcg et retour en haut au second clic sur Collection. Mise à jour silencieuse.' },
   { id: 'v160', title: 'Version 1.6.0', detail: 'Ajout des fiches amis et du partage de collection par code ou fichier .btcg. Collections en mémoire, filtres Événement et Promotionnel, et repères dorés en boutique pour les variantes manquantes.' },
   { id: 'v152', title: 'Version 1.5.2', detail: '77 nouvelles cartes illustrées dans Anima Isekai, soit 220 modèles. Accès rapide à la boutique depuis le menu Boosters.' },

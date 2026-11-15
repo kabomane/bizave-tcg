@@ -120,8 +120,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .modal-header.close-left .modal-header-end { margin-left:0; }
 .collection-search-row { display:flex; align-items:center; gap:10px; width:100%; min-width:0; }
 .collection-search-row .collection-search { flex:1; min-width:0; }
-.favorites-filter { flex-shrink:0; width:44px; height:44px; }
-.favorites-filter[aria-pressed='true'] { color:var(--accent); }
+.favorites-filter, .comparison-filter { flex-shrink:0; width:44px; height:44px; }
+.favorites-filter[aria-pressed='true'], .comparison-filter[aria-pressed='true'] { color:var(--accent); }
 .modal-header-center { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); max-width:calc(100% - 120px); font-size:10px; font-weight:400; color:var(--muted); white-space:nowrap; text-align:center; pointer-events:none; }
 .empty-state { min-height: 385px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 20px; }
 .empty-icon { color: var(--muted); width: 58px; height: 58px; border: 1px solid color-mix(in srgb, var(--ink) 8%, transparent); border-radius: 50%; display: grid; place-items: center; margin-bottom: 25px; }

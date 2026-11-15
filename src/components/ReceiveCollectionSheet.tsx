@@ -40,7 +40,7 @@ export function ReceiveCollectionSheet({ onClose, expectedSender, expectedName }
         if (decision === 'invalid') warnings.push('La collection mémorisée est illisible ou ne se vérifie plus. La remplacer ?')
         if (warnings.length) { setConfirmation(warnings); return }
         if (decision === 'identical') setNotice('Cette collection est déjà en mémoire.')
-        else if (readLocalPreferences().rememberCollections) { saveCollectionMemory(verified); setNotice('Collection mémorisée sur cet appareil.') }
+        else if (readLocalPreferences().rememberCollections) saveCollectionMemory(verified)
       } catch (e) { setNotice(errorText(e)) }
       setOpened(true)
     } catch (e) { if (alive.current) setError(errorText(e)) } finally { inFlight.current = false; if (alive.current) setBusy(false) }
@@ -50,7 +50,7 @@ export function ReceiveCollectionSheet({ onClose, expectedSender, expectedName }
     inFlight.current = true; setBusy(true)
     try {
       const verified = await readCollection(snapshot.code)
-      if (readLocalPreferences().rememberCollections) { saveCollectionMemory(verified); setNotice('Collection mémorisée sur cet appareil.') }
+      if (readLocalPreferences().rememberCollections) { saveCollectionMemory(verified); setNotice('') }
       else setNotice('Aperçu temporaire : cette collection n’est pas mémorisée.')
       setConfirmation([]); setOpened(true)
     } catch (e) { setError(errorText(e)); setConfirmation([]); setSnapshot(null) } finally { inFlight.current = false; setBusy(false) }

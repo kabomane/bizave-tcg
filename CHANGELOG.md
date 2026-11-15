@@ -1,5 +1,16 @@
 # Historique des versions
 
+## bizave-tcg.v1.6.2 — 15 novembre 2026
+
+- Mise à jour fantôme : version applicative **1.6.2**, compteur d’annonce **11** et note inchangés.
+- Comparaison des collections amies par variantes exactes : Toutes les cartes → En commun → Manquantes chez moi. Bouton à gauche des favoris, sans infobulle, combiné avec recherche, filtres, favoris, tri et piles ; chaque ouverture repart sur Toutes les cartes.
+- Flèche de retour en haut à côté de la croix dans la collection amie, visible du début du défilement jusqu’au retour au sommet. Position de la croix conservée, y compris en mode gaucher.
+- Second clic sur **Atelier** ou **Amis** : même retour en haut que **Collection**, sur mobile et ordinateur, avec respect du mouvement réduit.
+- Mémoire invalide : bouton Oublier conservé dans la même rangée et avec le même style, Voir la collection désactivé, erreur à la place du bloc pointillé. Suppression du message « Collection mémorisée sur cet appareil. » après réception ou remplacement.
+- Aucun changement du schéma Dexie **13** ni réinitialisation de partie.
+
+[Note de version](docs/releases/bizave-tcg.v1.6.2.md) · [Partage de collection](docs/partage-collection.md) · [Validation](VALIDATION.md)
+
 ## bizave-tcg.v1.6.1 — 14 novembre 2026
 
 - Mise à jour silencieuse : version applicative 1.6.1, compteur d’annonce 11 et note inchangés.

@@ -1,10 +1,12 @@
 import { Search, Star, X } from 'lucide-react'
+import type { ReactNode } from 'react'
 
-export function CardSearchRow({ search, onSearchChange, favoritesOnly, onToggleFavorites }: {
+export function CardSearchRow({ search, onSearchChange, favoritesOnly, onToggleFavorites, beforeFavorites }: {
   search: string
   onSearchChange: (value: string) => void
   favoritesOnly: boolean
   onToggleFavorites: () => void
+  beforeFavorites?: ReactNode
 }) {
   return <div className="collection-search-row">
     <label className="collection-search">
@@ -12,6 +14,7 @@ export function CardSearchRow({ search, onSearchChange, favoritesOnly, onToggleF
       <input type="search" aria-label="Rechercher une carte" placeholder="Rechercher une carte…" value={search} onChange={event => onSearchChange(event.target.value)} />
       {search && <button type="button" className="icon-button" aria-label="Effacer la recherche" onClick={() => onSearchChange('')}><X size={15} /></button>}
     </label>
+    {beforeFavorites}
     <button type="button" className="icon-button favorites-filter" aria-label="Afficher uniquement les favoris" aria-pressed={favoritesOnly} onClick={onToggleFavorites}>
       <Star size={18} fill={favoritesOnly ? 'currentColor' : 'none'} />
     </button>

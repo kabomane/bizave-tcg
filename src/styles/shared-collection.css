@@ -3,6 +3,10 @@
 .fullscreen-panel-header { position:relative; z-index:1; flex-shrink:0; display:flex; align-items:center; justify-content:space-between; gap:20px; padding:calc(var(--overlay-close-inset-top) + env(safe-area-inset-top)) var(--overlay-close-inset-inline) 16px; border-bottom:1px solid var(--line); }
 .fullscreen-panel-header > div { min-width:0; }.fullscreen-panel-header span { line-height:1.5; font-family:Georgia,'Times New Roman',serif; font-size:clamp(22px,3vw,32px); overflow-wrap:anywhere; }.fullscreen-panel-header small { display:block; color:var(--muted); font-size:11px; margin-top:6px; }
 .fullscreen-panel-header.close-left { flex-direction:row-reverse; }.fullscreen-panel-header .viewer-close { flex-shrink:0; }.fullscreen-panel-header.close-left .viewer-close { margin:0 auto 0 0; }
+.fullscreen-panel-actions { display:flex; align-items:center; gap:8px; flex-shrink:0; }
+.fullscreen-panel-header.close-left .fullscreen-panel-actions { flex-direction:row-reverse; }
+.fullscreen-panel-header .fullscreen-panel-actions .viewer-close { margin:0; }
+.fullscreen-panel-scroll-top[aria-hidden='true'] { visibility:hidden; }
 .fullscreen-panel-body { position:relative; z-index:1; flex:1; min-height:0; overflow-y:auto; overscroll-behavior:contain; padding:24px max(24px,calc((100vw - 1100px)/2)) calc(32px + env(safe-area-inset-bottom)); }
 .shared-collection-heading { margin-bottom:28px; }.shared-collection-heading p { font-size:12px; color:var(--muted); margin:8px 0; }.shared-verified { display:flex; gap:7px; align-items:center; }
 .shared-display-options { display:flex; flex-wrap:wrap; gap:16px; margin:24px 0 10px; }.shared-display-options fieldset { border:0; margin:0; padding:0; display:flex; gap:5px; flex-wrap:wrap; }.shared-display-options legend { font-size:10px; color:var(--muted); margin-bottom:8px; }.shared-display-options button { background:var(--quiet-surface); border:1px solid var(--line); padding:8px 12px; border-radius:8px; font-size:11px; color:var(--ink); min-height:40px; }.shared-display-options button[aria-pressed=true] { color:var(--accent); border-color:var(--accent); }

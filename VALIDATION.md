@@ -1,4 +1,16 @@
-# Validation — bizave-tcg.v1.6.1
+# Validation — bizave-tcg.v1.6.2
+
+## Publication fantôme 1.6.2 — 15 novembre 2026
+
+- Version npm, lockfile, métadonnée HTML, landing, écran de sortie de bêta et changelog : **1.6.2**. `src/data/update.ts` comparé à la version précédente : compteur d’annonce **11** et note strictement inchangés. Schéma Dexie conservé à **13**.
+- `npm run check` réussi : ESLint, **487 tests unitaires dans 42 fichiers**, TypeScript et build de production.
+- **6 parcours Chromium** réussis sur la version finale : nouveau joueur, transition bêta explicite, comparaison des variantes exactes avec filtres cumulés et piles, flèche de retour au sommet, mémoire avec réception/remplacement/réouverture et désactivation, mémoire corrompue avec oubli et retrait du contact. Le message de mémorisation supprimé reste absent.
+- Pendant le développement, comparaison et flèche validées aussi sous Firefox et WebKit ; croix alignées en mode droitier et gaucher sous Chromium et Firefox. **12 contrôles HTTPS** du second clic sur Collection, Atelier et Amis : mobile/bureau et mouvement normal/réduit.
+- Mémoire invalide vérifiée en HTTPS à **320, 390 et 1 180 px** : un seul message d’erreur, aucun bloc pointillé simultané, Voir désactivé, Oublier dans la même colonne avec sa bordure et effacement effectif. Capture locale `artifacts/friend-memory-invalid-mobile.png`, hors Git.
+- Limites : la suite E2E complète n’a pas été relancée. Deux parcours étendus WebKit ont échoué pendant le développement : délai global de 90 secondes sur les croix et navigation clavier des variantes. Le problème de navigation clavier a été reproduit en servant les sources précédant ces changements ; il ne constitue pas un correctif de cette publication.
+- **42 liens Markdown locaux** vérifiés dans les documents actualisés. Build de publication **2997c7a3-a180-4a53-81d9-91ba05978c96**, `appVersion: "1.6.2"`, `betaClosed: false`, **513 fichiers** ; aucun fichier de sauvegarde, certificat, clé ou archive dans `dist/`.
+- Firebase Hosting publié sur [bizave-tcg.web.app](https://bizave-tcg.web.app) et [bizave-tcg.kabomane.me](https://bizave-tcg.kabomane.me). **25 ressources comparées par SHA-256 sur chaque domaine** : HTML du jeu, landing, manifeste et tous les JavaScript/CSS compilés identiques au build local. `/version.json` servi avec `Cache-Control: no-store`.
+- Contrôle Chromium de chaque domaine dans un profil isolé : version HTML **1.6.2**, accueil et rechargement avec annonce **11** déjà lue sans écran de mise à jour, changelog **1.6.2**, aucune erreur JavaScript. Aucune sauvegarde utilisateur utilisée pour ces contrôles.
 
 ## Publication silencieuse 1.6.1 — 14 novembre 2026
 

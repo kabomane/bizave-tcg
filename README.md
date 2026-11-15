@@ -1,8 +1,12 @@
-# bizave-tcg.v1.6.1
+# bizave-tcg.v1.6.2
 
-Version **bizave-tcg.v1.6.1** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 220 cartes, **Anima Isekai**, 220 cartes, **epico stellari**, 72 cartes partagées, et **rarity only**, 74 cartes rares. Le catalogue compte 454 modèles illustrés, dont 12 cartes événement permanentes et les promos Bizave TCG bêta (PR-001) et Merry Wifemas (PR-002).
+Version **bizave-tcg.v1.6.2** de **Bizave TCG**. Quatre boosters permanents : **Memory Frame**, 220 cartes, **Anima Isekai**, 220 cartes, **epico stellari**, 72 cartes partagées, et **rarity only**, 74 cartes rares. Le catalogue compte 454 modèles illustrés, dont 12 cartes événement permanentes et les promos Bizave TCG bêta (PR-001) et Merry Wifemas (PR-002).
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
+
+## Version 1.6.2 — Comparaison des collections amies
+
+Un bouton à trois états compare les variantes exactes de la collection d’un ami aux cartes possédées : toutes, en commun ou manquantes chez soi. Il se combine avec recherche, favoris, filtres, tri et piles, sans infobulle. Une flèche permet de remonter en haut de la collection amie ; un second clic sur **Atelier** ou **Amis** reprend le comportement de **Collection**. Les collections mémorisées invalides conservent les mêmes boutons, avec un seul message d’erreur ; le message de confirmation de mémorisation est retiré. Mise à jour fantôme : compteur d’annonce **11** et note inchangés, sans migration Dexie. [Note de version](docs/releases/bizave-tcg.v1.6.2.md).
 
 ## Version 1.6.1 — Correctifs silencieux
 
