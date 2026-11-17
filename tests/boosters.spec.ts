@@ -3,7 +3,7 @@ import animaIds from '../src/data/pools/anima-isekai.json' with { type: 'json' }
 
 test('grille permanente : prix, achats distincts, double clic et absence d’historique', async ({ page }) => {
   await page.goto('/boutique')
-  await expect(page.locator('.permanent-grid .shop-buy')).toHaveCount(4)
+  await expect(page.getByRole('region', { name: 'Boosters permanents', exact: true }).locator('.shop-buy')).toHaveCount(4)
   await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); await db.player.update('local', { fragments: 200 }) })
   const memory = page.getByRole('button', { name: 'Acheter Memory Frame pour 70 fragments', exact: true })
   const anima = page.getByRole('button', { name: 'Acheter Anima Isekai pour 50 fragments', exact: true })

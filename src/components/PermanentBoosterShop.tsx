@@ -22,9 +22,9 @@ export function PermanentBoosterShop() {
     lock.current = true; setBusy(id); setError('')
     try { await buyBooster(id); setPurchased(id) } catch (e) { setError(errorText(e)) } finally { lock.current = false; setBusy(null) }
   }
-  const groups = [{ title: 'Boosters permanents', offers: shopBoosters(boosters) }, ...(isChristmasEventActive(settings) ? [{ title: 'Événement de Noël', offers: [christmasBooster] }] : []), ...activeEventBoosters(settings).map(booster => ({ title: `Événement ${booster.title}`, offers: [booster] }))]
+  const groups = [{ title: 'Boosters permanents', note: '', offers: shopBoosters(boosters) }, ...(isChristmasEventActive(settings) ? [{ title: 'Événement de Noël', note: '', offers: [christmasBooster] }] : []), ...activeEventBoosters(settings).map(booster => ({ title: `Événement ${booster.title}`, note: booster.id === 'hunger-games-2026' ? 'Jusqu’au 30 novembre à 00h' : '', offers: [booster] }))]
   return <div className="permanent-shop">{groups.map(group => <section key={group.title} aria-label={group.title}>
-    {group.title !== 'Boosters permanents' && <div className="section-line"><h3>{group.title}</h3></div>}
+    {group.title !== 'Boosters permanents' && <div className="section-line"><h3>{group.title}{group.note && <> · <span>{group.note}</span></>}</h3></div>}
     <div className="permanent-grid">{group.offers.map(booster => {
       const price = shopOffer(booster)!.price
       return <article className="permanent-tile" key={booster.id} aria-label={booster.title}><div className="shop-pack"><BoosterPack booster={booster} flat /></div><ShopBuyButton price={price} disabled={busy !== null || player.fragments < fragmentPurchaseCost(price, settings)} busy={busy === booster.id} purchased={purchased === booster.id} accessibleLabel={purchased === booster.id ? `${booster.title} ajouté` : `Acheter ${booster.title} pour ${price} fragments`} onClick={() => void buy(booster.id)} /></article>

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest'
 import definitions from '../data/gift-codes.json'
 import { cardById } from '../data/cards'
 import { boosters } from '../data/boosters'
+import { eventBoosters } from '../data/events'
 import { shopBoosters } from '../game/boosterAvailability'
 import { GIFT_CODE_HASH_PATTERN } from './format'
 import type { GiftCodeDefinition } from './types'
@@ -10,7 +11,7 @@ describe('catalogue public des cadeaux', () => {
   it('ne publie que des empreintes uniques et des récompenses valides', () => {
     const gifts = definitions as GiftCodeDefinition[]
     expect(new Set(gifts.map(gift => gift.codeHash)).size).toBe(gifts.length)
-    const available = new Set(shopBoosters(boosters).map(booster => booster.id))
+    const available = new Set(shopBoosters([...boosters, ...eventBoosters]).map(booster => booster.id))
     for (const gift of gifts) {
       expect(Object.keys(gift).sort()).toEqual(['codeHash', 'expiresAt', 'issuedAt', 'reward'])
       expect(gift.codeHash).toMatch(GIFT_CODE_HASH_PATTERN)

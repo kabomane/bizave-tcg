@@ -4,6 +4,12 @@ Version **bizave-tcg.v1.6.2** de **Bizave TCG**. Quatre boosters permanents : **
 
 Jeu de collection privé et statique. React, Vite, TypeScript, Tailwind CSS v4, Dexie/IndexedDB. Aucun serveur applicatif, compte en ligne ou paiement.
 
+## Annonce 12 — Hunger Games, 17 novembre 2026
+
+Lots du jour pendant l’événement : **34,65 % Memory Frame, 34,65 % Anima Isekai, 8 % rarity only, 2 % epico stellari, 0,4 % legenda completa et 20,3 % Hunger Games**. Catégories 693/104/203, événement exclusivement Hunger Games. Quantités et remises conservées. Taux habituels archivés dans `docs/taux-boutique-par-defaut.md`.
+
+Version applicative conservée à **1.6.2**. Hunger Games est disponible en boutique : un booster à 30 fragments, une carte parmi six modèles permanents et six variantes par modèle. Le séparateur annonce le 30 novembre à 00 h. La note d’événement offre un booster avec le code `9WVA-5G7Q-H3UG-PCHA`, utilisable une fois par sauvegarde jusqu’au **30 novembre 2026 à 00 h, heure de Paris**. Nouvel An reste désactivé.
+
 ## Version 1.6.2 — Comparaison des collections amies
 
 Un bouton à trois états compare les variantes exactes de la collection d’un ami aux cartes possédées : toutes, en commun ou manquantes chez soi. Il se combine avec recherche, favoris, filtres, tri et piles, sans infobulle. Une flèche permet de remonter en haut de la collection amie ; un second clic sur **Atelier** ou **Amis** reprend le comportement de **Collection**. Les collections mémorisées invalides conservent les mêmes boutons, avec un seul message d’erreur ; le message de confirmation de mémorisation est retiré. Mise à jour fantôme : compteur d’annonce **11** et note inchangés, sans migration Dexie. [Note de version](docs/releases/bizave-tcg.v1.6.2.md).
@@ -193,7 +199,7 @@ Chaque build publie un identifiant technique indépendant des notes. Un bandeau 
 
 ### Page de mise à jour
 
-`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 11) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note. Le passage en 1.5.0 a son propre écran de transition.
+`src/data/update.ts` contient `UPDATE_VERSION` (actuellement 12) et `UPDATE_NOTE`. Lors d’une nouvelle annonce de mise à jour, incrémenter le compteur et remplacer la note. Le passage en 1.5.0 a son propre écran de transition.
 
 Au chargement uniquement, avant l’initialisation de la sauvegarde, l’app distingue un nouveau joueur d’une partie déjà existante. Un nouveau joueur sans clé reçoit directement le compteur actuel dans `localStorage.updated` et entre dans le jeu. Un joueur existant dont `updated` est absent, invalide ou inférieur au compteur passe par `/mise-a-jour`. Cette page autonome affiche « Bizave TCG a été mis à jour », la note et un bouton Continuer centré en bas. Continuer mémorise le compteur et redirige vers Boosters ; recharger avant confirmation présente à nouveau la page. Une valeur supérieure au compteur courant est conservée, notamment en cas de retour à une ancienne version.
 

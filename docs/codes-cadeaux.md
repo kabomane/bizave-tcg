@@ -1,5 +1,9 @@
 # Codes cadeaux hors ligne
 
+## Hunger Games — annonce 12
+
+Le code public `9WVA-5G7Q-H3UG-PCHA` donne **un booster Hunger Games**, une seule fois par sauvegarde. Il expire le **30 novembre 2026 à 00 h, heure de Paris** (29 novembre à 23 h UTC). Les boosters événement rejoignent la même réserve que les achats ; leur titre apparaît dans la confirmation. La version applicative reste à 1.6.2.
+
 ## Bonus de la semaine
 
 Le titre du carrousel affiche le stock du bonus sélectionné, quota de la semaine et crédits cadeaux compris. Le reroll renouvelle les sélections journalière et hebdomadaire.

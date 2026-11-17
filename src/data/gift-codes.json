@@ -154,5 +154,15 @@
     },
     "issuedAt": 1794172241495,
     "expiresAt": 1799276400000
+  },
+  {
+    "codeHash": "0ce86abee2467f55062766df72b77aafdb00ca072287269cb1c7e6538dcc82bd",
+    "reward": {
+      "type": "booster",
+      "boosterId": "hunger-games-2026",
+      "quantity": 1
+    },
+    "issuedAt": 1794944545304,
+    "expiresAt": 1795993200000
   }
 ]

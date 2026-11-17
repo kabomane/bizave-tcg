@@ -5,7 +5,7 @@ import type { Preferences } from '../settings/preferences'
 
 // Activate each event here when its release is scheduled.
 const EVENT_ACTIVE: Record<string, boolean> = {
-  'hunger-games-2026': false,
+  'hunger-games-2026': true,
   'new-year-2027': false,
 }
 

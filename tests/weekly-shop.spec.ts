@@ -16,9 +16,14 @@ test.beforeEach(async ({ page }) => {
 
 test('trois rubriques, achat unique du lot et ouverture depuis le stock journalier', async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', e => errors.push(e.message))
+  await page.evaluate(async () => {
+    const dbPath = '/src/storage/database.ts', dailyPath = '/src/game/dailyShop.ts', cardsPath = '/src/data/cards.ts'
+    const { db } = await import(dbPath), { createDailyShop } = await import(dailyPath), { cards } = await import(cardsPath)
+    await db.dailyShop.put(createDailyShop(cards, Date.now(), () => .99))
+  })
   const original = await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); return { daily: await db.dailyShop.get('current'), player: await db.player.get('local') } })
   await expect(page.locator('.shop-tabs a')).toHaveText(['Aujourd’hui', 'Cette semaine', 'Permanents'])
-  await expect(page.locator('.permanent-grid .permanent-tile')).toHaveCount(4)
+  await expect(page.getByRole('region', { name: 'Boosters permanents', exact: true }).locator('.permanent-tile')).toHaveCount(4)
   for (const width of [320, 390, 768, 1440]) {
     await page.setViewportSize({ width, height: 900 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
@@ -33,12 +38,12 @@ test('trois rubriques, achat unique du lot et ouverture depuis le stock journali
   await page.getByRole('link', { name: 'Vos boosters', exact: true }).click()
   await page.locator('.phantom-home .booster-carousel-track').press('End')
   await page.getByRole('button', { name: /Ouvrir le booster .*Lot du jour/ }).click()
-  await expect(page.getByRole('button', { name: 'Révéler la première carte', exact: true })).toBeVisible()
+  await expect(page.getByRole('button', { name: 'Révéler la carte', exact: true })).toBeVisible()
   const actual = await page.evaluate(async () => { const path = '/src/storage/database.ts', { db } = await import(path); return { daily: await db.dailyShop.get('current'), player: await db.player.get('local'), stock: await db.boosterStock.count(), history: await db.boosterPurchases.count(), drops: await db.drops.count() } })
   expect(actual.daily.bundle.owned).toBe(original.daily.bundle.quantity - 1)
   expect(actual.player.freePackStock).toBe(original.player.freePackStock)
   expect(actual.player.fragments).toBe(100000 - original.daily.bundle.price)
-  expect(actual).toMatchObject({ stock: 0, history: 0, drops: 5 })
+  expect(actual).toMatchObject({ stock: 0, history: 0, drops: 1 })
   expect(errors).toEqual([])
 })
 

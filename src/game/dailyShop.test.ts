@@ -26,10 +26,23 @@ describe('offres journalières', () => {
   it('préserve la masse spéciale avec événements et ignore les événements inactifs', () => {
     const entries = eligibleDailyEntries(cards, true)
     expect(rollDailyBundle(entries, 50, sequence(.88, 0)).category).toBe('special')
-    expect(rollDailyBundle(entries, 50, sequence(.99, 0)).boosterId).toBe('christmas-gift')
+    expect(rollDailyBundle(entries, 50, sequence(.99, 0)).boosterId).toBe('hunger-games-2026')
     expect(rollDailyBundle(eligibleDailyEntries(cards, false), 50, sequence(.99, .99)).boosterId).toBe('legenda-completa')
     expect(() => rollDailyBundle(entries, 897)).toThrow()
     expect(() => pickWeighted([{ id: 'a', weight: 0 }])).toThrow()
+  })
+  it('applique 693/104/203 avec Hunger Games seul événement et un lot valide', () => {
+    const entries = eligibleDailyEntries(cards, true), counts: Record<string, number> = {}
+    for (let category = 0; category < 2000; category++) for (let edition = 0; edition < 26; edition++) {
+      const bundle = rollDailyBundle(entries, undefined, sequence((category + .5) / 2000, (edition + .5) / 26))
+      counts[bundle.boosterId] = (counts[bundle.boosterId] ?? 0) + 1
+    }
+    expect(counts).toEqual({ 'phantom-blood': 18018, 'anima-isekai': 18018, 'rarity-only': 4160, 'epico-stellari': 1040, 'legenda-completa': 208, 'hunger-games-2026': 10556 })
+    const bundle = rollDailyBundle(entries, undefined, sequence(.99, 0, 0, 0))
+    expect(bundle).toMatchObject({ boosterId: 'hunger-games-2026', quantity: 5, unitPrice: 30, normalPrice: 150, discountPercent: 5, price: 143 })
+    const shop = { ...createDailyShop(cards, now, () => .5), bundle }
+    expect(validDailyShop(shop, cards)).toBe(true)
+    expect(drawPack(dailyDefinition(bundle.boosterId)!, cards)).toHaveLength(1)
   })
   it('respecte quantité, remise indépendante et arrondi unique au fragment', () => {
     const entries = eligibleDailyEntries(cards, false)

@@ -1,5 +1,15 @@
 # Validation — bizave-tcg.v1.6.2
 
+## Annonce 12 — Hunger Games, 17 novembre 2026
+
+- Version applicative **1.6.2** conservée ; annonce **12**, texte fourni sans en-tête et deux retours à la ligne avant le code cadeau.
+- Hunger Games visible à 30 fragments. Séparateur : « Événement Hunger Games · Jusqu’au 30 novembre à 00h ». Nouvel An reste désactivé.
+- Lots du jour : catégories **693/104/203** et événement exclusivement Hunger Games. Probabilités finales **34,65/34,65/8/2/0,4/20,3 %** validées par intégration exacte des deux tirages. Quantités et remises conservées. Taux habituels archivés dans `docs/taux-boutique-par-defaut.md`.
+- Cadeau public `9WVA-5G7Q-H3UG-PCHA` : un Hunger Games par sauvegarde, expiration le **30 novembre 2026 à 00 h Europe/Paris**. Réception concurrente unique et rejet à l’échéance vérifiés. Achat et ouverture d’un lot Hunger Games remisé conservent sa carte permanente.
+- `npm run check` réussi : lint, **489 tests dans 42 fichiers**, TypeScript et build. **15 parcours Chromium** validés sur événements, cadeau annoncé, annonce et boutique ; le parcours de lot journalier utilise explicitement Hunger Games. Lint ciblé réussi après adaptation de ce parcours.
+- Build **8803a2b7-905c-455d-ba75-84c3bb76af5f**, `appVersion: "1.6.2"`, `betaClosed: false`, **513 fichiers**. Aucun fichier de sauvegarde, clé ou certificat dans `dist/`.
+- Firebase Hosting déployé. Contrôle du build local puis de **bizave-tcg.web.app** et **bizave-tcg.kabomane.me** dans des profils Chromium isolés : manifeste identique, annonce exacte depuis le compteur 11, cadeau unique, ouverture et carte conservée après rechargement ; aucune erreur JavaScript. Aucun changement de schéma Dexie ni utilisation d’une sauvegarde utilisateur.
+
 ## Publication fantôme 1.6.2 — 15 novembre 2026
 
 - Version npm, lockfile, métadonnée HTML, landing, écran de sortie de bêta et changelog : **1.6.2**. `src/data/update.ts` comparé à la version précédente : compteur d’annonce **11** et note strictement inchangés. Schéma Dexie conservé à **13**.

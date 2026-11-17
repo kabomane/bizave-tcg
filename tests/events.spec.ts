@@ -1,10 +1,12 @@
 import { expect, test } from '@playwright/test'
 
-test('les événements restent masqués par défaut et Anima Isekai affiche 220 cartes', async ({ page }) => {
+test('Hunger Games est disponible, Nouvel An reste masqué et Anima Isekai affiche 220 cartes', async ({ page }) => {
   await page.goto('/boutique')
   await expect(page.getByRole('button', { name: 'Acheter Anima Isekai pour 50 fragments', exact: true })).toBeVisible()
   await expect(page.locator('.permanent-grid [data-booster="anima-isekai"]')).toHaveAttribute('aria-label', 'Booster Anima Isekai, 220 cartes')
-  await expect(page.getByRole('button', { name: /Acheter (Hunger Games|Nouvel An)/ })).toHaveCount(0)
+  await expect(page.getByRole('button', { name: 'Acheter Hunger Games pour 30 fragments', exact: true })).toBeVisible()
+  await expect(page.getByRole('region', { name: 'Événement Hunger Games', exact: true }).getByRole('heading')).toHaveText('Événement Hunger Games · Jusqu’au 30 novembre à 00h')
+  await expect(page.getByRole('button', { name: /Acheter Nouvel An/ })).toHaveCount(0)
 })
 
 for (const [id, title, width] of [['hunger-games-2026', 'Hunger Games', 1440], ['new-year-2027', 'Nouvel An', 390]] as const) {
@@ -14,12 +16,12 @@ for (const [id, title, width] of [['hunger-games-2026', 'Hunger Games', 1440], [
     await page.setViewportSize({ width, height: 900 })
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/boutique')
-    await expect(page.locator('.permanent-grid .shop-buy')).toHaveCount(4)
+    await expect(page.locator('.permanent-grid .shop-buy')).toHaveCount(5)
     await page.evaluate(async ({ id }) => {
       const path = '/src/storage/database.ts', settingsPath = '/src/settings/useSettings.ts'
       const { db } = await import(path), { updateSettings } = await import(settingsPath)
       await db.player.update('local', { fragments: 30 })
-      updateSettings({ devEventAlwaysActive: true, selectedBoosterId: id })
+      updateSettings({ devEventAlwaysActive: id === 'new-year-2027', selectedBoosterId: id })
     }, { id })
     await page.getByRole('button', { name: `Acheter ${title} pour 30 fragments`, exact: true }).click()
     await expect(page.getByRole('button', { name: `${title} ajouté`, exact: true })).toBeVisible()

@@ -1,8 +1,11 @@
 import { useRef, useState } from 'react'
 import { boosters } from '../data/boosters'
+import { eventBoosters } from '../data/events'
 import { cardById } from '../data/cards'
 import { redeemGiftCode } from '../gifts/services'
 import { errorText } from './format'
+
+const giftBoosters = [...boosters, ...eventBoosters]
 
 export function GiftCodeForm() {
   const [code, setCode] = useState(''), [busy, setBusy] = useState(false)
@@ -23,7 +26,7 @@ export function GiftCodeForm() {
         const card = cardById.get(reward.cardId)!
         setSuccess(`La carte ${card.title} (${card.promoNumber}) a été ajoutée à votre collection en Classique, finition Alternative.`)
       } else if (reward.type === 'boosters') {
-        setSuccess(`${reward.boosters.map(item => `${item.quantity} booster${item.quantity > 1 ? 's' : ''} ${boosters.find(booster => booster.id === item.boosterId)!.title}`).join(', ')} ajoutés à vos boosters.`)
+        setSuccess(`${reward.boosters.map(item => `${item.quantity} booster${item.quantity > 1 ? 's' : ''} ${giftBoosters.find(booster => booster.id === item.boosterId)!.title}`).join(', ')} ajoutés à vos boosters.`)
       } else if (reward.type === 'fragments') {
         setSuccess(`${reward.amount} fragments ajoutés.`)
       } else if (reward.type === 'weekly-bonus') {
@@ -32,7 +35,7 @@ export function GiftCodeForm() {
           : (reward.quantity === 1 ? 'carte fragments' : 'cartes fragments')
         setSuccess(`${reward.quantity} ${item} à réclamer dans Boutique → Bonus de la semaine.`)
       } else {
-        setSuccess(`${reward.quantity} booster${reward.quantity > 1 ? 's' : ''} ${boosters.find(booster => booster.id === reward.boosterId)!.title} ajouté${reward.quantity > 1 ? 's' : ''} à vos boosters.${reward.fragments ? ` ${reward.fragments} fragments ajoutés.` : ''}`)
+        setSuccess(`${reward.quantity} booster${reward.quantity > 1 ? 's' : ''} ${giftBoosters.find(booster => booster.id === reward.boosterId)!.title} ajouté${reward.quantity > 1 ? 's' : ''} à vos boosters.${reward.fragments ? ` ${reward.fragments} fragments ajoutés.` : ''}`)
       }
     } catch (e) { setError(errorText(e)) }
     finally { inFlight.current = false; setBusy(false) }

@@ -23,6 +23,7 @@ vi.mock('./catalogue', async () => {
     { code: 'JJJJJJJJJJJJJJJJ', reward: { type: 'promo-card', cardId: 'merry-wifemas' } },
     { code: 'GGGGGGGGGGGGGGGG', reward: { type: 'weekly-bonus', bonus: 'reroll', quantity: 2 } },
     { code: 'HHHHHHHHHHHHHHHH', reward: { type: 'weekly-bonus', bonus: 'fragments', quantity: 2 } },
+    { code: 'KKKKKKKKKKKKKKKK', reward: { type: 'booster', boosterId: 'hunger-games-2026', quantity: 1 } },
   ]
   return { giftCodeByHash: new Map(await Promise.all(rewards.map(async gift => { const codeHash = await hashGiftCode(gift.code); return [codeHash, { codeHash, reward: gift.reward, issuedAt: 0, expiresAt: 8_000_000_000_000_000 }] as const }))) }
 })
@@ -32,6 +33,26 @@ beforeEach(async () => { db = new BizaveDatabase('gifts-' + uuid()); await initi
 afterEach(async () => { vi.restoreAllMocks(); await db.delete() })
 
 describe('codes cadeaux hors ligne', () => {
+  it('offre un Hunger Games ouvrable, une seule fois, et refuse le code à son expiration', async () => {
+    const code = 'KKKK-KKKK-KKKK-KKKK'
+    const hash = await hashGiftCode(code), previous = giftCodeByHash.get(hash)!
+    const expiresAt = Date.parse('2026-11-30T00:00:00+01:00')
+    giftCodeByHash.set(hash, { ...previous, expiresAt })
+    try {
+      await expect(redeemGiftCode(code, db, expiresAt)).rejects.toThrow(/expiré/)
+      expect(await db.boosterStock.count()).toBe(0)
+      expect(await db.usedGiftCodes.count()).toBe(0)
+      const results = await Promise.allSettled([redeemGiftCode(code, db, expiresAt - 1), redeemGiftCode(code, db, expiresAt - 1)])
+      expect(results.filter(result => result.status === 'fulfilled')).toHaveLength(1)
+      expect((await db.boosterStock.get('hunger-games-2026'))?.quantity).toBe(1)
+      const opening = await openBooster('hunger-games-2026', db, expiresAt - 1)
+      expect(opening.results).toHaveLength(1)
+      expect(await db.definitions.get(opening.results[0].cardId)).toMatchObject({ eventId: 'hunger-games-2026' })
+      expect(await db.player.get('local')).toMatchObject({ fragments: 0, freePackStock: 5 })
+      expect(await db.usedGiftCodes.count()).toBe(1)
+    } finally { giftCodeByHash.set(hash, previous) }
+  })
+
   it('ajoute deux utilisations par cadeau sans consommer les bonus ordinaires', async () => {
     const now = 200
     const results = await Promise.allSettled([redeemGiftCode('GGGG-GGGG-GGGG-GGGG', db, now), redeemGiftCode('GGGG-GGGG-GGGG-GGGG', db, now)])

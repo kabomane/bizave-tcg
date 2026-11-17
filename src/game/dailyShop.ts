@@ -1,5 +1,6 @@
 import { boosters } from '../data/boosters'
-import { christmasBooster, christmasCards, isChristmasEventActive } from '../data/christmas'
+import { christmasBooster, christmasCards } from '../data/christmas'
+import { eventBoosters, isEventBoosterActive } from '../data/events'
 import { DEFAULT_ART_VARIANT_RATES, DEFAULT_FINISH_RATES, DEFAULT_RARITY_RATES } from './config'
 import { resolveBoosterPool, secureRandom, weightedPick } from './engine'
 import { shopOffer } from './boosterAvailability'
@@ -16,9 +17,9 @@ export type DailyShopRow = {
   rerollCount?: number
   priorBundles?: { boosterId: string; owned: number }[]
 }
-// Pending product decisions: events disabled until their global mass is approved;
-// 0–3 cards provisionally uniform.
-export const DAILY_EVENT_CATEGORY_WEIGHT = 0
+// Hunger Games takes its mass from classics; specials keep their usual weight.
+// Default rates are recorded in docs/taux-boutique-par-defaut.md.
+export const DAILY_EVENT_CATEGORY_WEIGHT = 203
 export const DAILY_CARD_COUNT_WEIGHTS = { 0: 1, 1: 1, 2: 1, 3: 1 }
 export const DAILY_BUNDLE_SIZE_WEIGHTS = { 5: 30, 6: 25, 7: 20, 8: 12, 9: 8, 10: 5 }
 export const DAILY_SELECTION = [
@@ -28,10 +29,11 @@ export const DAILY_SELECTION = [
   { id: 'epico-stellari', category: 'special', weight: 5 },
   { id: 'legenda-completa', category: 'special', weight: 1 },
   { id: christmasBooster.id, category: 'event', weight: 1 },
+  { id: 'hunger-games-2026', category: 'event', weight: 1 },
 ] as const
 export const DAILY_CARD_RATES = { rarity: DEFAULT_RARITY_RATES, finish: DEFAULT_FINISH_RATES, illustration: DEFAULT_ART_VARIANT_RATES }
 export function dailyDefinition(id: string): BoosterDefinition | undefined {
-  return [...boosters, christmasBooster].find(b => b.id === id)
+  return [...boosters, christmasBooster, ...eventBoosters].find(b => b.id === id)
 }
 export function dailyPeriod(now: number) {
   const p = parisParts(now), date = Date.UTC(p.year, p.month - 1, p.day)
@@ -41,11 +43,11 @@ export function pickWeighted<T extends string>(items: readonly { id: T; weight: 
   if (!items.length || new Set(items.map(i => i.id)).size !== items.length || items.some(i => !Number.isFinite(i.weight) || i.weight <= 0)) throw new Error('Configuration pondérée invalide.')
   return weightedPick(Object.fromEntries(items.map(i => [i.id, i.weight])) as Record<T, number>, rng)
 }
-export function eligibleDailyEntries(catalogue: CardDefinition[], eventActive = isChristmasEventActive()): DailyEntry[] {
+export function eligibleDailyEntries(catalogue: CardDefinition[], eventActive = isEventBoosterActive('hunger-games-2026')): DailyEntry[] {
   return DAILY_SELECTION.flatMap(entry => {
     const definition = dailyDefinition(entry.id), price = definition && shopOffer(definition)?.price
-    if (!definition?.enabled || !price || (entry.category === 'event' && !eventActive)) return []
-    const pool = resolveBoosterPool(definition, entry.category === 'event' ? christmasCards : catalogue)
+    if (!definition?.enabled || !price || (entry.category === 'event' && (!eventActive || entry.id !== 'hunger-games-2026'))) return []
+    const pool = resolveBoosterPool(definition, entry.id === christmasBooster.id ? christmasCards : catalogue)
     if (!pool.length) return []
     return [{ ...entry, unitPrice: price }]
   })

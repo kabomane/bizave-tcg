@@ -10,6 +10,7 @@ import { BizaveDatabase } from './database'
 import { ensureInstallation } from './installation'
 import { exportSave, importSave } from './saveTransfer'
 import { advanceReveal, buyBooster, finishOpening, initializeDatabase, openBooster } from './services'
+import { buyDailyBundle, openDailyBooster } from './dailyShop'
 
 const now = Date.parse('2026-11-14T12:00:00Z')
 let db: BizaveDatabase
@@ -50,15 +51,32 @@ it('exclut aussi les événements des boosters et des vitrines aléatoires du jo
     const weekly = createWeeklyShop(cards, now, rng), daily = createDailyShop(cards, now, rng)
     const ids = [...weekly.offers.map(c => c.cardId), ...daily.cards.map(c => c.cardId), ...resolveBoosterPool(weekly.booster.definition, cards).map(c => c.card.id)]
     expect(ids.every(id => !cardById.get(id)?.eventId)).toBe(true)
-    expect(eventBoosters.some(b => b.id === daily.bundle.boosterId)).toBe(false)
+    if (daily.bundle.category === 'event') expect(daily.bundle.boosterId).toBe('hunger-games-2026')
   }
 })
 
-it.each(eventBoosters)('$title reste désactivé par défaut sans débit ni consommation du stock', async booster => {
+it('achète un lot Hunger Games remisé puis conserve sa carte permanente', async () => {
+  const shop = createDailyShop(cards, now, () => .99)
+  expect(shop.bundle).toMatchObject({ boosterId: 'hunger-games-2026', quantity: 10, price: 240 })
+  await db.dailyShop.put(shop)
+  await db.player.update('local', { fragments: 240 })
+  await buyDailyBundle(shop.dayStart, db, now)
+  const opening = await openDailyBooster(shop.dayStart, 'hunger-games-2026', db, now)
+  expect(opening.results).toHaveLength(1)
+  expect(await db.drops.get(opening.results[0].dropId)).toMatchObject({ status: 'owned' })
+  expect((await db.dailyShop.get('current'))?.bundle.owned).toBe(9)
+  expect(await db.player.get('local')).toMatchObject({ fragments: 0, freePackStock: 5 })
+  await advanceReveal(opening.id, db)
+  await finishOpening(opening.id, db)
+  await initializeDatabase(db, now)
+  expect(await db.drops.count()).toBe(1)
+})
+
+it.each(eventBoosters.filter(booster => booster.id === 'new-year-2027'))('$title reste désactivé par défaut sans débit ni consommation du stock', async booster => {
   vi.stubGlobal('localStorage', { getItem: () => null })
   await db.player.update('local', { fragments: 100 })
   await db.boosterStock.put({ boosterId: booster.id, quantity: 1, updatedAt: now })
-  expect(activeEventBoosters()).toEqual([])
+  expect(activeEventBoosters().map(event => event.id)).toEqual(['hunger-games-2026'])
   await expect(buyBooster(booster.id, db, now)).rejects.toThrow(/disponible en boutique/)
   await expect(openBooster(booster.id, db, now)).rejects.toThrow(/indisponible/)
   expect(await db.player.get('local')).toMatchObject({ fragments: 100, freePackStock: 5 })
@@ -67,6 +85,7 @@ it.each(eventBoosters)('$title reste désactivé par défaut sans débit ni cons
 })
 
 it.each(eventBoosters)('$title coûte 30 fragments et conserve sa carte après révélation et rechargement', async booster => {
+  if (booster.id === 'hunger-games-2026') vi.stubGlobal('localStorage', { getItem: () => null })
   await db.player.update('local', { fragments: 30 })
   const purchases = await Promise.allSettled([buyBooster(booster.id, db, now), buyBooster(booster.id, db, now)])
   expect(purchases.filter(p => p.status === 'fulfilled')).toHaveLength(1)

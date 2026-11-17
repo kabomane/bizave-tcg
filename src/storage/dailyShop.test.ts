@@ -104,7 +104,8 @@ it('ferme le lot exactement deux heures avant minuit, mais autorise les cartes e
 })
 it('respecte les cartes temporaires de Noël même après désactivation de l’événement', async () => {
   const shop = (await db.dailyShop.get('current'))!
-  shop.bundle = rollDailyBundle(eligibleDailyEntries(cards, true), 896, () => .99)
+  const entries = [...eligibleDailyEntries(cards, false), { id: 'christmas-gift', category: 'event' as const, weight: 1, unitPrice: 30 }]
+  shop.bundle = rollDailyBundle(entries, 896, () => .99)
   await db.dailyShop.put(shop)
   await buyDailyBundle(shop.dayStart, db, now)
   const opening = await openDailyBooster(shop.dayStart, 'christmas-gift', db, now)

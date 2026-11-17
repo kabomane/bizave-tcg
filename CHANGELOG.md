@@ -1,5 +1,14 @@
 # Historique des versions
 
+## Annonce 12 — Hunger Games, 17 novembre 2026
+
+Lots du jour pendant l’événement : **34,65 % Memory Frame, 34,65 % Anima Isekai, 8 % rarity only, 2 % epico stellari, 0,4 % legenda completa et 20,3 % Hunger Games**. Catégories 693/104/203, événement exclusivement Hunger Games. Quantités et remises conservées. Taux habituels archivés dans `docs/taux-boutique-par-defaut.md`.
+
+- Version applicative **1.6.2** conservée ; compteur d’annonce **12**.
+- Booster Hunger Games visible en boutique à 30 fragments : une carte parmi six modèles permanents, disponibles dans les six variantes habituelles. Séparateur avec point centré et date du 30 novembre à 00 h. Nouvel An reste désactivé.
+- Note exacte fournie pour l’événement, sans en-tête, avec deux retours à la ligne avant le code `9WVA-5G7Q-H3UG-PCHA`.
+- Cadeau : un Hunger Games par sauvegarde, expiration le **30 novembre 2026 à 00 h, heure de Paris**. Réception et confirmation étendues aux boosters événement. Aucun changement du schéma Dexie 13.
+
 ## bizave-tcg.v1.6.2 — 15 novembre 2026
 
 - Mise à jour fantôme : version applicative **1.6.2**, compteur d’annonce **11** et note inchangés.
