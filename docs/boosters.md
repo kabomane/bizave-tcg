@@ -74,7 +74,7 @@ Les transactions rendent atomiques l’achat (fragments et stock) et l’ouvertu
 
 Les deux entrées de `EVENT_ACTIVE` sont à `false`. Hors événement, la boutique et Vos boosters les masquent ; achat et nouvelle ouverture sont refusés sans débit ni perte de stock. Une révélation déjà commencée reste reprenable. L'option locale de développement « Événement toujours actif » permet de les tester, uniquement en build de développement.
 
-Les douze modèles sont dans le catalogue avec `eventId`, numéros 441 à 452. Le moteur exige un booster portant le même `eventId` pour les tirer. Les pools actuels (y compris par rareté), Lucky Boost et les vitrines du jour et de la semaine les excluent. Ces deux boosters ne rejoignent pas la sélection des lots journaliers. Les taux événementiels sont 90 % commune et 10 % légendaire (chance légendaire conservée de Noël). Finitions et illustrations utilisent les taux habituels : mate 81 %, holographique 15 %, alternative 4 % ; classique 92 %, Full Art 8 %.
+Les douze modèles sont dans le catalogue avec `eventId`, numéros 441 à 452. Le moteur exige un booster portant le même `eventId` pour les tirer. Les pools actuels (y compris par rareté), Lucky Boost et les vitrines du jour et de la semaine les excluent. Hunger Games utilise 70 % de communes (14 % par carte) et 30 % de légendaire ; mate 50 %, holographique 30 %, alternative 20 % ; classique 60 %, Full Art 40 %. Les trois tirages sont indépendants. Nouvel An conserve 90 % de communes et 10 % de légendaire, avec les taux habituels de finition (mate 81 %, holographique 15 %, alternative 4 %) et d'illustration (classique 92 %, Full Art 8 %).
 
 ### Éditions courantes
 

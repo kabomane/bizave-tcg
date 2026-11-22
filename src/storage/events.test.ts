@@ -36,10 +36,15 @@ it('isole les douze cartes événement des boosters actuels, même par liste, gr
     const pool = resolveBoosterPool(booster, cards)
     expect(pool).toHaveLength(6)
     expect(pool.every(entry => entry.card.eventId === booster.eventId)).toBe(true)
-    for (const value of [0, .8099, .81, .8999, .90, .9199, .92, .9599, .96, .9999]) {
+    const hungerGames = booster.id === 'hunger-games-2026'
+    const mateLimit = hungerGames ? .5 : .81
+    const holoLimit = hungerGames ? .8 : .96
+    const classicLimit = hungerGames ? .6 : .92
+    const commonLimit = hungerGames ? .7 : .9
+    for (const value of [0, .4999, .5, .5999, .6, .6999, .7, .7999, .8, .8099, .81, .8999, .90, .9199, .92, .9599, .96, .9999]) {
       const [drop] = drawPack(booster, cards, () => value)
-      expect(drop).toMatchObject({ finish: value < .81 ? 'normal' : value < .96 ? 'glossy' : 'alternative', artVariant: value < .92 ? 'standard' : 'fullArt' })
-      expect(cardById.get(drop.cardId)?.rarity).toBe(value < .9 ? 'common' : 'legendary')
+      expect(drop).toMatchObject({ finish: value < mateLimit ? 'normal' : value < holoLimit ? 'glossy' : 'alternative', artVariant: value < classicLimit ? 'standard' : 'fullArt' })
+      expect(cardById.get(drop.cardId)?.rarity).toBe(value < commonLimit ? 'common' : 'legendary')
     }
   }
 })

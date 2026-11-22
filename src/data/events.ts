@@ -26,15 +26,15 @@ export const eventBoosters: BoosterDefinition[] = [
   },
 ].map(event => {
   const cardIds = eventCards.filter(card => card.eventId === event.eventId).map(card => card.id)
+  const isHungerGames = event.id === 'hunger-games-2026'
   return {
     ...event, subtitle: `${cardIds.length} cartes`,
     access: { type: 'shop', price: 30 }, cardsPerPack: 1,
     sources: [{ type: 'cards', cardIds }],
     rates: {
-      // Keep Christmas's 10% legendary chance; these sets only have two rarities.
-      rarity: { common: 90, uncommon: 0, rare: 0, epic: 0, legendary: 10 },
-      finish: 'default',
-      illustration: 'default',
+      rarity: { common: isHungerGames ? 70 : 90, uncommon: 0, rare: 0, epic: 0, legendary: isHungerGames ? 30 : 10 },
+      finish: isHungerGames ? { normal: 50, glossy: 30, alternative: 20 } : 'default',
+      illustration: isHungerGames ? { standard: 60, fullArt: 40 } : 'default',
     },
     enabled: true, showInFilters: false,
   }
